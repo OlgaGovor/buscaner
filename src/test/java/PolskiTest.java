@@ -10,9 +10,9 @@ import java.util.Calendar;
 import java.util.Date;
 
 /**
- * Created by Olga_Govor on 6/29/2016.
+ * Created by Olga_Govor on 6/30/2016.
  */
-public class LuxTests {
+public class PolskiTest {
 
     @Test
     public void getPrice() throws XPathExpressionException, ParserConfigurationException, ParseException {
@@ -28,17 +28,14 @@ public class LuxTests {
         Calendar c = Calendar.getInstance();
         c.setTime(new Date()); // Now use today date.
 
-        for(int i=0; i<10 ; i++){
-            c.add(Calendar.DATE, 1); // Adding 5 days
-            String d = sdf.format(c.getTime());
-            SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
-            Date date = formatter.parse(d);
-            route.setDateOfTrip(date);
-
-            sendRest.getLuxexpress(route);
-        }
+//        for(int i=0; i<10 ; i++){
+//            c.add(Calendar.DATE, 1); // Adding 5 days
+//            String d = sdf.format(c.getTime());
+//            SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+//            Date date = formatter.parse(d);
+//            route.setDateOfTrip(date);
+//
+            sendRest.getPolskibus(route);
+//        }
     }
-
-
-
 }
