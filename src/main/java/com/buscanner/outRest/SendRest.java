@@ -82,7 +82,7 @@ public class SendRest {
         map.add("PricingForm.ConcessionCod...", "");
         map.add("PricingForm.DBType", "MY");
         map.add("PricingForm.FromCity", "15");
-        map.add("PricingForm.OutDate", "20/07/2016");
+        map.add("PricingForm.OutDate", "21/07/2016");
         map.add("PricingForm.PromoCode", "");
         map.add("PricingForm.RetDate", "");
         map.add("PricingForm.ToCity", "45");
@@ -92,16 +92,7 @@ public class SendRest {
         map.add("__VIEWSTATE", "/wEPDwUJNzQxODA1MTQ4DxYCHhNWYWxpZGF0ZVJlcXVlc3RNb2RlAgFkZFPllo0+VPoB1LdmTlXTzZLAiP/sLBV1dT50WMo4RYHt");
         map.add("__VIEWSTATEGENERATOR", "92D95504");
 
-//        Cookie cookie = new Cookie("ASP.NET_SessionId", "4p3sxktxrzjb32cxyxd0czvb");
         Cookie cookie = new Cookie("ASP.NET_SessionId", cookieValue);
-
-        webResource2.setProperty("Host", "booking.polskibus.com");
-        webResource2.setProperty("Connection", "keep-alive");
-        webResource2.setProperty("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8");
-        webResource2.setProperty("Accept-Encoding", "gzip, deflate, br");
-        webResource2.setProperty("Accept-Language", "ru-RU,ru;q=0.8,en-US;q=0.5,en;q=0.3");
-        webResource2.setProperty("Referer", "https://booking.polskibus.com/Pricing/Selections?lang=PL");
-        webResource2.setProperty("User-Agent", "Mozilla/5.0 (Windows NT 6.1; WOW64; rv:47.0) Gecko/20100101 Firefox/47.0");
 
         ClientResponse response2 = webResource2
                 .cookie(cookie)
@@ -115,21 +106,9 @@ public class SendRest {
         System.out.println(headerStr);
 
         WebResource webResource3 = client.resource("https://booking.polskibus.com" + headerStr);
-//        WebResource webResource3 = client.resource("https://booking.polskibus.com/Pricing/ShowResults?SID=4p3sxktx13163950413yxd0czvb&CS=9688330");
-
-        webResource3.setProperty("Host", "booking.polskibus.com");
-        webResource3.setProperty("Connection", "keep-alive");
-        webResource3.setProperty("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8");
-        webResource3.setProperty("Accept-Encoding", "gzip, deflate, br");
-        webResource3.setProperty("Accept-Language", "ru-RU,ru;q=0.8,en-US;q=0.5,en;q=0.3");
-        webResource3.setProperty("Referer", "https://booking.polskibus.com/Pricing/Selections?lang=PL");
-        webResource3.setProperty("User-Agent", "Mozilla/5.0 (Windows NT 6.1; WOW64; rv:47.0) Gecko/20100101 Firefox/47.0");
-
-//        Cookie cookie3 = new Cookie("ASP.NET_SessionId", "4p3sxktxrzjb32cxyxd0czvb");
-        Cookie cookie3 = cookie;
 
         ClientResponse response3 = webResource3
-                .cookie(cookie3)
+                .cookie(cookie)
                 .get(ClientResponse.class);
 
         String ent = response3.getEntity(String.class);
