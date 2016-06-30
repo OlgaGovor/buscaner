@@ -94,16 +94,18 @@ public class SendRest {
 
         Cookie cookie = new Cookie("ASP.NET_SessionId", cookieValue);
 
-        ClientResponse response2 = webResource2.cookie(cookie)
+        ClientResponse response2 = webResource2
+                .cookie(cookie)
                 .type("application/x-www-form-urlencoded")
                 .post(ClientResponse.class, map);
 //            route =  parser.parseLuxExpress(responseStr, route);
 
         String ent = response2.getEntity(String.class);
 
-        MultivaluedMap<String, String> headers = response2.getHeaders();
-        headerStr = headers.get("Location").toString();
-        System.out.println(headerStr);
+
+//        MultivaluedMap<String, String> headers = response2.getHeaders();
+//        headerStr = headers.get("Location").toString();
+        System.out.println(ent);
 
 //        printRouteWithDetails(route);
 
