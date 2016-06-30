@@ -4,7 +4,7 @@ package com.buscanner;
  * Created by Olga_Govor on 6/29/2016.
  */
 public class RouteDetails {
-
+//Comment test
     private String company;
     private String timeDeparture;
     private String timeArrival;
