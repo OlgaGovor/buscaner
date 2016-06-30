@@ -56,10 +56,11 @@ public class SendRest {
 //        LuxexpressParser parser = new LuxexpressParser();
 
         Client client = Client.create();
+        client.setFollowRedirects(false);
         //form Path from parametr route and get data from DB
 //        SimpleDateFormat formatter = new SimpleDateFormat("MM-dd-yyyy");
 //        String date = formatter.format(route.getDateOfTrip());
-        WebResource webResource = client.resource(PATHPOLSKIBUS);
+        WebResource webResource = client.resource("https://booking.polskibus.com/Pricing/Selections?lang=PL");
 
         ClientResponse response = webResource.get(ClientResponse.class);
 
@@ -87,25 +88,53 @@ public class SendRest {
         map.add("PricingForm.ToCity", "45");
         map.add("PricingForm.hidSessionID", "");
         map.add("Pricingform.hidLang", "PL");
-        map.add("Pricingform.hidPC", "PL");
-        map.add("__VIEWSTATE", "/wEPDwUJNzQxODA1MTQ4DxYCHhNWYWxpZGF0ZVJlcXVlc3RNb2RlAgFkZJFAmJpuigDnmbIfvPCH6ILQaD10uPlbFW/7kGbB/bNO");
-        map.add("__VIEWSTATEGENERATOR", "92D9550");
+        map.add("Pricingform.hidPC", "");
+        map.add("__VIEWSTATE", "/wEPDwUJNzQxODA1MTQ4DxYCHhNWYWxpZGF0ZVJlcXVlc3RNb2RlAgFkZFPllo0+VPoB1LdmTlXTzZLAiP/sLBV1dT50WMo4RYHt");
+        map.add("__VIEWSTATEGENERATOR", "92D95504");
 
-
+//        Cookie cookie = new Cookie("ASP.NET_SessionId", "4p3sxktxrzjb32cxyxd0czvb");
         Cookie cookie = new Cookie("ASP.NET_SessionId", cookieValue);
+
+        webResource2.setProperty("Host", "booking.polskibus.com");
+        webResource2.setProperty("Connection", "keep-alive");
+        webResource2.setProperty("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8");
+        webResource2.setProperty("Accept-Encoding", "gzip, deflate, br");
+        webResource2.setProperty("Accept-Language", "ru-RU,ru;q=0.8,en-US;q=0.5,en;q=0.3");
+        webResource2.setProperty("Referer", "https://booking.polskibus.com/Pricing/Selections?lang=PL");
+        webResource2.setProperty("User-Agent", "Mozilla/5.0 (Windows NT 6.1; WOW64; rv:47.0) Gecko/20100101 Firefox/47.0");
 
         ClientResponse response2 = webResource2
                 .cookie(cookie)
                 .type("application/x-www-form-urlencoded")
                 .post(ClientResponse.class, map);
-//            route =  parser.parseLuxExpress(responseStr, route);
-
-        String ent = response2.getEntity(String.class);
 
 
-//        MultivaluedMap<String, String> headers = response2.getHeaders();
-//        headerStr = headers.get("Location").toString();
+        MultivaluedMap<String, String> headers = response2.getHeaders();
+        headerStr = headers.get("Location").toString();
+        headerStr = headerStr.substring(1, headerStr.length()-1);
+        System.out.println(headerStr);
+
+        WebResource webResource3 = client.resource("https://booking.polskibus.com" + headerStr);
+//        WebResource webResource3 = client.resource("https://booking.polskibus.com/Pricing/ShowResults?SID=4p3sxktx13163950413yxd0czvb&CS=9688330");
+
+        webResource3.setProperty("Host", "booking.polskibus.com");
+        webResource3.setProperty("Connection", "keep-alive");
+        webResource3.setProperty("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8");
+        webResource3.setProperty("Accept-Encoding", "gzip, deflate, br");
+        webResource3.setProperty("Accept-Language", "ru-RU,ru;q=0.8,en-US;q=0.5,en;q=0.3");
+        webResource3.setProperty("Referer", "https://booking.polskibus.com/Pricing/Selections?lang=PL");
+        webResource3.setProperty("User-Agent", "Mozilla/5.0 (Windows NT 6.1; WOW64; rv:47.0) Gecko/20100101 Firefox/47.0");
+
+//        Cookie cookie3 = new Cookie("ASP.NET_SessionId", "4p3sxktxrzjb32cxyxd0czvb");
+        Cookie cookie3 = cookie;
+
+        ClientResponse response3 = webResource3
+                .cookie(cookie3)
+                .get(ClientResponse.class);
+
+        String ent = response3.getEntity(String.class);
         System.out.println(ent);
+
 
 //        printRouteWithDetails(route);
 
