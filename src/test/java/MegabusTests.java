@@ -10,9 +10,9 @@ import java.util.Calendar;
 import java.util.Date;
 
 /**
- * Created by Olga_Govor on 6/30/2016.
+ * Created by Olga_Govor on 7/1/2016.
  */
-public class PolskiTest {
+public class MegabusTests {
 
     @Test
     public void getPrice() throws XPathExpressionException, ParserConfigurationException, ParseException {
@@ -20,9 +20,9 @@ public class PolskiTest {
         Route route = new Route();
 
         //route.setFrom("warsaw-centralny");
-        route.setFrom("krakow");
-//        route.setTo("budapest-nepliget-metro-station");
-        route.setTo("wieden");
+        route.setFrom("berlin");//197
+        route.setTo("munich");//190
+        //route.setTo("prague");
 
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
         Calendar c = Calendar.getInstance();
@@ -35,7 +35,7 @@ public class PolskiTest {
             Date date = formatter.parse(d);
             route.setDateOfTrip(date);
 
-            sendRest.getPolskibus(route);
+            sendRest.getMegabus(route);
         }
     }
 }
