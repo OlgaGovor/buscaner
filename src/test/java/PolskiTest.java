@@ -1,4 +1,5 @@
 import com.buscanner.Route;
+import com.buscanner.destinations.GetPolskiBusDestinations;
 import com.buscanner.outRest.SendRest;
 import org.junit.Test;
 
@@ -8,6 +9,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Map;
 
 /**
  * Created by Olga_Govor on 6/30/2016.
@@ -19,14 +21,24 @@ public class PolskiTest {
         SendRest sendRest = new SendRest();
         Route route = new Route();
 
+
         //route.setFrom("warsaw-centralny");
-        route.setFrom("krakow");
+        route.setFrom("krak&oacute;w");
 //        route.setTo("budapest-nepliget-metro-station");
-        route.setTo("wieden");
+        route.setTo("wiedeń");
 
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
         Calendar c = Calendar.getInstance();
         c.setTime(new Date()); // Now use today date.
+
+        String to = "";
+        String from = "";
+
+        GetPolskiBusDestinations getPolskiBusDestinations = new GetPolskiBusDestinations();
+        Map<String, String> listOfDestinations = getPolskiBusDestinations.getDestinations();
+
+        to = listOfDestinations.get(route.getTo());
+        from = listOfDestinations.get(route.getFrom());
 
         for(int i=0; i<5 ; i++){
             c.add(Calendar.DATE, 1); // Adding 5 days
@@ -35,7 +47,13 @@ public class PolskiTest {
             Date date = formatter.parse(d);
             route.setDateOfTrip(date);
 
-            sendRest.getPolskibus(route);
+            sendRest.getPolskibus(route, to, from);
         }
+    }
+
+    @Test
+    public void getDestinations() throws ParserConfigurationException {
+        GetPolskiBusDestinations getPolskiBusDestinations = new GetPolskiBusDestinations();
+        Map<String, String> listOfDestinations = getPolskiBusDestinations.getDestinations();
     }
 }

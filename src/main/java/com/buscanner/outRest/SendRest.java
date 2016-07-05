@@ -101,23 +101,13 @@ public class SendRest {
     }
 
 
-    public void getPolskibus(Route route) throws XPathExpressionException, ParserConfigurationException {
+    public void getPolskibus(Route route, String to, String from) throws XPathExpressionException, ParserConfigurationException {
 
         Client client = Client.create();
         client.setFollowRedirects(false);
 
         SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
         String date = formatter.format(route.getDateOfTrip());
-
-        String to = "";
-        String from = "";
-        if (route.getFrom().equals("krakow"))
-            from="15";
-        if (route.getTo().equals("wieden"))
-            to="45";
-
-
-
 
         WebResource webResource = client.resource("https://booking.polskibus.com/Pricing/Selections?lang=PL");
 
