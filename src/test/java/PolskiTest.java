@@ -52,7 +52,7 @@ public class PolskiTest {
     }
 
     @Test
-    public void getDestinations() throws ParserConfigurationException {
+    public void getDestinations() throws ParserConfigurationException, XPathExpressionException {
         GetPolskiBusDestinations getPolskiBusDestinations = new GetPolskiBusDestinations();
         Map<String, String> listOfDestinations = getPolskiBusDestinations.getDestinations();
     }

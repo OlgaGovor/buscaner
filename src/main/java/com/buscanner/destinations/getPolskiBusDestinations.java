@@ -20,7 +20,7 @@ public class GetPolskiBusDestinations {
 
     private final String PATH = "https://booking.polskibus.com/Pricing/Selections?lang=PL";
 
-    public Map <String, String> getDestinations() throws ParserConfigurationException {
+    public Map <String, String> getDestinations() throws ParserConfigurationException, XPathExpressionException {
         Client client = Client.create();
         WebResource webResource = client.resource(PATH);
 
@@ -31,6 +31,8 @@ public class GetPolskiBusDestinations {
         if (response.getClientResponseStatus() == ClientResponse.Status.OK) {
             responseStr = response.getEntity(String.class);
         }
+
+
         Map <String, String> listOfDestinations = new LinkedHashMap <String, String>();
 
         TagNode tagNode = new HtmlCleaner().clean(responseStr);
@@ -54,6 +56,15 @@ public class GetPolskiBusDestinations {
         } catch (XPathExpressionException e) {
             e.printStackTrace();
         }
+        //connections
+        System.out.println(responseStr);
+        String connected ="";
+        XPathExpression expr2 = xpath.compile("//script");
+        NodeList nodes = (NodeList) expr2.evaluate(doc, XPathConstants.NODESET);
+        connected = nodes.item(nodes.getLength()-1).getFirstChild().getNodeValue();
+        System.out.println(connected);
+
+
 
         return listOfDestinations;
     }
