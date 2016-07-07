@@ -10,7 +10,7 @@ public class Route {
 
     private String to;
     private String from;
-    private String minPrice;
+    private Double minPrice;
     private Date dateOfTrip;
     private Date updated;
 
@@ -32,7 +32,7 @@ public class Route {
         return from;
     }
 
-    public String getMinPrice() {
+    public Double getMinPrice() {
         return minPrice;
     }
 
@@ -53,7 +53,7 @@ public class Route {
         this.from = from;
     }
 
-    public void setMinPrice(String minPrice) {
+    public void setMinPrice(Double minPrice) {
         this.minPrice = minPrice;
     }
 

@@ -178,7 +178,8 @@ public class SendRest {
 
 
     public void printRouteWithDetails(Route r){
-        System.out.println("From:" + r.getFrom() + " To:" + r.getTo() + " Date:" + r.getDateOfTrip());
+        System.out.println("From:" + r.getFrom() + " To:" + r.getTo() + " Date:" + r.getDateOfTrip() + "\nMin.Price = "
+                + r.getMinPrice());
         for (RouteDetails node: r.getDetails()) {
             System.out.println("Price:"+ node.getPrice()+ " Departure:" + node.getTimeDeparture() + " Arrival:" + node.getTimeArrival() + " Company:" + node.getCompany() + "");
         }

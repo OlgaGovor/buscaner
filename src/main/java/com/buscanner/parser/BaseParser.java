@@ -29,6 +29,7 @@ abstract public class BaseParser {
         List<String> listTimeOfDepartures = getTimeDeparture(xPathDeparture, str);
         List<String> listTimeOfArrival = getTimeArrival(xPathArrival, str);
 
+        Double minPrice = 100000000.0;
         for (int i=0; i<listPrices.size(); i++)
         {
             RouteDetails details = new RouteDetails();
@@ -40,10 +41,14 @@ abstract public class BaseParser {
             Time timeOfArrival = parseTime(listTimeOfArrival.get(i));
             details.setTimeArrival(timeOfArrival);
             details.setCompany(companyName);
-
             routeDetailsList.add(details);
+
+            if (minPrice > price){
+                minPrice = price;
+            }
         }
         route.setDetails(routeDetailsList);
+        route.setMinPrice(minPrice);
         return route;
     }
 
