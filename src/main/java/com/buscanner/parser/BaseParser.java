@@ -25,9 +25,9 @@ abstract public class BaseParser {
 
         List<RouteDetails> routeDetailsList = new ArrayList<RouteDetails>();
 
-        List<String> listPrices = parseResponseString(xPathPrice, str);
-        List<String> listTimeOfDepartures = parseResponseString(xPathDeparture, str);
-        List<String> listTimeOfArrival = parseResponseString(xPathArrival, str);
+        List<String> listPrices = getRegularPrice(xPathPrice, str);
+        List<String> listTimeOfDepartures = getTimeDeparture(xPathDeparture, str);
+        List<String> listTimeOfArrival = getTimeArrival(xPathArrival, str);
 
         for (int i=0; i<listPrices.size(); i++)
         {
@@ -45,6 +45,23 @@ abstract public class BaseParser {
         }
         route.setDetails(routeDetailsList);
         return route;
+    }
+
+
+    public List<String> getTimeDeparture(String xPathExpression, String str) throws ParserConfigurationException, XPathExpressionException {
+        return parseResponseString(xPathExpression, str);
+    }
+
+    public List<String> getTimeArrival(String xPathExpression, String str) throws ParserConfigurationException, XPathExpressionException {
+        return parseResponseString(xPathExpression, str);
+    }
+
+    public List<String> getRegularPrice(String xPathExpression, String str) throws ParserConfigurationException, XPathExpressionException {
+        return parseResponseString(xPathExpression, str);
+    }
+
+    public List<String> getPromoPrice(String xPathExpression, String str) throws ParserConfigurationException, XPathExpressionException {
+        return parseResponseString(xPathExpression, str);
     }
 
     public List<String> parseResponseString(String xPathExpression, String str) throws ParserConfigurationException, XPathExpressionException {
@@ -85,117 +102,4 @@ abstract public class BaseParser {
         return price;
     }
 
-//    public List<String> getTimeOfDeparture(String str) throws ParserConfigurationException, XPathExpressionException {
-//
-//        List<String> listOfDepartures = parseResponseString("//div[contains(@class,'row times')]/div/span[1]", str);
-////        List<String> listOfDepartures = new ArrayList<String>();
-////
-////        TagNode tagNode = new HtmlCleaner().clean(str);
-////
-////        org.w3c.dom.Document doc;
-////        doc = new org.htmlcleaner.DomSerializer(new CleanerProperties()).createDOM(tagNode);
-////
-////        XPath xpath = XPathFactory.newInstance().newXPath();
-////
-////        try {
-////            //create XPathExpression object
-////            XPathExpression expr =
-////                    xpath.compile("//div[contains(@class,'row times')]/div/span[1]");
-////            //evaluate expression result on XML document
-////            NodeList nodes = (NodeList) expr.evaluate(doc, XPathConstants.NODESET);
-////            for (int i = 0; i < nodes.getLength(); i++) {
-////                listOfDepartures.add(nodes.item(i).getFirstChild().getNodeValue());
-////            }
-////        } catch (XPathExpressionException e) {
-////            e.printStackTrace();
-////        }
-////
-//        return listOfDepartures;
-//    }
-//
-//    public List<String> getTimeOfArrival(String str) throws ParserConfigurationException, XPathExpressionException {
-//
-//        List<String> listOfArrival = parseResponseString("//div[contains(@class,'row times')]/div/span[2]", str);
-////
-////        TagNode tagNode = new HtmlCleaner().clean(str);
-////
-////        org.w3c.dom.Document doc;
-////        doc = new org.htmlcleaner.DomSerializer(new CleanerProperties()).createDOM(tagNode);
-////
-////        XPath xpath = XPathFactory.newInstance().newXPath();
-////
-////        try {
-////            //create XPathExpression object
-////            XPathExpression expr =
-////                    xpath.compile("//div[contains(@class,'row times')]/div/span[2]");
-////            //evaluate expression result on XML document
-////            NodeList nodes = (NodeList) expr.evaluate(doc, XPathConstants.NODESET);
-////            for (int i = 0; i < nodes.getLength(); i++) {
-////                listOfArrival.add(nodes.item(i).getFirstChild().getNodeValue());
-////            }
-////        } catch (XPathExpressionException e) {
-////            e.printStackTrace();
-////        }
-////
-//        return listOfArrival;
-//    }
-//
-//    public List<String> getRegularPrice(String str) throws ParserConfigurationException, XPathExpressionException {
-//
-//        List<String> listOfPrices = parseResponseString("//div[contains (@class, 'regular-fullPrice')]//span[@class = 'amount']", str);
-////        TagNode tagNode = new HtmlCleaner().clean(str);
-////
-////        org.w3c.dom.Document doc;
-////        doc = new org.htmlcleaner.DomSerializer(new CleanerProperties()).createDOM(tagNode);
-////
-////        XPath xpath = XPathFactory.newInstance().newXPath();
-////
-////        try {
-////            //create XPathExpression object
-////            XPathExpression expr =
-////                    xpath.compile("//div[contains (@class, 'regular-fullPrice')]//span[@class = 'amount']");
-////            //evaluate expression result on XML document
-////            NodeList nodes = (NodeList) expr.evaluate(doc, XPathConstants.NODESET);
-////            for (int i = 0; i < nodes.getLength(); i++) {
-////                listOfPrices.add(nodes.item(i).getFirstChild().getNodeValue());
-////            }
-////        } catch (XPathExpressionException e) {
-////            e.printStackTrace();
-////        }
-//        return listOfPrices;
-//    }
-//
-//    public List<String> getPromotionPrice(String str) throws ParserConfigurationException, XPathExpressionException {
-//
-////        TagNode tagNode = new HtmlCleaner().clean(str);
-////
-////        org.w3c.dom.Document doc;
-////        doc = new org.htmlcleaner.DomSerializer(new CleanerProperties()).createDOM(tagNode);
-////
-////        XPath xpath = XPathFactory.newInstance().newXPath();
-////
-//        List<String> listOfPrices = new ArrayList<String>();
-////        try {
-////            //create XPathExpression object
-////            XPathExpression expr =
-////                    xpath.compile("//div[contains (@class, 'regular-fullPrice')]//span[@class = 'amount']");
-////            //evaluate expression result on XML document
-////            NodeList nodes = (NodeList) expr.evaluate(doc, XPathConstants.NODESET);
-////            for (int i = 0; i < nodes.getLength(); i++) {
-////                listOfPrices.add(nodes.item(i).getFirstChild().getNodeValue());
-////                System.out.println(nodes.item(i).getFirstChild().getNodeValue());
-////
-////            }
-////        } catch (XPathExpressionException e) {
-////            e.printStackTrace();
-////        }
-//        return listOfPrices;
-//
-//    }
-//
-//    public void parseTime (){
-////         row with data "//div[@data-legs][i]"
-////         get data legs for promotion request //div[@data-legs][1]/@data-legs
-//
-//    }
 }

@@ -57,7 +57,7 @@ public class GetPolskiBusDestinations {
             e.printStackTrace();
         }
         //connections
-        System.out.println(responseStr);
+//        System.out.println(responseStr);
         String connected ="";
         XPathExpression expr2 = xpath.compile("//script");
         NodeList nodes = (NodeList) expr2.evaluate(doc, XPathConstants.NODESET);

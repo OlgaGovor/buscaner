@@ -93,8 +93,12 @@ public class SendRest {
 
         if (response.getClientResponseStatus() == ClientResponse.Status.OK)
         {
+            String xPathPrice = "//ul[contains(@id,'JourneyResylts_OutboundList_GridViewResults')]/li[@class='five']/p";
+            String xPathDeparture = "//ul[contains(@id,'JourneyResylts_OutboundList_GridViewResults')]/li[@class='two']/p[strong[.='Departs']]";
+            String xPathArrival = "//ul[contains(@id,'JourneyResylts_OutboundList_GridViewResults')]/li[@class='two']/p[@class='arrive']";
+
             String responseStr = response.getEntity(String.class);
-            route =  parser.parseMegabus(responseStr, route);
+            route =  parser.parse(responseStr, route, "MegaBus", xPathPrice, xPathDeparture, xPathArrival);
 
             printRouteWithDetails(route);
 
@@ -161,8 +165,12 @@ public class SendRest {
 
         String responseStr = response3.getEntity(String.class);
 
+        String xPathPrice = "//div[@class='onb_resultRow']//p[@class='priceHilite']";
+        String xPathDeparture = "//div[@class='onb_resultRow']//div[@class='onb_col onb_two']//p[position() mod 2 = 1]/b";
+        String xPathArrival = "//div[@class='onb_resultRow']//div[@class='onb_col onb_two']//p[position() mod 2 = 0]/b";
+
         PolskiBusParser parser = new PolskiBusParser();
-        route =  parser.parseLuxExpress(responseStr, route);
+        route =  parser.parse(responseStr, route, "PolskiBus", xPathPrice, xPathDeparture, xPathArrival);
 
         printRouteWithDetails(route);
 
