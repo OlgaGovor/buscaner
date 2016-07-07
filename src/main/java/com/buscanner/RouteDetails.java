@@ -1,19 +1,21 @@
 package com.buscanner;
 
+import java.sql.Time;
+
 /**
  * Created by Olga_Govor on 6/29/2016.
  */
 public class RouteDetails {
 //Comment test
     private String company;
-    private String timeDeparture;
-    private String timeArrival;
+    private Time timeDeparture;
+    private Time timeArrival;
 
-    public String getPrice() {
+    public Double getPrice() {
         return price;
     }
 
-    public void setPrice(String price) {
+    public void setPrice(Double price) {
         this.price = price;
     }
 
@@ -25,21 +27,21 @@ public class RouteDetails {
         this.company = company;
     }
 
-    public String getTimeDeparture() {
+    public Time getTimeDeparture() {
         return timeDeparture;
     }
 
-    public void setTimeDeparture(String timeDeparture) {
+    public void setTimeDeparture(Time timeDeparture) {
         this.timeDeparture = timeDeparture;
     }
 
-    public String getTimeArrival() {
+    public Time getTimeArrival() {
         return timeArrival;
     }
 
-    public void setTimeArrival(String timeArrival) {
+    public void setTimeArrival(Time timeArrival) {
         this.timeArrival = timeArrival;
     }
 
-    private String price;
+    private Double price;
 }

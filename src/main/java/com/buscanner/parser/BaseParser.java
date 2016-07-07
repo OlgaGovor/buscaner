@@ -9,6 +9,10 @@ import org.w3c.dom.NodeList;
 
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.xpath.*;
+import java.sql.Time;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,7 +21,7 @@ import java.util.List;
  */
 abstract public class BaseParser {
 
-    public Route parse(String str, Route route, String companyName, String xPathPrice, String xPathDeparture, String xPathArrival) throws XPathExpressionException, ParserConfigurationException {
+    public Route parse(String str, Route route, String companyName, String xPathPrice, String xPathDeparture, String xPathArrival) throws XPathExpressionException, ParserConfigurationException, ParseException {
 
         List<RouteDetails> routeDetailsList = new ArrayList<RouteDetails>();
 
@@ -29,9 +33,12 @@ abstract public class BaseParser {
         {
             RouteDetails details = new RouteDetails();
 
-            details.setPrice(listPrices.get(i));
-            details.setTimeDeparture(listTimeOfDepartures.get(i));
-            details.setTimeArrival(listTimeOfArrival.get(i));
+            Double price = parsePrice(listPrices.get(i));
+            details.setPrice(price);
+            Time timeOfDeparture = parseTime(listTimeOfDepartures.get(i));
+            details.setTimeDeparture(timeOfDeparture);
+            Time timeOfArrival = parseTime(listTimeOfArrival.get(i));
+            details.setTimeArrival(timeOfArrival);
             details.setCompany(companyName);
 
             routeDetailsList.add(details);
@@ -63,6 +70,19 @@ abstract public class BaseParser {
             e.printStackTrace();
         }
         return list;
+    }
+
+    public Double parsePrice(String priceStr){
+
+        Double price = Double.parseDouble(priceStr);
+        return price;
+    }
+
+    public Time parseTime(String timeStr) throws ParseException {
+
+        DateFormat formatter = new SimpleDateFormat("HH:mm");
+        Time price = new java.sql.Time(formatter.parse(timeStr).getTime());
+        return price;
     }
 
 //    public List<String> getTimeOfDeparture(String str) throws ParserConfigurationException, XPathExpressionException {

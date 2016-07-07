@@ -9,6 +9,10 @@ import org.w3c.dom.NodeList;
 
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.xpath.*;
+import java.sql.Time;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,7 +21,24 @@ import java.util.List;
  */
 public class PolskiBusParser {
 
-    public Route parseLuxExpress(String str, Route route) throws XPathExpressionException, ParserConfigurationException {
+    public Double parsePrice(String priceStr){
+        String newStr = priceStr.substring(0,5);
+        String [] s = newStr.split(",");
+        newStr = s[0]+"."+s[1];
+        Double price = Double.parseDouble(newStr);
+        return price;
+    }
+
+    public Time parseTime(String timeStr) throws ParseException {
+
+
+        DateFormat formatter = new SimpleDateFormat("HH:mm");
+        Time time = new java.sql.Time(formatter.parse(timeStr.substring(0,5)).getTime());
+        return time;
+    }
+
+
+    public Route parseLuxExpress(String str, Route route) throws XPathExpressionException, ParserConfigurationException, ParseException {
 
         List<RouteDetails> routeDetailsList = new ArrayList<RouteDetails>();
 
@@ -29,9 +50,11 @@ public class PolskiBusParser {
         {
             RouteDetails details = new RouteDetails();
 
-            details.setPrice(listPrices.get(i));
-            details.setTimeDeparture(listTimeOfDepartures.get(i));
-            details.setTimeArrival(listTimeOfArrival.get(i));
+            details.setPrice(parsePrice(listPrices.get(i)));
+            Time timeOfDeparture = parseTime(listTimeOfDepartures.get(i));
+            details.setTimeDeparture(timeOfDeparture);
+            Time timeOfArrival = parseTime(listTimeOfArrival.get(i));
+            details.setTimeArrival(timeOfArrival);
             details.setCompany("PolskiBus");
 
             routeDetailsList.add(details);

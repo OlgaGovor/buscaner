@@ -14,6 +14,7 @@ import javax.ws.rs.core.Cookie;
 import javax.ws.rs.core.MultivaluedMap;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.xpath.XPathExpressionException;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
 /**
@@ -43,7 +44,7 @@ public class SendRest {
         return null;
     }
 
-    public void getLuxexpress(Route route) throws XPathExpressionException, ParserConfigurationException {
+    public void getLuxexpress(Route route) throws XPathExpressionException, ParserConfigurationException, ParseException {
 
         String xPathPrice = "//div[contains (@class, 'regular-fullPrice')]//span[@class = 'amount']";
         String xPathDeparture = "//div[contains(@class,'row times')]/div/span[1]";
@@ -63,7 +64,7 @@ public class SendRest {
     }
 
 
-    public void getMegabus(Route route) throws XPathExpressionException, ParserConfigurationException {
+    public void getMegabus(Route route) throws XPathExpressionException, ParserConfigurationException, ParseException {
         String megabusUrl = "http://uk.megabus.com/JourneyResults.aspx?";
 
         MegabusParser parser = new MegabusParser();
@@ -101,7 +102,7 @@ public class SendRest {
     }
 
 
-    public void getPolskibus(Route route, String to, String from) throws XPathExpressionException, ParserConfigurationException {
+    public void getPolskibus(Route route, String to, String from) throws XPathExpressionException, ParserConfigurationException, ParseException {
 
         Client client = Client.create();
         client.setFollowRedirects(false);
