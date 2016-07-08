@@ -1,5 +1,4 @@
 import com.buscanner.Route;
-import com.buscanner.RouteSorting;
 import com.buscanner.destinations.GetPolskiBusDestinations;
 import com.buscanner.outRest.SendRest;
 import org.junit.Test;
@@ -36,10 +35,7 @@ public class ConnectionOfCompanies {
 //        from = listOfDestinations.get(route.getFrom());
 
 
-        RouteSorting routeSorting = new RouteSorting();
-
-
-        c.add(Calendar.DATE, 10); //start from today+10days
+        c.add(Calendar.DATE, 3); //start from today+10days
         for(int i=0; i<10 ; i++){
             //new date new route
             Route route = new Route();
@@ -61,7 +57,12 @@ public class ConnectionOfCompanies {
             from = "vienna-stadion-center";
             route = sendRest.getLuxexpress(route, to, from);
 
-            route = routeSorting.sort(route);
+            System.out.println("BY DEPARTURE");
+            route.sortByDeparture();
+            sendRest.printRouteWithDetails(route);
+
+            System.out.println("BY PRICE");
+            route.sortByPrice();
             sendRest.printRouteWithDetails(route);
         }
 

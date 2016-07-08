@@ -1,5 +1,7 @@
 package com.buscanner;
 
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 
@@ -66,5 +68,24 @@ public class Route {
     }
 
 
+    public void sortByDeparture(){
+
+        Collections.sort(this.getDetails(), new Comparator<RouteDetails>() {
+            @Override
+            public int compare(RouteDetails o1, RouteDetails o2) {
+                return o1.getTimeDeparture().compareTo(o2.getTimeDeparture());
+            }
+        });
+    }
+
+    public void sortByPrice(){
+
+        Collections.sort(this.getDetails(), new Comparator<RouteDetails>() {
+            @Override
+            public int compare(RouteDetails o1, RouteDetails o2) {
+                return o1.getPrice().compareTo(o2.getPrice());
+            }
+        });
+    }
 
 }
