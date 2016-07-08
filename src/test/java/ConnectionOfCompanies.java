@@ -1,4 +1,5 @@
 import com.buscanner.Route;
+import com.buscanner.RouteSorting;
 import com.buscanner.destinations.GetPolskiBusDestinations;
 import com.buscanner.outRest.SendRest;
 import org.junit.Test;
@@ -12,9 +13,9 @@ import java.util.Date;
 import java.util.Map;
 
 /**
- * Created by Olga_Govor on 6/30/2016.
+ * Created by Olga_Govor on 7/8/2016.
  */
-public class PolskiTest {
+public class ConnectionOfCompanies {
 
     @Test
     public void getPrice() throws XPathExpressionException, ParserConfigurationException, ParseException {
@@ -30,38 +31,42 @@ public class PolskiTest {
         GetPolskiBusDestinations getPolskiBusDestinations = new GetPolskiBusDestinations();
         Map<String, String> listOfDestinations = getPolskiBusDestinations.getDestinations();
 
+//        Get destinations from list
 //        to = listOfDestinations.get(route.getTo());
 //        from = listOfDestinations.get(route.getFrom());
 
-        to = listOfDestinations.get("wiedeń");
-        from = listOfDestinations.get("krak&oacute;w");
+
+        RouteSorting routeSorting = new RouteSorting();
 
 
-        c.add(Calendar.DATE, 10);
-        for(int i=0; i<5 ; i++){
-
+        c.add(Calendar.DATE, 10); //start from today+10days
+        for(int i=0; i<10 ; i++){
+            //new date new route
             Route route = new Route();
-            //route.setFrom("warsaw-centralny");
-            route.setFrom("krak&oacute;w");
-//        route.setTo("budapest-nepliget-metro-station");
-            route.setTo("wiedeń");
+            route.setFrom("krakow");
+            route.setTo("vienna");
             route.setMinPrice(10000000.0);
 
 
-            c.add(Calendar.DATE, 1); // Adding 5 days
+            c.add(Calendar.DATE, 1); // Adding 1 day
             String d = sdf.format(c.getTime());
-            SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
-            Date date = formatter.parse(d);
+            Date date = sdf.parse(d);
             route.setDateOfTrip(date);
 
+            to = listOfDestinations.get("wiedeń");
+            from = listOfDestinations.get("krak&oacute;w");
             route = sendRest.getPolskibus(route, to, from);
+
+            to = "krakow";
+            from = "vienna-stadion-center";
+            route = sendRest.getLuxexpress(route, to, from);
+
+            route = routeSorting.sort(route);
             sendRest.printRouteWithDetails(route);
         }
+
+
+
     }
 
-    @Test
-    public void getDestinations() throws ParserConfigurationException, XPathExpressionException {
-        GetPolskiBusDestinations getPolskiBusDestinations = new GetPolskiBusDestinations();
-        Map<String, String> listOfDestinations = getPolskiBusDestinations.getDestinations();
-    }
 }

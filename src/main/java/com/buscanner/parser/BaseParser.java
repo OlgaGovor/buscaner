@@ -24,13 +24,19 @@ abstract public class BaseParser {
 
     public Route parse(String str, Route route, String companyName, String xPathPrice, String xPathDeparture, String xPathArrival, String currency) throws XPathExpressionException, ParserConfigurationException, ParseException {
 
-        List<RouteDetails> routeDetailsList = new ArrayList<RouteDetails>();
+        List<RouteDetails> routeDetailsList;
+        if (route.getDetails()==null)
+        {
+            routeDetailsList = new ArrayList<RouteDetails>();
+        }else {
+            routeDetailsList = route.getDetails();
+        }
 
         List<String> listPrices = getRegularPrice(xPathPrice, str);
         List<String> listTimeOfDepartures = getTimeDeparture(xPathDeparture, str);
         List<String> listTimeOfArrival = getTimeArrival(xPathArrival, str);
 
-        Double minPrice = 100000000.0;
+        Double minPrice = route.getMinPrice();
         Date minDate;
         for (int i=0; i<listPrices.size(); i++)
         {

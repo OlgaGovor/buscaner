@@ -17,25 +17,31 @@ public class LuxTests {
     @Test
     public void getPrice() throws XPathExpressionException, ParserConfigurationException, ParseException {
         SendRest sendRest = new SendRest();
-        Route route = new Route();
-
-        //route.setFrom("warsaw-centralny");
-        route.setFrom("krakow");
-        route.setTo("budapest-nepliget-metro-station");
-        //route.setTo("prague");
 
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
         Calendar c = Calendar.getInstance();
         c.setTime(new Date()); // Now use today date.
 
         for(int i=0; i<10 ; i++){
+
+            Route route = new Route();
+
+            //route.setFrom("warsaw-centralny");
+            route.setFrom("krakow");
+            String to ="krakow";
+            route.setTo("budapest-nepliget-metro-station");
+            String from ="budapest-nepliget-metro-station";
+            //route.setTo("prague");
+            route.setMinPrice(10000000.0);
+
             c.add(Calendar.DATE, 1); // Adding 5 days
             String d = sdf.format(c.getTime());
             SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
             Date date = formatter.parse(d);
             route.setDateOfTrip(date);
 
-            sendRest.getLuxexpress(route);
+            route = sendRest.getLuxexpress(route, to, from);
+            sendRest.printRouteWithDetails(route);
         }
     }
 

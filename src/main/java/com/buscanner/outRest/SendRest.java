@@ -44,7 +44,7 @@ public class SendRest {
         return null;
     }
 
-    public void getLuxexpress(Route route) throws XPathExpressionException, ParserConfigurationException, ParseException {
+    public Route getLuxexpress(Route route, String to, String from) throws XPathExpressionException, ParserConfigurationException, ParseException {
 
         String xPathPrice = "//div[contains (@class, 'regular-fullPrice')]//span[@class = 'amount']";
         String xPathDeparture = "//div[contains(@class,'row times')]/div/span[1]";
@@ -52,15 +52,16 @@ public class SendRest {
 
         SimpleDateFormat formatter = new SimpleDateFormat("MM-dd-yyyy");
         String date = formatter.format(route.getDateOfTrip());
-        String url = PATHLUX + route.getFrom() + "/" + route.getTo() + "?Date=" + date +"&Currency=CURRENCY.PLN";
+        String url = PATHLUX + from + "/" + to + "?Date=" + date +"&Currency=CURRENCY.PLN";
 
         String response = sendRequest(route, url, date);
 
         LuxexpressParser parser = new LuxexpressParser();
 
         route =  parser.parse(response, route, "LuxExpress", xPathPrice, xPathDeparture, xPathArrival, "zl");
-        printRouteWithDetails(route);
+//        printRouteWithDetails(route);
 
+        return route;
     }
 
 
@@ -107,7 +108,7 @@ public class SendRest {
     }
 
 
-    public void getPolskibus(Route route, String to, String from) throws XPathExpressionException, ParserConfigurationException, ParseException {
+    public Route getPolskibus(Route route, String to, String from) throws XPathExpressionException, ParserConfigurationException, ParseException {
 
         Client client = Client.create();
         client.setFollowRedirects(false);
@@ -173,8 +174,9 @@ public class SendRest {
         PolskiBusParser parser = new PolskiBusParser();
         route =  parser.parse(responseStr, route, "PolskiBus", xPathPrice, xPathDeparture, xPathArrival, "zl");
 
-        printRouteWithDetails(route);
+//        printRouteWithDetails(route);
 
+        return route;
     }
 
 
