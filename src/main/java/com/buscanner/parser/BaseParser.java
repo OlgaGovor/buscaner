@@ -14,6 +14,7 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -21,7 +22,7 @@ import java.util.List;
  */
 abstract public class BaseParser {
 
-    public Route parse(String str, Route route, String companyName, String xPathPrice, String xPathDeparture, String xPathArrival) throws XPathExpressionException, ParserConfigurationException, ParseException {
+    public Route parse(String str, Route route, String companyName, String xPathPrice, String xPathDeparture, String xPathArrival, String currency) throws XPathExpressionException, ParserConfigurationException, ParseException {
 
         List<RouteDetails> routeDetailsList = new ArrayList<RouteDetails>();
 
@@ -30,6 +31,7 @@ abstract public class BaseParser {
         List<String> listTimeOfArrival = getTimeArrival(xPathArrival, str);
 
         Double minPrice = 100000000.0;
+        Date minDate;
         for (int i=0; i<listPrices.size(); i++)
         {
             RouteDetails details = new RouteDetails();
@@ -41,10 +43,12 @@ abstract public class BaseParser {
             Time timeOfArrival = parseTime(listTimeOfArrival.get(i));
             details.setTimeArrival(timeOfArrival);
             details.setCompany(companyName);
+            details.setCurrency(currency);
             routeDetailsList.add(details);
 
             if (minPrice > price){
                 minPrice = price;
+
             }
         }
         route.setDetails(routeDetailsList);

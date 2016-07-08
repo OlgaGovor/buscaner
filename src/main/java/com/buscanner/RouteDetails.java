@@ -10,6 +10,16 @@ public class RouteDetails {
     private String company;
     private Time timeDeparture;
     private Time timeArrival;
+    private Double price;
+    private String currency;
+
+    public String getCurrency() {
+        return currency;
+    }
+
+    public void setCurrency(String currency) {
+        this.currency = currency;
+    }
 
     public Double getPrice() {
         return price;
@@ -43,5 +53,4 @@ public class RouteDetails {
         this.timeArrival = timeArrival;
     }
 
-    private Double price;
 }

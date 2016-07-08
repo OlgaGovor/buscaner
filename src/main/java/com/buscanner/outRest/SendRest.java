@@ -58,14 +58,15 @@ public class SendRest {
 
         LuxexpressParser parser = new LuxexpressParser();
 
-        route =  parser.parse(response, route, "LuxExpress", xPathPrice, xPathDeparture, xPathArrival);
+        route =  parser.parse(response, route, "LuxExpress", xPathPrice, xPathDeparture, xPathArrival, "zl");
         printRouteWithDetails(route);
 
     }
 
 
     public void getMegabus(Route route) throws XPathExpressionException, ParserConfigurationException, ParseException {
-        String megabusUrl = "http://uk.megabus.com/JourneyResults.aspx?";
+        //uk. for pounds
+        String megabusUrl = "http://deeu.megabus.com/JourneyResults.aspx?";
 
         MegabusParser parser = new MegabusParser();
 
@@ -94,11 +95,11 @@ public class SendRest {
         if (response.getClientResponseStatus() == ClientResponse.Status.OK)
         {
             String xPathPrice = "//ul[contains(@id,'JourneyResylts_OutboundList_GridViewResults')]/li[@class='five']/p";
-            String xPathDeparture = "//ul[contains(@id,'JourneyResylts_OutboundList_GridViewResults')]/li[@class='two']/p[strong[.='Departs']]";
+            String xPathDeparture = "//ul[contains(@id,'JourneyResylts_OutboundList_GridViewResults')]/li[@class='two']/p[strong[.='Abfahrt']]";
             String xPathArrival = "//ul[contains(@id,'JourneyResylts_OutboundList_GridViewResults')]/li[@class='two']/p[@class='arrive']";
 
             String responseStr = response.getEntity(String.class);
-            route =  parser.parse(responseStr, route, "MegaBus", xPathPrice, xPathDeparture, xPathArrival);
+            route =  parser.parse(responseStr, route, "MegaBus", xPathPrice, xPathDeparture, xPathArrival, "euro");
 
             printRouteWithDetails(route);
 
@@ -170,7 +171,7 @@ public class SendRest {
         String xPathArrival = "//div[@class='onb_resultRow']//div[@class='onb_col onb_two']//p[position() mod 2 = 0]/b";
 
         PolskiBusParser parser = new PolskiBusParser();
-        route =  parser.parse(responseStr, route, "PolskiBus", xPathPrice, xPathDeparture, xPathArrival);
+        route =  parser.parse(responseStr, route, "PolskiBus", xPathPrice, xPathDeparture, xPathArrival, "zl");
 
         printRouteWithDetails(route);
 
@@ -181,7 +182,7 @@ public class SendRest {
         System.out.println("From:" + r.getFrom() + " To:" + r.getTo() + " Date:" + r.getDateOfTrip() + "\nMin.Price = "
                 + r.getMinPrice());
         for (RouteDetails node: r.getDetails()) {
-            System.out.println("Price:"+ node.getPrice()+ " Departure:" + node.getTimeDeparture() + " Arrival:" + node.getTimeArrival() + " Company:" + node.getCompany() + "");
+            System.out.println("Price:"+ node.getPrice()+ node.getCurrency() + " Departure:" + node.getTimeDeparture() + " Arrival:" + node.getTimeArrival() + " Company:" + node.getCompany() + "");
         }
     }
 }

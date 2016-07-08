@@ -21,7 +21,8 @@ public class MegabusParser extends BaseParser {
 
     @Override
     public Double parsePrice(String priceStr){
-        String newStr = priceStr.trim().substring(7);
+        String [] s = priceStr.trim().substring(0,5).split(",");
+        String newStr = s[0]+"."+s[1];
         Double price = Double.parseDouble(newStr);
         return price;
     }
