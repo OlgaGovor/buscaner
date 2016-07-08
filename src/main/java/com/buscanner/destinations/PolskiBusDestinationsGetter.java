@@ -16,9 +16,9 @@ import java.util.Map;
 /**
  * Created by Olga_Govor on 7/4/2016.
  */
-public class GetPolskiBusDestinations {
+public class PolskiBusDestinationsGetter {
 
-    private final String PATH = "https://booking.polskibus.com/Pricing/Selections?lang=PL";
+    private static final String PATH = "https://booking.polskibus.com/Pricing/Selections?lang=PL";
 
     public Map <String, String> getDestinations() throws ParserConfigurationException, XPathExpressionException {
         Client client = Client.create();

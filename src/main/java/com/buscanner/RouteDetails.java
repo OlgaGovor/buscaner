@@ -7,7 +7,7 @@ import java.sql.Time;
  */
 public class RouteDetails {
 //Comment test
-    private String company;
+    private String companyName;
     private Time timeDeparture;
     private Time timeArrival;
     private Double price;
@@ -29,12 +29,12 @@ public class RouteDetails {
         this.price = price;
     }
 
-    public String getCompany() {
-        return company;
+    public String getCompanyName() {
+        return companyName;
     }
 
-    public void setCompany(String company) {
-        this.company = company;
+    public void setCompanyName(String companyName) {
+        this.companyName = companyName;
     }
 
     public Time getTimeDeparture() {

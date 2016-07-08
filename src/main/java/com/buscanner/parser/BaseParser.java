@@ -22,13 +22,12 @@ import java.util.List;
  */
 abstract public class BaseParser {
 
-    public Route parse(String str, Route route, String companyName, String xPathPrice, String xPathDeparture, String xPathArrival, String currency) throws XPathExpressionException, ParserConfigurationException, ParseException {
+    public Route parse(String str, Route route, String companyName, String xPathPrice, String xPathDeparture, String xPathArrival, String currency) throws Exception {
 
         List<RouteDetails> routeDetailsList;
-        if (route.getDetails()==null)
-        {
+        if (route.getDetails() == null) {
             routeDetailsList = new ArrayList<RouteDetails>();
-        }else {
+        } else {
             routeDetailsList = route.getDetails();
         }
 
@@ -38,23 +37,24 @@ abstract public class BaseParser {
 
         Double minPrice = route.getMinPrice();
         Date minDate;
-        for (int i=0; i<listPrices.size(); i++)
-        {
+        for (int i = 0; i < listPrices.size(); i++) {
             RouteDetails details = new RouteDetails();
+            details.setCompanyName(companyName);
+            details.setCurrency(currency);
 
             Double price = parsePrice(listPrices.get(i));
             details.setPrice(price);
+
             Time timeOfDeparture = parseTime(listTimeOfDepartures.get(i));
             details.setTimeDeparture(timeOfDeparture);
+
             Time timeOfArrival = parseTime(listTimeOfArrival.get(i));
             details.setTimeArrival(timeOfArrival);
-            details.setCompany(companyName);
-            details.setCurrency(currency);
+
             routeDetailsList.add(details);
 
-            if (minPrice > price){
+            if (minPrice > price) {
                 minPrice = price;
-
             }
         }
         route.setDetails(routeDetailsList);
@@ -104,7 +104,7 @@ abstract public class BaseParser {
         return list;
     }
 
-    public Double parsePrice(String priceStr){
+    public Double parsePrice(String priceStr) {
 
         Double price = Double.parseDouble(priceStr);
         return price;
