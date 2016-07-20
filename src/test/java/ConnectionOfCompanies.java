@@ -38,8 +38,8 @@ public class ConnectionOfCompanies {
         for(int i=0; i<10 ; i++){
             //new date new route
             Route route = new Route();
-            route.setFrom("krakow");
-            route.setTo("vienna");
+            route.setFrom("Krakow");
+            route.setTo("Vienna");
             route.setMinPrice(10000000.0);
 
 

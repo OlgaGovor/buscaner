@@ -1,14 +1,11 @@
 package com.buscanner.outRequests;
 
-import com.buscanner.Route;
-import com.buscanner.parser.MegabusParser;
 import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.api.client.WebResource;
 
 import javax.ws.rs.core.Cookie;
 import javax.ws.rs.core.MultivaluedMap;
-import java.text.SimpleDateFormat;
 
 /**
  * Created by Olga_Govor on 6/29/2016.
@@ -89,44 +86,44 @@ public class BaseSendRequest {
     }
 
 
-    public Route getMegabus(Route route) throws Exception {
-
-        Client client = Client.create();
-        //form Path from parametr route and get data from DB
-        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
-        String date = formatter.format(route.getDateOfTrip());
-        //Parameters
-        String from = "originCode="+"197";
-        String to = "&destinationCode="+"190";
-        String dateTo = "&outboundDepartureDate="+date;
-        String returnDate = "&inboundDepartureDate=";
-        String numberOfPassengers = "&passengerCount=1";
-        String transportType = "&transportType=1";
-        String notUsed = "&concessionCount=0&nusCount=0&outboundWheelchairSeated=0&outboundOtherDisabilityCount=0&inboundWheelchairSeated=0&inboundOtherDisabilityCount=0&outboundPcaCount=0&inboundPcaCount=0&promotionCode=&withReturn=0";
-
-        String megabusUrl = PATHMEGABUS;
-        megabusUrl = megabusUrl + from + to + dateTo + returnDate + numberOfPassengers + transportType;
-
-        WebResource webResource = client.resource(megabusUrl);
-
-        ClientResponse response = webResource
-                .type(CONTENTTYPE)
-                .accept(CONTENTTYPE)
-                .get(ClientResponse.class);
-
-        if (response.getClientResponseStatus() == ClientResponse.Status.OK)
-        {
-            String xPathPrice = "//ul[contains(@id,'JourneyResylts_OutboundList_GridViewResults')]/li[@class='five']/p";
-            String xPathDeparture = "//ul[contains(@id,'JourneyResylts_OutboundList_GridViewResults')]/li[@class='two']/p[strong[.='Abfahrt']]";
-            String xPathArrival = "//ul[contains(@id,'JourneyResylts_OutboundList_GridViewResults')]/li[@class='two']/p[@class='arrive']";
-
-            String responseStr = response.getEntity(String.class);
-
-            MegabusParser parser = new MegabusParser();
-            route =  parser.parse(responseStr, route, "MegaBus", xPathPrice, xPathDeparture, xPathArrival, "euro");
-        }
-
-        return route;
-    }
+//    public Route getMegabus(Route route) throws Exception {
+//
+//        Client client = Client.create();
+//        //form Path from parametr route and get data from DB
+//        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+//        String date = formatter.format(route.getDateOfTrip());
+//        //Parameters
+//        String from = "originCode="+"197";
+//        String to = "&destinationCode="+"190";
+//        String dateTo = "&outboundDepartureDate="+date;
+//        String returnDate = "&inboundDepartureDate=";
+//        String numberOfPassengers = "&passengerCount=1";
+//        String transportType = "&transportType=1";
+//        String notUsed = "&concessionCount=0&nusCount=0&outboundWheelchairSeated=0&outboundOtherDisabilityCount=0&inboundWheelchairSeated=0&inboundOtherDisabilityCount=0&outboundPcaCount=0&inboundPcaCount=0&promotionCode=&withReturn=0";
+//
+//        String megabusUrl = PATHMEGABUS;
+//        megabusUrl = megabusUrl + from + to + dateTo + returnDate + numberOfPassengers + transportType;
+//
+//        WebResource webResource = client.resource(megabusUrl);
+//
+//        ClientResponse response = webResource
+//                .type(CONTENTTYPE)
+//                .accept(CONTENTTYPE)
+//                .get(ClientResponse.class);
+//
+//        if (response.getClientResponseStatus() == ClientResponse.Status.OK)
+//        {
+//            String xPathPrice = "//ul[contains(@id,'JourneyResylts_OutboundList_GridViewResults')]/li[@class='five']/p";
+//            String xPathDeparture = "//ul[contains(@id,'JourneyResylts_OutboundList_GridViewResults')]/li[@class='two']/p[strong[.='Abfahrt']]";
+//            String xPathArrival = "//ul[contains(@id,'JourneyResylts_OutboundList_GridViewResults')]/li[@class='two']/p[@class='arrive']";
+//
+//            String responseStr = response.getEntity(String.class);
+//
+//            MegabusParser parser = new MegabusParser();
+//            route =  parser.parse(responseStr, route, "MegaBus", xPathPrice, xPathDeparture, xPathArrival, "euro");
+//        }
+//
+//        return route;
+//    }
 
 }

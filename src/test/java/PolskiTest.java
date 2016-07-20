@@ -33,18 +33,22 @@ public class PolskiTest {
 //        to = listOfDestinations.get(route.getTo());
 //        from = listOfDestinations.get(route.getFrom());
 
-        to = listOfDestinations.get("wiedeń");
-        from = listOfDestinations.get("krak&oacute;w");
-
 
         c.add(Calendar.DATE, 10);
         for(int i=0; i<5 ; i++){
 
             Route route = new Route();
-            //route.setFrom("warsaw-centralny");
-            route.setFrom("krak&oacute;w");
-//        route.setTo("budapest-nepliget-metro-station");
-            route.setTo("wiedeń");
+
+
+            //just for printing
+            route.setFrom("Krakow");
+            from = listOfDestinations.get("krak&oacute;w");
+
+
+            //just for printing
+            route.setTo("Vienna");
+            to = listOfDestinations.get("wiedeń");
+
             route.setMinPrice(10000000.0);
 
 
@@ -55,6 +59,7 @@ public class PolskiTest {
             route.setDateOfTrip(date);
 
             route = dataPolskiBus.getData(route, to, from);
+            route.sortByPrice();
             route.printRouteWithDetails();
         }
     }

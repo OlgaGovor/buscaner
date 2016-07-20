@@ -24,12 +24,14 @@ public class LuxTests {
 
             Route route = new Route();
 
-            //route.setFrom("warsaw-centralny");
-            route.setFrom("krakow");
-            String to ="krakow";
-            route.setTo("budapest-nepliget-metro-station");
             String from ="budapest-nepliget-metro-station";
-            //route.setTo("prague");
+            //only for printing
+            route.setFrom("budapest");
+
+            String to ="krakow";
+            //only for printing
+            route.setTo("krakow");
+
             route.setMinPrice(10000000.0);
 
             c.add(Calendar.DATE, 1); // Adding 5 days
@@ -39,6 +41,7 @@ public class LuxTests {
             route.setDateOfTrip(date);
 
             route = dataLuxexpress.getData(route, to, from);
+            route.sortByPrice();
             route.printRouteWithDetails();
         }
     }
