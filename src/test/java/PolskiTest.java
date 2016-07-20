@@ -1,5 +1,5 @@
 import com.buscanner.Route;
-import com.buscanner.destinations.GetPolskiBusDestinations;
+import com.buscanner.destinations.PolskiBusDestinationsGetter;
 import com.buscanner.outRest.SendRest;
 import org.junit.Test;
 
@@ -27,7 +27,7 @@ public class PolskiTest {
         String to = "";
         String from = "";
 
-        GetPolskiBusDestinations getPolskiBusDestinations = new GetPolskiBusDestinations();
+        PolskiBusDestinationsGetter getPolskiBusDestinations = new PolskiBusDestinationsGetter();
         Map<String, String> listOfDestinations = getPolskiBusDestinations.getDestinations();
 
 //        to = listOfDestinations.get(route.getTo());
@@ -61,7 +61,7 @@ public class PolskiTest {
 
     @Test
     public void getDestinations() throws ParserConfigurationException, XPathExpressionException {
-        GetPolskiBusDestinations getPolskiBusDestinations = new GetPolskiBusDestinations();
+        PolskiBusDestinationsGetter getPolskiBusDestinations = new PolskiBusDestinationsGetter();
         Map<String, String> listOfDestinations = getPolskiBusDestinations.getDestinations();
     }
 }

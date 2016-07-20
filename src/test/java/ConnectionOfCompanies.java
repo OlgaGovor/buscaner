@@ -1,5 +1,5 @@
 import com.buscanner.Route;
-import com.buscanner.destinations.GetPolskiBusDestinations;
+import com.buscanner.destinations.PolskiBusDestinationsGetter;
 import com.buscanner.outRest.SendRest;
 import org.junit.Test;
 
@@ -17,7 +17,7 @@ import java.util.Map;
 public class ConnectionOfCompanies {
 
     @Test
-    public void getPrice() throws XPathExpressionException, ParserConfigurationException, ParseException {
+    public void getPrice() throws Exception {
         SendRest sendRest = new SendRest();
 
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
@@ -27,7 +27,7 @@ public class ConnectionOfCompanies {
         String to = "";
         String from = "";
 
-        GetPolskiBusDestinations getPolskiBusDestinations = new GetPolskiBusDestinations();
+        PolskiBusDestinationsGetter getPolskiBusDestinations = new PolskiBusDestinationsGetter();
         Map<String, String> listOfDestinations = getPolskiBusDestinations.getDestinations();
 
 //        Get destinations from list

@@ -14,9 +14,9 @@ public class Route {
     private String from;
     private Double minPrice;
     private Date dateOfTrip;
-    private Date updated;
-
+    private Date lastUpdateDate;
     private List<RouteDetails> details;
+
 
     public List<RouteDetails> getDetails() {
         return details;
@@ -42,8 +42,8 @@ public class Route {
         return dateOfTrip;
     }
 
-    public Date getUpdated() {
-        return updated;
+    public Date getLastUpdateDate() {
+        return lastUpdateDate;
     }
 
 
@@ -63,8 +63,8 @@ public class Route {
         this.dateOfTrip = dateOfTrip;
     }
 
-    public void setUpdated(Date updated) {
-        this.updated = updated;
+    public void setLastUpdateDate(Date lastUpdateDate) {
+        this.lastUpdateDate = lastUpdateDate;
     }
 
 

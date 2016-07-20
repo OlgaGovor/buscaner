@@ -44,7 +44,7 @@ public class SendRest {
         return null;
     }
 
-    public Route getLuxexpress(Route route, String to, String from) throws XPathExpressionException, ParserConfigurationException, ParseException {
+    public Route getLuxexpress(Route route, String to, String from) throws Exception {
 
         String xPathPrice = "//div[contains (@class, 'regular-fullPrice')]//span[@class = 'amount']";
         String xPathDeparture = "//div[contains(@class,'row times')]/div/span[1]";
@@ -65,7 +65,7 @@ public class SendRest {
     }
 
 
-    public void getMegabus(Route route) throws XPathExpressionException, ParserConfigurationException, ParseException {
+    public void getMegabus(Route route) throws Exception {
         //uk. for pounds
         String megabusUrl = "http://deeu.megabus.com/JourneyResults.aspx?";
 
@@ -108,7 +108,7 @@ public class SendRest {
     }
 
 
-    public Route getPolskibus(Route route, String to, String from) throws XPathExpressionException, ParserConfigurationException, ParseException {
+    public Route getPolskibus(Route route, String to, String from) throws Exception {
 
         Client client = Client.create();
         client.setFollowRedirects(false);
@@ -184,7 +184,7 @@ public class SendRest {
         System.out.println("From:" + r.getFrom() + " To:" + r.getTo() + " Date:" + r.getDateOfTrip() + "\nMin.Price = "
                 + r.getMinPrice());
         for (RouteDetails node: r.getDetails()) {
-            System.out.println("Price:"+ node.getPrice()+ node.getCurrency() + " Departure:" + node.getTimeDeparture() + " Arrival:" + node.getTimeArrival() + " Company:" + node.getCompany() + "");
+            System.out.println("Price:"+ node.getPrice()+ node.getCurrency() + " Departure:" + node.getTimeDeparture() + " Arrival:" + node.getTimeArrival() + " Company:" + node.getCompanyName() + "");
         }
     }
 }
