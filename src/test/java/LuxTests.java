@@ -41,7 +41,7 @@ public class LuxTests {
             route.setDateOfTrip(date);
 
             route = sendRest.getLuxexpress(route, to, from);
-            sendRest.printRouteWithDetails(route);
+            route.printRouteWithDetails();
         }
     }
 

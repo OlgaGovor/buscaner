@@ -1,5 +1,6 @@
 import com.buscanner.Route;
 import com.buscanner.outRest.SendRest;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import javax.xml.parsers.ParserConfigurationException;
@@ -15,6 +16,7 @@ import java.util.Date;
 public class MegabusTests {
 
     @Test
+    @Ignore
     public void getPrice() throws XPathExpressionException, ParserConfigurationException, ParseException {
         SendRest sendRest = new SendRest();
 
@@ -40,6 +42,7 @@ public class MegabusTests {
             route.setDateOfTrip(date);
 
             sendRest.getMegabus(route);
+            route.printRouteWithDetails();
         }
     }
 }

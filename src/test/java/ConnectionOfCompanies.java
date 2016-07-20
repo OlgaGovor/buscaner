@@ -59,11 +59,11 @@ public class ConnectionOfCompanies {
 
             System.out.println("BY DEPARTURE");
             route.sortByDeparture();
-            sendRest.printRouteWithDetails(route);
+            route.printRouteWithDetails();
 
             System.out.println("BY PRICE");
             route.sortByPrice();
-            sendRest.printRouteWithDetails(route);
+            route.printRouteWithDetails();
         }
 
 

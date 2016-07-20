@@ -55,7 +55,7 @@ public class PolskiTest {
             route.setDateOfTrip(date);
 
             route = sendRest.getPolskibus(route, to, from);
-            sendRest.printRouteWithDetails(route);
+            route.printRouteWithDetails();
         }
     }
 
