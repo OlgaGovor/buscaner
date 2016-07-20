@@ -1,11 +1,8 @@
 import com.buscanner.Route;
-import com.buscanner.outRest.SendRest;
+import com.buscanner.outRequests.BaseSendRequest;
 import org.junit.Ignore;
 import org.junit.Test;
 
-import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.xpath.XPathExpressionException;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -17,8 +14,8 @@ public class MegabusTests {
 
     @Test
     @Ignore
-    public void getPrice() throws XPathExpressionException, ParserConfigurationException, ParseException {
-        SendRest sendRest = new SendRest();
+    public void getPrice() throws Exception {
+        BaseSendRequest sendRest = new BaseSendRequest();
 
 
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
@@ -41,7 +38,7 @@ public class MegabusTests {
             Date date = formatter.parse(d);
             route.setDateOfTrip(date);
 
-            sendRest.getMegabus(route);
+            route = sendRest.getMegabus(route);
             route.printRouteWithDetails();
         }
     }

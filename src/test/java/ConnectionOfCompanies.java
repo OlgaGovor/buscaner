@@ -1,11 +1,9 @@
 import com.buscanner.Route;
 import com.buscanner.destinations.PolskiBusDestinationsGetter;
-import com.buscanner.outRest.SendRest;
+import com.buscanner.getDataOfRoute.GetDataLuxexpress;
+import com.buscanner.getDataOfRoute.GetDataPolskiBus;
 import org.junit.Test;
 
-import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.xpath.XPathExpressionException;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -18,7 +16,8 @@ public class ConnectionOfCompanies {
 
     @Test
     public void getPrice() throws Exception {
-        SendRest sendRest = new SendRest();
+        GetDataPolskiBus dataPolskiBus = new GetDataPolskiBus();
+        GetDataLuxexpress dataLuxexpress = new GetDataLuxexpress();
 
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
         Calendar c = Calendar.getInstance();
@@ -51,11 +50,11 @@ public class ConnectionOfCompanies {
 
             to = listOfDestinations.get("wiedeń");
             from = listOfDestinations.get("krak&oacute;w");
-            route = sendRest.getPolskibus(route, to, from);
+            route = dataPolskiBus.getData(route, to, from);
 
             to = "krakow";
             from = "vienna-stadion-center";
-            route = sendRest.getLuxexpress(route, to, from);
+            route = dataLuxexpress.getData(route, to, from);
 
             System.out.println("BY DEPARTURE");
             route.sortByDeparture();

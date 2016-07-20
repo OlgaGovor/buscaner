@@ -1,11 +1,10 @@
 import com.buscanner.Route;
 import com.buscanner.destinations.PolskiBusDestinationsGetter;
-import com.buscanner.outRest.SendRest;
+import com.buscanner.getDataOfRoute.GetDataPolskiBus;
 import org.junit.Test;
 
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.xpath.XPathExpressionException;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -17,8 +16,9 @@ import java.util.Map;
 public class PolskiTest {
 
     @Test
-    public void getPrice() throws XPathExpressionException, ParserConfigurationException, ParseException {
-        SendRest sendRest = new SendRest();
+    public void getPrice() throws Exception {
+        GetDataPolskiBus dataPolskiBus = new GetDataPolskiBus();
+//        BaseSendRequest sendRest = new BaseSendRequest();
 
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
         Calendar c = Calendar.getInstance();
@@ -54,7 +54,7 @@ public class PolskiTest {
             Date date = formatter.parse(d);
             route.setDateOfTrip(date);
 
-            route = sendRest.getPolskibus(route, to, from);
+            route = dataPolskiBus.getData(route, to, from);
             route.printRouteWithDetails();
         }
     }

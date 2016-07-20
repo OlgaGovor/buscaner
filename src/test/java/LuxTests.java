@@ -1,10 +1,7 @@
 import com.buscanner.Route;
-import com.buscanner.outRest.SendRest;
+import com.buscanner.getDataOfRoute.GetDataLuxexpress;
 import org.junit.Test;
 
-import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.xpath.XPathExpressionException;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -15,8 +12,9 @@ import java.util.Date;
 public class LuxTests {
 
     @Test
-    public void getPrice() throws XPathExpressionException, ParserConfigurationException, ParseException {
-        SendRest sendRest = new SendRest();
+    public void getPrice() throws Exception {
+//        BaseSendRequest sendRest = new BaseSendRequest();
+        GetDataLuxexpress dataLuxexpress = new GetDataLuxexpress();
 
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
         Calendar c = Calendar.getInstance();
@@ -40,7 +38,7 @@ public class LuxTests {
             Date date = formatter.parse(d);
             route.setDateOfTrip(date);
 
-            route = sendRest.getLuxexpress(route, to, from);
+            route = dataLuxexpress.getData(route, to, from);
             route.printRouteWithDetails();
         }
     }

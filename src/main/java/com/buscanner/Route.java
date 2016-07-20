@@ -93,7 +93,7 @@ public class Route {
                 "\nMin.Price = " + this.getMinPrice());
         for (RouteDetails node: this.getDetails()) {
             System.out.println("Price:"+ node.getPrice()+ node.getCurrency() + " Departure:" + node.getTimeDeparture()
-                    + " Arrival:" + node.getTimeArrival() + " Company:" + node.getCompany() + "");
+                    + " Arrival:" + node.getTimeArrival() + " Company:" + node.getCompanyName() + "");
         }
     }
 
