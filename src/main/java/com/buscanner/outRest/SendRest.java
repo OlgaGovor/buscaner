@@ -1,7 +1,6 @@
 package com.buscanner.outRest;
 
 import com.buscanner.Route;
-import com.buscanner.RouteDetails;
 import com.buscanner.parser.LuxexpressParser;
 import com.buscanner.parser.MegabusParser;
 import com.buscanner.parser.PolskiBusParser;
@@ -12,9 +11,6 @@ import com.sun.jersey.core.util.MultivaluedMapImpl;
 
 import javax.ws.rs.core.Cookie;
 import javax.ws.rs.core.MultivaluedMap;
-import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.xpath.XPathExpressionException;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
 /**
@@ -23,20 +19,64 @@ import java.text.SimpleDateFormat;
 public class SendRest {
 
     private static final String PATHLUX = "http://ticket.luxexpress.eu/pl/wyjazdy-harmonogram/";
+    private static final String PATHMEGABUS = "http://deeu.megabus.com/JourneyResults.aspx?";
+
     private static final String PATHPOLSKIBUS = "https://booking.polskibus.com/Pricing/Selections?lang=PL";
     // krakow/prague?Date=7-29-2016&Currency=CURRENCY.PLN"
     private static final String CONTENTTYPE = "application/json";
 
-    public String sendRequest(Route route, String resource, String date){
-
-        Client client = Client.create();
-        WebResource webResource = client.resource(resource);
-
+    public ClientResponse sendGetRequest(WebResource webResource, String dataType)
+    {
         ClientResponse response = webResource
-                .type(CONTENTTYPE)
-                .accept(CONTENTTYPE)
+                .type(dataType)
+                .accept(dataType)
                 .get(ClientResponse.class);
 
+        return response;
+    }
+
+    public ClientResponse sendGetRequestWithCookie(WebResource webResource, String dataType, Cookie cookie)
+    {
+        ClientResponse response = webResource
+                .type(dataType)
+                .cookie(cookie)
+                .get(ClientResponse.class);
+
+        return response;
+    }
+
+    public WebResource createWebResource (String url)
+    {
+        Client client = Client.create();
+        client.setFollowRedirects(false);
+        WebResource webResource = client.resource(url);
+        return webResource;
+    }
+
+    public String getCookieForPolskiBus (ClientResponse response)
+    {
+        String headerStr = "";
+        if (response.getClientResponseStatus() == ClientResponse.Status.OK)
+        {
+            MultivaluedMap<String, String> headers = response.getHeaders();
+            headerStr = headers.get("Set-Cookie").toString();
+        }
+
+        String cookieValue = headerStr.substring(19,43);
+        return cookieValue;
+    }
+
+    public String getLocationFromHeader (ClientResponse response)
+    {
+        MultivaluedMap<String, String> headers = response.getHeaders();
+
+        String headerStr = headers.get("Location").toString();
+        headerStr = headerStr.substring(1, headerStr.length()-1);
+        return  headerStr;
+    }
+
+    public String getResponseString(ClientResponse response)
+    {
         if (response.getClientResponseStatus() == ClientResponse.Status.OK) {
             String responseStr = response.getEntity(String.class);
             return  responseStr;
@@ -44,32 +84,41 @@ public class SendRest {
         return null;
     }
 
+    public ClientResponse sendWidePostRequest(WebResource webResource, Cookie cookie, String dataType, MultivaluedMap map)
+    {
+        ClientResponse response = webResource
+                .cookie(cookie)
+                .type(dataType)
+                .post(ClientResponse.class, map);
+
+        return response;
+    }
+
     public Route getLuxexpress(Route route, String to, String from) throws Exception {
 
+        //XPathes for parser
         String xPathPrice = "//div[contains (@class, 'regular-fullPrice')]//span[@class = 'amount']";
         String xPathDeparture = "//div[contains(@class,'row times')]/div/span[1]";
         String xPathArrival = "//div[contains(@class,'row times')]/div/span[2]";
 
+        //
         SimpleDateFormat formatter = new SimpleDateFormat("MM-dd-yyyy");
         String date = formatter.format(route.getDateOfTrip());
+        //get 'to' and 'from' from Route and update it for company
         String url = PATHLUX + from + "/" + to + "?Date=" + date +"&Currency=CURRENCY.PLN";
 
-        String response = sendRequest(route, url, date);
+        //send request
+        ClientResponse response = sendGetRequest(createWebResource(url), CONTENTTYPE);
+        String responseStr = getResponseString(response);
 
+        //parse result
         LuxexpressParser parser = new LuxexpressParser();
-
-        route =  parser.parse(response, route, "LuxExpress", xPathPrice, xPathDeparture, xPathArrival, "zl");
-//        printRouteWithDetails(route);
+        route =  parser.parse(responseStr, route, "LuxExpress", xPathPrice, xPathDeparture, xPathArrival, "zl");
 
         return route;
     }
 
-
     public void getMegabus(Route route) throws Exception {
-        //uk. for pounds
-        String megabusUrl = "http://deeu.megabus.com/JourneyResults.aspx?";
-
-        MegabusParser parser = new MegabusParser();
 
         Client client = Client.create();
         //form Path from parametr route and get data from DB
@@ -84,7 +133,8 @@ public class SendRest {
         String transportType = "&transportType=1";
         String notUsed = "&concessionCount=0&nusCount=0&outboundWheelchairSeated=0&outboundOtherDisabilityCount=0&inboundWheelchairSeated=0&inboundOtherDisabilityCount=0&outboundPcaCount=0&inboundPcaCount=0&promotionCode=&withReturn=0";
 
-        megabusUrl = megabusUrl +from+to+dateTo+returnDate+numberOfPassengers+transportType;
+        String megabusUrl = PATHMEGABUS;
+        megabusUrl = megabusUrl + from + to + dateTo + returnDate + numberOfPassengers + transportType;
 
         WebResource webResource = client.resource(megabusUrl);
 
@@ -100,38 +150,27 @@ public class SendRest {
             String xPathArrival = "//ul[contains(@id,'JourneyResylts_OutboundList_GridViewResults')]/li[@class='two']/p[@class='arrive']";
 
             String responseStr = response.getEntity(String.class);
-            route =  parser.parse(responseStr, route, "MegaBus", xPathPrice, xPathDeparture, xPathArrival, "euro");
 
-            printRouteWithDetails(route);
+            MegabusParser parser = new MegabusParser();
+            route =  parser.parse(responseStr, route, "MegaBus", xPathPrice, xPathDeparture, xPathArrival, "euro");
 
         }
     }
 
 
+
     public Route getPolskibus(Route route, String to, String from) throws Exception {
 
-        Client client = Client.create();
-        client.setFollowRedirects(false);
 
         SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
         String date = formatter.format(route.getDateOfTrip());
 
-        WebResource webResource = client.resource("https://booking.polskibus.com/Pricing/Selections?lang=PL");
+        //send request to receive SessionId
+        WebResource webResource = createWebResource("https://booking.polskibus.com/Pricing/Selections?lang=PL");
+        ClientResponse response = sendGetRequest(webResource, CONTENTTYPE);
+        String cookieValue = getCookieForPolskiBus(response);
 
-        ClientResponse response = webResource.get(ClientResponse.class);
-
-        String headerStr = "";
-
-        if (response.getClientResponseStatus() == ClientResponse.Status.OK)
-        {
-            MultivaluedMap<String, String> headers = response.getHeaders();
-            headerStr = headers.get("Set-Cookie").toString();
-        }
-
-        String cookieValue = headerStr.substring(19,43);
-
-        WebResource webResource2 = client.resource("https://booking.polskibus.com/Pricing/GetPrice");
-
+        //Map for PolskiBus request
         MultivaluedMap map = new MultivaluedMapImpl();
         map.add("PricingForm.Adults", "1");
         map.add("PricingForm.ConcessionCod...", "");
@@ -147,44 +186,33 @@ public class SendRest {
         map.add("__VIEWSTATE", "/wEPDwUJNzQxODA1MTQ4DxYCHhNWYWxpZGF0ZVJlcXVlc3RNb2RlAgFkZFPllo0+VPoB1LdmTlXTzZLAiP/sLBV1dT50WMo4RYHt");
         map.add("__VIEWSTATEGENERATOR", "92D95504");
 
+        //send request for get temporary link with prices
+        WebResource webResource2 = createWebResource("https://booking.polskibus.com/Pricing/GetPrice");
         Cookie cookie = new Cookie("ASP.NET_SessionId", cookieValue);
+        ClientResponse response2 = sendWidePostRequest(webResource2, cookie, "application/x-www-form-urlencoded", map);
+        String locationFromHeader = getLocationFromHeader(response2);
 
-        ClientResponse response2 = webResource2
-                .cookie(cookie)
-                .type("application/x-www-form-urlencoded")
-                .post(ClientResponse.class, map);
-
-
-        MultivaluedMap<String, String> headers = response2.getHeaders();
-        headerStr = headers.get("Location").toString();
-        headerStr = headerStr.substring(1, headerStr.length()-1);
-
-        WebResource webResource3 = client.resource("https://booking.polskibus.com" + headerStr);
-
-        ClientResponse response3 = webResource3
-                .cookie(cookie)
-                .get(ClientResponse.class);
-
+        //send request using temporary link
+        WebResource webResource3 = createWebResource("https://booking.polskibus.com" + locationFromHeader );
+        ClientResponse response3 = sendGetRequestWithCookie(webResource3, CONTENTTYPE, cookie);
         String responseStr = response3.getEntity(String.class);
 
+        //XPathes for parser
         String xPathPrice = "//div[@class='onb_resultRow']//p[@class='priceHilite']";
         String xPathDeparture = "//div[@class='onb_resultRow']//div[@class='onb_col onb_two']//p[position() mod 2 = 1]/b";
         String xPathArrival = "//div[@class='onb_resultRow']//div[@class='onb_col onb_two']//p[position() mod 2 = 0]/b";
 
         PolskiBusParser parser = new PolskiBusParser();
         route =  parser.parse(responseStr, route, "PolskiBus", xPathPrice, xPathDeparture, xPathArrival, "zl");
-
-//        printRouteWithDetails(route);
-
         return route;
     }
 
 
-    public void printRouteWithDetails(Route r){
-        System.out.println("From:" + r.getFrom() + " To:" + r.getTo() + " Date:" + r.getDateOfTrip() + "\nMin.Price = "
-                + r.getMinPrice());
-        for (RouteDetails node: r.getDetails()) {
-            System.out.println("Price:"+ node.getPrice()+ node.getCurrency() + " Departure:" + node.getTimeDeparture() + " Arrival:" + node.getTimeArrival() + " Company:" + node.getCompanyName() + "");
-        }
-    }
+//    public void printRouteWithDetails(Route r){
+//        System.out.println("From:" + r.getFrom() + " To:" + r.getTo() + " Date:" + r.getDateOfTrip() + "\nMin.Price = "
+//                + r.getMinPrice());
+//        for (RouteDetails node: r.getDetails()) {
+//            System.out.println("Price:"+ node.getPrice()+ node.getCurrency() + " Departure:" + node.getTimeDeparture() + " Arrival:" + node.getTimeArrival() + " Company:" + node.getCompany() + "");
+//        }
+//    }
 }
