@@ -35,7 +35,7 @@ public class PolskiTest {
         SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
         Date date = formatter.parse(d);
 
-        polskiBusCollector.getPriceForDate(date);
+        polskiBusCollector.getPriceForDate("Krakow", "Vienna", date);
     }
 
     @Test
@@ -46,7 +46,7 @@ public class PolskiTest {
         Date date1 = formatter.parse(d1);
         Date date2 = formatter.parse(d2);
 
-        polskiBusCollector.getPriceForPeriod(date1, date2);
+        polskiBusCollector.getPriceForPeriod("Krakow", "Vienna", date1, date2);
     }
 
     @Test

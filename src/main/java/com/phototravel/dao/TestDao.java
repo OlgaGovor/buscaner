@@ -17,6 +17,7 @@ public class TestDao {
     JdbcTemplate jdbcTemplate;
 
     private static final String SAVE_ROUTE = "insert into routes values(?,?,?,?,?)";
+    private static final String SELECT_UPDATE_DATE = "select lastUpdateDate from routes where from=? and to=? and dateOfTrip=?";
     public static final String SELECT_ALL_ROUTES = "select * from routes";
 
     public void saveRoute(Route route){
@@ -29,6 +30,16 @@ public class TestDao {
         System.out.println("requestPrams="+args);
         jdbcTemplate.update(SAVE_ROUTE, args);
     }
+
+//    public void selectRoute(Route route){
+//
+//        String lastUpdateDate = jdbcTemplate.query(SELECT_UPDATE_DATE, new RowMapper<Route>() {
+//            @Override
+//            public String mapRow(ResultSet resultSet, int i) throws SQLException {
+//                return resultSet.getDate(4);
+//            }
+//        }
+//    }
 
 
     public List<Route> readAllRoutes(){

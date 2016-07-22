@@ -19,7 +19,7 @@ public class PolskiBusCollector {
     @Autowired
     TestDao testDao;
 
-    public void getPriceForPeriod(Date date1, Date date2) throws Exception {
+    public void getPriceForPeriod(String from, String to, Date date1, Date date2) throws Exception {
         GetDataPolskiBus dataPolskiBus = new GetDataPolskiBus();
 
         //to include in search date2
@@ -31,56 +31,40 @@ public class PolskiBusCollector {
         Date dateOfTrip = date1;
         c.setTime(dateOfTrip);
 
-        String to = "";
-        String from = "";
-
         Map<String, String> listOfDestinations = getPolskiBusDestinations.getDestinations();
 
         while(dateOfTrip.before(date2)){
 
-            Route route = new Route();
-            //just for printing
-            route.setFrom("Krakow");
-            from = listOfDestinations.get("krak&oacute;w");
+            //check in DB and print
+            //if updated date more than 2 days ago send request
 
-            //just for printing
-            route.setTo("Vienna");
-            to = listOfDestinations.get("wiedeń");
-
-            route.setMinPrice(10000000.0);
-
-            route.setDateOfTrip(dateOfTrip);
-
-            route = dataPolskiBus.getData(route, to, from);
-            route.sortByPrice();
-            route.printRouteWithDetails();
-            testDao.saveRoute(route);
+            getPriceForDate(from, to, dateOfTrip);
 
             c.add(Calendar.DATE, 1);
             dateOfTrip = c.getTime();
         }
     }
 
-    public void getPriceForDate(Date date) throws Exception {
+    public void getPriceForDate(String from, String to, Date date) throws Exception {
         GetDataPolskiBus dataPolskiBus = new GetDataPolskiBus();
-
-        String to = "";
-        String from = "";
 
         Map<String, String> listOfDestinations = getPolskiBusDestinations.getDestinations();
 
         Route route = new Route();
 
         //just for printing
-        route.setFrom("Krakow");
+        route.setFrom(from);
+        //get destination for FROM for current company
         from = listOfDestinations.get("krak&oacute;w");
 
         //just for printing
-        route.setTo("Vienna");
+        route.setTo(to);
+        //get destination for TO for current company
         to = listOfDestinations.get("wiedeń");
 
         route.setMinPrice(10000000.0);
         route.setDateOfTrip(date);
+        route.setLastUpdateDate(new Date());
 
         route = dataPolskiBus.getData(route, to, from);
         route.sortByPrice();
