@@ -11,6 +11,8 @@ import org.springframework.test.context.web.WebAppConfiguration;
 
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.xpath.XPathExpressionException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Map;
 
 /**
@@ -28,9 +30,23 @@ public class PolskiTest {
     PolskiBusCollector polskiBusCollector;
 
     @Test
-    public void getPrice() throws Exception {
+    public void getPriceForDate() throws Exception {
+        String d = "13/08/2016";
+        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+        Date date = formatter.parse(d);
 
-        polskiBusCollector.getPrice();
+        polskiBusCollector.getPriceForDate(date);
+    }
+
+    @Test
+    public void getPriceForPeriod() throws Exception {
+        String d1 = "13/08/2016";
+        String d2 = "15/08/2016";
+        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+        Date date1 = formatter.parse(d1);
+        Date date2 = formatter.parse(d2);
+
+        polskiBusCollector.getPriceForPeriod(date1, date2);
     }
 
     @Test

@@ -1,3 +1,5 @@
+package com.phototravel;
+
 import com.phototravel.dataCollectors.Route;
 import com.phototravel.dataCollectors.getDataOfRoute.GetDataLuxexpress;
 import org.junit.Test;

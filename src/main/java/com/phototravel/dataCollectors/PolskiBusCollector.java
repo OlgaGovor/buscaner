@@ -6,7 +6,6 @@ import com.phototravel.dataCollectors.getDataOfRoute.GetDataPolskiBus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Map;
@@ -20,33 +19,29 @@ public class PolskiBusCollector {
     @Autowired
     TestDao testDao;
 
-    public void getPrice() throws Exception {
+    public void getPriceForPeriod(Date date1, Date date2) throws Exception {
         GetDataPolskiBus dataPolskiBus = new GetDataPolskiBus();
-//        BaseSendRequest sendRest = new BaseSendRequest();
 
-        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+        //to include in search date2
         Calendar c = Calendar.getInstance();
-        c.setTime(new Date()); // Now use today date.
+        c.setTime(date2);
+        c.add(Calendar.DATE, 1);
+        date2 = c.getTime();
+
+        Date dateOfTrip = date1;
+        c.setTime(dateOfTrip);
 
         String to = "";
         String from = "";
 
         Map<String, String> listOfDestinations = getPolskiBusDestinations.getDestinations();
 
-//        to = listOfDestinations.get(route.getTo());
-//        from = listOfDestinations.get(route.getFrom());
-
-
-        c.add(Calendar.DATE, 10);
-        for(int i=0; i<5 ; i++){
+        while(dateOfTrip.before(date2)){
 
             Route route = new Route();
-
-
             //just for printing
             route.setFrom("Krakow");
             from = listOfDestinations.get("krak&oacute;w");
-
 
             //just for printing
             route.setTo("Vienna");
@@ -54,18 +49,43 @@ public class PolskiBusCollector {
 
             route.setMinPrice(10000000.0);
 
-
-            c.add(Calendar.DATE, 1); // Adding 5 days
-            String d = sdf.format(c.getTime());
-            SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
-            Date date = formatter.parse(d);
-            route.setDateOfTrip(date);
+            route.setDateOfTrip(dateOfTrip);
 
             route = dataPolskiBus.getData(route, to, from);
             route.sortByPrice();
             route.printRouteWithDetails();
             testDao.saveRoute(route);
+
+            c.add(Calendar.DATE, 1);
+            dateOfTrip = c.getTime();
         }
+    }
+
+    public void getPriceForDate(Date date) throws Exception {
+        GetDataPolskiBus dataPolskiBus = new GetDataPolskiBus();
+
+        String to = "";
+        String from = "";
+
+        Map<String, String> listOfDestinations = getPolskiBusDestinations.getDestinations();
+
+        Route route = new Route();
+
+        //just for printing
+        route.setFrom("Krakow");
+        from = listOfDestinations.get("krak&oacute;w");
+
+        //just for printing
+        route.setTo("Vienna");
+        to = listOfDestinations.get("wiedeń");
+
+        route.setMinPrice(10000000.0);
+        route.setDateOfTrip(date);
+
+        route = dataPolskiBus.getData(route, to, from);
+        route.sortByPrice();
+        route.printRouteWithDetails();
+        testDao.saveRoute(route);
     }
 
 

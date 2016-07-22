@@ -31,7 +31,7 @@ public class SimpleController {
         modelAndView.addObject("name", name);
 
         try {
-            polskiBusCollector.getPrice();
+//            polskiBusCollector.getPriceForDate();
         } catch (Exception e) {
             e.printStackTrace();
         }
