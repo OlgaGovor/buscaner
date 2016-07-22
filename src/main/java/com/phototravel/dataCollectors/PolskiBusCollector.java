@@ -6,9 +6,7 @@ import com.phototravel.dataCollectors.getDataOfRoute.GetDataPolskiBus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Calendar;
-import java.util.Date;
-import java.util.Map;
+import java.util.*;
 
 @Service
 public class PolskiBusCollector {
@@ -19,8 +17,8 @@ public class PolskiBusCollector {
     @Autowired
     TestDao testDao;
 
-    public void getPriceForPeriod(String from, String to, Date date1, Date date2) throws Exception {
-        GetDataPolskiBus dataPolskiBus = new GetDataPolskiBus();
+    public List<Route> getPriceForPeriod(Route route, Date date1, Date date2) throws Exception {
+        List<Route> routeList = new ArrayList<>();
 
         //to include in search date2
         Calendar c = Calendar.getInstance();
@@ -31,45 +29,57 @@ public class PolskiBusCollector {
         Date dateOfTrip = date1;
         c.setTime(dateOfTrip);
 
-        Map<String, String> listOfDestinations = getPolskiBusDestinations.getDestinations();
-
         while(dateOfTrip.before(date2)){
 
             //check in DB and print
             //if updated date more than 2 days ago send request
-
-            getPriceForDate(from, to, dateOfTrip);
+//            Route route = new Route();
+//            route.setFrom(from);
+//            route.setTo(to);
+//            route.setDateOfTrip(dateOfTrip);
+//            Date d = testDao.getUpdateDateForRoute(route);
+//            if (d > two_days_ago)
+            Route newRoute = new Route();
+            newRoute.setFrom(route.getFrom());
+            newRoute.setTo(route.getTo());
+            newRoute.setMinPrice(route.getMinPrice());
+            newRoute.setDateOfTrip(dateOfTrip);
+            routeList.add(getPriceForDate(newRoute));
+//            else
+//            use old data
 
             c.add(Calendar.DATE, 1);
             dateOfTrip = c.getTime();
         }
+
+        return routeList;
     }
 
-    public void getPriceForDate(String from, String to, Date date) throws Exception {
+    public Route getPriceForDate(Route route) throws Exception {
+
         GetDataPolskiBus dataPolskiBus = new GetDataPolskiBus();
 
         Map<String, String> listOfDestinations = getPolskiBusDestinations.getDestinations();
 
-        Route route = new Route();
+//        Route route = new Route();
 
         //just for printing
-        route.setFrom(from);
-        //get destination for FROM for current company
-        from = listOfDestinations.get("krak&oacute;w");
+//        route.setFrom(from);
+        //get destination for FROM for current company using route.getFrom()
+        String from = listOfDestinations.get("krak&oacute;w");
 
         //just for printing
-        route.setTo(to);
-        //get destination for TO for current company
-        to = listOfDestinations.get("wiedeń");
-
-        route.setMinPrice(10000000.0);
-        route.setDateOfTrip(date);
-        route.setLastUpdateDate(new Date());
+//        route.setTo(to);
+        //get destination for TO for current company using route.getTo()
+        String to = listOfDestinations.get("wiedeń");
 
         route = dataPolskiBus.getData(route, to, from);
+        route.setLastUpdateDate(new Date());
+
         route.sortByPrice();
-        route.printRouteWithDetails();
         testDao.saveRoute(route);
+
+        return route;
     }
 
 

@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -32,7 +31,8 @@ public class SimpleController {
         modelAndView.addObject("name", name);
 
         try {
-            polskiBusCollector.getPriceForDate("","", new Date());
+            Route r = new Route();
+            polskiBusCollector.getPriceForDate(r);
         } catch (Exception e) {
             e.printStackTrace();
         }

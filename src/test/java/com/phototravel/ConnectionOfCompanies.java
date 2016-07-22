@@ -1,9 +1,9 @@
 package com.phototravel;
 
+import com.phototravel.dataCollectors.PolskiBusCollector;
 import com.phototravel.dataCollectors.Route;
 import com.phototravel.dataCollectors.destinations.PolskiBusDestinationsGetter;
 import com.phototravel.dataCollectors.getDataOfRoute.GetDataLuxexpress;
-import com.phototravel.dataCollectors.getDataOfRoute.GetDataPolskiBus;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,9 +12,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Date;
-import java.util.Map;
 
 /**
  * Created by Olga_Govor on 7/8/2016.
@@ -27,59 +25,34 @@ public class ConnectionOfCompanies {
     @Autowired
     PolskiBusDestinationsGetter getPolskiBusDestinations;
 
+    @Autowired
+    PolskiBusCollector polskiBusCollector;
+
     @Test
-    public void getPrice() throws Exception {
-        GetDataPolskiBus dataPolskiBus = new GetDataPolskiBus();
-        GetDataLuxexpress dataLuxexpress = new GetDataLuxexpress();
+    public void getPriceForDate() throws Exception {
 
-        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-        Calendar c = Calendar.getInstance();
-        c.setTime(new Date()); // Now use today date.
+        String d = "13/08/2016";
+        String from = "Krakow";
+        String to = "Vienna";
 
-        String to = "";
-        String from = "";
+        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+        Date date = formatter.parse(d);
 
+        Route route = new Route();
+        route.setFrom(from);
+        route.setTo(to);
+        route.setMinPrice(10000000.0);
+        route.setDateOfTrip(date);
+//        get companies that run between from and to
+//        foreach company {
+//            get routedeatils
+           route = polskiBusCollector.getPriceForDate(route);
 
-        Map<String, String> listOfDestinations = getPolskiBusDestinations.getDestinations();
+        GetDataLuxexpress getDataLuxexpress = new GetDataLuxexpress();
+        route = getDataLuxexpress.getData(route, "krakow", "vienna-stadion-center");
+//        }
 
-//        Get destinations from list
-//        to = listOfDestinations.get(route.getTo());
-//        from = listOfDestinations.get(route.getFrom());
-
-
-        c.add(Calendar.DATE, 3); //start from today+10days
-        for(int i=0; i<10 ; i++){
-            //new date new route
-            Route route = new Route();
-            route.setFrom("Krakow");
-            route.setTo("Vienna");
-            route.setMinPrice(10000000.0);
-
-
-            c.add(Calendar.DATE, 1); // Adding 1 day
-            String d = sdf.format(c.getTime());
-            Date date = sdf.parse(d);
-            route.setDateOfTrip(date);
-
-            to = listOfDestinations.get("wiedeń");
-            from = listOfDestinations.get("krak&oacute;w");
-            route = dataPolskiBus.getData(route, to, from);
-
-            to = "krakow";
-            from = "vienna-stadion-center";
-            route = dataLuxexpress.getData(route, to, from);
-
-            System.out.println("BY DEPARTURE");
-            route.sortByDeparture();
-            route.printRouteWithDetails();
-
-            System.out.println("BY PRICE");
-            route.sortByPrice();
-            route.printRouteWithDetails();
-        }
-
-
-
+        route.printRouteWithDetails();
     }
 
 }
