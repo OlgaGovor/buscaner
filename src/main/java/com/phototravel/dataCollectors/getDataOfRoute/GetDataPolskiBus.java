@@ -14,7 +14,7 @@ import java.text.SimpleDateFormat;
 /**
  * Created by Olga_Govor on 7/20/2016.
  */
-public class GetDataPolskiBus extends BaseGetData {
+public class GetDataPolskiBus extends GetData {
 
     private static final String CONTENTTYPE = "application/json";
     private static final String PATHBASE = "https://booking.polskibus.com";

@@ -1,7 +1,6 @@
 package com.phototravel;
 
-import com.phototravel.dataCollectors.LuxexpressCollector;
-import com.phototravel.dataCollectors.PolskiBusCollector;
+import com.phototravel.dataCollectors.AllCompaniesCollector;
 import com.phototravel.dataCollectors.Route;
 import com.phototravel.dataCollectors.destinations.PolskiBusDestinationsGetter;
 import org.junit.Test;
@@ -13,6 +12,7 @@ import org.springframework.test.context.web.WebAppConfiguration;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by Olga_Govor on 7/8/2016.
@@ -26,10 +26,7 @@ public class ConnectionOfCompanies {
     PolskiBusDestinationsGetter getPolskiBusDestinations;
 
     @Autowired
-    PolskiBusCollector polskiBusCollector;
-
-    @Autowired
-    LuxexpressCollector luxexpressCollector;
+    AllCompaniesCollector allCompaniesCollector;
 
     @Test
     public void getPriceForDate() throws Exception {
@@ -46,15 +43,30 @@ public class ConnectionOfCompanies {
         route.setTo(to);
         route.setMinPrice(10000000.0);
         route.setDateOfTrip(date);
-//      get companies that run between from and to
-//      foreach company {
+        route = allCompaniesCollector.getPriceForDate(route);
 
-//         get routedeatils
-           route = polskiBusCollector.getPriceForDate(route);
-           route = luxexpressCollector.getPriceForDate(route);
-
-//      }
         route.printRouteWithDetails();
+    }
+
+    @Test
+    public void getPriceForPeriod() throws Exception {
+
+        String d1 = "17/08/2016";
+        String d2 = "27/08/2016";
+        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+        Date date1 = formatter.parse(d1);
+        Date date2 = formatter.parse(d2);
+
+        Route route = new Route();
+        route.setFrom("Krakow");
+        route.setTo("Vienna");
+        route.setMinPrice(100000000.0);
+
+
+        List<Route> routeList = allCompaniesCollector.getPriceForPeriod(route, date1, date2);
+        for (Route r: routeList) {
+            r.printRouteWithDetails();
+        }
     }
 
 

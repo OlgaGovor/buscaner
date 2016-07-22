@@ -1,50 +1,66 @@
 package com.phototravel;
 
+import com.phototravel.dataCollectors.LuxexpressCollector;
 import com.phototravel.dataCollectors.Route;
-import com.phototravel.dataCollectors.getDataOfRoute.GetDataLuxexpress;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.SpringApplicationConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.web.WebAppConfiguration;
 
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by Olga_Govor on 6/29/2016.
  */
+@RunWith(SpringJUnit4ClassRunner.class)
+@SpringApplicationConfiguration(classes = BuscanerApplication.class)
+@WebAppConfiguration
 public class LuxTests {
 
+    @Autowired
+    LuxexpressCollector luxexpressCollector;
+
     @Test
-    public void getPrice() throws Exception {
-//        BaseSendRequest sendRest = new BaseSendRequest();
-        GetDataLuxexpress dataLuxexpress = new GetDataLuxexpress();
+    public void getPriceForDateAndDirection() throws Exception {
 
-        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-        Calendar c = Calendar.getInstance();
-        c.setTime(new Date()); // Now use today date.
+        String d = "20/08/2016";
+        String from = "Krakow";
+        String to = "Vienna";
 
-        for(int i=0; i<10 ; i++){
+        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+        Date date = formatter.parse(d);
 
-            Route route = new Route();
+        Route route = new Route();
+        route.setFrom(from);
+        route.setTo(to);
+        route.setMinPrice(10000000.0);
+        route.setDateOfTrip(date);
 
-            String from ="budapest-nepliget-metro-station";
-            //only for printing
-            route.setFrom("budapest");
+        route = luxexpressCollector.getPriceForDate(route);
 
-            String to ="krakow";
-            //only for printing
-            route.setTo("krakow");
+        route.printRouteWithDetails();
 
-            route.setMinPrice(10000000.0);
+    }
 
-            c.add(Calendar.DATE, 1); // Adding 5 days
-            String d = sdf.format(c.getTime());
-            SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
-            Date date = formatter.parse(d);
-            route.setDateOfTrip(date);
+    @Test
+    public void getPriceForPeriodAndDirections() throws Exception {
+        String d1 = "13/08/2016";
+        String d2 = "17/08/2016";
+        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+        Date date1 = formatter.parse(d1);
+        Date date2 = formatter.parse(d2);
 
-            route = dataLuxexpress.getData(route, to, from);
-            route.sortByPrice();
-            route.printRouteWithDetails();
+        Route route = new Route();
+        route.setFrom("Krakow");
+        route.setTo("Vienna");
+        route.setMinPrice(10000000000.0);
+        List<Route> routeList = luxexpressCollector.getPriceForPeriod(route, date1, date2);
+        for (Route r: routeList) {
+            r.printRouteWithDetails();
         }
     }
 

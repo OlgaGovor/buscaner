@@ -1,7 +1,7 @@
 package com.phototravel.dataCollectors;
 
 import com.phototravel.dao.TestDao;
-import com.phototravel.dataCollectors.getDataOfRoute.BaseGetData;
+import com.phototravel.dataCollectors.getDataOfRoute.GetData;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -62,12 +62,11 @@ public class BaseCollector {
         String to = route.getTo();
         String from = route.getFrom();
 
-        BaseGetData baseGetData = new BaseGetData();
+        GetData getData = new GetData();
 
-        route = baseGetData.getData(route, to, from);
+        route = getData.getData(route, to, from);
         route.setLastUpdateDate(new Date());
 
-        route.sortByPrice();
         testDao.saveRoute(route);
 
         return route;
