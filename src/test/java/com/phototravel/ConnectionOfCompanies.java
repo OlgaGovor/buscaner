@@ -38,11 +38,7 @@ public class ConnectionOfCompanies {
         SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
         Date date = formatter.parse(d);
 
-        Route route = new Route();
-        route.setFrom(from);
-        route.setTo(to);
-        route.setMinPrice(10000000.0);
-        route.setDateOfTrip(date);
+        Route route = new Route(from, to, date);
         route = allCompaniesCollector.getPriceForDate(route);
 
         route.printRouteWithDetails();
@@ -52,16 +48,15 @@ public class ConnectionOfCompanies {
     public void getPriceForPeriod() throws Exception {
 
         String d1 = "17/08/2016";
-        String d2 = "27/08/2016";
+        String d2 = "19/08/2016";
+        String from = "Krakow";
+        String to = "Vienna";
+
         SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
         Date date1 = formatter.parse(d1);
         Date date2 = formatter.parse(d2);
 
-        Route route = new Route();
-        route.setFrom("Krakow");
-        route.setTo("Vienna");
-        route.setMinPrice(100000000.0);
-
+        Route route = new Route(from, to);
 
         List<Route> routeList = allCompaniesCollector.getPriceForPeriod(route, date1, date2);
         for (Route r: routeList) {

@@ -34,15 +34,15 @@ public class PolskiTest {
     @Test
     public void getPriceForDateAndDirections() throws Exception {
         String d = "13/08/2016";
+        String from = "Krakow";
+        String to = "Vienna";
+
         SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
         Date date = formatter.parse(d);
 
-        Route route = new Route();
-        route.setFrom("Krakow");
-        route.setTo("Vienna");
-        route.setMinPrice(10000000000.0);
-        route.setDateOfTrip(date);
+        Route route = new Route(from, to, date);
         route = polskiBusCollector.getPriceForDate(route);
+
         route.printRouteWithDetails();
     }
 
@@ -50,14 +50,14 @@ public class PolskiTest {
     public void getPriceForPeriodAndDirections() throws Exception {
         String d1 = "13/08/2016";
         String d2 = "17/08/2016";
+        String from = "Krakow";
+        String to = "Vienna";
+
         SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
         Date date1 = formatter.parse(d1);
         Date date2 = formatter.parse(d2);
 
-        Route route = new Route();
-        route.setFrom("Krakow");
-        route.setTo("Vienna");
-        route.setMinPrice(10000000000.0);
+        Route route = new Route(from, to);
         List<Route> routeList = polskiBusCollector.getPriceForPeriod(route, date1, date2);
         for (Route r: routeList) {
             r.printRouteWithDetails();

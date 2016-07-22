@@ -17,6 +17,24 @@ public class Route {
     private Date lastUpdateDate;
     private List<RouteDetails> details;
 
+    public Route() {
+        this.minPrice = 100000000.0;
+    }
+
+
+    public Route(String to, String from) {
+        this.to = to;
+        this.from = from;
+        this.minPrice = 100000000.0;
+    }
+
+    public Route(String to, String from, Date date) {
+        this.to = to;
+        this.from = from;
+        this.dateOfTrip = date;
+        this.minPrice = 100000000.0;
+    }
+
 
     public List<RouteDetails> getDetails() {
         return details;
