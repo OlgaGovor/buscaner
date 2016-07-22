@@ -34,7 +34,7 @@ public class ConnectionOfCompanies {
     @Test
     public void getPriceForDate() throws Exception {
 
-        String d = "13/08/2016";
+        String d = "20/08/2016";
         String from = "Krakow";
         String to = "Vienna";
 

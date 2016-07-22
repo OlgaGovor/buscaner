@@ -9,51 +9,13 @@ import org.springframework.stereotype.Service;
 import java.util.*;
 
 @Service
-public class PolskiBusCollector {
+public class PolskiBusCollector extends BaseCollector {
 
     @Autowired
     PolskiBusDestinationsGetter getPolskiBusDestinations;
 
     @Autowired
     TestDao testDao;
-
-    public List<Route> getPriceForPeriod(Route route, Date date1, Date date2) throws Exception {
-        List<Route> routeList = new ArrayList<>();
-
-        //to include in search date2
-        Calendar c = Calendar.getInstance();
-        c.setTime(date2);
-        c.add(Calendar.DATE, 1);
-        date2 = c.getTime();
-
-        Date dateOfTrip = date1;
-        c.setTime(dateOfTrip);
-
-        while(dateOfTrip.before(date2)){
-
-            //check in DB and print
-            //if updated date more than 2 days ago send request
-//            Route route = new Route();
-//            route.setFrom(from);
-//            route.setTo(to);
-//            route.setDateOfTrip(dateOfTrip);
-//            Date d = testDao.getUpdateDateForRoute(route);
-//            if (d > two_days_ago)
-            Route newRoute = new Route();
-            newRoute.setFrom(route.getFrom());
-            newRoute.setTo(route.getTo());
-            newRoute.setMinPrice(route.getMinPrice());
-            newRoute.setDateOfTrip(dateOfTrip);
-            routeList.add(getPriceForDate(newRoute));
-//            else
-//            use old data
-
-            c.add(Calendar.DATE, 1);
-            dateOfTrip = c.getTime();
-        }
-
-        return routeList;
-    }
 
     public Route getPriceForDate(Route route) throws Exception {
 
