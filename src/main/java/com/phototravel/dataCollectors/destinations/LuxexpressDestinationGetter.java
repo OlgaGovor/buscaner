@@ -1,15 +1,16 @@
 package com.phototravel.dataCollectors.destinations;
 
-import com.phototravel.RequestSender;
-import org.htmlcleaner.CleanerProperties;
-import org.htmlcleaner.HtmlCleaner;
-import org.htmlcleaner.TagNode;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.phototravel.dataCollectors.outRequests.SendRequestLuxexpress;
+import com.sun.jersey.api.client.ClientResponse;
+import org.json.JSONException;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 import org.springframework.stereotype.Service;
-import org.w3c.dom.NodeList;
 
 import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.xpath.*;
+import javax.xml.xpath.XPathExpressionException;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -19,65 +20,68 @@ import java.util.Map;
 @Service
 public class LuxexpressDestinationGetter {
 
-    @Autowired
-    RequestSender requestSender;
 //get json with all bus stops
     //StopId
     //StopName
     //Slug  - key for request
     private static final String PATH = "http://ticket.luxexpress.eu/pl/Stops/GetAllBusStops";
 
-    public Map<String, String> getDestinations() throws ParserConfigurationException, XPathExpressionException {
-        String responseStr = "";
+    private static final String CONTENTTYPE = "application/json";
 
+    public Map<String, String> getDestinations() throws ParserConfigurationException, XPathExpressionException, ParseException, JSONException {
 
-     /*   Client client = Client.create();
-        WebResource webResource = client.resource(PATH);
+        SendRequestLuxexpress sendRequestLuxexpress = new SendRequestLuxexpress();
 
-
-        ClientResponse response = webResource
-                .get(ClientResponse.class);
-
-
-        if (response.getClientResponseStatus() == ClientResponse.Status.OK) {
-            responseStr = response.getEntity(String.class);
-        }*/
-
-        responseStr = requestSender.excutePost(PATH, "");
+        ClientResponse response = sendRequestLuxexpress.sendGetRequest(sendRequestLuxexpress.createWebResource(PATH), CONTENTTYPE);
+        String responseStr = sendRequestLuxexpress.getResponseString(response);
 
 
         Map <String, String> listOfDestinations = new LinkedHashMap<String, String>();
+//
+//        TagNode tagNode = new HtmlCleaner().clean(responseStr);
+//
+//        org.w3c.dom.Document doc;
+//        doc = new org.htmlcleaner.DomSerializer(new CleanerProperties()).createDOM(tagNode);
+//
+//        XPath xpath = XPathFactory.newInstance().newXPath();
+//
+//        String key="";
+//        try {
+//            //create XPathExpression object
+//            XPathExpression expr =
+//                    xpath.compile("//pre");
+//            //evaluate expression result on XML document
+//            NodeList nodes = (NodeList) expr.evaluate(doc, XPathConstants.NODESET);
+//            for (int i = 1; i < nodes.getLength(); i++) {
+//                key =  nodes.item(i).getFirstChild().getNodeValue();
+//            }
+//        } catch (XPathExpressionException e) {
+//            e.printStackTrace();
+//        }
 
-        TagNode tagNode = new HtmlCleaner().clean(responseStr);
+        JSONParser parser = new JSONParser();
 
-        org.w3c.dom.Document doc;
-        doc = new org.htmlcleaner.DomSerializer(new CleanerProperties()).createDOM(tagNode);
+        Object obj = null;
 
-        XPath xpath = XPathFactory.newInstance().newXPath();
+        obj = parser.parse(responseStr);
 
-        try {
-            //create XPathExpression object
-            XPathExpression expr =
-                    xpath.compile("//select[@id='PricingForm_FromCity']/option");
-            //evaluate expression result on XML document
-            NodeList nodes = (NodeList) expr.evaluate(doc, XPathConstants.NODESET);
-            for (int i = 1; i < nodes.getLength(); i++) {
-                String key =  nodes.item(i).getFirstChild().getNodeValue().toLowerCase();
-                String value = nodes.item(i).getAttributes().getNamedItem("value").getNodeValue();
-                listOfDestinations.put(key, value);
-            }
-        } catch (XPathExpressionException e) {
-            e.printStackTrace();
+
+
+        JSONArray array1 = (JSONArray)obj;
+
+
+        for(int i = 0; i < array1.size(); i++) {
+
+
+            JSONObject ob = (JSONObject) array1.get(i);
+
+            String key = ob.get("StopName").toString();
+            String value = ob.get("Slug").toString();
+            listOfDestinations.put(key, value);
+            System.out.println(key+"  "+value);
         }
-        //connections
-//        System.out.println(responseStr);
-        String connected ="";
-        XPathExpression expr2 = xpath.compile("//script");
-        NodeList nodes = (NodeList) expr2.evaluate(doc, XPathConstants.NODESET);
-        connected = nodes.item(nodes.getLength()-1).getFirstChild().getNodeValue();
-        System.out.println(connected);
 
-
+            System.out.println();
 
         return listOfDestinations;
     }

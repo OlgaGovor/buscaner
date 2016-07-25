@@ -2,6 +2,9 @@ package com.phototravel;
 
 import com.phototravel.dataCollectors.LuxexpressCollector;
 import com.phototravel.dataCollectors.Route;
+import com.phototravel.dataCollectors.destinations.LuxexpressDestinationGetter;
+import org.json.JSONException;
+import org.json.simple.parser.ParseException;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,9 +12,12 @@ import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.xpath.XPathExpressionException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Olga_Govor on 6/29/2016.
@@ -23,6 +29,9 @@ public class LuxTests {
 
     @Autowired
     LuxexpressCollector luxexpressCollector;
+
+    @Autowired
+    LuxexpressDestinationGetter luxexpressDestinationGetter;
 
     @Test
     public void getPriceForDateAndDirection() throws Exception {
@@ -59,6 +68,10 @@ public class LuxTests {
         }
     }
 
+    @Test
+    public void getDestinations() throws ParserConfigurationException, XPathExpressionException, JSONException, ParseException {
 
+        Map<String, String> listOfDestinations = luxexpressDestinationGetter.getDestinations();
+    }
 
 }
