@@ -30,4 +30,11 @@ public class Price {
     @Column(name = "last_update")
     private Date lastUpdate;
 
+    public Price(int routeId, Date departureDate, Time departureTime, double price, Date lastUpdate) {
+        this.routeId = routeId;
+        this.departureDate = departureDate;
+        this.departureTime = departureTime;
+        this.price = price;
+        this.lastUpdate = lastUpdate;
+    }
 }

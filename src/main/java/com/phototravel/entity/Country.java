@@ -15,12 +15,12 @@ public class Country {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "country_id")
-    private int cityId;
+    private int countryId;
 
     @Column(name = "country_name")
-    private String cityName;
+    private String countryName;
 
     public Country(String cityName) {
-        this.cityName = cityName;
+        this.countryName = countryName;
     }
 }
