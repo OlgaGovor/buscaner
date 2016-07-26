@@ -18,7 +18,7 @@ public class Destination {
     private int destinationId;
 
     @Column(name = "company_id")
-    private String companyId;
+    private int companyId;
 
     @Column(name = "city_id")
     private int cityId;
@@ -27,9 +27,9 @@ public class Destination {
     private String requestValue;
 
     @Column(name = "destination_name")
-    private int destinationName;
+    private String destinationName;
 
-    public Destination(String companyId, int cityId, String requestValue, int destinationName) {
+    public Destination(int companyId, int cityId, String requestValue, String destinationName) {
         this.companyId = companyId;
         this.cityId = cityId;
         this.requestValue = requestValue;
