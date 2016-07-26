@@ -29,4 +29,11 @@ public class Route {
     @Column(name = "is_active")
     private boolean active;
 
+    public Route(int fromDestinationId, int toDestinationId, int companyId, boolean active) {
+        this.fromDestinationId = fromDestinationId;
+        this.toDestinationId = toDestinationId;
+        this.companyId = companyId;
+        this.active = active;
+    }
+
 }
