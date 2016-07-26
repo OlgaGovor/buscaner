@@ -1,5 +1,6 @@
 package com.phototravel;
 
+import com.phototravel.services.CityService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.SpringApplicationConfiguration;
@@ -13,6 +14,12 @@ public class BuscanerApplicationTests {
 
 	@Test
 	public void contextLoads() {
+	}
+
+	@Test
+	public void cityServiceTest(){
+		CityService cityService = new CityService();
+		cityService.createCity("Krakow",1);
 	}
 
 }
