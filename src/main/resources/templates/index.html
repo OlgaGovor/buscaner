@@ -1,0 +1,33 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>BusScaner</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+</head>
+<body>
+
+
+<form action="#" th:action="@{/index}" th:object="${requestForm}" method="post">
+
+    <p>
+        <select th:field="*{fromCity}">
+            <option th:each="city: ${cities}" th:value="${city.cityId}" th:text="${city.cityName}"></option>
+        </select>
+    </p>
+
+
+    <p>
+        <select th:field="*{toCity}">
+            <option th:each="city: ${cities}" th:value="${city.cityId}" th:text="${city.cityName}"></option>
+        </select>
+    </p>
+
+    <p><input type="text" th:field="*{departureDate}"/></p>
+
+    <p><input type="submit" value="Submit"/> <input type="reset" value="Reset"/></p>
+</form>
+
+<div th:if="${minPrice != null}" th:text="${minPrice}">no price</div>
+
+</body>
+</html>

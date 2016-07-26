@@ -9,4 +9,6 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 public interface DestinationRepositoty extends CrudRepository<Destination, Long> {
+
+
 }
