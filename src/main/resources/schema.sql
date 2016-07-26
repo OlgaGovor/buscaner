@@ -1,17 +1,17 @@
-CREATE TABLE company (
+CREATE TABLE IF NOT EXISTS company (
   company_id   INT          NOT NULL AUTO_INCREMENT,
   company_name VARCHAR(100) NOT NULL,
   company_url  VARCHAR(200),
   PRIMARY KEY (company_id)
 );
 
-CREATE TABLE country (
+CREATE TABLE IF NOT EXISTS country (
   country_id   INT          NOT NULL AUTO_INCREMENT,
   country_name VARCHAR(100) NOT NULL,
   PRIMARY KEY (country_id)
 );
 
-CREATE TABLE city (
+CREATE TABLE IF NOT EXISTS city (
   city_id    INT          NOT NULL AUTO_INCREMENT,
   city_name  VARCHAR(100) NOT NULL,
   country_id INT          NOT NULL,
@@ -20,7 +20,7 @@ CREATE TABLE city (
 );
 
 
-CREATE TABLE destination (
+CREATE TABLE IF NOT EXISTS destination (
   destination_id   INT NOT NULL AUTO_INCREMENT,
   company_id       INT NOT NULL,
   city_id          INT NOT NULL,
@@ -31,7 +31,7 @@ CREATE TABLE destination (
   FOREIGN KEY (city_id) REFERENCES city (city_id)
 );
 
-CREATE TABLE route (
+CREATE TABLE IF NOT EXISTS route (
   route_id            INT NOT NULL AUTO_INCREMENT,
   from_destination_id INT NOT NULL,
   to_destination_id   INT NOT NULL,
@@ -44,7 +44,7 @@ CREATE TABLE route (
 );
 
 
-CREATE TABLE price (
+CREATE TABLE IF NOT EXISTS price (
   route_id       INT      NOT NULL AUTO_INCREMENT,
   departure_date DATE     NOT NULL,
   departure_time TIME     NOT NULL,
