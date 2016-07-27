@@ -3,6 +3,8 @@ package com.phototravel;
 import com.phototravel.dataCollectors.PolskiBusCollector;
 import com.phototravel.dataCollectors.Route;
 import com.phototravel.dataCollectors.destinations.PolskiBusDestinationsGetter;
+import com.phototravel.entity.City;
+import com.phototravel.repository.CountryRepository;
 import com.phototravel.services.CityService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -35,6 +37,9 @@ public class PolskiTest {
 
     @Autowired
     CityService cityService;
+
+    @Autowired
+    CountryRepository countryRepository;
 
     @Test
     public void getPriceForDateAndDirections() throws Exception {
@@ -80,5 +85,22 @@ public class PolskiTest {
     public void saveCitiesToDb() throws UnsupportedEncodingException, XPathExpressionException, ParserConfigurationException {
         List<String> listOfCities = getPolskiBusDestinations.getCities();
         cityService.saveCitiesToDb(listOfCities);
+
+    }
+
+    @Test
+    public void printCitiesFromDb(){
+        for (String c:cityService.getAllCities()){
+            System.out.println(c);
+        }
+    }
+
+    @Test
+    public void printCitiesWithCountryFromDb(){
+        for (City c:cityService.getAllCitiesWithCountriesIds())
+        {
+            String country = countryRepository.findCountryById(c.getCountryId());
+            System.out.println(c.getCityName()+"  "+country);
+        }
     }
 }

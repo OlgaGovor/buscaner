@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -34,7 +35,27 @@ public class CityService {
         }
     }
 
+    public List<String> getAllCities(){
 
+        List<String> listOfCityNames = new ArrayList<String>();
+
+        Iterable<City> cities =  cityRepository.findAll();
+        for (City city:cities) {
+            listOfCityNames.add(city.getCityName());
+        }
+        return listOfCityNames;
+    }
+
+    public List<City> getAllCitiesWithCountriesIds(){
+
+        List<City> listOfCities = new ArrayList<City>();
+
+        Iterable<City> cities =  cityRepository.findAll();
+        for (City city:cities) {
+            listOfCities.add(city);
+        }
+        return listOfCities;
+    }
 
 
 }
