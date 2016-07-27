@@ -3,6 +3,7 @@ package com.phototravel;
 import com.phototravel.dataCollectors.PolskiBusCollector;
 import com.phototravel.dataCollectors.Route;
 import com.phototravel.dataCollectors.destinations.PolskiBusDestinationsGetter;
+import com.phototravel.services.CityService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +13,7 @@ import org.springframework.test.context.web.WebAppConfiguration;
 
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.xpath.XPathExpressionException;
+import java.io.UnsupportedEncodingException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -30,6 +32,9 @@ public class PolskiTest {
 
     @Autowired
     PolskiBusCollector polskiBusCollector;
+
+    @Autowired
+    CityService cityService;
 
     @Test
     public void getPriceForDateAndDirections() throws Exception {
@@ -65,8 +70,15 @@ public class PolskiTest {
     }
 
     @Test
-    public void getDestinations() throws ParserConfigurationException, XPathExpressionException {
+    public void getDestinations() throws ParserConfigurationException, XPathExpressionException, UnsupportedEncodingException {
 
         Map<String, String> listOfDestinations = getPolskiBusDestinations.getDestinations();
+
+    }
+
+    @Test
+    public void saveCitiesToDb() throws UnsupportedEncodingException, XPathExpressionException, ParserConfigurationException {
+        List<String> listOfCities = getPolskiBusDestinations.getCities();
+        cityService.saveCitiesToDb(listOfCities);
     }
 }
