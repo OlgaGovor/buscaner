@@ -15,19 +15,16 @@ import java.util.Date;
 public interface PriceRepository extends CrudRepository<Price, Long> {
 
     @Query(value = "select min(price)\n" +
-            "from destination df\n" +
-            "  join destination dt on dt.company_id = df.company_id\n" +
-            "  join route r on r.from_destination_id = df.destination_id\n" +
-            "    and r.to_destination_id = dt.destination_id\n" +
-            "    and r.company_id = dt.company_id\n" +
+            "from route r " +
             "  join price p on p.route_id = r.route_id\n" +
-
-            " where df.city_id= :fromCity " +
-            " and dt.city_id= :toCity " +
-            " and p.departure_date = :departureDate"
+            " where r.from_city_id= :fromCity " +
+            " and r.to_city_id= :toCity " +
+            " and p.departure_date =date(:departureDate)"
             , nativeQuery = true
     )
-    double findChipestBusByRequestForm(@Param("fromCity") int fromCityId,
+    Double findChipestBusByRequestForm(@Param("fromCity") int fromCityId,
                                        @Param("toCity") int toCityId,
                                        @Param("departureDate") Date departureDate);
+
+
 }

@@ -9,25 +9,32 @@
 
 <form action="#" th:action="@{/index}" th:object="${requestForm}" method="post">
 
-    <p>
+    <p><label>from</label>
         <select th:field="*{fromCity}">
             <option th:each="city: ${cities}" th:value="${city.cityId}" th:text="${city.cityName}"></option>
         </select>
     </p>
 
 
-    <p>
+    <p><label>to</label>
         <select th:field="*{toCity}">
             <option th:each="city: ${cities}" th:value="${city.cityId}" th:text="${city.cityName}"></option>
         </select>
     </p>
 
-    <p><input type="text" th:field="*{departureDate}"/></p>
+    <p><label>dd-mm-yyyy</label><input type="text" th:field="*{departureDate}"/></p>
 
-    <p><input type="submit" value="Submit"/> <input type="reset" value="Reset"/></p>
+    <p><input type="submit" value="Scan"/> <input type="reset" value="Reset"/></p>
 </form>
 
-<div th:if="${minPrice != null}" th:text="${minPrice}">no price</div>
+<div th:if="${minPrice != null}">
+    price: <label th:text="${minPrice}"></label>
+</div>
 
+<div th:if=" ${cities !=null}">
+    <p>available cities:</p>
+
+    <p th:each="city: ${cities}" th:text="${city.cityId + ' -  ' + city.cityName}"></p>
+</div>
 </body>
 </html>
