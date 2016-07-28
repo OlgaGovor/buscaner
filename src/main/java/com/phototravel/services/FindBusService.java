@@ -1,9 +1,12 @@
 package com.phototravel.services;
 
 import com.phototravel.controllers.entity.RequestForm;
+import com.phototravel.entity.Price;
 import com.phototravel.repository.PriceRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 /**
  * Created by PBezdienezhnykh on 026 26.7.2016.
@@ -15,17 +18,12 @@ public class FindBusService {
     PriceRepository priceRepository;
 
 
-    public Double findBus(RequestForm requestForm) {
-        System.out.println("findChipestBusByRequestForm="
-                + requestForm.getFromCity() + " "
-                + requestForm.getToCity() + " "
-                + requestForm.getDepartureAsDate());
-
-        //priceRepository.test(requestForm.getDepartureAsDate());
-
-        Double price = priceRepository.findChipestBusByRequestForm(requestForm.getFromCity(), requestForm.getToCity(),
-                requestForm.getDepartureAsDate());
-        return price;
+    public List<Price> findBus(RequestForm requestForm) {
+        System.out.println("findBus=" + requestForm);
+        System.out.println("date=" + requestForm.getDepartureEndAsDate());
+        List<Price> prices = priceRepository.findChipestBusByRequestForm(requestForm.getFromCity(), requestForm.getToCity(),
+                requestForm.getDepartureAsDate(), requestForm.getDepartureEndAsDate());
+        return prices;
 
     }
 

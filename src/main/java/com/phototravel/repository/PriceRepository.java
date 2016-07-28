@@ -7,6 +7,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by PBezdienezhnykh on 026 26.7.2016.
@@ -14,17 +15,21 @@ import java.util.Date;
 @Repository
 public interface PriceRepository extends CrudRepository<Price, Long> {
 
-    @Query(value = "select min(price)\n" +
+    @Query(value = "select p.route_id, departure_date, departure_time, price, last_update\n" +
             "from route r " +
             "  join price p on p.route_id = r.route_id\n" +
             " where r.from_city_id= :fromCity " +
             " and r.to_city_id= :toCity " +
-            " and p.departure_date =date(:departureDate)"
+            " and p.departure_date >=date(:departureDate) " +
+            " and p.departure_date <=date(:departureDateEnd)"
             , nativeQuery = true
     )
-    Double findChipestBusByRequestForm(@Param("fromCity") int fromCityId,
+    List<Price> findChipestBusByRequestForm(@Param("fromCity") int fromCityId,
                                        @Param("toCity") int toCityId,
-                                       @Param("departureDate") Date departureDate);
+                                            @Param("departureDate") Date departureDate,
+                                            @Param("departureDateEnd") Date departureDateEnd);
+
+
 
 
 }

@@ -1,8 +1,7 @@
 package com.phototravel.controllers;
 
-import com.phototravel.dao.TestDao;
 import com.phototravel.dataCollectors.PolskiBusCollector;
-import com.phototravel.dataCollectors.Route;
+import com.phototravel.services.CacheManagerService;
 import com.phototravel.services.CityService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -20,7 +19,7 @@ public class SimpleController {
     PolskiBusCollector polskiBusCollector;
 
     @Autowired
-    TestDao testDao;
+    CacheManagerService cacheManagerService;
 
     @Autowired
     CityService cityService;
@@ -32,17 +31,8 @@ public class SimpleController {
         //    model.addAttribute("name", name);
         modelAndView.addObject("name", name);
 
-        cityService.createCity(name, 1);
-        try {
-            Route r = new Route();
-            //  polskiBusCollector.getPriceForDate(r);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        cacheManagerService.test();
 
-        //List<Route> routes = testDao.readAllRoutes();
-
-        //modelAndView.addObject("routes", routes);
 
         return modelAndView;
     }

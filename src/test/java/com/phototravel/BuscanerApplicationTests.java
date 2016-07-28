@@ -1,5 +1,6 @@
 package com.phototravel;
 
+import com.phototravel.entity.Price;
 import com.phototravel.repository.PriceRepository;
 import com.phototravel.services.CityService;
 import com.phototravel.services.CountryService;
@@ -15,6 +16,7 @@ import java.sql.Time;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringApplicationConfiguration(classes = BuscanerApplication.class)
@@ -57,9 +59,8 @@ public class BuscanerApplicationTests {
 		int toCity = 4;
 
 
-
-		Double a = priceRepository.findChipestBusByRequestForm(fromCity, toCity, date);
-		System.out.println("Price: "+a);
+		List<Price> prices = priceRepository.findChipestBusByRequestForm(fromCity, toCity, date, date);
+		System.out.println("Price: "+prices.size());
 	}
 
 	@Autowired

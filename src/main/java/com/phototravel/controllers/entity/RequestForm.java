@@ -11,9 +11,11 @@ public class RequestForm {
 
     private int fromCity;
     private int toCity;
+    private boolean scanForPeriod;
     private String departureDate;
+    private String departureDateEnd;
 
-    private final SimpleDateFormat df = new SimpleDateFormat("dd-mm-yyyy");
+    private final SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy");
 
     public int getFromCity() {
         return fromCity;
@@ -46,7 +48,45 @@ public class RequestForm {
         return null;
     }
 
+    public Date getDepartureEndAsDate() {
+        if (departureDateEnd != null) {
+            try {
+                return df.parse(departureDateEnd);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+        }
+        return null;
+    }
+
     public void setDepartureDate(String departureDate) {
         this.departureDate = departureDate;
+    }
+
+    public boolean isScanForPeriod() {
+        return scanForPeriod;
+    }
+
+    public void setScanForPeriod(boolean scanForPeriod) {
+        this.scanForPeriod = scanForPeriod;
+    }
+
+    public String getDepartureDateEnd() {
+        return departureDateEnd;
+    }
+
+    public void setDepartureDateEnd(String departureDateEnd) {
+        this.departureDateEnd = departureDateEnd;
+    }
+
+    @Override
+    public String toString() {
+        return "RequestForm{" +
+                "fromCity=" + fromCity +
+                ", toCity=" + toCity +
+                ", scanForPeriod=" + scanForPeriod +
+                ", departureDate='" + departureDate + '\'' +
+                ", departureDateEnd='" + departureDateEnd + '\'' +
+                '}';
     }
 }

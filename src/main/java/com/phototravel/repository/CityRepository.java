@@ -1,6 +1,8 @@
 package com.phototravel.repository;
 
 import com.phototravel.entity.City;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
@@ -16,5 +18,11 @@ public interface CityRepository extends CrudRepository<City, Long> {
     )
     Integer findCityByName(@Param("cityName") String cityName);
 
+    @Override
+    @Cacheable("city")
+    Iterable<City> findAll();
 
+    @Override
+    @CacheEvict("city")
+    City save(City s);
 }
