@@ -6,6 +6,7 @@ import com.phototravel.dataCollectors.destinations.PolskiBusDestinationsGetter;
 import com.phototravel.entity.City;
 import com.phototravel.repository.CountryRepository;
 import com.phototravel.services.CityService;
+import org.json.JSONException;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -82,6 +83,7 @@ public class PolskiTest {
     }
 
     @Test
+    //one time per change
     public void saveCitiesToDb() throws UnsupportedEncodingException, XPathExpressionException, ParserConfigurationException {
         List<String> listOfCities = getPolskiBusDestinations.getCities();
         cityService.saveCitiesToDb(listOfCities);
@@ -105,8 +107,15 @@ public class PolskiTest {
     }
 
     @Test
+    //one time per week
     public void addRoutesToDbFromPolskiBus() throws UnsupportedEncodingException, XPathExpressionException, ParserConfigurationException {
         polskiBusCollector.fillDestinationsForPolskiBus();
+    }
+
+    @Test
+    //one time per month
+    public void addRouteToDbFromPolskiBus() throws UnsupportedEncodingException, XPathExpressionException, ParserConfigurationException, JSONException {
+        getPolskiBusDestinations.getConnections();
 
     }
 }

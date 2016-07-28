@@ -67,13 +67,12 @@ public class PolskiBusCollector extends BaseCollector {
                 System.out.println("1  "+cityId+"  "+entry.getValue()+"  "+entry.getKey());
                 destinationService.createDestination(1, cityId, entry.getValue(), entry.getKey());
             }
-            catch (NullPointerException e)
+            catch (Exception e)
             {
 
             };
-
         }
-
-
     }
+
+
 }
