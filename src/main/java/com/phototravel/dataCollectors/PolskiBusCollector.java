@@ -14,7 +14,6 @@ import org.springframework.stereotype.Service;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.xpath.XPathExpressionException;
 import java.io.UnsupportedEncodingException;
-import java.sql.Time;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -74,11 +73,9 @@ public class PolskiBusCollector extends BaseCollector {
         //need to refactor for Destination not for city
         Integer routeId = routeRepository.getRouteIdByCityId(fromCityId, toCityId);
 
-        //need to refactor real time
-        Time time = new Time(0);
         //save price
 
-        priceService.createPrice(routeId, route.getDateOfTrip(), time, route.getMinPrice(), route.getLastUpdateDate());
+        priceService.createPrice(routeId, route.getDateOfTrip(), route.getTimeOfTrip(), route.getMinPrice(), route.getLastUpdateDate());
 
         return route;
     }

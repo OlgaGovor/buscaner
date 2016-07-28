@@ -1,5 +1,6 @@
 package com.phototravel.dataCollectors;
 
+import java.sql.Time;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
@@ -16,6 +17,16 @@ public class Route {
     private String fromDest;
     private Double minPrice;
     private Date dateOfTrip;
+
+    public Time getTimeOfTrip() {
+        return timeOfTrip;
+    }
+
+    public void setTimeOfTrip(Time timeOfTrip) {
+        this.timeOfTrip = timeOfTrip;
+    }
+
+    private Time timeOfTrip;
     private Date lastUpdateDate;
     private List<RouteDetails> details;
 
