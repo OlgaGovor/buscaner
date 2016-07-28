@@ -12,7 +12,7 @@ import org.springframework.stereotype.Repository;
  * Created by PBezdienezhnykh on 026 26.7.2016.
  */
 @Repository
-public interface CityRepository extends CrudRepository<City, Long> {
+public interface CityRepository extends CrudRepository<City, Integer> {
     @Query(value = "select city_id from city c where c.city_name= :cityName"
             , nativeQuery = true
     )
@@ -21,6 +21,10 @@ public interface CityRepository extends CrudRepository<City, Long> {
     @Override
     @Cacheable("city")
     Iterable<City> findAll();
+
+    @Override
+    @Cacheable("city")
+    City findOne(Integer integer);
 
     @Override
     @CacheEvict("city")
