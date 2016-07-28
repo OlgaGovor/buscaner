@@ -115,7 +115,7 @@ public class PolskiTest {
     @Test
     //one time per month
     public void addRouteToDbFromPolskiBus() throws UnsupportedEncodingException, XPathExpressionException, ParserConfigurationException, JSONException {
-        getPolskiBusDestinations.getConnections();
+        getPolskiBusDestinations.getRoutesForDb();
 
     }
 }

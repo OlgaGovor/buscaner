@@ -4,7 +4,6 @@ import com.phototravel.Encoder;
 import com.phototravel.RequestSender;
 import com.phototravel.repository.CompanyRepository;
 import com.phototravel.repository.DestinationRepositoty;
-import com.phototravel.services.CityService;
 import com.phototravel.services.RouteService;
 import org.htmlcleaner.CleanerProperties;
 import org.htmlcleaner.HtmlCleaner;
@@ -31,7 +30,13 @@ public class PolskiBusDestinationsGetter {
     RequestSender requestSender;
 
     @Autowired
-    CityService cityService;
+    DestinationRepositoty destinationRepositoty;
+
+    @Autowired
+    RouteService routeService;
+
+    @Autowired
+    CompanyRepository companyRepository;
 
     private static final String PATH = "https://booking.polskibus.com/Pricing/Selections?lang=PL";
 
@@ -78,7 +83,6 @@ public class PolskiBusDestinationsGetter {
 
         responseStr = requestSender.excutePost(PATH, "");
 
-
         Map <String, String> listOfDestinations = new LinkedHashMap <String, String>();
 
         TagNode tagNode = new HtmlCleaner().clean(responseStr);
@@ -112,21 +116,9 @@ public class PolskiBusDestinationsGetter {
         return listOfDestinations;
     }
 
-    @Autowired
-    DestinationRepositoty destinationRepositoty;
-
-    @Autowired
-    RouteService routeService;
-
-    @Autowired
-    CompanyRepository companyRepository;
-
-    public void getConnections() throws ParserConfigurationException, XPathExpressionException, UnsupportedEncodingException, JSONException {
+    public void getRoutesForDb() throws ParserConfigurationException, XPathExpressionException, UnsupportedEncodingException, JSONException {
         String responseStr = "";
         responseStr = requestSender.excutePost(PATH, "");
-
-
-        Map <String, String> listOfDestinations = new LinkedHashMap <String, String>();
 
         TagNode tagNode = new HtmlCleaner().clean(responseStr);
 
@@ -135,7 +127,7 @@ public class PolskiBusDestinationsGetter {
 
         XPath xpath = XPathFactory.newInstance().newXPath();
 
-        //connections
+        //get JSON with routes from response
         System.out.println(responseStr);
         String connected ="";
         XPathExpression expr2 = xpath.compile("//script");
@@ -145,12 +137,11 @@ public class PolskiBusDestinationsGetter {
 
         JSONObject obj = new JSONObject(connected);
 
-        //get request values for PolskiBus
-        List<String> listRequestValue = destinationRepositoty.getRequestValuesByCompanyId(1);
-
-
         Integer companyId = companyRepository.findCompanyByName("PolskiBus");
+        //get request values for PolskiBus
+        List<String> listRequestValue = destinationRepositoty.getRequestValuesByCompanyId(companyId);
 
+        //for all request values create routes
         for (String fromRequestValue: listRequestValue) {
 
             Integer from_dest_id = destinationRepositoty.getDestIdByRequestValue(fromRequestValue);
@@ -165,15 +156,13 @@ public class PolskiBusDestinationsGetter {
                 Integer to_city_id = destinationRepositoty.getCityIdByRequestValue(toRequestValue);
 
                 System.out.println(from_dest_id+" "+to_dest_id+" "+ from_city_id+" "+ to_city_id+" "+ companyId);
+
                 try {
                     routeService.createRoute(from_dest_id, to_dest_id, from_city_id, to_city_id, companyId, true);
                 }
                 catch (Exception e){}
-
             }
-
-
         }
-
     }
+
 }
