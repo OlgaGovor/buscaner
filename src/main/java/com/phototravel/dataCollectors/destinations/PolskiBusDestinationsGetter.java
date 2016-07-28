@@ -2,6 +2,7 @@ package com.phototravel.dataCollectors.destinations;
 
 import com.phototravel.Encoder;
 import com.phototravel.RequestSender;
+import com.phototravel.repository.CompanyRepository;
 import com.phototravel.repository.DestinationRepositoty;
 import com.phototravel.services.CityService;
 import com.phototravel.services.RouteService;
@@ -117,6 +118,9 @@ public class PolskiBusDestinationsGetter {
     @Autowired
     RouteService routeService;
 
+    @Autowired
+    CompanyRepository companyRepository;
+
     public void getConnections() throws ParserConfigurationException, XPathExpressionException, UnsupportedEncodingException, JSONException {
         String responseStr = "";
         responseStr = requestSender.excutePost(PATH, "");
@@ -138,37 +142,14 @@ public class PolskiBusDestinationsGetter {
         NodeList nodes = (NodeList) expr2.evaluate(doc, XPathConstants.NODESET);
         connected = nodes.item(nodes.getLength()-1).getFirstChild().getNodeValue();
         connected = connected.substring(24, connected.indexOf(";")-1);
-        System.out.println(connected);
-
-//        TagNode tagNode1 = new HtmlCleaner().clean(connected);
-//        org.w3c.dom.Document doc1 = new org.htmlcleaner.DomSerializer(new CleanerProperties()).createDOM(tagNode1);
-
-//        JSONParser parser = new JSONParser();
-//        Object obj = null;
-//        obj = parser.parse(connected);
-//
-//
-//
-//        org.json.simple.JSONArray array1 = (org.json.simple.JSONArray)obj;
-//
-//
-//        for(int i = 0; i < array1.size(); i++) {
-//
-//
-//            org.json.simple.JSONObject ob = (org.json.simple.JSONObject) array1.get(i);
-//
-//            String key = ob.get("StopName").toString();
-//            String value = ob.get("Slug").toString();
-//            listOfDestinations.put(key, value);
-//            System.out.println(key+"  "+value);
-//        }
 
         JSONObject obj = new JSONObject(connected);
 
         //get request values for PolskiBus
         List<String> listRequestValue = destinationRepositoty.getRequestValuesByCompanyId(1);
 
-        Integer companyId = 1;
+
+        Integer companyId = companyRepository.findCompanyByName("PolskiBus");
 
         for (String fromRequestValue: listRequestValue) {
 
