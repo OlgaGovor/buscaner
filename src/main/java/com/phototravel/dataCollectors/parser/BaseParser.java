@@ -62,6 +62,7 @@ abstract public class BaseParser {
                 minPrice = price;
 //                route.setFromDest();
 //                route.setToDest();
+                route.setTimeOfTrip(details.getTimeDeparture());
             }
         }
         route.setDetails(routeDetailsList);

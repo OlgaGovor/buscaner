@@ -50,7 +50,7 @@ public class PolskiTest {
 
     @Test
     public void putPrice(){
-        Price price = new Price(1032, new Date(), new Time(0), 1, new Date());
+        Price price = new Price(1034, new Date(), new Time(0), 1.21, new Date());
         priceRepository.save(price);
     }
 
@@ -58,7 +58,7 @@ public class PolskiTest {
     public void getPriceForDateAndDirections() throws Exception {
         String d = "13/08/2016";
         String from = "Krakow";
-        String to = "Wieden";
+        String to = "Warszawa";
 
         SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
         Date date = formatter.parse(d);
@@ -72,9 +72,9 @@ public class PolskiTest {
     @Test
     public void getPriceForPeriodAndDirections() throws Exception {
         String d1 = "13/08/2016";
-        String d2 = "17/08/2016";
+        String d2 = "27/08/2016";
         String from = "Krakow";
-        String to = "Vienna";
+        String to = "Warszawa";
 
         SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
         Date date1 = formatter.parse(d1);
