@@ -12,7 +12,8 @@ public class PolskiBusParser extends BaseParser {
 
     @Override
     public Double parsePrice(String priceStr){
-        String newStr = priceStr.trim().substring(0,5);
+        priceStr = priceStr.trim();
+        String newStr = priceStr.substring(0,priceStr.indexOf('z'));
         String [] s = newStr.split(",");
         newStr = s[0]+"."+s[1];
         Double price = Double.parseDouble(newStr);

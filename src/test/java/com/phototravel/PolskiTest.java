@@ -54,12 +54,11 @@ public class PolskiTest {
         priceRepository.save(price);
     }
 
-
     @Test
     public void getPriceForDateAndDirections() throws Exception {
         String d = "13/08/2016";
         String from = "Krakow";
-        String to = "Wieden";
+        String to = "Warszawa";
 
         SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
         Date date = formatter.parse(d);
@@ -75,7 +74,7 @@ public class PolskiTest {
         String d1 = "13/08/2016";
         String d2 = "27/08/2016";
         String from = "Krakow";
-        String to = "Wieden";
+        String to = "Warszawa";
 
         SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
         Date date1 = formatter.parse(d1);
