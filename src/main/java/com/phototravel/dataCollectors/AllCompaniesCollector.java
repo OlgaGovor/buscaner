@@ -32,9 +32,9 @@ public class AllCompaniesCollector extends BaseCollector
 //      get companies that provided this route
 //        if (luxExpress == true)
 //        {
-//        get destination for FROM for current company using route.getFrom()
+//        get destination for FROM for current company using route.getFromCity()
         from = "krakow";
-//        get destination for TO for current company using route.getTo()
+//        get destination for TO for current company using route.getToCity()
         to = "vienna-stadion-center";
 
         route = dataLuxexpress.getData(route, to, from);
@@ -42,9 +42,9 @@ public class AllCompaniesCollector extends BaseCollector
 //        if (polskiBus == true)
 //        {
         Map<String, String> listOfDestinations = getPolskiBusDestinations.getDestinations();
-//        get destination for FROM for current company using route.getFrom()
+//        get destination for FROM for current company using route.getFromCity()
         from = listOfDestinations.get("krak&oacute;w");
-//        get destination for TO for current company using route.getTo()
+//        get destination for TO for current company using route.getToCity()
         to = listOfDestinations.get("wiedeń");
 
         route = dataPolskiBus.getData(route, to, from);

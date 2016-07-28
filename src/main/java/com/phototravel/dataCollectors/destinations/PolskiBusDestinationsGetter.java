@@ -63,26 +63,12 @@ public class PolskiBusDestinationsGetter {
             e.printStackTrace();
         }
 
-
         return listOfCities;
     }
 
 
     public Map <String, String> getDestinations() throws ParserConfigurationException, XPathExpressionException, UnsupportedEncodingException {
         String responseStr = "";
-
-
-     /*   Client client = Client.create();
-        WebResource webResource = client.resource(PATH);
-
-
-        ClientResponse response = webResource
-                .get(ClientResponse.class);
-
-
-        if (response.getClientResponseStatus() == ClientResponse.Status.OK) {
-            responseStr = response.getEntity(String.class);
-        }*/
 
         responseStr = requestSender.excutePost(PATH, "");
 
@@ -96,6 +82,7 @@ public class PolskiBusDestinationsGetter {
 
         XPath xpath = XPathFactory.newInstance().newXPath();
 
+        Encoder encoder = new Encoder();
         try {
             //create XPathExpression object
             XPathExpression expr =
@@ -106,25 +93,40 @@ public class PolskiBusDestinationsGetter {
                 String key =  nodes.item(i).getFirstChild().getNodeValue().toLowerCase();
                 String value = nodes.item(i).getAttributes().getNamedItem("value").getNodeValue();
 
-                String key2 = java.net.URLDecoder.decode(key, "UTF-8");
-                String key3 = java.net.URLDecoder.decode(key, "latin1");
+                key = encoder.encode(key);
+                key = key.substring(0,1).toUpperCase()+key.substring(1);
 
-                System.out.println(key+"  "+value+"  "+key2 +"  "+key3);
+                System.out.println(key+"  "+value);
                 listOfDestinations.put(key, value);
             }
         } catch (XPathExpressionException e) {
             e.printStackTrace();
         }
+
+        return listOfDestinations;
+    }
+
+    public void getConnections() throws ParserConfigurationException, XPathExpressionException, UnsupportedEncodingException
+    {
+        String responseStr = "";
+        responseStr = requestSender.excutePost(PATH, "");
+
+
+        Map <String, String> listOfDestinations = new LinkedHashMap <String, String>();
+
+        TagNode tagNode = new HtmlCleaner().clean(responseStr);
+
+        org.w3c.dom.Document doc;
+        doc = new org.htmlcleaner.DomSerializer(new CleanerProperties()).createDOM(tagNode);
+
+        XPath xpath = XPathFactory.newInstance().newXPath();
+
         //connections
 //        System.out.println(responseStr);
         String connected ="";
         XPathExpression expr2 = xpath.compile("//script");
         NodeList nodes = (NodeList) expr2.evaluate(doc, XPathConstants.NODESET);
         connected = nodes.item(nodes.getLength()-1).getFirstChild().getNodeValue();
-        System.out.println(connected);
-
-        return listOfDestinations;
-
-
+//        System.out.println(connected);
     }
 }

@@ -14,9 +14,13 @@ public class RouteService {
     @Autowired
     RouteRepository routeRepository;
 
-    public void createRoute(Integer fromDestId, Integer toDestId, Integer companyId, Boolean scan) {
+    public void createRoute(Integer fromDestId, Integer toDestId, Integer fromCityId, Integer toCityId, Integer companyId, Boolean scan) {
 
-        Route route = new Route(fromDestId, toDestId, companyId, scan);
+        Route route = new Route(fromDestId, toDestId, fromCityId, toCityId, companyId, scan);
         routeRepository.save(route);
+    }
+
+    public void addRoutes(){
+
     }
 }

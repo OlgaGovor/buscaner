@@ -36,14 +36,14 @@ public class BaseCollector {
             //check in DB and print
             //if updated date more than 2 days ago send request
 //            Route route = new Route();
-//            route.setFrom(from);
-//            route.setTo(to);
+//            route.setFromCity(from);
+//            route.setToCity(to);
 //            route.setDateOfTrip(dateOfTrip);
 //            Date d = testDao.getUpdateDateForRoute(route);
 //            if (d > two_days_ago)
             Route newRoute = new Route();
-            newRoute.setFrom(route.getFrom());
-            newRoute.setTo(route.getTo());
+            newRoute.setFromCity(route.getFromCity());
+            newRoute.setToCity(route.getToCity());
             newRoute.setMinPrice(route.getMinPrice());
             newRoute.setDateOfTrip(dateOfTrip);
             routeList.add(getPriceForDate(newRoute));
@@ -59,8 +59,8 @@ public class BaseCollector {
 
     public Route getPriceForDate(Route route) throws Exception {
 
-        String to = route.getTo();
-        String from = route.getFrom();
+        String to = route.getToCity();
+        String from = route.getFromCity();
 
         GetData getData = new GetData();
 

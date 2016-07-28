@@ -23,8 +23,8 @@ public class TestDao {
 
     public void saveRoute(Route route){
         Object[] args = new Object[5];
-        args[0] = route.getTo();
-        args[1] = route.getFrom();
+        args[0] = route.getToCity();
+        args[1] = route.getFromCity();
         args[2] = route.getMinPrice();
         args[3] = route.getDateOfTrip();
         args[4] = route.getLastUpdateDate();
@@ -34,16 +34,16 @@ public class TestDao {
 
     public Date getUpdateDateForRoute(Route route){
         Object[] args = new Object[3];
-        args[0] = route.getFrom();
-        args[1] = route.getTo();
+        args[0] = route.getFromCity();
+        args[1] = route.getToCity();
         args[2] = route.getDateOfTrip();
 
         List<Route> routeList = jdbcTemplate.query(SELECT_ROUTE, args, new RowMapper<Route>() {
             @Override
             public Route mapRow(ResultSet resultSet, int i) throws SQLException {
                 Route route = new Route();
-                route.setTo(resultSet.getString(1));
-                route.setFrom(resultSet.getString(2));
+                route.setToCity(resultSet.getString(1));
+                route.setFromCity(resultSet.getString(2));
                 route.setMinPrice(resultSet.getDouble(3));
                 route.setDateOfTrip(resultSet.getDate(4));
                 route.setLastUpdateDate(resultSet.getDate(5));
@@ -61,8 +61,8 @@ public class TestDao {
             @Override
             public Route mapRow(ResultSet resultSet, int i) throws SQLException {
                 Route route = new Route();
-                route.setTo(resultSet.getString(1));
-                route.setFrom(resultSet.getString(2));
+                route.setToCity(resultSet.getString(1));
+                route.setFromCity(resultSet.getString(2));
                 route.setMinPrice(resultSet.getDouble(3));
                 route.setDateOfTrip(resultSet.getDate(4));
                 route.setLastUpdateDate(resultSet.getDate(5));

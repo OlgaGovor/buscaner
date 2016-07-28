@@ -9,7 +9,7 @@
 
 <form action="#" th:action="@{/index}" th:object="${requestForm}" method="post">
 
-    <p><label>from</label>
+    <p><label>fromCity</label>
         <select th:field="*{fromCity}">
             <option th:each="city: ${cities}" th:value="${city.cityId}" th:text="${city.cityName}"></option>
         </select>

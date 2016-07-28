@@ -10,8 +10,10 @@ import java.util.List;
  */
 public class Route {
 
-    private String to;
-    private String from;
+    private String toCity;
+    private String fromCity;
+    private String toDest;
+    private String fromDest;
     private Double minPrice;
     private Date dateOfTrip;
     private Date lastUpdateDate;
@@ -23,14 +25,14 @@ public class Route {
 
 
     public Route(String to, String from) {
-        this.to = to;
-        this.from = from;
+        this.toCity = to;
+        this.fromCity = from;
         this.minPrice = 100000000.0;
     }
 
     public Route(String to, String from, Date date) {
-        this.to = to;
-        this.from = from;
+        this.toCity = to;
+        this.fromCity = from;
         this.dateOfTrip = date;
         this.minPrice = 100000000.0;
     }
@@ -44,12 +46,12 @@ public class Route {
         this.details = details;
     }
 
-    public String getTo() {
-        return to;
+    public String getToCity() {
+        return toCity;
     }
 
-    public String getFrom() {
-        return from;
+    public String getFromCity() {
+        return fromCity;
     }
 
     public Double getMinPrice() {
@@ -65,12 +67,12 @@ public class Route {
     }
 
 
-    public void setTo(String to) {
-        this.to = to;
+    public void setToCity(String to) {
+        this.toCity = to;
     }
 
-    public void setFrom(String from) {
-        this.from = from;
+    public void setFromCity(String fromCity) {
+        this.fromCity = fromCity;
     }
 
     public void setMinPrice(Double minPrice) {
@@ -107,7 +109,7 @@ public class Route {
     }
 
     public void printRouteWithDetails(){
-        System.out.println("From:" + this.getFrom() + " To:" + this.getTo() + " Date:" + this.getDateOfTrip() +
+        System.out.println("From:" + this.getFromCity() + " To:" + this.getToCity() + " Date:" + this.getDateOfTrip() +
                 "\nMin.Price = " + this.getMinPrice());
         for (RouteDetails node: this.getDetails()) {
             System.out.println("Price:"+ node.getPrice()+ node.getCurrency() + " Departure:" + node.getTimeDeparture()

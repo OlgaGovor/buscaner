@@ -22,10 +22,10 @@ public class MegabusTests {
 //
 //            Route route = new Route();
 //
-//            //route.setFrom("warsaw-centralny");
-//            route.setFrom("berlin");//197
-//            route.setTo("munich");//190
-//            //route.setTo("prague");
+//            //route.setFromCity("warsaw-centralny");
+//            route.setFromCity("berlin");//197
+//            route.setToCity("munich");//190
+//            //route.setToCity("prague");
 //            route.setMinPrice(10000000.0);
 //
 //            c.add(Calendar.DATE, 1); // Adding 5 days

@@ -103,4 +103,10 @@ public class PolskiTest {
             System.out.println(c.getCityName()+"  "+country);
         }
     }
+
+    @Test
+    public void addRoutesToDbFromPolskiBus() throws UnsupportedEncodingException, XPathExpressionException, ParserConfigurationException {
+        polskiBusCollector.fillDestinationsForPolskiBus();
+
+    }
 }

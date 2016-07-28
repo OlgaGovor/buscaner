@@ -22,10 +22,10 @@ public class LuxexpressCollector extends BaseCollector {
 
         GetDataLuxexpress dataLuxexpress = new GetDataLuxexpress();
 
-        //get destination for FROM for current company using route.getFrom()
+        //get destination for FROM for current company using route.getFromCity()
         String from = "krakow";
 
-        //get destination for TO for current company using route.getTo()
+        //get destination for TO for current company using route.getToCity()
         String to = "vienna-stadion-center";
 
         route = dataLuxexpress.getData(route, to, from);

@@ -7,7 +7,7 @@
 <body>
 <p th:text="'Hello, ' + ${name} + '!'" />
 
-<p th:each="route: ${routes}" th:text="${route.to +' '+ route.from + ' ' + route.minPrice + ' ' + route.dateOfTrip  + ' ' + route.lastUpdateDate}" />
+<p th:each="route: ${routes}" th:text="${route.to +' '+ route.fromCity + ' ' + route.minPrice + ' ' + route.dateOfTrip  + ' ' + route.lastUpdateDate}" />
 
 
 </body>
