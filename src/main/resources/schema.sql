@@ -52,7 +52,7 @@ CREATE TABLE IF NOT EXISTS route (
 
 
 CREATE TABLE IF NOT EXISTS price (
-  route_id       INT      NOT NULL AUTO_INCREMENT,
+  route_id       INT      NOT NULL,
   departure_date DATE     NOT NULL,
   departure_time TIME     NOT NULL,
   price          NUMERIC  NOT NULL,

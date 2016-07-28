@@ -31,4 +31,11 @@ public interface DestinationRepositoty extends CrudRepository<Destination, Long>
     )
     List<String> getRequestValuesByCompanyId(@Param("companyId") int companyId);
 
+    @Query(value = "select request_value from destination d where d.company_id= :companyId" +
+                    " and d.city_id= :cityId"
+                    , nativeQuery = true
+    )
+    List<String> getRequestValuesByCompanyIdAndCityId(@Param("companyId") int companyId,
+                                                      @Param("cityId") int cityId);
+
 }

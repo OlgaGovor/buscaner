@@ -20,7 +20,4 @@ public class RouteService {
         routeRepository.save(route);
     }
 
-    public void addRoutes(){
-
-    }
 }

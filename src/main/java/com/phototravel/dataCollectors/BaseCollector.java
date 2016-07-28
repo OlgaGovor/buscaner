@@ -33,22 +33,12 @@ public class BaseCollector {
 
         while(dateOfTrip.before(date2)){
 
-            //check in DB and print
-            //if updated date more than 2 days ago send request
-//            Route route = new Route();
-//            route.setFromCity(from);
-//            route.setToCity(to);
-//            route.setDateOfTrip(dateOfTrip);
-//            Date d = testDao.getUpdateDateForRoute(route);
-//            if (d > two_days_ago)
             Route newRoute = new Route();
             newRoute.setFromCity(route.getFromCity());
             newRoute.setToCity(route.getToCity());
             newRoute.setMinPrice(route.getMinPrice());
             newRoute.setDateOfTrip(dateOfTrip);
             routeList.add(getPriceForDate(newRoute));
-//            else
-//            use old data
 
             c.add(Calendar.DATE, 1);
             dateOfTrip = c.getTime();

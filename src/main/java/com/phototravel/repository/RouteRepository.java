@@ -1,7 +1,9 @@
 package com.phototravel.repository;
 
 import com.phototravel.entity.Route;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -9,4 +11,11 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 public interface RouteRepository extends CrudRepository<Route, Long> {
+
+    @Query(value = "select route_id from route r " +
+            " where r.from_city_id= :fromCityId and r.to_city_id= :toCityId"
+            , nativeQuery = true
+    )
+    Integer getRouteIdByCityId(@Param("fromCityId") Integer fromCityId,
+                               @Param("toCityId") Integer toCityId);
 }

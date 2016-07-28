@@ -1,17 +1,23 @@
 package com.phototravel.dataCollectors;
 
-import com.phototravel.dao.TestDao;
 import com.phototravel.dataCollectors.destinations.PolskiBusDestinationsGetter;
 import com.phototravel.dataCollectors.getDataOfRoute.GetDataPolskiBus;
 import com.phototravel.repository.CityRepository;
+import com.phototravel.repository.CompanyRepository;
+import com.phototravel.repository.DestinationRepositoty;
+import com.phototravel.repository.RouteRepository;
 import com.phototravel.services.DestinationService;
+import com.phototravel.services.PriceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.xpath.XPathExpressionException;
 import java.io.UnsupportedEncodingException;
-import java.util.*;
+import java.sql.Time;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
 
 @Service
 public class PolskiBusCollector extends BaseCollector {
@@ -20,37 +26,59 @@ public class PolskiBusCollector extends BaseCollector {
     PolskiBusDestinationsGetter getPolskiBusDestinations;
 
     @Autowired
-    TestDao testDao;
+    PriceService priceService;
 
     @Autowired
     CityRepository cityRepository;
 
     @Autowired
+    DestinationRepositoty destinationRepositoty;
+
+    @Autowired
     DestinationService destinationService;
+
+    @Autowired
+    CompanyRepository companyRepository;
+
+    @Autowired
+    RouteRepository routeRepository;
 
     public Route getPriceForDate(Route route) throws Exception {
 
         GetDataPolskiBus dataPolskiBus = new GetDataPolskiBus();
 
-        Map<String, String> listOfDestinations = getPolskiBusDestinations.getDestinations();
-
-//        Route route = new Route();
-
-        //just for printing
-//        route.setFromCity(from);
         //get destination for FROM for current company using route.getFromCity()
-        String from = listOfDestinations.get("krak&oacute;w");
+        String fromCity = route.getFromCity();
+        String toCity = route.getToCity();
 
-        //just for printing
-//        route.setToCity(to);
-        //get destination for TO for current company using route.getToCity()
-        String to = listOfDestinations.get("wiedeń");
+        //get cityIds
+        Integer fromCityId = cityRepository.findCityByName(fromCity);
+        Integer toCityId = cityRepository.findCityByName(toCity);
 
-        route = dataPolskiBus.getData(route, to, from);
+        //get request Values for CityId
+        Integer companyId = companyRepository.findCompanyByName("PolskiBus");
+        List<String> fromRequestValue = destinationRepositoty.getRequestValuesByCompanyIdAndCityId(companyId, fromCityId);
+        List<String> toRequestValue = destinationRepositoty.getRequestValuesByCompanyIdAndCityId(companyId, toCityId);
+
+        for (String from: fromRequestValue) {
+            for (String to: toRequestValue) {
+                route = dataPolskiBus.getData(route, to, from);
+            }
+        }
+
         route.setLastUpdateDate(new Date());
 
         route.sortByPrice();
-        testDao.saveRoute(route);
+
+        //get routeId from DB
+        //need to refactor for Destination not for city
+        Integer routeId = routeRepository.getRouteIdByCityId(fromCityId, toCityId);
+
+        //need to refactor real time
+        Time time = new Time(0);
+        //save price
+
+        priceService.createPrice(routeId, route.getDateOfTrip(), time, route.getMinPrice(), route.getLastUpdateDate());
 
         return route;
     }

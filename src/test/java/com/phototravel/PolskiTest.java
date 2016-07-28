@@ -4,7 +4,9 @@ import com.phototravel.dataCollectors.PolskiBusCollector;
 import com.phototravel.dataCollectors.Route;
 import com.phototravel.dataCollectors.destinations.PolskiBusDestinationsGetter;
 import com.phototravel.entity.City;
+import com.phototravel.entity.Price;
 import com.phototravel.repository.CountryRepository;
+import com.phototravel.repository.PriceRepository;
 import com.phototravel.services.CityService;
 import org.json.JSONException;
 import org.junit.Test;
@@ -17,6 +19,7 @@ import org.springframework.test.context.web.WebAppConfiguration;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.xpath.XPathExpressionException;
 import java.io.UnsupportedEncodingException;
+import java.sql.Time;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -42,11 +45,20 @@ public class PolskiTest {
     @Autowired
     CountryRepository countryRepository;
 
+    @Autowired
+    PriceRepository priceRepository;
+
+    @Test
+    public void putPrice(){
+        Price price = new Price(1032, new Date(), new Time(0), 1, new Date());
+        priceRepository.save(price);
+    }
+
     @Test
     public void getPriceForDateAndDirections() throws Exception {
         String d = "13/08/2016";
         String from = "Krakow";
-        String to = "Vienna";
+        String to = "Wieden";
 
         SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
         Date date = formatter.parse(d);

@@ -37,4 +37,8 @@ public class Price {
         this.price = price;
         this.lastUpdate = lastUpdate;
     }
+
+    public Price(){
+
+    }
 }

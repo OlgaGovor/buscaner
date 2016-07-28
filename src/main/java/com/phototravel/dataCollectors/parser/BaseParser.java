@@ -60,6 +60,8 @@ abstract public class BaseParser {
 
             if (minPrice > price) {
                 minPrice = price;
+//                route.setFromDest();
+//                route.setToDest();
             }
         }
         route.setDetails(routeDetailsList);

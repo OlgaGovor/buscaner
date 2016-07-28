@@ -24,13 +24,13 @@ public class Route {
     }
 
 
-    public Route(String to, String from) {
+    public Route(String from, String to) {
         this.toCity = to;
         this.fromCity = from;
         this.minPrice = 100000000.0;
     }
 
-    public Route(String to, String from, Date date) {
+    public Route(String from, String to, Date date) {
         this.toCity = to;
         this.fromCity = from;
         this.dateOfTrip = date;
@@ -52,6 +52,22 @@ public class Route {
 
     public String getFromCity() {
         return fromCity;
+    }
+
+    public String getToDest() {
+        return toDest;
+    }
+
+    public void setToDest(String toDest) {
+        this.toDest = toDest;
+    }
+
+    public String getFromDest() {
+        return fromDest;
+    }
+
+    public void setFromDest(String fromDest) {
+        this.fromDest = fromDest;
     }
 
     public Double getMinPrice() {

@@ -19,7 +19,6 @@ public class TestDao {
 
     private static final String SAVE_ROUTE = "insert into routes values(?,?,?,?,?)";
     private static final String SELECT_ROUTE = "select lastUpdateDate from routes where from=? and to=? and dateOfTrip=?";
-    public static final String SELECT_ALL_ROUTES = "select * from routes";
 
     public void saveRoute(Route route){
         Object[] args = new Object[5];
@@ -52,26 +51,6 @@ public class TestDao {
         });
         Date dateUpdated = routeList.get(0).getLastUpdateDate();
         return dateUpdated;
-    }
-
-
-    public List<Route> readAllRoutes(){
-
-        List<Route> routeList = jdbcTemplate.query(SELECT_ALL_ROUTES, new RowMapper<Route>() {
-            @Override
-            public Route mapRow(ResultSet resultSet, int i) throws SQLException {
-                Route route = new Route();
-                route.setToCity(resultSet.getString(1));
-                route.setFromCity(resultSet.getString(2));
-                route.setMinPrice(resultSet.getDouble(3));
-                route.setDateOfTrip(resultSet.getDate(4));
-                route.setLastUpdateDate(resultSet.getDate(5));
-                return route;
-            }
-        });
-
-        return routeList;
-
     }
 
 
