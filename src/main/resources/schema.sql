@@ -58,7 +58,7 @@ CREATE TABLE IF NOT EXISTS price (
   route_id       INT      NOT NULL,
   departure_date DATE     NOT NULL,
   departure_time TIME     NOT NULL,
-  price          NUMERIC  NOT NULL,
+  price NUMERIC(7, 2) NOT NULL,
   last_update    DATETIME NOT NULL,
   PRIMARY KEY (route_id, departure_date, departure_time),
   FOREIGN KEY (route_id) REFERENCES route (route_id)
