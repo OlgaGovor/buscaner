@@ -21,7 +21,6 @@ public class Price {
     /*@Column(name = "route_id")
     private int routeId;
 
-
     @Column(name = "departure_date")
     @Temporal(TemporalType.DATE)
     private Date departureDate;
@@ -29,8 +28,14 @@ public class Price {
     @Column(name = "departure_time")
     private Time departureTime;*/
 
+    @Column(name = "arrival_time")
+    private Time arrivalTime;
+
     @Column(name = "price")
     private double price;
+
+    @Column(name = "currency")
+    private String currency;
 
     @Column(name = "last_update")
     private Date lastUpdate;
@@ -42,12 +47,15 @@ public class Price {
     @Transient
     private static final SimpleDateFormat DATE_TIME_FORMAT = new SimpleDateFormat("dd-MM-yyyy hh:mm:ss");
 
-    public Price(int routeId, Date departureDate, Time departureTime, double price, Date lastUpdate) {
+    public Price(int routeId, Date departureDate, Time departureTime, Time arrivalTime,
+                 double price, String currency, Date lastUpdate) {
         this.id = new PricePK();
         this.id.routeId = routeId;
         this.id.departureDate = departureDate;
         this.id.departureTime = departureTime;
+        this.arrivalTime = arrivalTime;
         this.price = price;
+        this.currency = currency;
         this.lastUpdate = lastUpdate;
     }
 
@@ -105,5 +113,19 @@ public class Price {
         this.id = id;
     }
 
+    public Time getArrivalTime() {
+        return arrivalTime;
+    }
 
+    public void setArrivalTime(Time arrivalTime) {
+        this.arrivalTime = arrivalTime;
+    }
+
+    public String getCurrency() {
+        return currency;
+    }
+
+    public void setCurrency(String currency) {
+        this.currency = currency;
+    }
 }
