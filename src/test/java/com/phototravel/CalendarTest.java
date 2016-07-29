@@ -3,6 +3,7 @@ package com.phototravel;
 import org.junit.Test;
 
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
@@ -11,15 +12,20 @@ import java.util.Calendar;
  */
 public class CalendarTest {
     @Test
-    public void test() {
+    public void test() throws ParseException {
         Calendar cal = Calendar.getInstance();
-        DateFormat df = new SimpleDateFormat("EEE dd/MM/yyyy");
-
-
         cal.setFirstDayOfWeek(Calendar.MONDAY);
-        cal.set(2016, 8 - 1, 5);
-        System.out.println(df.format(cal.getTime()));
+        DateFormat df = new SimpleDateFormat("dd-MM-yyyy");
+
+        String dateStart = "28-07-2016";
+        String dateEnd = "15-09-2016";
+
+        cal.setTime(df.parse(dateStart));
         cal.set(Calendar.DAY_OF_WEEK, cal.getFirstDayOfWeek());
+
+
+
+        System.out.println(df.format(cal.getTime()));
 
 
         System.out.println(df.format(cal.getTime()));
