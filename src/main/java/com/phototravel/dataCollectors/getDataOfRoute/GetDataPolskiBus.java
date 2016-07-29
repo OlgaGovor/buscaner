@@ -4,7 +4,6 @@ import com.phototravel.dataCollectors.outRequests.SendRequestPolskiBus;
 import com.phototravel.dataCollectors.parser.PolskiBusParser;
 import com.phototravel.entity.Destination;
 import com.phototravel.entity.Price;
-import com.phototravel.entity.Route;
 import com.phototravel.repository.DestinationRepositoty;
 import com.phototravel.repository.RouteRepository;
 import com.sun.jersey.api.client.ClientResponse;
@@ -95,8 +94,7 @@ public class GetDataPolskiBus extends GetData {
         SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
         String dateStr = formatter.format(date);
 
-        Iterable<Route> routes = routeRepository.findAll();
-        com.phototravel.entity.Route route = routeRepository.findOne(new Long(routeId));
+        com.phototravel.entity.Route route = routeRepository.getRouteByRouteId(routeId);
 
         Integer fromDestId = route.getFromDestinationId();
         Integer toDestId = route.getToDestinationId();

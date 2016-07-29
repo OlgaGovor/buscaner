@@ -85,9 +85,10 @@ public class BaseCollector {
     @Autowired
     PriceRepository priceRepository;
 
-    public void getPriceForDateAndSaveToDb(Integer routeId, Date date) throws Exception {
+    @Autowired
+    GetDataPolskiBus getData;
 
-        GetDataPolskiBus getData = new GetDataPolskiBus();
+    public void getPriceForDateAndSaveToDb(Integer routeId, Date date) throws Exception {
 
         List<Price> prices = getData.getData(routeId, date);
 

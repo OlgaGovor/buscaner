@@ -20,4 +20,10 @@ public interface RouteRepository extends CrudRepository<Route, Long> {
     )
     List<Integer> getRouteIdByCityId(@Param("fromCityId") Integer fromCityId,
                                      @Param("toCityId") Integer toCityId);
+
+    @Query(value = "select * from route r " +
+            " where r.route_id= :routeId"
+            , nativeQuery = true
+    )
+    Route getRouteByRouteId(@Param("routeId") Integer routeId);
 }

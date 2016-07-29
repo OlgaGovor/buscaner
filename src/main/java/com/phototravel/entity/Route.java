@@ -100,4 +100,7 @@ public class Route {
         this.active = active;
     }
 
+    public Route() {
+    }
+
 }
