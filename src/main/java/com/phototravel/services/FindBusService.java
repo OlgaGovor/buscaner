@@ -6,6 +6,7 @@ import com.phototravel.repository.PriceRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -19,10 +20,13 @@ public class FindBusService {
 
 
     public List<Price> findBus(RequestForm requestForm) {
-        System.out.println("findBus=" + requestForm);
-        System.out.println("date=" + requestForm.getDepartureEndAsDate());
+        //System.out.println("findBus=" + requestForm);
+
+        Date endDate =
+                requestForm.isScanForPeriod() ? requestForm.getDepartureEndAsDate() : requestForm.getDepartureAsDate();
+
         List<Price> prices = priceRepository.findCheapestBusByRequestForm(requestForm.getFromCity(), requestForm.getToCity(),
-                requestForm.getDepartureAsDate(), requestForm.getDepartureEndAsDate());
+                requestForm.getDepartureAsDate(), endDate);
         return prices;
 
     }
