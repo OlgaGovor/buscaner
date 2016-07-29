@@ -16,7 +16,6 @@ import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.xpath.XPathExpressionException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -62,10 +61,10 @@ public class LuxTests {
         Date date2 = formatter.parse(d2);
 
         Route route = new Route(from, to);
-        List<Route> routeList = luxexpressCollector.getPriceForPeriod(route, date1, date2);
-        for (Route r: routeList) {
-            r.printRouteWithDetails();
-        }
+//        List<Route> routeList = luxexpressCollector.getPriceForPeriodAndSaveToDb(route, date1, date2);
+//        for (Route r: routeList) {
+//            r.printRouteWithDetails();
+//        }
     }
 
     @Test

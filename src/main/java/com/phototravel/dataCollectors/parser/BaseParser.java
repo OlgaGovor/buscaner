@@ -1,19 +1,14 @@
 package com.phototravel.dataCollectors.parser;
 
 
-import com.phototravel.dataCollectors.Route;
-import com.phototravel.dataCollectors.RouteDetails;
+import com.phototravel.entity.Price;
 import org.htmlcleaner.CleanerProperties;
 import org.htmlcleaner.HtmlCleaner;
 import org.htmlcleaner.TagNode;
 import org.w3c.dom.NodeList;
 
 import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.xpath.XPath;
-import javax.xml.xpath.XPathConstants;
-import javax.xml.xpath.XPathExpression;
-import javax.xml.xpath.XPathExpressionException;
-import javax.xml.xpath.XPathFactory;
+import javax.xml.xpath.*;
 import java.sql.Time;
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -27,47 +22,77 @@ import java.util.List;
  */
 abstract public class BaseParser {
 
-    public Route parse(String str, Route route, String companyName, String xPathPrice, String xPathDeparture, String xPathArrival, String currency) throws Exception {
+//    public Route parse(String str, Route route, String companyName, String xPathPrice, String xPathDeparture, String xPathArrival, String currency) throws Exception {
+//
+//        List<RouteDetails> routeDetailsList;
+//        if (route.getDetails() == null) {
+//            routeDetailsList = new ArrayList<RouteDetails>();
+//        } else {
+//            routeDetailsList = route.getDetails();
+//        }
+//
+//        List<String> listPrices = getRegularPrice(xPathPrice, str);
+//        List<String> listTimeOfDepartures = getTimeDeparture(xPathDeparture, str);
+//        List<String> listTimeOfArrival = getTimeArrival(xPathArrival, str);
+//
+//        Double minPrice = route.getMinPrice();
+//        Date minDate;
+//        for (int i = 0; i < listPrices.size(); i++) {
+//            RouteDetails details = new RouteDetails();
+//            details.setCompanyName(companyName);
+//            details.setCurrency(currency);
+//
+//            Double price = parsePrice(listPrices.get(i));
+//            details.setPrice(price);
+//
+//            Time timeOfDeparture = parseTime(listTimeOfDepartures.get(i));
+//            details.setTimeDeparture(timeOfDeparture);
+//
+//            Time timeOfArrival = parseTime(listTimeOfArrival.get(i));
+//            details.setTimeArrival(timeOfArrival);
+//
+//            routeDetailsList.add(details);
+//
+//            if (minPrice > price) {
+//                minPrice = price;
+////                route.setFromDest();
+////                route.setToDest();
+//                route.setTimeOfTrip(details.getTimeDeparture());
+//            }
+//        }
+//        route.setDetails(routeDetailsList);
+//        route.setMinPrice(minPrice);
+//        return route;
+//    }
 
-        List<RouteDetails> routeDetailsList;
-        if (route.getDetails() == null) {
-            routeDetailsList = new ArrayList<RouteDetails>();
-        } else {
-            routeDetailsList = route.getDetails();
-        }
+    public List<Price> parse(String str, Integer routeId, String companyName, String xPathPrice, String xPathDeparture, String xPathArrival, String currency) throws Exception {
 
         List<String> listPrices = getRegularPrice(xPathPrice, str);
         List<String> listTimeOfDepartures = getTimeDeparture(xPathDeparture, str);
         List<String> listTimeOfArrival = getTimeArrival(xPathArrival, str);
 
-        Double minPrice = route.getMinPrice();
-        Date minDate;
-        for (int i = 0; i < listPrices.size(); i++) {
-            RouteDetails details = new RouteDetails();
-            details.setCompanyName(companyName);
-            details.setCurrency(currency);
+        List<Price> listOfPriceEntity = new ArrayList<Price>();
 
-            Double price = parsePrice(listPrices.get(i));
-            details.setPrice(price);
+        for (int i = 0; i < listPrices.size(); i++) {
+            Price priceEntity = new Price();
+
+            priceEntity.setRouteId(routeId);
+            priceEntity.setCurrency(currency);
+
+            Double priceFromRequest = parsePrice(listPrices.get(i));
+            priceEntity.setPrice(priceFromRequest);
 
             Time timeOfDeparture = parseTime(listTimeOfDepartures.get(i));
-            details.setTimeDeparture(timeOfDeparture);
+            priceEntity.setDepartureTime(timeOfDeparture);
 
             Time timeOfArrival = parseTime(listTimeOfArrival.get(i));
-            details.setTimeArrival(timeOfArrival);
+            priceEntity.setArrivalTime(timeOfArrival);
 
-            routeDetailsList.add(details);
+            priceEntity.setLastUpdate(new Date());
 
-            if (minPrice > price) {
-                minPrice = price;
-//                route.setFromDest();
-//                route.setToDest();
-                route.setTimeOfTrip(details.getTimeDeparture());
-            }
+            listOfPriceEntity.add(priceEntity);
         }
-        route.setDetails(routeDetailsList);
-        route.setMinPrice(minPrice);
-        return route;
+        return listOfPriceEntity;
     }
 
 

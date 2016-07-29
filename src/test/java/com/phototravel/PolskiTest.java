@@ -1,18 +1,19 @@
 package com.phototravel;
 
 import com.phototravel.dataCollectors.PolskiBusCollector;
-import com.phototravel.dataCollectors.Route;
 import com.phototravel.dataCollectors.destinations.PolskiBusDestinationsGetter;
 import com.phototravel.entity.City;
 import com.phototravel.entity.Price;
 import com.phototravel.repository.CountryRepository;
 import com.phototravel.repository.PriceRepository;
+import com.phototravel.repository.RouteRepository;
 import com.phototravel.services.CityService;
 import org.json.JSONException;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.SpringApplicationConfiguration;
+import org.springframework.stereotype.Service;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 
@@ -31,6 +32,7 @@ import java.util.Map;
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringApplicationConfiguration(classes = BuscanerApplication.class)
 @WebAppConfiguration
+@Service
 public class PolskiTest {
 
     @Autowired
@@ -48,6 +50,9 @@ public class PolskiTest {
     @Autowired
     PriceRepository priceRepository;
 
+    @Autowired
+    RouteRepository routeRepository;
+
     @Test
     public void putPrice(){
         Price price = new Price(1034, new Date(), new Time(0), new Time(5), 1.21, "zl", new Date());
@@ -63,10 +68,16 @@ public class PolskiTest {
         SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
         Date date = formatter.parse(d);
 
-        Route route = new Route(from, to, date);
-        route = polskiBusCollector.getPriceForDate(route);
+        City fromCityObj = cityService.findCityByName(from);
+        Integer fromCityId = fromCityObj.getCityId();
+        City toCityObj = cityService.findCityByName(to);
+        Integer toCityId = toCityObj.getCityId();
 
-        route.printRouteWithDetails();
+        List<Integer> routeIds = routeRepository.getRouteIdByCityId(fromCityId, toCityId);
+
+        for (Integer i: routeIds) {
+            polskiBusCollector.getPriceForDateAndSaveToDb(i, date);
+        }
     }
 
     @Test
@@ -80,11 +91,11 @@ public class PolskiTest {
         Date date1 = formatter.parse(d1);
         Date date2 = formatter.parse(d2);
 
-        Route route = new Route(from, to);
-        List<Route> routeList = polskiBusCollector.getPriceForPeriod(route, date1, date2);
-        for (Route r: routeList) {
-            r.printRouteWithDetails();
-        }
+//        Route route = new Route(from, to);
+//        List<Route> routeList = polskiBusCollector.getPriceForPeriod(route, date1, date2);
+//        for (Route r: routeList) {
+//            r.printRouteWithDetails();
+//        }
     }
 
     @Test
@@ -119,7 +130,7 @@ public class PolskiTest {
 
     @Test
     //one time per week
-    public void addRoutesToDbFromPolskiBus() throws UnsupportedEncodingException, XPathExpressionException, ParserConfigurationException {
+    public void addDestinationsToDbFromPolskiBus() throws UnsupportedEncodingException, XPathExpressionException, ParserConfigurationException {
         polskiBusCollector.fillDestinationsForPolskiBus();
     }
 

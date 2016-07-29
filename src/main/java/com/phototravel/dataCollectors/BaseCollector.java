@@ -1,11 +1,12 @@
 package com.phototravel.dataCollectors;
 
 import com.phototravel.dao.TestDao;
-import com.phototravel.dataCollectors.getDataOfRoute.GetData;
+import com.phototravel.dataCollectors.getDataOfRoute.GetDataPolskiBus;
+import com.phototravel.entity.Price;
+import com.phototravel.repository.PriceRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -19,8 +20,35 @@ public class BaseCollector {
     @Autowired
     TestDao testDao;
 
-    public List<Route> getPriceForPeriod(Route route, Date date1, Date date2) throws Exception {
-        List<Route> routeList = new ArrayList<>();
+//    public List<Route> getPriceForPeriod(Route route, Date date1, Date date2) throws Exception {
+//        List<Route> routeList = new ArrayList<>();
+//
+//        //to include in search date2
+//        Calendar c = Calendar.getInstance();
+//        c.setTime(date2);
+//        c.add(Calendar.DATE, 1);
+//        date2 = c.getTime();
+//
+//        Date dateOfTrip = date1;
+//        c.setTime(dateOfTrip);
+//
+//        while(dateOfTrip.before(date2)){
+//
+//            Route newRoute = new Route();
+//            newRoute.setFromCity(route.getFromCity());
+//            newRoute.setToCity(route.getToCity());
+//            newRoute.setMinPrice(route.getMinPrice());
+//            newRoute.setDateOfTrip(dateOfTrip);
+//            routeList.add(getPriceForDate(newRoute));
+//
+//            c.add(Calendar.DATE, 1);
+//            dateOfTrip = c.getTime();
+//        }
+//
+//        return routeList;
+//    }
+
+    public void getPriceForPeriodAndSaveToDb(Integer routeId, Date date1, Date date2) throws Exception {
 
         //to include in search date2
         Calendar c = Calendar.getInstance();
@@ -33,33 +61,40 @@ public class BaseCollector {
 
         while(dateOfTrip.before(date2)){
 
-            Route newRoute = new Route();
-            newRoute.setFromCity(route.getFromCity());
-            newRoute.setToCity(route.getToCity());
-            newRoute.setMinPrice(route.getMinPrice());
-            newRoute.setDateOfTrip(dateOfTrip);
-            routeList.add(getPriceForDate(newRoute));
-
+            getPriceForDateAndSaveToDb(routeId,dateOfTrip);
             c.add(Calendar.DATE, 1);
             dateOfTrip = c.getTime();
         }
-
-        return routeList;
     }
 
-    public Route getPriceForDate(Route route) throws Exception {
+//    public Route getPriceForDate(Route route) throws Exception {
+//
+//        String to = route.getToCity();
+//        String from = route.getFromCity();
+//
+//        GetData getData = new GetData();
+//
+//        route = getData.getData(route, to, from);
+//        route.setLastUpdateDate(new Date());
+//
+//        testDao.saveRoute(route);
+//
+//        return route;
+//    }
 
-        String to = route.getToCity();
-        String from = route.getFromCity();
+    @Autowired
+    PriceRepository priceRepository;
 
-        GetData getData = new GetData();
+    public void getPriceForDateAndSaveToDb(Integer routeId, Date date) throws Exception {
 
-        route = getData.getData(route, to, from);
-        route.setLastUpdateDate(new Date());
+        GetDataPolskiBus getData = new GetDataPolskiBus();
 
-        testDao.saveRoute(route);
+        List<Price> prices = getData.getData(routeId, date);
 
-        return route;
+        for (Price p:prices) {
+            priceRepository.save(p);
+            System.out.println(p.toString());
+        }
     }
 
 

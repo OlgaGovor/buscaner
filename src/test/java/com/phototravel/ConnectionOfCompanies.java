@@ -12,7 +12,6 @@ import org.springframework.test.context.web.WebAppConfiguration;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.List;
 
 /**
  * Created by Olga_Govor on 7/8/2016.
@@ -58,10 +57,10 @@ public class ConnectionOfCompanies {
 
         Route route = new Route(from, to);
 
-        List<Route> routeList = allCompaniesCollector.getPriceForPeriod(route, date1, date2);
-        for (Route r: routeList) {
-            r.printRouteWithDetails();
-        }
+//        List<Route> routeList = allCompaniesCollector.getPriceForPeriodAndSaveToDb(route, date1, date2);
+//        for (Route r: routeList) {
+//            r.printRouteWithDetails();
+//        }
     }
 
 

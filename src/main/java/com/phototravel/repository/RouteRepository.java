@@ -6,6 +6,8 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 /**
  * Created by PBezdienezhnykh on 026 26.7.2016.
  */
@@ -16,6 +18,6 @@ public interface RouteRepository extends CrudRepository<Route, Long> {
             " where r.from_city_id= :fromCityId and r.to_city_id= :toCityId"
             , nativeQuery = true
     )
-    Integer getRouteIdByCityId(@Param("fromCityId") Integer fromCityId,
-                               @Param("toCityId") Integer toCityId);
+    List<Integer> getRouteIdByCityId(@Param("fromCityId") Integer fromCityId,
+                                     @Param("toCityId") Integer toCityId);
 }

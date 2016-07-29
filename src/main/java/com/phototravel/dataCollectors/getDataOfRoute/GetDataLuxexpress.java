@@ -39,7 +39,8 @@ public class GetDataLuxexpress {
 
         //parse result
         LuxexpressParser parser = new LuxexpressParser();
-        route =  parser.parse(responseStr, route, COMPANYNAME, XPATHPRICE, XPATHDEPARTURE, XPATHARRIVAL, CURRENCY);
+//        about modification
+//        route =  parser.parse(responseStr, route, COMPANYNAME, XPATHPRICE, XPATHDEPARTURE, XPATHARRIVAL, CURRENCY);
 
         return route;
     }

@@ -12,6 +12,46 @@ import javax.persistence.Id;
 @Entity
 public class Destination {
 
+    public int getDestinationId() {
+        return destinationId;
+    }
+
+    public void setDestinationId(int destinationId) {
+        this.destinationId = destinationId;
+    }
+
+    public int getCompanyId() {
+        return companyId;
+    }
+
+    public void setCompanyId(int companyId) {
+        this.companyId = companyId;
+    }
+
+    public int getCityId() {
+        return cityId;
+    }
+
+    public void setCityId(int cityId) {
+        this.cityId = cityId;
+    }
+
+    public String getRequestValue() {
+        return requestValue;
+    }
+
+    public void setRequestValue(String requestValue) {
+        this.requestValue = requestValue;
+    }
+
+    public String getDestinationName() {
+        return destinationName;
+    }
+
+    public void setDestinationName(String destinationName) {
+        this.destinationName = destinationName;
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "destination_id")

@@ -1,10 +1,7 @@
 package com.phototravel.entity;
 
 
-import javax.persistence.Column;
-import javax.persistence.EmbeddedId;
-import javax.persistence.Entity;
-import javax.persistence.Transient;
+import javax.persistence.*;
 import java.sql.Time;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -18,15 +15,15 @@ public class Price {
     @EmbeddedId
     private PricePK id;
 
-    /*@Column(name = "route_id")
-    private int routeId;
-
-    @Column(name = "departure_date")
-    @Temporal(TemporalType.DATE)
-    private Date departureDate;
-
-    @Column(name = "departure_time")
-    private Time departureTime;*/
+//    @Column(name = "route_id")
+//    private int routeId;
+//
+//    @Column(name = "departure_date")
+//    @Temporal(TemporalType.DATE)
+//    private Date departureDate;
+//
+//    @Column(name = "departure_time")
+//    private Time departureTime;
 
     @Column(name = "arrival_time")
     private Time arrivalTime;

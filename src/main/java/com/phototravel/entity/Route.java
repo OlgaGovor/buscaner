@@ -12,6 +12,62 @@ import javax.persistence.Id;
 @Entity
 public class Route {
 
+    public int getRouteId() {
+        return routeId;
+    }
+
+    public void setRouteId(int routeId) {
+        this.routeId = routeId;
+    }
+
+    public int getFromDestinationId() {
+        return fromDestinationId;
+    }
+
+    public void setFromDestinationId(int fromDestinationId) {
+        this.fromDestinationId = fromDestinationId;
+    }
+
+    public int getToDestinationId() {
+        return toDestinationId;
+    }
+
+    public void setToDestinationId(int toDestinationId) {
+        this.toDestinationId = toDestinationId;
+    }
+
+    public int getFromCityId() {
+        return fromCityId;
+    }
+
+    public void setFromCityId(int fromCityId) {
+        this.fromCityId = fromCityId;
+    }
+
+    public int getToCityId() {
+        return toCityId;
+    }
+
+    public void setToCityId(int toCityId) {
+        this.toCityId = toCityId;
+    }
+
+    public int getCompanyId() {
+        return companyId;
+    }
+
+    public void setCompanyId(int companyId) {
+        this.companyId = companyId;
+    }
+
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "route_id")
