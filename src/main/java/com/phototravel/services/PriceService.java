@@ -17,8 +17,8 @@ public class PriceService {
     @Autowired
     PriceRepository priceRepository;
 
-    public void createPrice(Integer routeId, Date departureDate, Time departureTime, double priceNum, Date lastUpdate) {
-        Price price = new Price(routeId, departureDate, departureTime, priceNum,lastUpdate);
+    public void createPrice(Integer routeId, Date departureDate, Time departureTime, Time arrivalTime, double priceNum, String currency, Date lastUpdate) {
+        Price price = new Price(routeId, departureDate, departureTime, arrivalTime, priceNum, currency, lastUpdate);
         priceRepository.save(price);
     }
 }

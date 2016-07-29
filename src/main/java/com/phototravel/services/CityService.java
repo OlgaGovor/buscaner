@@ -80,7 +80,7 @@ public class CityService {
         return getAllCitiesMap().get(id);
     }
 
-    City findCityByName(String cityName) {
+    public City findCityByName(String cityName) {
         if (cityName == null || cityName.isEmpty()) {
             return null;
         }

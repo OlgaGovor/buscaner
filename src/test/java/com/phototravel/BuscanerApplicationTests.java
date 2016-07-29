@@ -53,7 +53,7 @@ public class BuscanerApplicationTests {
 
 		Date now = new Date();
 
-		priceService.createPrice(1,date, time, price, now);
+		priceService.createPrice(1,date, time, new Time(0), price, "zl", now);
 
 		int fromCity = 3;
 		int toCity = 4;

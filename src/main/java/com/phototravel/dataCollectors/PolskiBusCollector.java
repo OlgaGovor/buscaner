@@ -2,10 +2,11 @@ package com.phototravel.dataCollectors;
 
 import com.phototravel.dataCollectors.destinations.PolskiBusDestinationsGetter;
 import com.phototravel.dataCollectors.getDataOfRoute.GetDataPolskiBus;
-import com.phototravel.repository.CityRepository;
+import com.phototravel.entity.City;
 import com.phototravel.repository.CompanyRepository;
 import com.phototravel.repository.DestinationRepositoty;
 import com.phototravel.repository.RouteRepository;
+import com.phototravel.services.CityService;
 import com.phototravel.services.DestinationService;
 import com.phototravel.services.PriceService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +15,7 @@ import org.springframework.stereotype.Service;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.xpath.XPathExpressionException;
 import java.io.UnsupportedEncodingException;
+import java.sql.Time;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -28,7 +30,7 @@ public class PolskiBusCollector extends BaseCollector {
     PriceService priceService;
 
     @Autowired
-    CityRepository cityRepository;
+    CityService cityService;
 
     @Autowired
     DestinationRepositoty destinationRepositoty;
@@ -51,8 +53,10 @@ public class PolskiBusCollector extends BaseCollector {
         String toCity = route.getToCity();
 
         //get cityIds
-        Integer fromCityId = cityRepository.findCityByName(fromCity);
-        Integer toCityId = cityRepository.findCityByName(toCity);
+        City fromCityObj = cityService.findCityByName(fromCity);
+        Integer fromCityId = fromCityObj.getCityId();
+        City toCityObj = cityService.findCityByName(toCity);
+        Integer toCityId = toCityObj.getCityId();
 
         //get request Values for CityId
         Integer companyId = companyRepository.findCompanyByName("PolskiBus");
@@ -75,7 +79,7 @@ public class PolskiBusCollector extends BaseCollector {
 
         //save price
 
-        priceService.createPrice(routeId, route.getDateOfTrip(), route.getTimeOfTrip(), route.getMinPrice(), route.getLastUpdateDate());
+        priceService.createPrice(routeId, route.getDateOfTrip(), route.getTimeOfTrip(), new Time(0), route.getMinPrice(), "zl", route.getLastUpdateDate());
 
         return route;
     }
@@ -88,7 +92,8 @@ public class PolskiBusCollector extends BaseCollector {
         {
             try
             {
-                Integer cityId = cityRepository.findCityByName(entry.getKey());
+                City city = cityService.findCityByName(entry.getKey());
+                Integer cityId = city.getCityId();
                 System.out.println("1  "+cityId+"  "+entry.getValue()+"  "+entry.getKey());
                 destinationService.createDestination(1, cityId, entry.getValue(), entry.getKey());
             }

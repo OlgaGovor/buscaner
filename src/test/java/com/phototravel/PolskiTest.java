@@ -50,7 +50,7 @@ public class PolskiTest {
 
     @Test
     public void putPrice(){
-        Price price = new Price(1034, new Date(), new Time(0), 1.21, new Date());
+        Price price = new Price(1034, new Date(), new Time(0), new Time(5), 1.21, "zl", new Date());
         priceRepository.save(price);
     }
 
