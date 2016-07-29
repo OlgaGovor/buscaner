@@ -38,28 +38,6 @@ public class CityService {
         }
     }
 
-    public List<String> getAllCities(){
-
-        List<String> listOfCityNames = new ArrayList<String>();
-
-        Iterable<City> cities =  cityRepository.findAll();
-        for (City city:cities) {
-            listOfCityNames.add(city.getCityName());
-        }
-        return listOfCityNames;
-    }
-
-    public List<City> getAllCitiesWithCountriesIds(){
-
-        List<City> listOfCities = new ArrayList<City>();
-
-        Iterable<City> cities =  cityRepository.findAll();
-        for (City city:cities) {
-            listOfCities.add(city);
-        }
-        return listOfCities;
-    }
-
 
     @Cacheable("city")
     private Map<Integer, City> getAllCitiesMap() {
@@ -80,7 +58,7 @@ public class CityService {
         return getAllCitiesMap().get(id);
     }
 
-    City findCityByName(String cityName) {
+    public City findCityByName(String cityName) {
         if (cityName == null || cityName.isEmpty()) {
             return null;
         }
