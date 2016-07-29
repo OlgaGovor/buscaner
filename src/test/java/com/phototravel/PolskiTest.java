@@ -104,18 +104,18 @@ public class PolskiTest {
 
     @Test
     public void printCitiesFromDb(){
-        for (String c:cityService.getAllCities()){
-            System.out.println(c);
+        for (City c:cityService.findAll()){
+            System.out.println(c.getCityName());
         }
     }
 
-    @Test
-    public void printCitiesWithCountryFromDb(){
-        for (City c:cityService.getAllCitiesWithCountriesIds())
-        {
-
-        }
-    }
+//    @Test
+//    public void printCitiesWithCountryFromDb(){
+//        for (City c:cityService.getAllCitiesWithCountriesIds())
+//        {
+//
+//        }
+//    }
 
     @Test
     //one time per week
