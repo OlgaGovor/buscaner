@@ -9,7 +9,7 @@ import org.springframework.data.repository.query.Param;
 /**
  * Created by Olga_Govor on 7/26/2016.
  */
-public interface CompanyRepository extends CrudRepository<Company, Long> {
+public interface CompanyRepository extends CrudRepository<Company, Integer> {
 
     @Override
     @Cacheable("company")

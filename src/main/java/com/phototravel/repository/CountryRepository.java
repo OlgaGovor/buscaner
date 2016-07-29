@@ -8,7 +8,7 @@ import org.springframework.data.repository.query.Param;
 /**
  * Created by Olga_Govor on 7/26/2016.
  */
-public interface CountryRepository extends CrudRepository<Country, Long> {
+public interface CountryRepository extends CrudRepository<Country, Integer> {
 
     @Query(value = "select country_name from country c where c.country_id= :countryId"
             , nativeQuery = true

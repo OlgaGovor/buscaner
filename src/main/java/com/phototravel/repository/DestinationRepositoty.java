@@ -12,7 +12,7 @@ import java.util.List;
  * Created by PBezdienezhnykh on 026 26.7.2016.
  */
 @Repository
-public interface DestinationRepositoty extends CrudRepository<Destination, Long> {
+public interface DestinationRepositoty extends CrudRepository<Destination, Integer> {
 
     @Query(value = "select destination_id from destination d where d.request_value= :requestValue"
             , nativeQuery = true

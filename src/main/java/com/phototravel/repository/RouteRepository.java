@@ -12,7 +12,7 @@ import java.util.List;
  * Created by PBezdienezhnykh on 026 26.7.2016.
  */
 @Repository
-public interface RouteRepository extends CrudRepository<Route, Long> {
+public interface RouteRepository extends CrudRepository<Route, Integer> {
 
     @Query(value = "select route_id from route r " +
             " where r.from_city_id= :fromCityId and r.to_city_id= :toCityId"

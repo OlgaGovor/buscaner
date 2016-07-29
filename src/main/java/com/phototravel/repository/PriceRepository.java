@@ -13,9 +13,9 @@ import java.util.List;
  * Created by PBezdienezhnykh on 026 26.7.2016.
  */
 @Repository
-public interface PriceRepository extends CrudRepository<Price, Long> {
+public interface PriceRepository extends CrudRepository<Price, Integer> {
 
-    @Query(value = "select p.route_id, departure_date, departure_time, price, last_update\n" +
+    @Query(value = "select p.* \n" +
             "from route r " +
             "  join price p on p.route_id = r.route_id\n" +
             " where r.from_city_id= :fromCity " +
@@ -24,10 +24,10 @@ public interface PriceRepository extends CrudRepository<Price, Long> {
             " and p.departure_date <=date(:departureDateEnd)"
             , nativeQuery = true
     )
-    List<Price> findChipestBusByRequestForm(@Param("fromCity") int fromCityId,
-                                       @Param("toCity") int toCityId,
-                                            @Param("departureDate") Date departureDate,
-                                            @Param("departureDateEnd") Date departureDateEnd);
+    List<Price> findCheapestBusByRequestForm(@Param("fromCity") int fromCityId,
+                                             @Param("toCity") int toCityId,
+                                             @Param("departureDate") Date departureDate,
+                                             @Param("departureDateEnd") Date departureDateEnd);
 
 
 
