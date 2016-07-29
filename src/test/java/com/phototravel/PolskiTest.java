@@ -4,7 +4,6 @@ import com.phototravel.dataCollectors.PolskiBusCollector;
 import com.phototravel.dataCollectors.destinations.PolskiBusDestinationsGetter;
 import com.phototravel.entity.City;
 import com.phototravel.entity.Price;
-import com.phototravel.repository.CountryRepository;
 import com.phototravel.repository.PriceRepository;
 import com.phototravel.services.CityService;
 import com.phototravel.services.RouteService;
@@ -41,9 +40,6 @@ public class PolskiTest {
 
     @Autowired
     CityService cityService;
-
-    @Autowired
-    CountryRepository countryRepository;
 
     @Autowired
     PriceRepository priceRepository;

@@ -3,6 +3,8 @@ package com.phototravel;
 import com.phototravel.dataCollectors.LuxexpressCollector;
 import com.phototravel.dataCollectors.Route;
 import com.phototravel.dataCollectors.destinations.LuxexpressDestinationGetter;
+import com.phototravel.repository.PriceRepository;
+import com.phototravel.services.RouteService;
 import org.json.JSONException;
 import org.json.simple.parser.ParseException;
 import org.junit.Test;
@@ -16,6 +18,7 @@ import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.xpath.XPathExpressionException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -32,20 +35,27 @@ public class LuxTests {
     @Autowired
     LuxexpressDestinationGetter luxexpressDestinationGetter;
 
+    @Autowired
+    PriceRepository priceRepository;
+
+    @Autowired
+    RouteService routeService;
+
     @Test
     public void getPriceForDateAndDirection() throws Exception {
 
         String d = "20/08/2016";
         String from = "Krakow";
-        String to = "Vienna";
+        String to = "Wieden";
 
         SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
         Date date = formatter.parse(d);
 
-        Route route = new Route(from, to, date);
-        route = luxexpressCollector.getPriceForDate(route);
+        List<Integer> routeIds = routeService.getRouteIdsByCities(from, to);
 
-        route.printRouteWithDetails();
+        for (Integer i: routeIds) {
+            luxexpressCollector.getPriceForDateAndSaveToDb(i, date);
+        }
 
     }
 
