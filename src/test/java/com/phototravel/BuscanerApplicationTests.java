@@ -59,7 +59,7 @@ public class BuscanerApplicationTests {
 		int toCity = 4;
 
 
-		List<Price> prices = priceRepository.findChipestBusByRequestForm(fromCity, toCity, date, date);
+		List<Price> prices = priceRepository.findCheapestBusByRequestForm(fromCity, toCity, date, date);
 		System.out.println("Price: "+prices.size());
 	}
 

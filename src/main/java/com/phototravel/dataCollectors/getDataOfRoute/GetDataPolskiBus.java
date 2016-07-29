@@ -99,8 +99,8 @@ public class GetDataPolskiBus extends GetData {
         Integer fromDestId = route.getFromDestinationId();
         Integer toDestId = route.getToDestinationId();
 
-        Destination fromDestination = destinationRepositoty.findOne(new Long(fromDestId));
-        Destination toDestination = destinationRepositoty.findOne(new Long(toDestId));
+        Destination fromDestination = destinationRepositoty.findOne(fromDestId);
+        Destination toDestination = destinationRepositoty.findOne(toDestId);
         String from = fromDestination.getRequestValue();
         String to = fromDestination.getRequestValue();
 

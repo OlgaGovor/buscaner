@@ -6,6 +6,7 @@
 </head>
 <body>
 
+<div th:if="${requestForm != null}">
 
 <form action="#" th:action="@{/index}" th:object="${requestForm}" method="post">
 
@@ -22,16 +23,16 @@
     </p>
 
     <p>
-        <input type="checkbox" th:field="*{scanForPeriod}" th:value="${scanForPeriod}"/>
+        <label>Scan for period</label><input type="checkbox" th:field="*{scanForPeriod}" th:value="${scanForPeriod}"/>
         <label>dd-mm-yyyy</label><input type="text" th:field="*{departureDate}"/>
         <label>dd-mm-yyyy</label><input type="text" th:field="*{departureDateEnd}"/>
     </p>
 
     <p><input type="submit" value="Scan"/> <input type="reset" value="Reset"/></p>
 </form>
-
+</div>
 <div th:if="${prices != null}">
-    prices:
+    prices detailed view:
     <p th:each="price: ${prices}" th:text="${price.routeId + ' ' +
                                              price.departureDate + ' ' +
                                              price.departureTime + ' ' +
@@ -40,10 +41,19 @@
 
 
 </div>
+
+
+<div th:if="${prices != null}">
+    prices compact view:
+    <div th:each="price: ${prices}" th:text="${price.departureDate + ' ' +
+                                             price.price}"></div>
+</div>
+
+
 <div th:if=" ${cities !=null}">
     <p>available Cities:</p>
 
-    <div style="overflow-y: scroll; height: 400px; width: 250px;">
+    <div style="overflow-y: scroll; height: 300px; width: 250px;">
         <div th:each="city: ${cities}" th:text="${city.cityId + ' -  ' + city.cityName}"></div>
     </div>
 </div>

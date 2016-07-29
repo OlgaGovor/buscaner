@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <title>CalendarView</title>
+    <link rel='stylesheet' href='/css/fullcalendar.css'/>
+    <script src='/js/jquery.min.js'></script>
+    <script src='/js/moment.min.js'></script>
+    <script src='/js/fullcalendar.min.js'></script>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            // page is now ready, initialize the calendar...
+
+            $('#calendar').fullCalendar({
+                // put your options and callbacks here
+                header: {
+                    left: 'prev,next today',
+                    center: 'title',
+                    right: 'month,agendaWeek,agendaDay'
+                },
+                dayClick: function () {
+                    alert('a day has been clicked!');
+                },
+                defaultDate: '2016-06-12',
+                firstDay: 1,
+                businessHours: true, // display business hours
+                editable: true,
+                events: [
+                    {
+                        title: 'Business Lunch',
+                        start: '2016-06-03T13:00:00',
+                        constraint: 'businessHours'
+                    },
+                    {
+                        title: 'Meeting',
+                        start: '2016-06-13T11:00:00',
+                        constraint: 'availableForMeeting', // defined below
+                        color: '#257e4a'
+                    },
+                    {
+                        title: 'Conference',
+                        start: '2016-06-18'
+                    }
+                    ,
+                    {
+                        title: 'Conference',
+                        start: '2016-07-18'
+                    }
+                ]
+
+            });
+        });
+
+    </script>
+
+</head>
+<body>
+<div id="eventsList" th:if="${calendarView != null}">
+    <ul>
+        <li th:each="line: ${calendarView}">
+            <a th:text="${line.fromDate}"></a>
+            <a th:text="${line.toDate}"></a>
+
+        </li>
+    </ul>
+
+</div>
+
+
+<div id='calendar'></div>
+
+</body>
+</html>
