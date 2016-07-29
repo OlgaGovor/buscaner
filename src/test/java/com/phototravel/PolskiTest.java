@@ -113,8 +113,7 @@ public class PolskiTest {
     public void printCitiesWithCountryFromDb(){
         for (City c:cityService.getAllCitiesWithCountriesIds())
         {
-            String country = countryRepository.findCountryById(c.getCountryId());
-            System.out.println(c.getCityName()+"  "+country);
+
         }
     }
 

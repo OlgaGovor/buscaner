@@ -3,8 +3,8 @@ package com.phototravel.controllers;
 import com.phototravel.controllers.entity.RequestForm;
 import com.phototravel.entity.City;
 import com.phototravel.entity.Price;
-import com.phototravel.repository.CityRepository;
 import com.phototravel.repository.PriceRepository;
+import com.phototravel.services.CityService;
 import com.phototravel.services.FindBusService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -24,7 +24,7 @@ import java.util.List;
 public class IndexController {
 
     @Autowired
-    CityRepository cityRepository;
+    CityService cityService;
 
     @Autowired
     PriceRepository priceRepository;
@@ -37,7 +37,7 @@ public class IndexController {
         System.out.println("defaultRequest");
         ModelAndView modelAndView = new ModelAndView("index");
 
-        Iterable<City> cities = cityRepository.findAll();
+        Iterable<City> cities = cityService.findAll();
         modelAndView.addObject("cities", cities);
 
         modelAndView.addObject("requestForm", new RequestForm());
@@ -52,8 +52,11 @@ public class IndexController {
 
         ModelAndView modelAndView = new ModelAndView("index");
         System.out.println("cities1=" + new Date().getTime());
-        Iterable<City> cities = cityRepository.findAll();
+        Iterable<City> cities = cityService.findAll();
         System.out.println("cities2=" + new Date().getTime());
+
+        City one = cityService.findOne(3);
+        System.out.println("cities3=" + new Date().getTime());
         modelAndView.addObject("cities", cities);
 
 
