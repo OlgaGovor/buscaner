@@ -22,50 +22,7 @@ import java.util.List;
  */
 abstract public class BaseParser {
 
-//    public Route parse(String str, Route route, String companyName, String xPathPrice, String xPathDeparture, String xPathArrival, String currency) throws Exception {
-//
-//        List<RouteDetails> routeDetailsList;
-//        if (route.getDetails() == null) {
-//            routeDetailsList = new ArrayList<RouteDetails>();
-//        } else {
-//            routeDetailsList = route.getDetails();
-//        }
-//
-//        List<String> listPrices = getRegularPrice(xPathPrice, str);
-//        List<String> listTimeOfDepartures = getTimeDeparture(xPathDeparture, str);
-//        List<String> listTimeOfArrival = getTimeArrival(xPathArrival, str);
-//
-//        Double minPrice = route.getMinPrice();
-//        Date minDate;
-//        for (int i = 0; i < listPrices.size(); i++) {
-//            RouteDetails details = new RouteDetails();
-//            details.setCompanyName(companyName);
-//            details.setCurrency(currency);
-//
-//            Double price = parsePrice(listPrices.get(i));
-//            details.setPrice(price);
-//
-//            Time timeOfDeparture = parseTime(listTimeOfDepartures.get(i));
-//            details.setTimeDeparture(timeOfDeparture);
-//
-//            Time timeOfArrival = parseTime(listTimeOfArrival.get(i));
-//            details.setTimeArrival(timeOfArrival);
-//
-//            routeDetailsList.add(details);
-//
-//            if (minPrice > price) {
-//                minPrice = price;
-////                route.setFromDest();
-////                route.setToDest();
-//                route.setTimeOfTrip(details.getTimeDeparture());
-//            }
-//        }
-//        route.setDetails(routeDetailsList);
-//        route.setMinPrice(minPrice);
-//        return route;
-//    }
-
-    public List<Price> parse(String str, Integer routeId, String companyName, String xPathPrice, String xPathDeparture, String xPathArrival, String currency) throws Exception {
+    public List<Price> parse(String str, Integer routeId, Date date, String xPathPrice, String xPathDeparture, String xPathArrival, String currency) throws Exception {
 
         List<String> listPrices = getRegularPrice(xPathPrice, str);
         List<String> listTimeOfDepartures = getTimeDeparture(xPathDeparture, str);
@@ -81,6 +38,8 @@ abstract public class BaseParser {
 
             Double priceFromRequest = parsePrice(listPrices.get(i));
             priceEntity.setPrice(priceFromRequest);
+
+            priceEntity.setDepartureDate(date);
 
             Time timeOfDeparture = parseTime(listTimeOfDepartures.get(i));
             priceEntity.setDepartureTime(timeOfDeparture);

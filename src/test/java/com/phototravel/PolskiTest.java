@@ -6,8 +6,8 @@ import com.phototravel.entity.City;
 import com.phototravel.entity.Price;
 import com.phototravel.repository.CountryRepository;
 import com.phototravel.repository.PriceRepository;
-import com.phototravel.repository.RouteRepository;
 import com.phototravel.services.CityService;
+import com.phototravel.services.RouteService;
 import org.json.JSONException;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -49,7 +49,7 @@ public class PolskiTest {
     PriceRepository priceRepository;
 
     @Autowired
-    RouteRepository routeRepository;
+    RouteService routeService;
 
     @Test
     public void putPrice(){
@@ -66,12 +66,7 @@ public class PolskiTest {
         SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
         Date date = formatter.parse(d);
 
-        City fromCityObj = cityService.findCityByName(from);
-        Integer fromCityId = fromCityObj.getCityId();
-        City toCityObj = cityService.findCityByName(to);
-        Integer toCityId = toCityObj.getCityId();
-
-        List<Integer> routeIds = routeRepository.getRouteIdByCityId(fromCityId, toCityId);
+        List<Integer> routeIds = routeService.getRouteIdsByCities(from, to);
 
         for (Integer i: routeIds) {
             polskiBusCollector.getPriceForDateAndSaveToDb(i, date);
@@ -80,8 +75,8 @@ public class PolskiTest {
 
     @Test
     public void getPriceForPeriodAndDirections() throws Exception {
-        String d1 = "13/08/2016";
-        String d2 = "27/08/2016";
+        String d1 = "01/08/2016";
+        String d2 = "02/08/2016";
         String from = "Krakow";
         String to = "Warszawa";
 
@@ -89,11 +84,12 @@ public class PolskiTest {
         Date date1 = formatter.parse(d1);
         Date date2 = formatter.parse(d2);
 
-//        Route route = new Route(from, to);
-//        List<Route> routeList = polskiBusCollector.getPriceForPeriod(route, date1, date2);
-//        for (Route r: routeList) {
-//            r.printRouteWithDetails();
-//        }
+        List<Integer> routeIds = routeService.getRouteIdsByCities(from, to);
+
+        for (Integer i: routeIds) {
+            polskiBusCollector.getPriceForPeriodAndSaveToDb(i, date1, date2);
+        }
+
     }
 
     @Test

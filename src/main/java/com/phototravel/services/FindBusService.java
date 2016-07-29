@@ -21,7 +21,7 @@ public class FindBusService {
     public List<Price> findBus(RequestForm requestForm) {
         System.out.println("findBus=" + requestForm);
         System.out.println("date=" + requestForm.getDepartureEndAsDate());
-        List<Price> prices = priceRepository.findChipestBusByRequestForm(requestForm.getFromCity(), requestForm.getToCity(),
+        List<Price> prices = priceRepository.findCheapestBusByRequestForm(requestForm.getFromCity(), requestForm.getToCity(),
                 requestForm.getDepartureAsDate(), requestForm.getDepartureEndAsDate());
         return prices;
 
