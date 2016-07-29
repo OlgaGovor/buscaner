@@ -75,4 +75,6 @@ public class Destination {
         this.requestValue = requestValue;
         this.destinationName = destinationName;
     }
+
+    public Destination(){}
 }
