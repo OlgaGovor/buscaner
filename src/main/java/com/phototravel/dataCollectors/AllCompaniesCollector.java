@@ -37,7 +37,7 @@ public class AllCompaniesCollector extends BaseCollector
 //        get destination for TO for current company using route.getToCity()
         to = "vienna-stadion-center";
 
-        route = dataLuxexpress.getData(route, to, from);
+        // route = dataLuxexpress.getData(route, to, from);
 //        }
 //        if (polskiBus == true)
 //        {
@@ -47,7 +47,7 @@ public class AllCompaniesCollector extends BaseCollector
 //        get destination for TO for current company using route.getToCity()
         to = listOfDestinations.get("wiedeń");
 
-        route = dataPolskiBus.getData(route, to, from);
+        // route = dataPolskiBus.getData(route, to, from);
 //        }
 
 

@@ -44,6 +44,7 @@ CREATE TABLE IF NOT EXISTS route (
   to_city_id   INT NOT NULL,
   company_id          INT NOT NULL,
   is_active           BOOLEAN,
+  has_changes BOOLEAN,
   PRIMARY KEY (route_id),
   CONSTRAINT uniq_from_to_company UNIQUE (from_destination_id, to_destination_id, company_id),
   FOREIGN KEY (from_destination_id) REFERENCES destination (destination_id),

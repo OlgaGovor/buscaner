@@ -12,6 +12,44 @@ import javax.persistence.Id;
 @Entity
 public class Route {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "route_id")
+    private int routeId;
+
+    @Column(name = "from_destination_id")
+    private int fromDestinationId;
+
+    @Column(name = "to_destination_id")
+    private int toDestinationId;
+
+    @Column(name = "from_city_id")
+    private int fromCityId;
+
+    @Column(name = "to_city_id")
+    private int toCityId;
+
+    @Column(name = "company_id")
+    private int companyId;
+
+    @Column(name = "is_active")
+    private boolean active;
+
+    @Column(name = "has_changes")
+    private boolean hasChanges;
+
+    public Route(int fromDestinationId, int toDestinationId, int fromCityId, int toCityId, int companyId, boolean active) {
+        this.fromDestinationId = fromDestinationId;
+        this.toDestinationId = toDestinationId;
+        this.fromCityId = fromCityId;
+        this.toCityId = toCityId;
+        this.companyId = companyId;
+        this.active = active;
+    }
+
+    public Route() {
+    }
+
     public int getRouteId() {
         return routeId;
     }
@@ -68,39 +106,11 @@ public class Route {
         this.active = active;
     }
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "route_id")
-    private int routeId;
-
-    @Column(name = "from_destination_id")
-    private int fromDestinationId;
-
-    @Column(name = "to_destination_id")
-    private int toDestinationId;
-
-    @Column(name = "from_city_id")
-    private int fromCityId;
-
-    @Column(name = "to_city_id")
-    private int toCityId;
-
-    @Column(name = "company_id")
-    private int companyId;
-
-    @Column(name = "is_active")
-    private boolean active;
-
-    public Route(int fromDestinationId, int toDestinationId, int fromCityId, int toCityId, int companyId, boolean active) {
-        this.fromDestinationId = fromDestinationId;
-        this.toDestinationId = toDestinationId;
-        this.fromCityId = fromCityId;
-        this.toCityId = toCityId;
-        this.companyId = companyId;
-        this.active = active;
+    public boolean hasChanges() {
+        return hasChanges;
     }
 
-    public Route() {
+    public void setHasChanges(boolean hasChanges) {
+        this.hasChanges = hasChanges;
     }
-
 }
