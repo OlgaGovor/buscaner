@@ -1,6 +1,5 @@
 package com.phototravel.dataCollectors;
 
-import com.phototravel.dao.TestDao;
 import com.phototravel.dataCollectors.destinations.PolskiBusDestinationsGetter;
 import com.phototravel.dataCollectors.getDataOfRoute.GetDataLuxexpress;
 import com.phototravel.dataCollectors.getDataOfRoute.GetDataPolskiBus;
@@ -16,9 +15,6 @@ import java.util.Map;
 @Service
 public class AllCompaniesCollector extends BaseCollector
 {
-    @Autowired
-    TestDao testDao;
-
     @Autowired
     PolskiBusDestinationsGetter getPolskiBusDestinations;
 
@@ -37,7 +33,7 @@ public class AllCompaniesCollector extends BaseCollector
 //        get destination for TO for current company using route.getToCity()
         to = "vienna-stadion-center";
 
-        // route = dataLuxexpress.getData(route, to, from);
+        //route = dataLuxexpress.getData(route, to, from);
 //        }
 //        if (polskiBus == true)
 //        {
@@ -47,13 +43,13 @@ public class AllCompaniesCollector extends BaseCollector
 //        get destination for TO for current company using route.getToCity()
         to = listOfDestinations.get("wiedeń");
 
-        // route = dataPolskiBus.getData(route, to, from);
+        //route = dataPolskiBus.getData(route, to, from);
 //        }
 
 
         route.setLastUpdateDate(new Date());
         route.sortByPrice();
-        testDao.saveRoute(route);
+
 
         return route;
     }
