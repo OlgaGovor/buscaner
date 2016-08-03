@@ -4,6 +4,7 @@ import com.phototravel.dataCollectors.LuxexpressCollector;
 import com.phototravel.dataCollectors.Route;
 import com.phototravel.dataCollectors.destinations.LuxexpressDestinationGetter;
 import com.phototravel.repository.PriceRepository;
+import com.phototravel.services.CityService;
 import com.phototravel.services.RouteService;
 import org.json.JSONException;
 import org.json.simple.parser.ParseException;
@@ -16,6 +17,7 @@ import org.springframework.test.context.web.WebAppConfiguration;
 
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.xpath.XPathExpressionException;
+import java.io.UnsupportedEncodingException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -40,6 +42,9 @@ public class LuxTests {
 
     @Autowired
     RouteService routeService;
+
+    @Autowired
+    CityService cityService;
 
     @Test
     public void getPriceForDateAndDirection() throws Exception {
@@ -81,6 +86,26 @@ public class LuxTests {
     public void getDestinations() throws ParserConfigurationException, XPathExpressionException, JSONException, ParseException {
 
         Map<String, String> listOfDestinations = luxexpressDestinationGetter.getDestinations();
+    }
+
+    @Test
+    //one time per change
+    public void saveCitiesToDb() throws UnsupportedEncodingException, XPathExpressionException, ParserConfigurationException, ParseException, JSONException {
+        List<String> listOfCities = luxexpressDestinationGetter.getCities();
+        cityService.saveCitiesToDb(listOfCities);
+    }
+
+    @Test
+    //one time per week
+    public void addDestinationsToDbFromPolskiBus() throws UnsupportedEncodingException, XPathExpressionException, ParserConfigurationException, ParseException, JSONException {
+        luxexpressCollector.fillDestinationsForLuxexpress();
+    }
+
+    @Test
+    //one time per month
+    public void addRouteToDbFromPolskiBus() throws UnsupportedEncodingException, XPathExpressionException, ParserConfigurationException, JSONException {
+        luxexpressDestinationGetter.getRoutesForDb();
+
     }
 
 }

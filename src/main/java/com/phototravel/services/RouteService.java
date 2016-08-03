@@ -20,9 +20,9 @@ public class RouteService {
     @Autowired
     CityService cityService;
 
-    public void createRoute(Integer fromDestId, Integer toDestId, Integer fromCityId, Integer toCityId, Integer companyId, Boolean scan) {
+    public void createRoute(Integer fromDestId, Integer toDestId, Integer fromCityId, Integer toCityId, Integer companyId, Boolean scan, Boolean hasChanges) {
 
-        Route route = new Route(fromDestId, toDestId, fromCityId, toCityId, companyId, scan);
+        Route route = new Route(fromDestId, toDestId, fromCityId, toCityId, companyId, scan, hasChanges);
         routeRepository.save(route);
     }
 

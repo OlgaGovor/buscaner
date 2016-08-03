@@ -158,7 +158,7 @@ public class PolskiBusDestinationsGetter {
                 System.out.println(from_dest_id+" "+to_dest_id+" "+ from_city_id+" "+ to_city_id+" "+ companyId);
 
                 try {
-                    routeService.createRoute(from_dest_id, to_dest_id, from_city_id, to_city_id, companyId, true);
+                    routeService.createRoute(from_dest_id, to_dest_id, from_city_id, to_city_id, companyId, true, false);
                 }
                 catch (Exception e){}
             }

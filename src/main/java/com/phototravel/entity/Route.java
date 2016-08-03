@@ -38,13 +38,14 @@ public class Route {
     @Column(name = "has_changes")
     private boolean hasChanges;
 
-    public Route(int fromDestinationId, int toDestinationId, int fromCityId, int toCityId, int companyId, boolean active) {
+    public Route(int fromDestinationId, int toDestinationId, int fromCityId, int toCityId, int companyId, boolean active, boolean hasChanges) {
         this.fromDestinationId = fromDestinationId;
         this.toDestinationId = toDestinationId;
         this.fromCityId = fromCityId;
         this.toCityId = toCityId;
         this.companyId = companyId;
         this.active = active;
+        this.hasChanges = hasChanges;
     }
 
     public Route() {
