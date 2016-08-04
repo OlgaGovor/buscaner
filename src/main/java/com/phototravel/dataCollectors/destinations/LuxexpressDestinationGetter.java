@@ -135,13 +135,35 @@ public class LuxexpressDestinationGetter {
         SimpleDateFormat formatter = new SimpleDateFormat("MM-dd-yyyy");
         String dateStr = formatter.format(date);
 
+        List<Integer> list = new ArrayList<Integer>();
+        list.add(315);
+        list.add(319);
+//        list.add(320);
+        list.add(327);
+        list.add(328);
+        list.add(329);
+        list.add(330);
+        list.add(331);
+        list.add(332);
+        list.add(386);
+        list.add(407);
+        list.add(462);
+        list.add(463);
+        list.add(497);
+        list.add(511);
+        list.add(540);
+        list.add(559);
+        list.add(560);
+        list.add(561);
+
         SendRequestLuxexpress sendRequestLuxexpress = new SendRequestLuxexpress();
         for (String from:fromList) {
-            for (String to:toList) {
+            Integer dest_id = destinationRepositoty.getDestIdByRequestValue(from);
 
-                Integer dest_id = destinationRepositoty.getDestIdByRequestValue(from);
+            if (!list.contains(dest_id) ) {
 
-                if (dest_id >= 463 ) {
+                for (String to:toList) {
+
                     String url = PATHLUX + from + "/" + to + "?Date=" + dateStr + "&Currency=CURRENCY.PLN";
                     System.out.println(url);
 
