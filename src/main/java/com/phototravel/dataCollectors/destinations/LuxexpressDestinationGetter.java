@@ -115,7 +115,7 @@ public class LuxexpressDestinationGetter {
     @Autowired
     RouteService routeService;
 
-    private static final String PATHLUX = "http://ticket.luxexpress.eu/pl/wyjazdy-harmonogram/";
+    private static final String PATHLUX = "https://ticket.luxexpress.eu/pl/wyjazdy-harmonogram/";
 
     public void getRoutesForDb() throws ParserConfigurationException, XPathExpressionException, UnsupportedEncodingException, JSONException {
 
@@ -136,15 +136,10 @@ public class LuxexpressDestinationGetter {
         String dateStr = formatter.format(date);
 
         List<Integer> list = new ArrayList<Integer>();
-        list.add(315);
-        list.add(319);
-//        list.add(320);
-        list.add(327);
-        list.add(328);
-        list.add(329);
-        list.add(330);
-        list.add(331);
-        list.add(332);
+        for(int i=315; i<357; i++)
+        {
+            list.add(i);
+        }
         list.add(386);
         list.add(407);
         list.add(462);
@@ -155,6 +150,7 @@ public class LuxexpressDestinationGetter {
         list.add(559);
         list.add(560);
         list.add(561);
+        list.add(562);
 
         SendRequestLuxexpress sendRequestLuxexpress = new SendRequestLuxexpress();
         for (String from:fromList) {
@@ -168,13 +164,14 @@ public class LuxexpressDestinationGetter {
                     System.out.println(url);
 
                     ClientResponse response = sendRequestLuxexpress.sendGetRequest(sendRequestLuxexpress.createWebResource(url), CONTENTTYPE);
+
                     String responseStr = sendRequestLuxexpress.getResponseString(response);
 
                     Boolean hasChanges = false;
                     if (responseStr != null) {
                         if (!((responseStr.contains("Prosimy wybrać jako odjazd"))
                                 || (responseStr.contains("Aby wyszukać podróż")))) {
-                            System.out.println("Route exist");
+                            System.out.println("Route exist"+ from+":"+to);
                             if (responseStr.contains("ico_transfer_route.gif")) {
                                 hasChanges = true;
                             }
@@ -185,7 +182,7 @@ public class LuxexpressDestinationGetter {
                                     Integer from_city_id = destinationRepositoty.getCityIdByRequestValue(from);
                                     Integer to_city_id = destinationRepositoty.getCityIdByRequestValue(to);
 
-                                    System.out.println(from_dest_id + " " + to_dest_id + " " + from_city_id + " " + to_city_id + " " + companyId);
+                                    System.out.println("Write to DB  "+from_dest_id + " " + to_dest_id + " " + from_city_id + " " + to_city_id + " " + companyId);
 
                                     routeService.createRoute(from_dest_id, to_dest_id, from_city_id, to_city_id, companyId, true, hasChanges);
                                 } catch (Exception e) {

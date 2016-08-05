@@ -3,59 +3,104 @@
 <head>
     <title>BusScaner</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <link href="css/bootstrap.min.css" rel="stylesheet"/>
 </head>
 <body>
 
-<div th:if="${requestForm != null}">
-
-<form action="#" th:action="@{/index}" th:object="${requestForm}" method="post">
-
-    <p><label>fromCity</label>
-        <select th:field="*{fromCity}">
-            <option th:each="city: ${cities}" th:value="${city.cityId}" th:text="${city.cityName}"></option>
-        </select>
-
-
-        <label>to</label>
-        <select th:field="*{toCity}">
-            <option th:each="city: ${cities}" th:value="${city.cityId}" th:text="${city.cityName}"></option>
-        </select>
-    </p>
-
-    <p>
-        <label>Scan for period</label><input type="checkbox" th:field="*{scanForPeriod}" th:value="${scanForPeriod}"/>
-        <label>dd-mm-yyyy</label><input type="text" th:field="*{departureDate}"/>
-        <label>dd-mm-yyyy</label><input type="text" th:field="*{departureDateEnd}"/>
-    </p>
-
-    <p><input type="submit" value="Scan"/> <input type="reset" value="Reset"/></p>
-</form>
+<div class="row">
+	<div class="col-lg-6" style="left: 25%;">
+		<div class="row" >
+			<div class="col-lg-12" height="100px" color="#000055">
+				Header
+			</div>
+		</div>
+		<form role="form" action="#" th:action="@{/index}" th:object="${requestForm}" method="post">
+			<div class="row" >
+				<label class="col-lg-3"  for="fromCity"> From </label>
+				<div class="col-lg-1" >  </div>
+				<label class="col-lg-3"  for="toCity"> To </label>
+			</div>	
+			<div class="row" >
+				<div class="col-lg-3" > 
+					<select th:field="*{fromCity}" class="form-control" id="fromCity">
+						<option th:each="city: ${cities}" th:value="${city.cityId}" th:text="${city.cityName}"></option>
+					</select>
+				</div>
+				<div class="col-lg-1" >  </div>
+				<div class="col-lg-3" > 
+					<select th:field="*{toCity}" class="form-control" id="toCity">
+						<option th:each="city: ${cities}" th:value="${city.cityId}" th:text="${city.cityName}"></option>
+					</select>
+				</div>
+			</div>
+			<div class="row" >
+				<label class="radio-inline active col-lg-2">
+					<input type="radio" name="optradio" checked=""/>One way
+				</label>
+				<label class="radio-inline col-lg-2">
+					<input type="radio" name="optradio"/>Return
+				</label>	
+			</div>
+			<div class="row" >
+				<div class="col-lg-3"> <label>dd-mm-yyyy</label><input class="form-control" type="text" th:field="*{departureDate}"/> </div>
+				<div class="col-lg-1">  </div>
+				<div class="col-lg-3"> <label>dd-mm-yyyy</label><input class="form-control" type="text" th:field="*{departureDateEnd}"/> </div>
+			</div>
+			<div class="row" >
+				<div class="checkbox">
+					<label><input type="checkbox" value="" th:field="*{scanForPeriod}" th:value="${scanForPeriod}"/>No changes</label>
+				</div>
+			</div>
+			<div class="row" >
+				<div class="col-lg-5"></div>
+				<div class="col-lg-2">
+					<input type="submit" class="btn btn-info form-control" value="Search"/>
+				</div>
+			</div>
+		</form>
+	</div>
 </div>
-<div th:if="${prices != null}">
-    prices detailed view:
-    <p th:each="price: ${prices}" th:text="${price.routeId + ' ' +
-                                             price.departureDate + ' ' +
-                                             price.departureTime + ' ' +
-                                             price.price + ' ' +
-                                             price.lastUpdate }"></p>
-
-
+<div class="row">
+<table class="table table-striped table-bordered">
+    <thead>
+      <tr>
+        <th>Route_number</th>
+        <th>Departure Date</th>
+        <th>Departure time</th>
+		<th>Price</th>
+		<th>Last Update</th>
+      </tr>
+    </thead>
+    <tbody th:if="${prices != null}">
+		<th:block th:each="price: ${prices}">
+			<tr>
+			<td th:text="${price.routeId}">	</td>
+			<td th:text="${price.departureDate}"></td>
+			<td th:text="${price.departureTime}"></td>
+			<td th:text="${price.price}"></td>
+			<td th:text="${price.lastUpdate}"></td>
+			</tr>
+		</th:block>
+    </tbody>
+  </table>
 </div>
 
-
-<div th:if="${prices != null}">
-    prices compact view:
-    <div th:each="price: ${prices}" th:text="${price.departureDate + ' ' +
+<div class="row">
+	<div th:if="${prices != null}" class="col-lg-8" style="left: 25%;">
+		Prices compact view:
+		<div th:each="price: ${prices}" th:text="${price.departureDate + ' ' +
                                              price.price}"></div>
+	</div>
 </div>
-
-
-<div th:if=" ${cities !=null}">
-    <p>available Cities:</p>
-
-    <div style="overflow-y: scroll; height: 300px; width: 250px;">
-        <div th:each="city: ${cities}" th:text="${city.cityId + ' -  ' + city.cityName}"></div>
-    </div>
+<div class="row">
+	<div th:if=" ${cities !=null}" class="col-lg-12" style="left: 25%;">
+		<p>Available Cities:</p>
+		<div style="overflow-y: scroll; height: 300px;" class="col-lg-8">
+			<div th:each="city: ${cities}" th:text="${city.cityId + ' -  ' + city.cityName}"></div>
+		</div>
+	</div>
 </div>
+<script src="js/bootstrap.min.js"></script>
+
 </body>
 </html>
