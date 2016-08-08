@@ -23,7 +23,7 @@ import java.util.List;
  * Created by PBezdienezhnykh on 026 26.7.2016.
  */
 @Controller
-@RequestMapping(value = {"/", "/index.html", "/index", "/route/*"})
+@RequestMapping(value = {"/", "/index.html", "/index", "/route/*", "/price"})
 public class IndexController {
 
     @Autowired
@@ -53,7 +53,7 @@ public class IndexController {
 
         System.out.println(requestForm.getFromCity() + " " + requestForm.getToCity());
 
-        ModelAndView modelAndView = new ModelAndView("index");
+        ModelAndView modelAndView = new ModelAndView("price");
         System.out.println("cities1=" + new Date().getTime());
         Iterable<City> cities = cityService.findAll();
         System.out.println("cities2=" + new Date().getTime());

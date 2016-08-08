@@ -136,11 +136,10 @@ public class LuxexpressDestinationGetter {
         String dateStr = formatter.format(date);
 
         List<Integer> list = new ArrayList<Integer>();
-        for(int i=315; i<357; i++)
+        for(int i=314; i<403; i++)
         {
             list.add(i);
         }
-        list.add(386);
         list.add(407);
         list.add(462);
         list.add(463);
