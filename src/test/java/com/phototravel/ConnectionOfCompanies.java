@@ -30,9 +30,9 @@ public class ConnectionOfCompanies {
     @Test
     public void getPriceForDate() throws Exception {
 
-        String d = "20/08/2016";
+        String d = "26/08/2016";
         String from = "Krakow";
-        String to = "Vienna";
+        String to = "Praga";
 
         SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
         Date date = formatter.parse(d);
