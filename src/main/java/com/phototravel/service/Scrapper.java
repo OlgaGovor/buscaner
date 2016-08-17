@@ -1,6 +1,6 @@
-package com.phototravel.iteration.service;
+package com.phototravel.service;
 
-import com.phototravel.iteration.model.FetcherType;
+import com.phototravel.model.FetcherType;
 
 import java.time.LocalDate;
 

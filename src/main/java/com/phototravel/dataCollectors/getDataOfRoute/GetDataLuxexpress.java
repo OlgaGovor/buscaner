@@ -1,8 +1,8 @@
 package com.phototravel.dataCollectors.getDataOfRoute;
 
 
-import com.phototravel.repository.DestinationRepositoty;
-import com.phototravel.repository.RouteRepository;
+import com.phototravel.repositories.DestinationRepositoty;
+import com.phototravel.repositories.RouteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 
 /**

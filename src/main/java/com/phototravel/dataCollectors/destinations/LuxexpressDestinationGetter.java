@@ -1,8 +1,8 @@
 package com.phototravel.dataCollectors.destinations;
 
 import com.phototravel.RequestSender;
-import com.phototravel.repository.CompanyRepository;
-import com.phototravel.repository.DestinationRepositoty;
+import com.phototravel.repositories.CompanyRepository;
+import com.phototravel.repositories.DestinationRepositoty;
 import com.phototravel.services.RouteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

@@ -4,7 +4,7 @@ import com.phototravel.controllers.entity.CalendarView;
 import com.phototravel.controllers.entity.RequestForm;
 import com.phototravel.entity.City;
 import com.phototravel.entity.Price;
-import com.phototravel.repository.PriceRepository;
+import com.phototravel.repositories.PriceRepository;
 import com.phototravel.services.CityService;
 import com.phototravel.services.FindBusService;
 import org.springframework.beans.factory.annotation.Autowired;

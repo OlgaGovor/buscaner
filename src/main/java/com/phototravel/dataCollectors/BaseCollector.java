@@ -1,6 +1,6 @@
 package com.phototravel.dataCollectors;
 
-import com.phototravel.repository.PriceRepository;
+import com.phototravel.repositories.PriceRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

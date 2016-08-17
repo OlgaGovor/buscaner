@@ -1,4 +1,4 @@
-package com.phototravel.repository;
+package com.phototravel.repositories;
 
 import com.phototravel.entity.Company;
 import org.springframework.cache.annotation.Cacheable;

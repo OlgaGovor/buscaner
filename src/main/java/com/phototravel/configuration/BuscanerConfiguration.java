@@ -1,9 +1,9 @@
-package com.phototravel.iteration.configuration;
+package com.phototravel.configuration;
 
-import com.phototravel.iteration.service.Scrapper;
-import com.phototravel.iteration.service.impl.LuxexpressFetcher;
-import com.phototravel.iteration.service.impl.PolskiBusFetcher;
-import com.phototravel.iteration.service.impl.ScrapperImpl;
+import com.phototravel.service.Scrapper;
+import com.phototravel.service.impl.LuxexpressFetcher;
+import com.phototravel.service.impl.PolskiBusFetcher;
+import com.phototravel.service.impl.ScrapperImpl;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 

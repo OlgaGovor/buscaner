@@ -2,7 +2,7 @@ package com.phototravel.services;
 
 import com.phototravel.controllers.entity.RequestForm;
 import com.phototravel.entity.Price;
-import com.phototravel.repository.PriceRepository;
+import com.phototravel.repositories.PriceRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

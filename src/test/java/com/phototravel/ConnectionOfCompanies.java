@@ -1,7 +1,7 @@
 package com.phototravel;
 
-import com.phototravel.iteration.model.FetcherType;
-import com.phototravel.iteration.service.Scrapper;
+import com.phototravel.model.FetcherType;
+import com.phototravel.service.Scrapper;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;

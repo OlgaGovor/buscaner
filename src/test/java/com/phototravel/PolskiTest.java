@@ -2,10 +2,10 @@ package com.phototravel;
 
 import com.phototravel.dataCollectors.PolskiBusCollector;
 import com.phototravel.dataCollectors.destinations.PolskiBusDestinationsGetter;
-import com.phototravel.iteration.configuration.BuscanerConfiguration;
-import com.phototravel.iteration.model.FetcherType;
-import com.phototravel.iteration.service.Scrapper;
-import com.phototravel.repository.PriceRepository;
+import com.phototravel.configuration.BuscanerConfiguration;
+import com.phototravel.model.FetcherType;
+import com.phototravel.service.Scrapper;
+import com.phototravel.repositories.PriceRepository;
 import com.phototravel.services.CityService;
 import org.junit.Test;
 import org.junit.runner.RunWith;

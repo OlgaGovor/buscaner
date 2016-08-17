@@ -1,4 +1,4 @@
-package com.phototravel.repository;
+package com.phototravel.repositories;
 
 import com.phototravel.entity.Price;
 import org.springframework.data.jpa.repository.Query;

@@ -1,4 +1,4 @@
-package com.phototravel.iteration.model;
+package com.phototravel.model;
 
 /**
  * Created by Olga_Govor on 8/16/2016.

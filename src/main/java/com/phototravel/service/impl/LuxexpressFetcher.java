@@ -1,10 +1,10 @@
-package com.phototravel.iteration.service.impl;
+package com.phototravel.service.impl;
 
 import com.phototravel.dataCollectors.outRequests.SendRequestLuxexpress;
 import com.phototravel.dataCollectors.parser.LuxexpressParser;
 import com.phototravel.entity.Price;
-import com.phototravel.iteration.model.FetcherType;
-import com.phototravel.iteration.service.Fetcher;
+import com.phototravel.model.FetcherType;
+import com.phototravel.service.Fetcher;
 import com.sun.jersey.api.client.ClientResponse;
 
 import java.time.LocalDate;
@@ -15,7 +15,7 @@ import java.util.List;
 /**
  * Created by Olga_Govor on 8/16/2016.
  */
-public class LuxexpressFetcher implements Fetcher{
+public class LuxexpressFetcher implements Fetcher {
     private static final FetcherType type = FetcherType.LUX_EXPRESS;
 
     private static final String CONTENTTYPE = "application/json";

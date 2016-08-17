@@ -23,12 +23,12 @@ public class BuscanerApplicationTests {
 	@Test
 	public void addCountries(){
 //		countryService.createCountry("Poland");
-		countryService.createCountry("Germany");
-		countryService.createCountry("Czech Republic");
-		countryService.createCountry("Austria");
-		countryService.createCountry("Hungary");
-		countryService.createCountry("Ukraine");
-		countryService.createCountry("Slovakia");
+//		countryService.createCountry("Germany");
+//		countryService.createCountry("Czech Republic");
+//		countryService.createCountry("Austria");
+//		countryService.createCountry("Hungary");
+//		countryService.createCountry("Ukraine");
+//		countryService.createCountry("Slovakia");
 	}
 
 }

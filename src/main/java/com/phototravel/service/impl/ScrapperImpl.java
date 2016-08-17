@@ -1,14 +1,14 @@
-package com.phototravel.iteration.service.impl;
+package com.phototravel.service.impl;
 
 import com.phototravel.entity.Destination;
 import com.phototravel.entity.Price;
 import com.phototravel.entity.Route;
-import com.phototravel.iteration.model.FetcherType;
-import com.phototravel.iteration.service.Fetcher;
-import com.phototravel.iteration.service.Scrapper;
-import com.phototravel.repository.DestinationRepositoty;
-import com.phototravel.repository.PriceRepository;
-import com.phototravel.repository.RouteRepository;
+import com.phototravel.model.FetcherType;
+import com.phototravel.service.Fetcher;
+import com.phototravel.service.Scrapper;
+import com.phototravel.repositories.DestinationRepositoty;
+import com.phototravel.repositories.PriceRepository;
+import com.phototravel.repositories.RouteRepository;
 import com.phototravel.services.RouteService;
 import org.springframework.beans.factory.annotation.Autowired;
 

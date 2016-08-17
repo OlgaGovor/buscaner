@@ -1,8 +1,5 @@
 package com.phototravel.services;
 
-import com.phototravel.entity.Company;
-import com.phototravel.repository.CompanyRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 /**
@@ -11,11 +8,11 @@ import org.springframework.stereotype.Service;
 @Service
 public class CompanyService {
 
-    @Autowired
-    CompanyRepository companyRepository;
-
-    public void createCompany(String name, String companyUrl) {
-        Company company = new Company(name, companyUrl);
-        companyRepository.save(company);
-    }
+//    @Autowired
+//    CompanyRepository companyRepository;
+//
+//    public void createCompany(String name, String companyUrl) {
+//        Company company = new Company(name, companyUrl);
+//        companyRepository.save(company);
+//    }
 }

@@ -1,7 +1,7 @@
 package com.phototravel.services;
 
 import com.phototravel.entity.City;
-import com.phototravel.repository.CityRepository;
+import com.phototravel.repositories.CityRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -31,12 +31,12 @@ public class CityService {
         {}
     }
 
-    public void saveCitiesToDb(List<String> listOfCities)
-    {
-        for (String city: listOfCities) {
-            createCity(city, 1);
-        }
-    }
+//    public void saveCitiesToDb(List<String> listOfCities)
+//    {
+//        for (String city: listOfCities) {
+//            createCity(city, 1);
+//        }
+//    }
 
 
     @Cacheable("city")

@@ -1,6 +1,6 @@
 package com.phototravel.dataCollectors;
 
-import com.phototravel.repository.CompanyRepository;
+import com.phototravel.repositories.CompanyRepository;
 import com.phototravel.services.CityService;
 import com.phototravel.services.DestinationService;
 import org.springframework.beans.factory.annotation.Autowired;
