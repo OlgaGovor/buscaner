@@ -1,7 +1,10 @@
 package com.phototravel.entity;
 
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.EmbeddedId;
+import javax.persistence.Entity;
+import javax.persistence.Transient;
 import java.sql.Time;
 import java.text.SimpleDateFormat;
 import java.util.Date;

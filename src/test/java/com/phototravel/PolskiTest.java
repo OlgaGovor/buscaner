@@ -2,12 +2,11 @@ package com.phototravel;
 
 import com.phototravel.dataCollectors.PolskiBusCollector;
 import com.phototravel.dataCollectors.destinations.PolskiBusDestinationsGetter;
-import com.phototravel.entity.City;
-import com.phototravel.entity.Price;
+import com.phototravel.iteration.configuration.BuscanerConfiguration;
+import com.phototravel.iteration.model.FetcherType;
+import com.phototravel.iteration.service.Scrapper;
 import com.phototravel.repository.PriceRepository;
 import com.phototravel.services.CityService;
-import com.phototravel.services.RouteService;
-import org.json.JSONException;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,20 +14,15 @@ import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 
-import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.xpath.XPathExpressionException;
-import java.io.UnsupportedEncodingException;
-import java.sql.Time;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.text.ParseException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 /**
  * Created by Olga_Govor on 6/30/2016.
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@SpringApplicationConfiguration(classes = BuscanerApplication.class)
+@SpringApplicationConfiguration(classes = {BuscanerApplication.class, BuscanerConfiguration.class})
 @WebAppConfiguration
 public class PolskiTest {
 
@@ -45,89 +39,70 @@ public class PolskiTest {
     PriceRepository priceRepository;
 
     @Autowired
-    RouteService routeService;
+    Scrapper scrapper;
 
     @Test
-    public void putPrice(){
-        Price price = new Price(1034, new Date(), new Time(0), new Time(5), 1.21, "zl", new Date());
-        priceRepository.save(price);
-    }
-
-    @Test
-    public void getPriceForDateAndDirections() throws Exception {
-        String d = "13/08/2016";
+    public void getPriceForDateAndDirections() throws ParseException {
+        String d = "29/08/2016";
         String from = "Krakow";
         String to = "Warszawa";
 
-        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
-        Date date = formatter.parse(d);
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        LocalDate date = LocalDate.parse(d, formatter);
 
-        List<Integer> routeIds = routeService.getRouteIdsByCities(from, to);
-
-        for (Integer i: routeIds) {
-            polskiBusCollector.getPriceForDateAndSaveToDb(i, date);
-        }
+        scrapper.scrapForDay(FetcherType.POLSKI_BUS, from, to, date);
     }
 
     @Test
     public void getPriceForPeriodAndDirections() throws Exception {
-        String d1 = "01/08/2016";
-        String d2 = "02/08/2016";
+        String d1 = "01/10/2016";
+        String d2 = "03/10/2016";
         String from = "Krakow";
         String to = "Warszawa";
 
-        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
-        Date date1 = formatter.parse(d1);
-        Date date2 = formatter.parse(d2);
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        LocalDate date1 = LocalDate.parse(d1, formatter);
+        LocalDate date2 = LocalDate.parse(d2, formatter);
 
-        List<Integer> routeIds = routeService.getRouteIdsByCities(from, to);
-
-        for (Integer i: routeIds) {
-            polskiBusCollector.getPriceForPeriodAndSaveToDb(i, date1, date2);
-        }
-
+        scrapper.scrapForPeriod(FetcherType.POLSKI_BUS, from, to, date1, date2);
     }
 
-    @Test
-    public void getDestinations() throws ParserConfigurationException, XPathExpressionException, UnsupportedEncodingException {
-
-        Map<String, String> listOfDestinations = getPolskiBusDestinations.getDestinations();
-
-    }
-
-    @Test
-    //one time per change
-    public void saveCitiesToDb() throws UnsupportedEncodingException, XPathExpressionException, ParserConfigurationException {
-        List<String> listOfCities = getPolskiBusDestinations.getCities();
-        cityService.saveCitiesToDb(listOfCities);
-
-    }
-
-    @Test
-    public void printCitiesFromDb(){
-        for (City c:cityService.findAll()){
-            System.out.println(c.getCityName());
-        }
-    }
 
 //    @Test
-//    public void printCitiesWithCountryFromDb(){
-//        for (City c:cityService.getAllCitiesWithCountriesIds())
-//        {
+//    public void putPrice(){
+//        Price price = new Price(1034, new Date(), new Time(0), new Time(5), 1.21, "zl", new Date());
+//        priceRepository.save(price);
+//    }
 //
+//    @Test
+//    public void getDestinations() throws ParserConfigurationException, XPathExpressionException, UnsupportedEncodingException {
+//        Map<String, String> listOfDestinations = getPolskiBusDestinations.getDestinations();
+//    }
+//
+//    @Test
+//    //one time per change
+//    public void saveCitiesToDb() throws UnsupportedEncodingException, XPathExpressionException, ParserConfigurationException {
+//        List<String> listOfCities = getPolskiBusDestinations.getCities();
+//        cityService.saveCitiesToDb(listOfCities);
+//    }
+//
+//    @Test
+//    public void printCitiesFromDb(){
+//        for (City c:cityService.findAll()){
+//            System.out.println(c.getCityName());
 //        }
 //    }
+//
+//    @Test
+//    //one time per week
+//    public void addDestinationsToDbFromPolskiBus() throws UnsupportedEncodingException, XPathExpressionException, ParserConfigurationException {
+//        polskiBusCollector.fillDestinationsForPolskiBus();
+//    }
+//
+//    @Test
+//    //one time per month
+//    public void addRouteToDbFromPolskiBus() throws UnsupportedEncodingException, XPathExpressionException, ParserConfigurationException, JSONException {
+//        getPolskiBusDestinations.getRoutesForDb();
+//    }
 
-    @Test
-    //one time per week
-    public void addDestinationsToDbFromPolskiBus() throws UnsupportedEncodingException, XPathExpressionException, ParserConfigurationException {
-        polskiBusCollector.fillDestinationsForPolskiBus();
-    }
-
-    @Test
-    //one time per month
-    public void addRouteToDbFromPolskiBus() throws UnsupportedEncodingException, XPathExpressionException, ParserConfigurationException, JSONException {
-        getPolskiBusDestinations.getRoutesForDb();
-
-    }
 }

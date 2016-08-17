@@ -1,13 +1,11 @@
 package com.phototravel;
 
 import com.phototravel.dataCollectors.LuxexpressCollector;
-import com.phototravel.dataCollectors.Route;
 import com.phototravel.dataCollectors.destinations.LuxexpressDestinationGetter;
-import com.phototravel.repository.PriceRepository;
+import com.phototravel.iteration.model.FetcherType;
+import com.phototravel.iteration.service.Scrapper;
 import com.phototravel.services.CityService;
 import com.phototravel.services.RouteService;
-import org.json.JSONException;
-import org.json.simple.parser.ParseException;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,13 +13,8 @@ import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 
-import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.xpath.XPathExpressionException;
-import java.io.UnsupportedEncodingException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 /**
  * Created by Olga_Govor on 6/29/2016.
@@ -38,74 +31,65 @@ public class LuxTests {
     LuxexpressDestinationGetter luxexpressDestinationGetter;
 
     @Autowired
-    PriceRepository priceRepository;
-
-    @Autowired
     RouteService routeService;
 
     @Autowired
     CityService cityService;
 
+    @Autowired
+    Scrapper scrapper;
+
     @Test
-    public void getPriceForDateAndDirection() throws Exception {
-
-        String d = "20/08/2016";
+    public void getPriceForDateAndDirections() throws java.text.ParseException {
+        String d = "17/09/2016";
         String from = "Krakow";
-        String to = "Wieden";
+        String to = "Vienna";
 
-        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
-        Date date = formatter.parse(d);
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        LocalDate date = LocalDate.parse(d, formatter);
 
-        List<Integer> routeIds = routeService.getRouteIdsByCities(from, to);
-
-        for (Integer i: routeIds) {
-            luxexpressCollector.getPriceForDateAndSaveToDb(i, date);
-        }
-
+        scrapper.scrapForDay(FetcherType.LUX_EXPRESS, from, to, date);
     }
 
     @Test
     public void getPriceForPeriodAndDirections() throws Exception {
-        String d1 = "13/08/2016";
-        String d2 = "17/08/2016";
+        String d1 = "01/10/2016";
+        String d2 = "03/10/2016";
         String from = "Krakow";
-        String to = "Vienna";
+        String to = "Warszawa";
 
-        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
-        Date date1 = formatter.parse(d1);
-        Date date2 = formatter.parse(d2);
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        LocalDate date1 = LocalDate.parse(d1, formatter);
+        LocalDate date2 = LocalDate.parse(d2, formatter);
 
-        Route route = new Route(from, to);
-//        List<Route> routeList = luxexpressCollector.getPriceForPeriodAndSaveToDb(route, date1, date2);
-//        for (Route r: routeList) {
-//            r.printRouteWithDetails();
-//        }
+        scrapper.scrapForPeriod(FetcherType.LUX_EXPRESS, from, to, date1, date2);
     }
 
-    @Test
-    public void getDestinations() throws ParserConfigurationException, XPathExpressionException, JSONException, ParseException {
 
-        Map<String, String> listOfDestinations = luxexpressDestinationGetter.getDestinations();
-    }
-
-    @Test
-    //one time per change
-    public void saveCitiesToDb() throws UnsupportedEncodingException, XPathExpressionException, ParserConfigurationException, ParseException, JSONException {
-        List<String> listOfCities = luxexpressDestinationGetter.getCities();
-        cityService.saveCitiesToDb(listOfCities);
-    }
-
-    @Test
-    //one time per week
-    public void addDestinationsToDbFromPolskiBus() throws UnsupportedEncodingException, XPathExpressionException, ParserConfigurationException, ParseException, JSONException {
-        luxexpressCollector.fillDestinationsForLuxexpress();
-    }
-
-    @Test
-    //one time per month
-    public void addRouteToDbFromPolskiBus() throws UnsupportedEncodingException, XPathExpressionException, ParserConfigurationException, JSONException {
-        luxexpressDestinationGetter.getRoutesForDb();
-
-    }
+//    @Test
+//    public void getDestinations() throws ParserConfigurationException, XPathExpressionException, JSONException, ParseException {
+//
+//        Map<String, String> listOfDestinations = luxexpressDestinationGetter.getDestinations();
+//    }
+//
+//    @Test
+//    //one time per change
+//    public void saveCitiesToDb() throws UnsupportedEncodingException, XPathExpressionException, ParserConfigurationException, ParseException, JSONException {
+//        List<String> listOfCities = luxexpressDestinationGetter.getCities();
+//        cityService.saveCitiesToDb(listOfCities);
+//    }
+//
+//    @Test
+//    //one time per week
+//    public void addDestinationsToDbFromPolskiBus() throws UnsupportedEncodingException, XPathExpressionException, ParserConfigurationException, ParseException, JSONException {
+//        luxexpressCollector.fillDestinationsForLuxexpress();
+//    }
+//
+//    @Test
+//    //one time per month
+//    public void addRouteToDbFromPolskiBus() throws UnsupportedEncodingException, XPathExpressionException, ParserConfigurationException, JSONException {
+//        luxexpressDestinationGetter.getRoutesForDb();
+//
+//    }
 
 }

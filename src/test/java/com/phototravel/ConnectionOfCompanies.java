@@ -1,8 +1,7 @@
 package com.phototravel;
 
-import com.phototravel.dataCollectors.AllCompaniesCollector;
-import com.phototravel.dataCollectors.Route;
-import com.phototravel.dataCollectors.destinations.PolskiBusDestinationsGetter;
+import com.phototravel.iteration.model.FetcherType;
+import com.phototravel.iteration.service.Scrapper;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,8 +9,8 @@ import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 /**
  * Created by Olga_Govor on 7/8/2016.
@@ -22,45 +21,34 @@ import java.util.Date;
 public class ConnectionOfCompanies {
 
     @Autowired
-    PolskiBusDestinationsGetter getPolskiBusDestinations;
-
-    @Autowired
-    AllCompaniesCollector allCompaniesCollector;
+    Scrapper scrapper;
 
     @Test
-    public void getPriceForDate() throws Exception {
-
-        String d = "26/08/2016";
+    public void getPriceForDateAndDirections() throws java.text.ParseException {
+        String d = "17/09/2016";
         String from = "Krakow";
         String to = "Praga";
 
-        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
-        Date date = formatter.parse(d);
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        LocalDate date = LocalDate.parse(d, formatter);
 
-        Route route = new Route(from, to, date);
-        route = allCompaniesCollector.getPriceForDate(route);
-
-        route.printRouteWithDetails();
+        scrapper.scrapForDay(FetcherType.LUX_EXPRESS, from, to, date);
+        scrapper.scrapForDay(FetcherType.POLSKI_BUS, from, to, date);
     }
 
     @Test
     public void getPriceForPeriod() throws Exception {
-
-        String d1 = "17/08/2016";
-        String d2 = "19/08/2016";
-        String from = "Krakow";
+        String d1 = "01/10/2016";
+        String d2 = "03/10/2016";
+        String from = "Warszawa";
         String to = "Vienna";
 
-        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
-        Date date1 = formatter.parse(d1);
-        Date date2 = formatter.parse(d2);
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        LocalDate date1 = LocalDate.parse(d1, formatter);
+        LocalDate date2 = LocalDate.parse(d2, formatter);
 
-        Route route = new Route(from, to);
-
-//        List<Route> routeList = allCompaniesCollector.getPriceForPeriodAndSaveToDb(route, date1, date2);
-//        for (Route r: routeList) {
-//            r.printRouteWithDetails();
-//        }
+        scrapper.scrapForPeriod(FetcherType.LUX_EXPRESS, from, to, date1, date2);
+        scrapper.scrapForPeriod(FetcherType.POLSKI_BUS, from, to, date1, date2);
     }
 
 

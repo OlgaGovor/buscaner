@@ -1,10 +1,6 @@
 package com.phototravel.entity;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 /**
  * Created by PBezdienezhnykh on 026 26.7.2016.
@@ -17,8 +13,17 @@ public class Route {
     @Column(name = "route_id")
     private int routeId;
 
+//    @Column(name = "from_destination_id")
+//    @OneToMany
+//    private Destination fromDestinationId;
+//
+
     @Column(name = "from_destination_id")
     private int fromDestinationId;
+
+//    @Column(name = "to_destination_id")
+//    @OneToMany
+//    private Destination toDestinationId;
 
     @Column(name = "to_destination_id")
     private int toDestinationId;

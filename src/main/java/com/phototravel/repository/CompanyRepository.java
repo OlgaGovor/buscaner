@@ -5,10 +5,12 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
+import org.springframework.stereotype.Repository;
 
 /**
  * Created by Olga_Govor on 7/26/2016.
  */
+@Repository
 public interface CompanyRepository extends CrudRepository<Company, Integer> {
 
     @Override

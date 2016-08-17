@@ -5,8 +5,8 @@ import com.phototravel.repository.PriceRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
 import java.sql.Time;
+import java.util.Date;
 
 /**
  * Created by Olga_Govor on 7/26/2016.
