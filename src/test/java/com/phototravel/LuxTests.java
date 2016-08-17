@@ -3,7 +3,7 @@ package com.phototravel;
 import com.phototravel.dataCollectors.LuxexpressCollector;
 import com.phototravel.dataCollectors.destinations.LuxexpressDestinationGetter;
 import com.phototravel.model.FetcherType;
-import com.phototravel.service.Scrapper;
+import com.phototravel.services.Scrapper;
 import com.phototravel.services.CityService;
 import com.phototravel.services.RouteService;
 import org.junit.Test;

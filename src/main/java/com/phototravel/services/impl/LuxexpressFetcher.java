@@ -1,10 +1,10 @@
-package com.phototravel.service.impl;
+package com.phototravel.services.impl;
 
 import com.phototravel.dataCollectors.outRequests.SendRequestLuxexpress;
 import com.phototravel.dataCollectors.parser.LuxexpressParser;
 import com.phototravel.entity.Price;
 import com.phototravel.model.FetcherType;
-import com.phototravel.service.Fetcher;
+import com.phototravel.services.Fetcher;
 import com.sun.jersey.api.client.ClientResponse;
 
 import java.time.LocalDate;

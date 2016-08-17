@@ -1,4 +1,4 @@
-package com.phototravel.service;
+package com.phototravel.services;
 
 import com.phototravel.entity.Price;
 import com.phototravel.model.FetcherType;

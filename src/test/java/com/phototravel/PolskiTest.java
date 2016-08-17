@@ -4,7 +4,7 @@ import com.phototravel.dataCollectors.PolskiBusCollector;
 import com.phototravel.dataCollectors.destinations.PolskiBusDestinationsGetter;
 import com.phototravel.configuration.BuscanerConfiguration;
 import com.phototravel.model.FetcherType;
-import com.phototravel.service.Scrapper;
+import com.phototravel.services.Scrapper;
 import com.phototravel.repositories.PriceRepository;
 import com.phototravel.services.CityService;
 import org.junit.Test;

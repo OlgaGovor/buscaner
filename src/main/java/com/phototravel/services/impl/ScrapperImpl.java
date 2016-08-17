@@ -1,11 +1,11 @@
-package com.phototravel.service.impl;
+package com.phototravel.services.impl;
 
 import com.phototravel.entity.Destination;
 import com.phototravel.entity.Price;
 import com.phototravel.entity.Route;
 import com.phototravel.model.FetcherType;
-import com.phototravel.service.Fetcher;
-import com.phototravel.service.Scrapper;
+import com.phototravel.services.Fetcher;
+import com.phototravel.services.Scrapper;
 import com.phototravel.repositories.DestinationRepositoty;
 import com.phototravel.repositories.PriceRepository;
 import com.phototravel.repositories.RouteRepository;
