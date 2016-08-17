@@ -1,15 +1,17 @@
 package com.phototravel.services.impl;
 
+import com.phototravel.RequestSender;
 import com.phototravel.entity.Destination;
 import com.phototravel.entity.Price;
 import com.phototravel.entity.Route;
 import com.phototravel.model.FetcherType;
-import com.phototravel.services.Fetcher;
-import com.phototravel.services.Scrapper;
 import com.phototravel.repositories.DestinationRepositoty;
 import com.phototravel.repositories.PriceRepository;
 import com.phototravel.repositories.RouteRepository;
+import com.phototravel.services.CityService;
+import com.phototravel.services.Fetcher;
 import com.phototravel.services.RouteService;
+import com.phototravel.services.Scrapper;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.time.LocalDate;
@@ -35,6 +37,12 @@ public class ScrapperImpl implements Scrapper {
 
     @Autowired
     private RouteService routeService;
+
+    @Autowired
+    private CityService cityService;
+
+    @Autowired
+    private RequestSender requestSender;
 
     @Override
     public void register(Fetcher fetcher) {
@@ -83,4 +91,5 @@ public class ScrapperImpl implements Scrapper {
             dateOfTrip = dateOfTrip.plusDays(1);
         }
     }
+
 }

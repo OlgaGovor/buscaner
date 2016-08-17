@@ -1,5 +1,6 @@
 package com.phototravel.services.impl;
 
+import com.phototravel.RequestSender;
 import com.phototravel.dataCollectors.outRequests.SendRequestPolskiBus;
 import com.phototravel.dataCollectors.parser.PolskiBusParser;
 import com.phototravel.entity.Price;
@@ -8,6 +9,7 @@ import com.phototravel.services.Fetcher;
 import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.api.client.WebResource;
 import com.sun.jersey.core.util.MultivaluedMapImpl;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.ws.rs.core.Cookie;
 import javax.ws.rs.core.MultivaluedMap;
@@ -32,6 +34,9 @@ public class PolskiBusFetcher implements Fetcher {
     private static final String XPATHARRIVAL = "//div[@class='onb_resultRow']//div[@class='onb_col onb_two']//p[position() mod 2 = 0]/b";
 
     private static final String CURRENCY = "zl";
+
+    @Autowired
+    RequestSender requestSender;
 
     @Override
     public List<Price> fetch(String fromRequestValue, String toRequestValue, LocalDate date, int routeId) {

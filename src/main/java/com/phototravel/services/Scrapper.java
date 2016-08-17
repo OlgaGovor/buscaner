@@ -11,4 +11,5 @@ public interface Scrapper {
     void register(Fetcher fetcher);
     void scrapForDay(FetcherType provider, String from, String to, LocalDate date);
     void scrapForPeriod(FetcherType provider, String from, String to, LocalDate date1, LocalDate date2);
+
 }

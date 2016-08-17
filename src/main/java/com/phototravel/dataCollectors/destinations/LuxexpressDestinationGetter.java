@@ -1,11 +1,23 @@
 package com.phototravel.dataCollectors.destinations;
 
 import com.phototravel.RequestSender;
+import com.phototravel.dataCollectors.outRequests.SendRequestLuxexpress;
 import com.phototravel.repositories.CompanyRepository;
 import com.phototravel.repositories.DestinationRepositoty;
 import com.phototravel.services.RouteService;
+import com.sun.jersey.api.client.ClientResponse;
+import org.json.simple.JSONArray;
+import org.json.JSONException;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.xpath.XPathExpressionException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Olga_Govor on 7/22/2016.
@@ -17,7 +29,7 @@ public class LuxexpressDestinationGetter {
     //StopId
     //StopName
     //Slug  - key for request
-    private static final String PATH = "http://ticket.luxexpress.eu/en/Stops/GetAllBusStops";
+    private static final String PATH = "https://ticket.luxexpress.eu/en/Stops/GetAllBusStops";
 
     private static final String CONTENTTYPE = "application/json";
 
@@ -57,38 +69,38 @@ public class LuxexpressDestinationGetter {
 //        return listOfDestinations;
 //    }
 //
-//    public List<String> getCities() throws ParserConfigurationException, XPathExpressionException, ParseException, JSONException {
-//
-//        SendRequestLuxexpress sendRequestLuxexpress = new SendRequestLuxexpress();
-//
-//        ClientResponse response = sendRequestLuxexpress.sendGetRequest(sendRequestLuxexpress.createWebResource(PATH), CONTENTTYPE);
-//        String responseStr = sendRequestLuxexpress.getResponseString(response);
-//
-//        List <String> listOfCities = new ArrayList<String>();
-//
-//        JSONParser parser = new JSONParser();
-//
-//        Object obj = null;
-//
-//        obj = parser.parse(responseStr);
-//
-//        JSONArray array1 = (JSONArray)obj;
-//
-//
-//        for(int i = 0; i < array1.size(); i++) {
-//
-//
-//            JSONObject ob = (JSONObject) array1.get(i);
-//
-//            String city = ob.get("StopName").toString();
-//            listOfCities.add(city);
-//            System.out.println(city);
-//        }
-//
-//        System.out.println();
-//
-//        return listOfCities;
-//    }
+    public List<String> getCities() throws ParserConfigurationException, XPathExpressionException, ParseException, JSONException {
+
+        SendRequestLuxexpress sendRequestLuxexpress = new SendRequestLuxexpress();
+
+        ClientResponse response = sendRequestLuxexpress.sendGetRequest(sendRequestLuxexpress.createWebResource(PATH), CONTENTTYPE);
+        String responseStr = sendRequestLuxexpress.getResponseString(response);
+
+        List<String> listOfCities = new ArrayList<String>();
+
+        JSONParser parser = new JSONParser();
+
+        Object obj = null;
+
+        obj = parser.parse(responseStr);
+
+        JSONArray array1 = (JSONArray)obj;
+
+        for(int i = 0; i < array1.size(); i++) {
+
+
+            JSONObject ob = (JSONObject) array1.get(i);
+
+            String city = ob.get("StopName").toString();
+            listOfCities.add(city);
+            System.out.println(city);
+        }
+
+        System.out.println();
+
+        return listOfCities;
+    }
+
 
     @Autowired
     RequestSender requestSender;

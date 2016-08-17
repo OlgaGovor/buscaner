@@ -1,11 +1,21 @@
 package com.phototravel.dataCollectors.destinations;
 
+import com.phototravel.Encoder;
 import com.phototravel.RequestSender;
 import com.phototravel.repositories.CompanyRepository;
 import com.phototravel.repositories.DestinationRepositoty;
 import com.phototravel.services.RouteService;
+import org.htmlcleaner.CleanerProperties;
+import org.htmlcleaner.HtmlCleaner;
+import org.htmlcleaner.TagNode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.w3c.dom.NodeList;
+
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.xpath.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class PolskiBusDestinationsGetter {
@@ -24,42 +34,42 @@ public class PolskiBusDestinationsGetter {
 
     private static final String PATH = "https://booking.polskibus.com/Pricing/Selections?lang=PL";
 
-//    public List<String> getCities() throws ParserConfigurationException, XPathExpressionException, UnsupportedEncodingException {
-//        String responseStr = "";
-//        responseStr = requestSender.excutePost(PATH, "");
-//
-//        List<String> listOfCities = new ArrayList<String>();
-//
-//        TagNode tagNode = new HtmlCleaner().clean(responseStr);
-//
-//        org.w3c.dom.Document doc;
-//        doc = new org.htmlcleaner.DomSerializer(new CleanerProperties()).createDOM(tagNode);
-//
-//        XPath xpath = XPathFactory.newInstance().newXPath();
-//
-//        Encoder encoder = new Encoder();
-//        try {
-//            //create XPathExpression object
-//            XPathExpression expr =
-//                    xpath.compile("//select[@id='PricingForm_FromCity']/option");
-//            //evaluate expression result on XML document
-//            NodeList nodes = (NodeList) expr.evaluate(doc, XPathConstants.NODESET);
-//            for (int i = 1; i < nodes.getLength(); i++) {
-//                String city =  nodes.item(i).getFirstChild().getNodeValue().toLowerCase();
-//
-//                city = encoder.encode(city);
-//                city = city.substring(0,1).toUpperCase()+city.substring(1);
-//
-//                System.out.println(city);
-//                listOfCities.add(city);
-//
-//            }
-//        } catch (XPathExpressionException e) {
-//            e.printStackTrace();
-//        }
-//
-//        return listOfCities;
-//    }
+    public List<String> getCities() throws ParserConfigurationException{
+        String responseStr = "";
+        responseStr = requestSender.excutePost(PATH, "");
+
+        List<String> listOfCities = new ArrayList<String>();
+
+        TagNode tagNode = new HtmlCleaner().clean(responseStr);
+
+        org.w3c.dom.Document doc;
+        doc = new org.htmlcleaner.DomSerializer(new CleanerProperties()).createDOM(tagNode);
+
+        XPath xpath = XPathFactory.newInstance().newXPath();
+
+        Encoder encoder = new Encoder();
+        try {
+            //create XPathExpression object
+            XPathExpression expr =
+                    xpath.compile("//select[@id='PricingForm_FromCity']/option");
+            //evaluate expression result on XML document
+            NodeList nodes = (NodeList) expr.evaluate(doc, XPathConstants.NODESET);
+            for (int i = 1; i < nodes.getLength(); i++) {
+                String city =  nodes.item(i).getFirstChild().getNodeValue().toLowerCase();
+
+                city = encoder.encode(city);
+                city = city.substring(0,1).toUpperCase()+city.substring(1);
+
+                System.out.println(city);
+                listOfCities.add(city);
+
+            }
+        } catch (XPathExpressionException e) {
+            e.printStackTrace();
+        }
+
+        return listOfCities;
+    }
 //
 //
 //    public Map <String, String> getDestinations() throws ParserConfigurationException, XPathExpressionException, UnsupportedEncodingException {

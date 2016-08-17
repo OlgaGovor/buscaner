@@ -31,12 +31,12 @@ public class CityService {
         {}
     }
 
-//    public void saveCitiesToDb(List<String> listOfCities)
-//    {
-//        for (String city: listOfCities) {
-//            createCity(city, 1);
-//        }
-//    }
+    public void saveCitiesToDb(List<String> listOfCities)
+    {
+        for (String city: listOfCities) {
+            createCity(city, 1);
+        }
+    }
 
 
     @Cacheable("city")

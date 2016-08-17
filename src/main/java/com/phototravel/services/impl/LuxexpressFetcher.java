@@ -54,6 +54,7 @@ public class LuxexpressFetcher implements Fetcher {
         }
     }
 
+
     @Override
     public FetcherType getType() {
         return type;
