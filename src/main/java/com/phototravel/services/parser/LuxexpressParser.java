@@ -8,7 +8,7 @@ import java.text.SimpleDateFormat;
 /**
  * Created by Olga_Govor on 6/29/2016.
  */
-public class LuxexpressParser extends BaseParser {
+public class LuxexpressParser extends BaseParser{
 
     @Override
     public Double parsePrice(String priceStr){

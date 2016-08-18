@@ -8,7 +8,7 @@ import java.text.SimpleDateFormat;
 /**
  * Created by Olga_Govor on 7/1/2016.
  */
-public class PolskiBusParser extends BaseParser {
+public class PolskiBusParser extends BaseParser{
 
     @Override
     public Double parsePrice(String priceStr){

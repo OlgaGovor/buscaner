@@ -22,7 +22,7 @@ import java.util.List;
 /**
  * Created by Olga_Govor on 7/1/2016.
  */
-abstract public class BaseParser {
+public class BaseParser {
 
     public List<Price> parse(String str, Integer routeId, LocalDate date, String xPathPrice, String xPathDeparture, String xPathArrival, String currency) throws Exception {
 

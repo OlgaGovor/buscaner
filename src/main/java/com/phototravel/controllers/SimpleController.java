@@ -1,8 +1,6 @@
 package com.phototravel.controllers;
 
-import com.phototravel.services.oneTimeServices.PolskiBusCollector;
 import com.phototravel.services.CacheManagerService;
-import com.phototravel.services.CityService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,13 +14,7 @@ import org.springframework.web.servlet.ModelAndView;
 public class SimpleController {
 
     @Autowired
-    PolskiBusCollector polskiBusCollector;
-
-    @Autowired
     CacheManagerService cacheManagerService;
-
-    @Autowired
-    CityService cityService;
 
     @RequestMapping("/hello")
     public ModelAndView helloWorld(@RequestParam(value="name", required=false, defaultValue="World") String name){
@@ -32,7 +24,6 @@ public class SimpleController {
         modelAndView.addObject("name", name);
 
         cacheManagerService.test();
-
 
         return modelAndView;
     }
