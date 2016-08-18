@@ -1,5 +1,6 @@
-package com.phototravel.dataCollectors;
+package com.phototravel.services.oneTimeServices;
 
+import com.phototravel.dataCollectors.BaseCollector;
 import com.phototravel.repositories.CompanyRepository;
 import com.phototravel.services.CityService;
 import com.phototravel.services.DestinationService;
@@ -18,9 +19,6 @@ import java.io.UnsupportedEncodingException;
 
 @Service
 public class LuxexpressCollector extends BaseCollector {
-
-//    @Autowired
-//    LuxexpressDestinationGetter luxexpressDestinationGetter;
 
     @Autowired
     DestinationService destinationService;

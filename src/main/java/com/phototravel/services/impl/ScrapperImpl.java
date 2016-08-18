@@ -4,7 +4,7 @@ import com.phototravel.RequestSender;
 import com.phototravel.entity.Destination;
 import com.phototravel.entity.Price;
 import com.phototravel.entity.Route;
-import com.phototravel.model.FetcherType;
+import com.phototravel.modelOfFetcher.FetcherType;
 import com.phototravel.repositories.DestinationRepositoty;
 import com.phototravel.repositories.PriceRepository;
 import com.phototravel.repositories.RouteRepository;

@@ -1,4 +1,4 @@
-package com.phototravel.dataCollectors.outRequests;
+package com.phototravel.outerRequests;
 
 import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.ClientResponse;

@@ -1,20 +1,15 @@
-package com.phototravel.dataCollectors;
+package com.phototravel.services.oneTimeServices;
 
+import com.phototravel.dataCollectors.BaseCollector;
 import com.phototravel.repositories.CompanyRepository;
 import com.phototravel.services.CityService;
 import com.phototravel.services.DestinationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.xpath.XPathExpressionException;
-import java.io.UnsupportedEncodingException;
-
 @Service
 public class PolskiBusCollector extends BaseCollector {
 
-//    @Autowired
-//    PolskiBusDestinationsGetter polskiBusDestinationsGetter;
 
     @Autowired
     CityService cityService;
@@ -25,7 +20,7 @@ public class PolskiBusCollector extends BaseCollector {
     @Autowired
     CompanyRepository companyRepository;
 
-    public void fillDestinationsForPolskiBus() throws UnsupportedEncodingException, XPathExpressionException, ParserConfigurationException {
+//    public void fillDestinationsForPolskiBus() throws UnsupportedEncodingException, XPathExpressionException, ParserConfigurationException {
 
 //        Map <String, String> destinations = polskiBusDestinationsGetter.getDestinations();
 //        for (Map.Entry<String, String> entry : destinations.entrySet())
@@ -43,7 +38,7 @@ public class PolskiBusCollector extends BaseCollector {
 //
 //            };
 //        }
-    }
+//    }
 
 
 }

@@ -1,4 +1,4 @@
-package com.phototravel.model;
+package com.phototravel.modelOfFetcher;
 
 /**
  * Created by Olga_Govor on 8/16/2016.

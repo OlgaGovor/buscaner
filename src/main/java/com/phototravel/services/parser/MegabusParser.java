@@ -1,4 +1,4 @@
-package com.phototravel.dataCollectors.parser;
+package com.phototravel.services.parser;
 
 import org.htmlcleaner.CleanerProperties;
 import org.htmlcleaner.HtmlCleaner;

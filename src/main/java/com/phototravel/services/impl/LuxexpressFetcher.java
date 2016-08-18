@@ -1,9 +1,9 @@
 package com.phototravel.services.impl;
 
-import com.phototravel.dataCollectors.outRequests.SendRequestLuxexpress;
-import com.phototravel.dataCollectors.parser.LuxexpressParser;
+import com.phototravel.outerRequests.SendRequestLuxexpress;
+import com.phototravel.services.parser.LuxexpressParser;
 import com.phototravel.entity.Price;
-import com.phototravel.model.FetcherType;
+import com.phototravel.modelOfFetcher.FetcherType;
 import com.phototravel.services.Fetcher;
 import com.sun.jersey.api.client.ClientResponse;
 

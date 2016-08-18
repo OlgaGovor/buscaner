@@ -1,6 +1,6 @@
 package com.phototravel;
 
-import com.phototravel.model.FetcherType;
+import com.phototravel.modelOfFetcher.FetcherType;
 import com.phototravel.services.Scrapper;
 import org.junit.Test;
 import org.junit.runner.RunWith;

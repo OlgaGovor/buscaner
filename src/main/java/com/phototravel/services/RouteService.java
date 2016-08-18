@@ -1,6 +1,7 @@
 package com.phototravel.services;
 
 import com.phototravel.entity.City;
+import com.phototravel.entity.Route;
 import com.phototravel.repositories.CompanyRepository;
 import com.phototravel.repositories.RouteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,12 +24,12 @@ public class RouteService {
     @Autowired
     CompanyRepository companyRepository;
 
-//    public void createRoute(Integer fromDestId, Integer toDestId, Integer fromCityId, Integer toCityId, Integer companyId, Boolean scan, Boolean hasChanges) {
-//
-//        Route route = new Route(fromDestId, toDestId, fromCityId, toCityId, companyId, scan, hasChanges);
-//        routeRepository.save(route);
-//    }
-//
+    public void createRoute(Integer fromDestId, Integer toDestId, Integer fromCityId, Integer toCityId, Integer companyId, Boolean scan, Boolean hasChanges) {
+
+        Route route = new Route(fromDestId, toDestId, fromCityId, toCityId, companyId, scan, hasChanges);
+        routeRepository.save(route);
+    }
+
 //    public List<Integer> getRouteIdsByCities(String from, String to){
 //        City fromCityObj = cityService.findCityByName(from);
 //        Integer fromCityId = fromCityObj.getCityId();

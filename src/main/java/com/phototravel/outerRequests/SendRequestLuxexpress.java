@@ -1,4 +1,4 @@
-package com.phototravel.dataCollectors.outRequests;
+package com.phototravel.outerRequests;
 
 /**
  * Created by Olga_Govor on 7/20/2016.

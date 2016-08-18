@@ -1,6 +1,6 @@
 package com.phototravel.controllers;
 
-import com.phototravel.dataCollectors.PolskiBusCollector;
+import com.phototravel.services.oneTimeServices.PolskiBusCollector;
 import com.phototravel.services.CacheManagerService;
 import com.phototravel.services.CityService;
 import org.springframework.beans.factory.annotation.Autowired;

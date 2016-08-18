@@ -9,8 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
  * Created by Olga_Govor on 7/20/2016.
  */
 
-//public class GetDataLuxexpress implements DataFetcher {
-public class GetDataLuxexpress {
+//public class GetDataLuxexpress111 implements DataFetcher {
+public class GetDataLuxexpress111 {
 
     private static final String CONTENTTYPE = "application/json";
     private static final String PATHLUX = "http://ticket.luxexpress.eu/pl/wyjazdy-harmonogram/";

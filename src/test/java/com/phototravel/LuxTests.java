@@ -1,11 +1,8 @@
 package com.phototravel;
 
-import com.phototravel.dataCollectors.LuxexpressCollector;
-import com.phototravel.dataCollectors.destinations.LuxexpressDestinationGetter;
-import com.phototravel.model.FetcherType;
-import com.phototravel.services.CityService;
-import com.phototravel.services.RouteService;
+import com.phototravel.modelOfFetcher.FetcherType;
 import com.phototravel.services.Scrapper;
+import com.phototravel.services.oneTimeServices.impl.LuxexpressCitiesAndRoutesFetcher;
 import org.json.JSONException;
 import org.json.simple.parser.ParseException;
 import org.junit.Test;
@@ -20,7 +17,6 @@ import javax.xml.xpath.XPathExpressionException;
 import java.io.UnsupportedEncodingException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.List;
 
 /**
  * Created by Olga_Govor on 6/29/2016.
@@ -31,23 +27,14 @@ import java.util.List;
 public class LuxTests {
 
     @Autowired
-    LuxexpressCollector luxexpressCollector;
-
-    @Autowired
-    LuxexpressDestinationGetter luxexpressDestinationGetter;
-
-    @Autowired
-    RouteService routeService;
-
-    @Autowired
-    CityService cityService;
-
-    @Autowired
     Scrapper scrapper;
+
+    @Autowired
+    LuxexpressCitiesAndRoutesFetcher luxexpressCitiesAndRoutesFetcher;
 
     @Test
     public void getPriceForDateAndDirections() throws java.text.ParseException {
-        String d = "17/09/2016";
+        String d = "27/09/2016";
         String from = "Krakow";
         String to = "Vienna";
 
@@ -81,21 +68,20 @@ public class LuxTests {
     @Test
     //one time per change
     public void saveCitiesToDb() throws UnsupportedEncodingException, XPathExpressionException, ParserConfigurationException, ParseException, JSONException {
-        List<String> listOfCities = luxexpressDestinationGetter.getCities();
-        cityService.saveCitiesToDb(listOfCities);
+        luxexpressCitiesAndRoutesFetcher.fetchCities(FetcherType.LUX_EXPRESS);
     }
-//
-//    @Test
-//    //one time per week
-//    public void addDestinationsToDbFromPolskiBus() throws UnsupportedEncodingException, XPathExpressionException, ParserConfigurationException, ParseException, JSONException {
-//        luxexpressCollector.fillDestinationsForLuxexpress();
-//    }
-//
-//    @Test
-//    //one time per month
-//    public void addRouteToDbFromPolskiBus() throws UnsupportedEncodingException, XPathExpressionException, ParserConfigurationException, JSONException {
+
+    @Test
+    //one time per week
+    public void addDestinationsToDbFromLuxexpress() throws UnsupportedEncodingException, XPathExpressionException, ParserConfigurationException, ParseException, JSONException {
+        luxexpressCitiesAndRoutesFetcher.fetchDestinations(FetcherType.LUX_EXPRESS);
+    }
+
+    @Test
+    //one time per month
+    public void addRouteToDbFromLuxexpress() throws UnsupportedEncodingException, XPathExpressionException, ParserConfigurationException, JSONException {
 //        luxexpressDestinationGetter.getRoutesForDb();
-//
-//    }
+        luxexpressCitiesAndRoutesFetcher.fetchRoutes(FetcherType.LUX_EXPRESS);
+    }
 
 }

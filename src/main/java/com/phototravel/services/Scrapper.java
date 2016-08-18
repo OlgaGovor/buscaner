@@ -1,6 +1,6 @@
 package com.phototravel.services;
 
-import com.phototravel.model.FetcherType;
+import com.phototravel.modelOfFetcher.FetcherType;
 
 import java.time.LocalDate;
 

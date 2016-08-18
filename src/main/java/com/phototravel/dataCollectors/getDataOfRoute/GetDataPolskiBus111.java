@@ -9,8 +9,8 @@ import org.springframework.stereotype.Service;
  * Created by Olga_Govor on 7/20/2016.
  */
 @Service
-//public class GetDataPolskiBus implements DataFetcher {
-public class GetDataPolskiBus {
+//public class GetDataPolskiBus111 implements DataFetcher {
+public class GetDataPolskiBus111 {
 
     private static final String CONTENTTYPE = "application/json";
     private static final String PATHBASE = "https://booking.polskibus.com";

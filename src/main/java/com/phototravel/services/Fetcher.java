@@ -1,7 +1,7 @@
 package com.phototravel.services;
 
 import com.phototravel.entity.Price;
-import com.phototravel.model.FetcherType;
+import com.phototravel.modelOfFetcher.FetcherType;
 
 import java.time.LocalDate;
 import java.util.List;

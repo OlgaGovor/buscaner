@@ -1,10 +1,10 @@
 package com.phototravel.services.impl;
 
 import com.phototravel.RequestSender;
-import com.phototravel.dataCollectors.outRequests.SendRequestPolskiBus;
-import com.phototravel.dataCollectors.parser.PolskiBusParser;
+import com.phototravel.outerRequests.SendRequestPolskiBus;
+import com.phototravel.services.parser.PolskiBusParser;
 import com.phototravel.entity.Price;
-import com.phototravel.model.FetcherType;
+import com.phototravel.modelOfFetcher.FetcherType;
 import com.phototravel.services.Fetcher;
 import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.api.client.WebResource;

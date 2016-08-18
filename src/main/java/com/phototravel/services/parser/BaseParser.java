@@ -1,4 +1,4 @@
-package com.phototravel.dataCollectors.parser;
+package com.phototravel.services.parser;
 
 
 import com.phototravel.entity.Price;
