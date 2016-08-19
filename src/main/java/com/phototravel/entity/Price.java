@@ -41,11 +41,11 @@ public class Price {
     private Date lastUpdate;
 
     @Transient
-    private static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("dd-MM-yyyy");
+    private static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd");
     @Transient
     private static final SimpleDateFormat TIME_FORMAT = new SimpleDateFormat("hh:mm");
     @Transient
-    private static final SimpleDateFormat DATE_TIME_FORMAT = new SimpleDateFormat("dd-MM-yyyy hh:mm:ss");
+    private static final SimpleDateFormat DATE_TIME_FORMAT = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
 
     public Price(int routeId, Date departureDate, Time departureTime, Time arrivalTime,
                  double price, String currency, Date lastUpdate) {

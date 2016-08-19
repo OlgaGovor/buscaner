@@ -12,9 +12,6 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by Olga_Govor on 8/16/2016.
- */
 public class LuxexpressFetcher implements Fetcher {
     private static final FetcherType type = FetcherType.LUX_EXPRESS;
 

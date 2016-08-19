@@ -5,9 +5,7 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
-/**
- * Created by Olga_Govor on 7/1/2016.
- */
+
 public class PolskiBusParser extends BaseParser{
 
     @Override
