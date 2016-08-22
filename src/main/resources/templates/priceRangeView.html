@@ -18,12 +18,26 @@
 </head>
 <body>
 <div id="console"></div>
+
 <script type="text/javascript" th:inline="javascript">
+//<![CDATA[
+
         	    $(function() {
-                    var lae = new Date([[${prices[1].departureDate}]]);
-                    document.getElementById("console").innerHTML = lae;
+                    var text = '';
+                    var i;
+                    var priceList = [[${prices}]];
+
+        	        for (i=0; i < priceList.length; i++) {
+        	         priceList[i].departureDate;
+        	            var dt = priceList[i].departureDate;
+        	            var pr = priceList[i].price;
+                        var c = priceList[i].currency;
+                        text += pr+' '+c +'///'+dt+'</br>';
+                    }
+        	        document.getElementById("console").innerHTML = text;
 		        });
-	            </script>
+//]]>
+</script>
 
 <div class="row">
 	<div class="col-lg-6" style="left: 25%;">
