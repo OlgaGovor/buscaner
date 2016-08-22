@@ -84,12 +84,13 @@
 		    var endYear = [[${endYear}]];
 		    var endMonth = [[${endMonth}]];
 		    var endDay = [[${endDay}]];
-			drawPriceView(startYear,startMonth,startDay,endYear,endMonth,endDay);
+		    var priceList = [[${prices}]];
+			drawPriceView(startYear,startMonth,startDay,endYear,endMonth,endDay, priceList);
 		});
 	</script>
 </form>
 
-<script type="text/javascript">
+<script type="text/javascript" th:inline="javascript">
 <!--
 // Copyright (c) 2002 Yura Ladik http://www.javaportal.ru All rights reserved.
 // Permission given to use the script provided that this notice remains as is.
@@ -134,16 +135,16 @@ if (nameMonth=="rus"||nameMonth=="russ"||nameMonth=="russs")
 }
 
 //Функция выбор кол-ва отображаемых месяцев с последующей прорисовкой календаря
-function drawPriceView(startYear, startMonth, startDay, endYear, endMonth, endDay){
+function drawPriceView(startYear, startMonth, startDay, endYear, endMonth, endDay, priceList){
  
  if ((endMonth-startMonth)==0)
  {
-	var t = setCalendar(startYear, startMonth);
+	var t = setCalendar(startYear, startMonth, priceList);
 	document.getElementById("calendar").innerHTML = t;
  }
  if ((endMonth-startMonth)>=1)
  {
-	showTwoMonthes(startYear, startMonth);
+	showTwoMonthes(startYear, startMonth, priceList);
  }
 }
 
@@ -153,7 +154,7 @@ function showPrevNextButtons(startYear, startMonth)
 	return text;
 }
 
-function showTwoMonthes(year, month)
+function showTwoMonthes(year, month, priceList)
 {
 	var t1 = setCalendar(year, month);
 	var year2 = year;
@@ -169,13 +170,13 @@ function showTwoMonthes(year, month)
 		year2 = year2 + 1;
 		month2 = 0;
 	}
-	var t2 = setCalendar(year2, month2);
+	var t2 = setCalendar(year2, month2, priceList);
 	var text = "<table><tr><td>"+t1+"</td><td>"+t2+"</td></tr></table>";
-	var buttons = showPrevNextButtons(year, month);
+	var buttons = showPrevNextButtons(year, month, priceList);
 	document.getElementById("calendar").innerHTML = text + buttons;
 }
 
-function onPrevClick(year, month){
+function onPrevClick(year, month, priceList){
 	if (month < 0)
 	{
 		year = year - 1;
@@ -184,18 +185,18 @@ function onPrevClick(year, month){
 	showTwoMonthes(year, month);
 }
 
-function onNextClick(year, month){
+function onNextClick(year, month, priceList){
 	if (month > 11)
 	{
 		year = year + 1;
 		month = 0;
 	}
-	showTwoMonthes(year, month);
+	showTwoMonthes(year, month, priceList);
 }
 
 
 // Функция установки настроек календаря
-function setCalendar(year, month)
+function setCalendar(year, month, priceList)
 {
 
  // Параметры настройки таблицы
@@ -244,7 +245,7 @@ function setCalendar(year, month)
   cellHeight,
   todayColor, todayBgColor, todayBold, todaySize,
   allDayColor, allDayBgColor, allDayBold, allDaySize,
-  timeColor, timeSize, timeBold, isTime, nameMonth, year, month)
+  timeColor, timeSize, timeBold, isTime, nameMonth, year, month, priceList)
   return text;
 }
 
@@ -258,7 +259,7 @@ function drawCalendar( tableBgColor, headerHeight, border,
  cellHeight,
  todayColor, todayBgColor, todayBold, todaySize,
  allDayColor, allDayBgColor, allDayBold, allDaySize,
- timeColor, timeSize, timeBold, isTime, nameMonth, year, month)
+ timeColor, timeSize, timeBold, isTime, nameMonth, year, month, priceList)
 {
  // Переменные
  var monthName = getMonthName(month, nameMonth);
@@ -319,6 +320,7 @@ function drawCalendar( tableBgColor, headerHeight, border,
  text += '</tr>';
  var digit = 1;
  var curCell = 2;
+ var inc = 0;
  for (var row = 1; row <= Math.ceil((lastDate + firstDay - 1) / 7); ++row)
  {
   text += '<tr align="right" valign="top">';
@@ -340,7 +342,19 @@ function drawCalendar( tableBgColor, headerHeight, border,
     text += '<div><p>';
     text += digit;
     text += '</p><p>';
-    text += '11 PLN';
+
+    var d = year+'-'+(month+1)+'-'+digit;
+    var dd = new Date(d);
+
+    if ((new Date(d) >= new Date(priceList[0].departureDate))&&(inc < priceList.length))
+    {
+        text +=priceList[inc].price+priceList[inc].currency;
+        inc++;
+    }
+    else
+    {
+
+    };
     text += '</p></div>'
 
     if(allDayBold)text +='</b>';
