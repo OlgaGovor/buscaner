@@ -31,18 +31,19 @@ public interface PriceRepository extends CrudRepository<Price, Integer> {
 
 
 
-    @Query(value = "select min(p.price) as price, p.departure_date, p.route_id \n" +
-            "from price p " +
+    @Query(value = "select route_id, departure_date, departure_time, min(p.price)as price, last_update, arrival_time, currency" +
+            " from price p " +
             " group by p.departure_date, route_id"+
             " having p.route_id in (" +
             " select route_id from route r where"+
             " r.from_city_id= :fromCity " +
             " and r.to_city_id= :toCity)" +
             " and p.departure_date >=date(:departureDate) " +
-            " and p.departure_date <=date(:departureDateEnd)"
+            " and p.departure_date <=date(:departureDateEnd)"+
+            " order by departure_date ASC"
             , nativeQuery = true
     )
-    List<Object[]> findCheapestBusByRequestForm(@Param("fromCity") int fromCityId,
+    List<Price> findCheapestBusByRequestForm(@Param("fromCity") int fromCityId,
                                                      @Param("toCity") int toCityId,
                                                      @Param("departureDate") Date departureDate,
                                                      @Param("departureDateEnd") Date departureDateEnd);
