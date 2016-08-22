@@ -22,8 +22,6 @@
         	    $(function() {
                     var lae = new Date([[${prices[1].departureDate}]]);
                     document.getElementById("console").innerHTML = lae;
-                    var myDate = new Date("2015-03-25");
-	                <!--document.getElementById("console").innerHTML = (myDate.getMonth() + 1) + "-" + myDate.getDate() + "-" + myDate.getFullYear();-->
 		        });
 	            </script>
 
@@ -324,7 +322,13 @@ function drawCalendar( tableBgColor, headerHeight, border,
     text += '<td height=' + cellHeight + ' bgcolor='+allDayBgColor+
        '><font size='+allDaySize+' color='+allDayColor+'>';
     if(allDayBold)text +='<b>';
-    text +=digit;
+
+    text += '<div><p>';
+    text += digit;
+    text += '</p><p>';
+    text += '11 PLN';
+    text += '</p></div>'
+
     if(allDayBold)text +='</b>';
     text +='</font></td>';
 	

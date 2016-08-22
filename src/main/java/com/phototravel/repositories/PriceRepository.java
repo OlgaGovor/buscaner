@@ -16,20 +16,36 @@ import java.util.List;
 public interface PriceRepository extends CrudRepository<Price, Integer> {
 
     @Query(value = "select p.* \n" +
-            "from route r " +
-            "  join price p on p.route_id = r.route_id\n" +
+            " from route r " +
+            " join price p on p.route_id = r.route_id\n" +
             " where r.from_city_id= :fromCity " +
             " and r.to_city_id= :toCity " +
             " and p.departure_date >=date(:departureDate) " +
             " and p.departure_date <=date(:departureDateEnd)"
             , nativeQuery = true
     )
-    List<Price> findCheapestBusByRequestForm(@Param("fromCity") int fromCityId,
-                                             @Param("toCity") int toCityId,
-                                             @Param("departureDate") Date departureDate,
-                                             @Param("departureDateEnd") Date departureDateEnd);
+    List<Price> findBusByRequestForm(@Param("fromCity") int fromCityId,
+                                     @Param("toCity") int toCityId,
+                                     @Param("departureDate") Date departureDate,
+                                     @Param("departureDateEnd") Date departureDateEnd);
 
 
+
+    @Query(value = "select min(p.price) as price, p.departure_date, p.route_id \n" +
+            "from price p " +
+            " group by p.departure_date, route_id"+
+            " having p.route_id in (" +
+            " select route_id from route r where"+
+            " r.from_city_id= :fromCity " +
+            " and r.to_city_id= :toCity)" +
+            " and p.departure_date >=date(:departureDate) " +
+            " and p.departure_date <=date(:departureDateEnd)"
+            , nativeQuery = true
+    )
+    List<Object[]> findCheapestBusByRequestForm(@Param("fromCity") int fromCityId,
+                                                     @Param("toCity") int toCityId,
+                                                     @Param("departureDate") Date departureDate,
+                                                     @Param("departureDateEnd") Date departureDateEnd);
 
 
 }

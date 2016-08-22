@@ -74,6 +74,7 @@ public class IndexController {
             Iterable<City> cities = cityService.findAll();
             modelAndView.addObject("cities", cities);
 
+            findBusService.findBusForPeriod(requestForm);
             List<Price> prices = findBusService.findBus(requestForm);
 
             if (prices != null) {

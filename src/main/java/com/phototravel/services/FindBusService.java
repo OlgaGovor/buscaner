@@ -25,11 +25,37 @@ public class FindBusService {
         Date endDate =
                 requestForm.isScanForPeriod() ? requestForm.getDepartureEndAsDate() : requestForm.getDepartureAsDate();
 
-        List<Price> prices = priceRepository.findCheapestBusByRequestForm(requestForm.getFromCity(), requestForm.getToCity(),
+        List<Price> prices = priceRepository.findBusByRequestForm(requestForm.getFromCity(), requestForm.getToCity(),
                 requestForm.getDepartureAsDate(), endDate);
         return prices;
 
     }
+
+    public void findBusForPeriod(RequestForm requestForm) {
+
+        Date endDate =
+                requestForm.isScanForPeriod() ? requestForm.getDepartureEndAsDate() : requestForm.getDepartureAsDate();
+
+        int from =requestForm.getFromCity();
+        int to = requestForm.getToCity();
+        Date d1 = requestForm.getDepartureAsDate();
+        Date d2 = endDate;
+
+        List<Object[]> prices = priceRepository.findCheapestBusByRequestForm(from, to, d1, d2);
+
+        for (Object[] o:prices) {
+            Object p = o[0];
+            Object d = o[1];
+            Object pp = o[2];
+            System.out.println(p+" "+d+" "+pp);
+        }
+
+
+
+
+
+    }
+
 
     private void findRoute(RequestForm requestForm) {
 
