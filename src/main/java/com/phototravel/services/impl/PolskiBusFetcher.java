@@ -2,7 +2,6 @@ package com.phototravel.services.impl;
 
 import com.phototravel.RequestSender;
 import com.phototravel.entity.Price;
-import com.phototravel.modelOfFetcher.FetcherType;
 import com.phototravel.outerRequests.SendRequestPolskiBus;
 import com.phototravel.services.Fetcher;
 import com.phototravel.services.parser.PolskiBusParser;
@@ -22,7 +21,7 @@ import java.util.List;
  * Created by Olga_Govor on 8/16/2016.
  */
 public class PolskiBusFetcher implements Fetcher {
-    private static final FetcherType type = FetcherType.POLSKI_BUS;
+    private static final int COMPANY_ID = 1;
 
     private static final String CONTENTTYPE = "application/json";
     private static final String PATHBASE = "https://booking.polskibus.com";
@@ -90,7 +89,7 @@ public class PolskiBusFetcher implements Fetcher {
     }
 
     @Override
-    public FetcherType getType() {
-        return type;
+    public Integer getCompanyId() {
+        return COMPANY_ID;
     }
 }

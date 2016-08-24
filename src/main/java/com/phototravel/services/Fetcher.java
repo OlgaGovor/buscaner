@@ -1,7 +1,6 @@
 package com.phototravel.services;
 
 import com.phototravel.entity.Price;
-import com.phototravel.modelOfFetcher.FetcherType;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -12,5 +11,5 @@ import java.util.List;
 public interface Fetcher {
     List<Price> fetch(String fromRequestValue, String toRequestValue, LocalDate date, int routeId);
 
-    FetcherType getType();
+    Integer getCompanyId();
 }

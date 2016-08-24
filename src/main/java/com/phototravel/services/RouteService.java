@@ -40,13 +40,12 @@ public class RouteService {
 //        return  routeIds;
 //    }
 
-    public List<Integer> getRouteIdsByCitiesAndCompany(String from, String to, String company){
+    public List<Integer> getRouteIdsByCitiesAndCompany(String from, String to, Integer companyId) {
         City fromCityObj = cityService.findCityByName(from);
         Integer fromCityId = fromCityObj.getCityId();
         City toCityObj = cityService.findCityByName(to);
         Integer toCityId = toCityObj.getCityId();
 
-        Integer companyId = companyRepository.findCompanyByName(company);
 
         List<Integer> routeIds = routeRepository.getRouteIdByCityIdAndCompanyId(fromCityId, toCityId, companyId);
         return  routeIds;

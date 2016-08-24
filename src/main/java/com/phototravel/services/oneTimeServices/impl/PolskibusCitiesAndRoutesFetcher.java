@@ -3,7 +3,6 @@ package com.phototravel.services.oneTimeServices.impl;
 import com.phototravel.Encoder;
 import com.phototravel.RequestSender;
 import com.phototravel.entity.City;
-import com.phototravel.modelOfFetcher.FetcherType;
 import com.phototravel.repositories.CompanyRepository;
 import com.phototravel.repositories.DestinationRepositoty;
 import com.phototravel.services.CityService;
@@ -13,15 +12,19 @@ import com.phototravel.services.oneTimeServices.CitiesAndRoutesFetcher;
 import org.htmlcleaner.CleanerProperties;
 import org.htmlcleaner.HtmlCleaner;
 import org.htmlcleaner.TagNode;
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.json.JSONArray;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.w3c.dom.NodeList;
 
 import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.xpath.*;
+import javax.xml.xpath.XPath;
+import javax.xml.xpath.XPathConstants;
+import javax.xml.xpath.XPathExpression;
+import javax.xml.xpath.XPathExpressionException;
+import javax.xml.xpath.XPathFactory;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -54,7 +57,7 @@ public class PolskibusCitiesAndRoutesFetcher implements CitiesAndRoutesFetcher {
     private static final String PATH = "https://booking.polskibus.com/Pricing/Selections?lang=PL";
 
     @Override
-    public void fetchCities(FetcherType fetcherType) {
+    public void fetchCities() {
         String responseStr = "";
         responseStr = requestSender.excutePost(PATH, "");
 
@@ -97,7 +100,7 @@ public class PolskibusCitiesAndRoutesFetcher implements CitiesAndRoutesFetcher {
     }
 
     @Override
-    public void fetchRoutes(FetcherType fetcherType) {
+    public void fetchRoutes(Integer companyId) {
 
         String responseStr = "";
         responseStr = requestSender.excutePost(PATH, "");
@@ -130,7 +133,7 @@ public class PolskibusCitiesAndRoutesFetcher implements CitiesAndRoutesFetcher {
             e.printStackTrace();
         }
 
-        Integer companyId = companyRepository.findCompanyByName(fetcherType.toString());
+
         //get request values for PolskiBus
         List<String> listRequestValue = destinationRepositoty.getRequestValuesByCompanyId(companyId);
 
@@ -171,7 +174,7 @@ public class PolskibusCitiesAndRoutesFetcher implements CitiesAndRoutesFetcher {
     }
 
     @Override
-    public void fetchDestinations(FetcherType fetcherType) {
+    public void fetchDestinations(Integer companyId) {
         String responseStr = "";
 
         responseStr = requestSender.excutePost(PATH, "");
@@ -217,7 +220,6 @@ public class PolskibusCitiesAndRoutesFetcher implements CitiesAndRoutesFetcher {
             {
                 City city = cityService.findCityByName(entry.getKey());
                 Integer cityId = city.getCityId();
-                Integer companyId = companyRepository.findCompanyByName(fetcherType.toString());
                 System.out.println(companyId+"  "+cityId+"  "+entry.getValue()+"  "+entry.getKey());
                 destinationService.createDestination(companyId, cityId, entry.getValue(), entry.getKey());
             }

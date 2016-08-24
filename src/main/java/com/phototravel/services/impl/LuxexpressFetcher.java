@@ -1,10 +1,9 @@
 package com.phototravel.services.impl;
 
-import com.phototravel.outerRequests.SendRequestLuxexpress;
-import com.phototravel.services.parser.LuxexpressParser;
 import com.phototravel.entity.Price;
-import com.phototravel.modelOfFetcher.FetcherType;
+import com.phototravel.outerRequests.SendRequestLuxexpress;
 import com.phototravel.services.Fetcher;
+import com.phototravel.services.parser.LuxexpressParser;
 import com.sun.jersey.api.client.ClientResponse;
 
 import java.time.LocalDate;
@@ -13,7 +12,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class LuxexpressFetcher implements Fetcher {
-    private static final FetcherType type = FetcherType.LUX_EXPRESS;
+    //private static final FetcherType type = FetcherType.LUX_EXPRESS;
+    private static final int COMPANY_ID = 2;
 
     private static final String CONTENTTYPE = "application/json";
     private static final String PATHLUX = "https://ticket.luxexpress.eu/pl/wyjazdy-harmonogram/";
@@ -53,7 +53,7 @@ public class LuxexpressFetcher implements Fetcher {
 
 
     @Override
-    public FetcherType getType() {
-        return type;
+    public Integer getCompanyId() {
+        return COMPANY_ID;
     }
 }

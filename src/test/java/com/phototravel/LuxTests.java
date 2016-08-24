@@ -1,6 +1,5 @@
 package com.phototravel;
 
-import com.phototravel.modelOfFetcher.FetcherType;
 import com.phototravel.services.Scrapper;
 import com.phototravel.services.oneTimeServices.impl.LuxexpressCitiesAndRoutesFetcher;
 import org.json.JSONException;
@@ -26,6 +25,8 @@ import java.time.format.DateTimeFormatter;
 @WebAppConfiguration
 public class LuxTests {
 
+    static final Integer LUX_EXPRESS_ID = 2;
+
     @Autowired
     Scrapper scrapper;
 
@@ -41,7 +42,7 @@ public class LuxTests {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
         LocalDate date = LocalDate.parse(d, formatter);
 
-        scrapper.scrapForDay(FetcherType.LUX_EXPRESS, from, to, date);
+        scrapper.scrapForDay(LUX_EXPRESS_ID, from, to, date);
     }
 
     @Test
@@ -55,7 +56,7 @@ public class LuxTests {
         LocalDate date1 = LocalDate.parse(d1, formatter);
         LocalDate date2 = LocalDate.parse(d2, formatter);
 
-        scrapper.scrapForPeriod(FetcherType.LUX_EXPRESS, from, to, date1, date2);
+        scrapper.scrapForPeriod(LUX_EXPRESS_ID, from, to, date1, date2);
     }
 
 
@@ -68,20 +69,20 @@ public class LuxTests {
     @Test
     //one time per change
     public void saveCitiesToDb() throws UnsupportedEncodingException, XPathExpressionException, ParserConfigurationException, ParseException, JSONException {
-        luxexpressCitiesAndRoutesFetcher.fetchCities(FetcherType.LUX_EXPRESS);
+        luxexpressCitiesAndRoutesFetcher.fetchCities();
     }
 
     @Test
     //one time per week
     public void addDestinationsToDbFromLuxexpress() throws UnsupportedEncodingException, XPathExpressionException, ParserConfigurationException, ParseException, JSONException {
-        luxexpressCitiesAndRoutesFetcher.fetchDestinations(FetcherType.LUX_EXPRESS);
+        luxexpressCitiesAndRoutesFetcher.fetchDestinations(LUX_EXPRESS_ID);
     }
 
     @Test
     //one time per month
     public void addRouteToDbFromLuxexpress() throws UnsupportedEncodingException, XPathExpressionException, ParserConfigurationException, JSONException {
 //        luxexpressDestinationGetter.getRoutesForDb();
-        luxexpressCitiesAndRoutesFetcher.fetchRoutes(FetcherType.LUX_EXPRESS);
+        luxexpressCitiesAndRoutesFetcher.fetchRoutes(LUX_EXPRESS_ID);
     }
 
 }

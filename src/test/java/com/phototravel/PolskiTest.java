@@ -1,7 +1,6 @@
 package com.phototravel;
 
 import com.phototravel.configuration.BuscanerConfiguration;
-import com.phototravel.modelOfFetcher.FetcherType;
 import com.phototravel.services.Scrapper;
 import com.phototravel.services.oneTimeServices.impl.PolskibusCitiesAndRoutesFetcher;
 import org.junit.Test;
@@ -23,6 +22,8 @@ import java.time.format.DateTimeFormatter;
 @WebAppConfiguration
 public class PolskiTest {
 
+    static final Integer POLSKI_BUS_ID = 1;
+
     @Autowired
     Scrapper scrapper;
 
@@ -39,7 +40,7 @@ public class PolskiTest {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
         LocalDate date = LocalDate.parse(d, formatter);
 
-        scrapper.scrapForDay(FetcherType.POLSKI_BUS, from, to, date);
+        scrapper.scrapForDay(POLSKI_BUS_ID, from, to, date);
     }
 
     @Test
@@ -53,27 +54,27 @@ public class PolskiTest {
         LocalDate date1 = LocalDate.parse(d1, formatter);
         LocalDate date2 = LocalDate.parse(d2, formatter);
 
-        scrapper.scrapForPeriod(FetcherType.POLSKI_BUS, from, to, date1, date2);
+        scrapper.scrapForPeriod(POLSKI_BUS_ID, from, to, date1, date2);
     }
 
 
     @Test
     //one time per month
     public void getDestinations(){
-        polskibusCitiesAndRoutesFetcher.fetchDestinations(FetcherType.POLSKI_BUS);
+        polskibusCitiesAndRoutesFetcher.fetchDestinations(POLSKI_BUS_ID);
     }
 
     @Test
     //one time per change
     public void saveCitiesToDb(){
-        polskibusCitiesAndRoutesFetcher.fetchCities(FetcherType.POLSKI_BUS);
+        polskibusCitiesAndRoutesFetcher.fetchCities();
     }
 
 
     @Test
     //one time per month
     public void addRouteToDbFromPolskiBus(){
-        polskibusCitiesAndRoutesFetcher.fetchRoutes(FetcherType.POLSKI_BUS);
+        polskibusCitiesAndRoutesFetcher.fetchRoutes(POLSKI_BUS_ID);
     }
 
 }

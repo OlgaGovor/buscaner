@@ -1,6 +1,5 @@
 package com.phototravel;
 
-import com.phototravel.modelOfFetcher.FetcherType;
 import com.phototravel.services.Scrapper;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -20,6 +19,9 @@ import java.time.format.DateTimeFormatter;
 @WebAppConfiguration
 public class ConnectionOfCompanies {
 
+    static final Integer LUX_EXPRESS_ID = 2;
+    static final Integer POLSKI_BUS_ID = 1;
+
     @Autowired
     Scrapper scrapper;
 
@@ -29,11 +31,13 @@ public class ConnectionOfCompanies {
         String from = "Krakow";
         String to = "Praga";
 
+
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
         LocalDate date = LocalDate.parse(d, formatter);
 
-        scrapper.scrapForDay(FetcherType.LUX_EXPRESS, from, to, date);
-        scrapper.scrapForDay(FetcherType.POLSKI_BUS, from, to, date);
+
+        scrapper.scrapForDay(LUX_EXPRESS_ID, from, to, date);
+        scrapper.scrapForDay(POLSKI_BUS_ID, from, to, date);
     }
 
     @Test
@@ -47,8 +51,8 @@ public class ConnectionOfCompanies {
         LocalDate date1 = LocalDate.parse(d1, formatter);
         LocalDate date2 = LocalDate.parse(d2, formatter);
 
-        scrapper.scrapForPeriod(FetcherType.LUX_EXPRESS, from, to, date1, date2);
-        scrapper.scrapForPeriod(FetcherType.POLSKI_BUS, from, to, date1, date2);
+        scrapper.scrapForPeriod(LUX_EXPRESS_ID, from, to, date1, date2);
+        scrapper.scrapForPeriod(POLSKI_BUS_ID, from, to, date1, date2);
     }
 
 

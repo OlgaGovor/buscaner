@@ -1,7 +1,5 @@
 package com.phototravel.services;
 
-import com.phototravel.modelOfFetcher.FetcherType;
-
 import java.time.LocalDate;
 
 /**
@@ -9,7 +7,9 @@ import java.time.LocalDate;
  */
 public interface Scrapper {
     void register(Fetcher fetcher);
-    void scrapForDay(FetcherType provider, String from, String to, LocalDate date);
-    void scrapForPeriod(FetcherType provider, String from, String to, LocalDate date1, LocalDate date2);
+
+    void scrapForDay(Integer companyId, String from, String to, LocalDate date);
+
+    void scrapForPeriod(Integer companyId, String from, String to, LocalDate date1, LocalDate date2);
 
 }

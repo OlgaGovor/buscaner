@@ -1,7 +1,6 @@
 package com.phototravel.services.oneTimeServices.impl;
 
 import com.phototravel.entity.City;
-import com.phototravel.modelOfFetcher.FetcherType;
 import com.phototravel.outerRequests.SendRequestLuxexpress;
 import com.phototravel.repositories.CompanyRepository;
 import com.phototravel.repositories.DestinationRepositoty;
@@ -18,7 +17,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Olga_Govor on 8/18/2016.
@@ -46,7 +50,7 @@ public class LuxexpressCitiesAndRoutesFetcher implements CitiesAndRoutesFetcher 
     RouteService routeService;
 
     @Override
-    public void fetchCities(FetcherType fetcherType) {
+    public void fetchCities() {
         SendRequestLuxexpress sendRequestLuxexpress = new SendRequestLuxexpress();
 
         ClientResponse response = sendRequestLuxexpress.sendGetRequest(sendRequestLuxexpress.createWebResource(PATH), CONTENTTYPE);
@@ -78,10 +82,7 @@ public class LuxexpressCitiesAndRoutesFetcher implements CitiesAndRoutesFetcher 
     }
 
     @Override
-    public void fetchRoutes(FetcherType fetcherType) {
-
-        Integer companyId = companyRepository.findCompanyByName("Luxexpress");
-
+    public void fetchRoutes(Integer companyId) {
 
         List<String> fromList = destinationRepositoty.getRequestValuesByCompanyId(companyId);
         List<String> toList = fromList;
@@ -150,7 +151,7 @@ public class LuxexpressCitiesAndRoutesFetcher implements CitiesAndRoutesFetcher 
     }
 
     @Override
-    public void fetchDestinations(FetcherType fetcherType) {
+    public void fetchDestinations(Integer companyId) {
         SendRequestLuxexpress sendRequestLuxexpress = new SendRequestLuxexpress();
 
         ClientResponse response = sendRequestLuxexpress.sendGetRequest(sendRequestLuxexpress.createWebResource(PATH), CONTENTTYPE);
@@ -187,7 +188,7 @@ public class LuxexpressCitiesAndRoutesFetcher implements CitiesAndRoutesFetcher 
             {
                 City city = cityService.findCityByName(entry.getKey());
                 Integer cityId = city.getCityId();
-                Integer companyId = companyRepository.findCompanyByName(fetcherType.toString());
+
                 System.out.println(companyId+"  "+cityId+"  "+entry.getValue()+"  "+entry.getKey());
                 destinationService.createDestination(companyId, cityId, entry.getValue(), entry.getKey());
             }

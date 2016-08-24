@@ -22,7 +22,8 @@ public interface RouteRepository extends CrudRepository<Route, Integer> {
                                      @Param("toCityId") Integer toCityId);
 
     @Query(value = "select route_id from route r " +
-            " where r.from_city_id= :fromCityId and r.to_city_id= :toCityId and r.company_id= :companyId"
+            " where r.from_city_id= :fromCityId and r.to_city_id= :toCityId and r.company_id= :companyId" +
+            " and is_active = TRUE "
             , nativeQuery = true
     )
     List<Integer> getRouteIdByCityIdAndCompanyId(@Param("fromCityId") Integer fromCityId,

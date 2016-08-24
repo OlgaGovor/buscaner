@@ -4,7 +4,6 @@ import com.phototravel.RequestSender;
 import com.phototravel.entity.Destination;
 import com.phototravel.entity.Price;
 import com.phototravel.entity.Route;
-import com.phototravel.modelOfFetcher.FetcherType;
 import com.phototravel.repositories.DestinationRepositoty;
 import com.phototravel.repositories.PriceRepository;
 import com.phototravel.repositories.RouteRepository;
@@ -50,12 +49,12 @@ public class ScrapperImpl implements Scrapper {
     }
 
     @Override
-    public void scrapForDay(FetcherType provider, String from, String to, LocalDate date) {
+    public void scrapForDay(Integer companyId, String from, String to, LocalDate date) {
         fetchers.stream()
-                .filter(f -> f.getType().equals(provider))
+                .filter(f -> f.getCompanyId() == companyId)
                 .forEach(f-> {
 
-                    List<Integer> routeIdsList = routeService.getRouteIdsByCitiesAndCompany(from, to, provider.toString());
+                    List<Integer> routeIdsList = routeService.getRouteIdsByCitiesAndCompany(from, to, companyId);
 
                     for (int routeId: routeIdsList) {
 
@@ -82,12 +81,12 @@ public class ScrapperImpl implements Scrapper {
     }
 
     @Override
-    public void scrapForPeriod(FetcherType provider, String from, String to, LocalDate date1, LocalDate date2){
+    public void scrapForPeriod(Integer companyId, String from, String to, LocalDate date1, LocalDate date2) {
 
         LocalDate dateOfTrip = date1;
 
         while(dateOfTrip.isBefore(date2.plusDays(1))){
-            scrapForDay(provider,from,to,dateOfTrip);
+            scrapForDay(companyId, from, to, dateOfTrip);
             dateOfTrip = dateOfTrip.plusDays(1);
         }
     }
