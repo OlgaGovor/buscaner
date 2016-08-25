@@ -119,4 +119,18 @@ public class Route {
     public void setHasChanges(boolean hasChanges) {
         this.hasChanges = hasChanges;
     }
+
+    @Override
+    public String toString() {
+        return "Route{" +
+                "routeId=" + routeId +
+                ", fromDestinationId=" + fromDestinationId +
+                ", toDestinationId=" + toDestinationId +
+                ", fromCityId=" + fromCityId +
+                ", toCityId=" + toCityId +
+                ", companyId=" + companyId +
+                ", active=" + active +
+                ", hasChanges=" + hasChanges +
+                '}';
+    }
 }
