@@ -4,6 +4,7 @@ import com.phototravel.services.Scrapper;
 import com.phototravel.services.oneTimeServices.impl.LuxexpressCitiesAndRoutesFetcher;
 import org.json.JSONException;
 import org.json.simple.parser.ParseException;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -67,18 +68,21 @@ public class LuxTests {
 //    }
 //
     @Test
+    @Ignore
     //one time per change
     public void saveCitiesToDb() throws UnsupportedEncodingException, XPathExpressionException, ParserConfigurationException, ParseException, JSONException {
         luxexpressCitiesAndRoutesFetcher.fetchCities();
     }
 
     @Test
+    @Ignore
     //one time per week
     public void addDestinationsToDbFromLuxexpress() throws UnsupportedEncodingException, XPathExpressionException, ParserConfigurationException, ParseException, JSONException {
         luxexpressCitiesAndRoutesFetcher.fetchDestinations(LUX_EXPRESS_ID);
     }
 
     @Test
+    @Ignore
     //one time per month
     public void addRouteToDbFromLuxexpress() throws UnsupportedEncodingException, XPathExpressionException, ParserConfigurationException, JSONException {
 //        luxexpressDestinationGetter.getRoutesForDb();
