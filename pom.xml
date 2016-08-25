@@ -59,6 +59,13 @@
 			<artifactId>hibernate-ehcache</artifactId>
 		</dependency>
 
+		<!--TEST db support-->
+		<dependency>
+			<groupId>org.hsqldb</groupId>
+			<artifactId>hsqldb</artifactId>
+			<scope>test</scope>
+		</dependency>
+
 		<!--page parsing-->
 
 		<dependency>

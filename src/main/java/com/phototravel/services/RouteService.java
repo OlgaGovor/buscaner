@@ -42,8 +42,14 @@ public class RouteService {
 
     public List<Integer> getRouteIdsByCitiesAndCompany(String from, String to, Integer companyId) {
         City fromCityObj = cityService.findCityByName(from);
+        if (fromCityObj == null) {
+            throw new IllegalArgumentException("No FROM City found in city table - " + from);
+        }
         Integer fromCityId = fromCityObj.getCityId();
         City toCityObj = cityService.findCityByName(to);
+        if (toCityObj == null) {
+            throw new IllegalArgumentException("No TO City found in city table - " + to);
+        }
         Integer toCityId = toCityObj.getCityId();
 
 

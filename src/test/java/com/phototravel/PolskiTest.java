@@ -1,6 +1,5 @@
 package com.phototravel;
 
-import com.phototravel.configuration.BuscanerConfiguration;
 import com.phototravel.services.Scrapper;
 import com.phototravel.services.oneTimeServices.impl.PolskibusCitiesAndRoutesFetcher;
 import org.junit.Test;
@@ -18,7 +17,7 @@ import java.time.format.DateTimeFormatter;
  * Created by Olga_Govor on 6/30/2016.
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@SpringApplicationConfiguration(classes = {BuscanerApplication.class, BuscanerConfiguration.class})
+@SpringApplicationConfiguration(classes = {BuscanerTestApplication.class})
 @WebAppConfiguration
 public class PolskiTest {
 

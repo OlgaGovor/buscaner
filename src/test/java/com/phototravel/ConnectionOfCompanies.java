@@ -15,7 +15,7 @@ import java.time.format.DateTimeFormatter;
  * Created by Olga_Govor on 7/8/2016.
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@SpringApplicationConfiguration(classes = BuscanerApplication.class)
+@SpringApplicationConfiguration(classes = BuscanerTestApplication.class)
 @WebAppConfiguration
 public class ConnectionOfCompanies {
 
