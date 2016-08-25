@@ -38,7 +38,7 @@ public class LuxTests {
     public void getPriceForDateAndDirections() throws java.text.ParseException {
         String d = "27/09/2016";
         String from = "Krakow";
-        String to = "Vienna";
+        String to = "Warszawa";
 
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
         LocalDate date = LocalDate.parse(d, formatter);
