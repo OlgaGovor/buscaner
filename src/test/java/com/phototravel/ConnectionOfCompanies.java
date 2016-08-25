@@ -29,7 +29,7 @@ public class ConnectionOfCompanies {
     public void getPriceForDateAndDirections() throws java.text.ParseException {
         String d = "17/09/2016";
         String from = "Krakow";
-        String to = "Praga";
+        String to = "Warszawa";
 
 
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
@@ -45,7 +45,7 @@ public class ConnectionOfCompanies {
         String d1 = "01/10/2016";
         String d2 = "03/10/2016";
         String from = "Warszawa";
-        String to = "Vienna";
+        String to = "Krakow";
 
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
         LocalDate date1 = LocalDate.parse(d1, formatter);

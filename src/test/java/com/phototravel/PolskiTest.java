@@ -2,6 +2,7 @@ package com.phototravel;
 
 import com.phototravel.services.Scrapper;
 import com.phototravel.services.oneTimeServices.impl.PolskibusCitiesAndRoutesFetcher;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -58,12 +59,14 @@ public class PolskiTest {
 
 
     @Test
+    @Ignore
     //one time per month
     public void getDestinations(){
         polskibusCitiesAndRoutesFetcher.fetchDestinations(POLSKI_BUS_ID);
     }
 
     @Test
+    @Ignore
     //one time per change
     public void saveCitiesToDb(){
         polskibusCitiesAndRoutesFetcher.fetchCities();
@@ -71,6 +74,7 @@ public class PolskiTest {
 
 
     @Test
+    @Ignore
     //one time per month
     public void addRouteToDbFromPolskiBus(){
         polskibusCitiesAndRoutesFetcher.fetchRoutes(POLSKI_BUS_ID);
