@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.time.Period;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
@@ -30,9 +31,9 @@ public class FindBusService {
     public List<ResultDetails> findBus(RequestForm requestForm) {
         //System.out.println("findBus=" + requestForm);
 
-//        Date endDate =
-//                requestForm.isScanForPeriod() ? requestForm.getDepartureEndAsDate() : requestForm.getDepartureAsDate();
-        Date endDate = requestForm.getDepartureEndAsDate();
+        Date endDate =
+                requestForm.isScanForPeriod() ? requestForm.getDepartureEndAsDate() : requestForm.getDepartureAsDate();
+//        Date endDate = requestForm.getDepartureEndAsDate();
 
         List<Price> prices = priceRepository.findBusByRequestForm(requestForm.getFromCity(), requestForm.getToCity(),
                 requestForm.getDepartureAsDate(), endDate);
@@ -77,9 +78,12 @@ public class FindBusService {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
         LocalDate date1 = LocalDate.parse(requestForm.getDepartureDate(), formatter);
         LocalDate date2 = LocalDate.parse(requestForm.getDepartureDateEnd(), formatter);
-//
-//        if
-//        date1.getDayOfYear()
+        Period p = date1.until(date2);
+
+        if ((p.getDays()+1) != prices.size()) {
+            scrapper.scrapAllForPeriod(from, to, date1, date2);
+            prices = priceRepository.findCheapestBusByRequestForm(from, to, d1, d2);
+        }
 
         List<ResultDetails> resultDetailsList = transferDataToWebView(prices);
         sortByDepartureDate(resultDetailsList);

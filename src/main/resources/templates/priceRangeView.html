@@ -350,8 +350,7 @@ function drawCalendar( tableBgColor, headerHeight, border,
     text += digit;
     text += '</p><p>';
 
-    var d = year+'-'+(month+1)+'-'+digit;
-    var dd = new Date(d);
+    var d = year+'-'+(month+1)+'-'+digit+' 23:59:00';
 
     if ((new Date(d) >= new Date(priceList[0].departureDate))&&(inc < priceList.length))
     {

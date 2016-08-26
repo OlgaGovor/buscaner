@@ -33,7 +33,7 @@ public interface PriceRepository extends CrudRepository<Price, Integer> {
 
     @Query(value = "select route_id, departure_date, departure_time, min(p.price)as price, last_update, arrival_time, currency" +
             " from price p " +
-            " group by p.departure_date, route_id"+
+            " group by p.departure_date"+
             " having p.route_id in (" +
             " select route_id from route r where"+
             " r.from_city_id= :fromCity " +
