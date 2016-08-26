@@ -33,7 +33,7 @@ public class PolskiTest {
 
     @Test
     public void getPriceForDateAndDirections() throws ParseException {
-        String d = "29/08/2016";
+        String d = "03/10/2016";
         String from = "Krakow";
         String to = "Warszawa";
 

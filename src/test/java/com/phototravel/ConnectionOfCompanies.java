@@ -36,8 +36,7 @@ public class ConnectionOfCompanies {
         LocalDate date = LocalDate.parse(d, formatter);
 
 
-        scrapper.scrapForDay(LUX_EXPRESS_ID, from, to, date);
-        scrapper.scrapForDay(POLSKI_BUS_ID, from, to, date);
+        scrapper.scrapAllForDay(from, to, date);
     }
 
     @Test
@@ -51,8 +50,7 @@ public class ConnectionOfCompanies {
         LocalDate date1 = LocalDate.parse(d1, formatter);
         LocalDate date2 = LocalDate.parse(d2, formatter);
 
-        scrapper.scrapForPeriod(LUX_EXPRESS_ID, from, to, date1, date2);
-        scrapper.scrapForPeriod(POLSKI_BUS_ID, from, to, date1, date2);
+        scrapper.scrapAllForPeriod(from, to, date1, date2);
     }
 
 

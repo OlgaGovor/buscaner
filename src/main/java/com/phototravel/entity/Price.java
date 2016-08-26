@@ -43,9 +43,9 @@ public class Price {
     @Transient
     private static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd");
     @Transient
-    private static final SimpleDateFormat TIME_FORMAT = new SimpleDateFormat("hh:mm");
+    private static final SimpleDateFormat TIME_FORMAT = new SimpleDateFormat("kk:mm");
     @Transient
-    private static final SimpleDateFormat DATE_TIME_FORMAT = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+    private static final SimpleDateFormat DATE_TIME_FORMAT = new SimpleDateFormat("yyyy-MM-dd kk:mm:ss");
 
     public Price(int routeId, Date departureDate, Time departureTime, Time arrivalTime,
                  double price, String currency, Date lastUpdate) {
@@ -96,7 +96,11 @@ public class Price {
         this.price = price;
     }
 
-    public String getLastUpdate() {
+    public Date getLastUpdate() {
+        return lastUpdate;
+    }
+
+    public String getLastUpdateString() {
 
         return DATE_TIME_FORMAT.format(lastUpdate);
     }
@@ -113,8 +117,8 @@ public class Price {
         this.id = id;
     }
 
-    public Time getArrivalTime() {
-        return arrivalTime;
+    public String getArrivalTime() {
+        return TIME_FORMAT.format(arrivalTime);
     }
 
     public void setArrivalTime(Time arrivalTime) {

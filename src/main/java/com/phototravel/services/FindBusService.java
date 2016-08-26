@@ -2,24 +2,32 @@ package com.phototravel.services;
 
 import com.phototravel.controllers.entity.RequestForm;
 import com.phototravel.entity.Price;
+import com.phototravel.entity.ResultDetails;
+import com.phototravel.entity.Route;
+import com.phototravel.repositories.CompanyRepository;
 import com.phototravel.repositories.PriceRepository;
+import com.phototravel.repositories.RouteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
-import java.util.List;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
+import java.util.*;
 
 /**
  * Created by PBezdienezhnykh on 026 26.7.2016.
  */
 @Service
 public class FindBusService {
+    @Autowired
+    Scrapper scrapper;
 
     @Autowired
     PriceRepository priceRepository;
 
 
-    public List<Price> findBus(RequestForm requestForm) {
+    public List<ResultDetails> findBus(RequestForm requestForm) {
         //System.out.println("findBus=" + requestForm);
 
         Date endDate =
@@ -27,11 +35,33 @@ public class FindBusService {
 
         List<Price> prices = priceRepository.findBusByRequestForm(requestForm.getFromCity(), requestForm.getToCity(),
                 requestForm.getDepartureAsDate(), endDate);
-        return prices;
+
+        if (prices.size() == 0)
+        {
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+            LocalDate date = LocalDate.parse(requestForm.getDepartureDate(), formatter);
+            scrapper.scrapAllForDay(requestForm.getFromCity(), requestForm.getToCity(), date);
+            prices = priceRepository.findBusByRequestForm(requestForm.getFromCity(), requestForm.getToCity(),
+                    requestForm.getDepartureAsDate(), endDate);
+        }
+
+        LocalDate dateForComparing = prices.get(0).getLastUpdate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+
+        if (dateForComparing.isBefore(LocalDate.now().minusDays(1))){
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+            LocalDate date = LocalDate.parse(requestForm.getDepartureDate(), formatter);
+            scrapper.scrapAllForDay(requestForm.getFromCity(), requestForm.getToCity(), date);
+            prices = priceRepository.findBusByRequestForm(requestForm.getFromCity(), requestForm.getToCity(),
+                    requestForm.getDepartureAsDate(), endDate);
+        }
+
+        List<ResultDetails> resultDetailsList = transferDataToWebView(prices);
+        sortByDepartureDate(resultDetailsList);
+        return resultDetailsList;
 
     }
 
-    public List<Price> findBusForPeriod(RequestForm requestForm) {
+    public List<ResultDetails> findBusForPeriod(RequestForm requestForm) {
 
         Date endDate =
                 requestForm.isScanForPeriod() ? requestForm.getDepartureEndAsDate() : requestForm.getDepartureAsDate();
@@ -42,12 +72,55 @@ public class FindBusService {
         Date d2 = endDate;
 
         List<Price> prices = priceRepository.findCheapestBusByRequestForm(from, to, d1, d2);
-
-        return prices;
+        List<ResultDetails> resultDetailsList = transferDataToWebView(prices);
+        sortByDepartureDate(resultDetailsList);
+        return resultDetailsList;
     }
 
 
     private void findRoute(RequestForm requestForm) {
 
+    }
+
+    @Autowired
+    RouteRepository routeRepository;
+
+    @Autowired
+    CompanyRepository companyRepository;
+
+    public List<ResultDetails> transferDataToWebView (List<Price> prices)
+    {
+        List<ResultDetails> resultDetailsList = new ArrayList<ResultDetails>();
+
+
+        for (Price price:prices) {
+            ResultDetails resultDetails = new ResultDetails();
+
+            resultDetails.setDepartureDate(price.getDepartureDate());
+            resultDetails.setDepartureTime(price.getDepartureTime());
+            resultDetails.setArrivalTime(price.getArrivalTime());
+
+            Route route = routeRepository.getRouteByRouteId(price.getRouteId());
+            Integer companyId = route.getCompanyId();
+            String companyName = companyRepository.findCompanyById(companyId);
+            resultDetails.setCompany(companyName);
+            resultDetails.setPrice(price.getPrice());
+            resultDetails.setCurrency(price.getCurrency());
+            resultDetails.setLastUpdate(price.getLastUpdateString());
+            resultDetails.setLink("LINK");
+
+            resultDetailsList.add(resultDetails);
+        }
+        return resultDetailsList;
+    }
+
+    public void sortByDepartureDate(List<ResultDetails> resultDetailsList){
+        Collections.sort(resultDetailsList, new Comparator<ResultDetails>() {
+            @Override
+            public int compare(ResultDetails o1, ResultDetails o2) {
+                return o1.getDepartureTime().compareTo(o2.getDepartureTime());
+            }
+        });
+        System.out.println();
     }
 }

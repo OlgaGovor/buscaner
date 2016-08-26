@@ -35,4 +35,5 @@ public interface RouteRepository extends CrudRepository<Route, Integer> {
             , nativeQuery = true
     )
     Route getRouteByRouteId(@Param("routeId") Integer routeId);
+
 }
