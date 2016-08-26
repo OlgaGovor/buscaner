@@ -8,6 +8,8 @@ import com.phototravel.services.parser.PolskiBusParser;
 import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.api.client.WebResource;
 import com.sun.jersey.core.util.MultivaluedMapImpl;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.ws.rs.core.Cookie;
@@ -21,7 +23,10 @@ import java.util.List;
  * Created by Olga_Govor on 8/16/2016.
  */
 public class PolskiBusFetcher implements Fetcher {
-    private static final int COMPANY_ID = 1;
+    public static final int COMPANY_ID = 1;
+    private final Logger logger = LoggerFactory.getLogger(this.getClass());
+
+
 
     private static final String CONTENTTYPE = "application/json";
     private static final String PATHBASE = "https://booking.polskibus.com";
@@ -39,6 +44,8 @@ public class PolskiBusFetcher implements Fetcher {
 
     @Override
     public List<Price> fetch(String fromRequestValue, String toRequestValue, LocalDate date, int routeId) {
+        logger.info("fromRequestValue=" + fromRequestValue + " toRequestValue=" + toRequestValue +
+                " date=" + date + " routeId=" + routeId);
 
 
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
@@ -88,8 +95,5 @@ public class PolskiBusFetcher implements Fetcher {
         }
     }
 
-    @Override
-    public Integer getCompanyId() {
-        return COMPANY_ID;
-    }
+
 }

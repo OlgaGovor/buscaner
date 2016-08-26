@@ -16,8 +16,8 @@ public class BuscanerConfiguration {
     @Bean
     public Scrapper scrapper() {
         Scrapper scrapper = new ScrapperImpl();
-        scrapper.register(new PolskiBusFetcher());
-        scrapper.register(new LuxexpressFetcher());
+        scrapper.register(PolskiBusFetcher.COMPANY_ID, new PolskiBusFetcher());
+        scrapper.register(LuxexpressFetcher.COMPANY_ID, new LuxexpressFetcher());
         //register all fetchers
         return scrapper;
     }

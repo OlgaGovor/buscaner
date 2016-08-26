@@ -56,4 +56,13 @@ public class PricePK implements Serializable {
     public void setDepartureTime(Time departureTime) {
         this.departureTime = departureTime;
     }
+
+    @Override
+    public String toString() {
+        return "PricePK{" +
+                "routeId=" + routeId +
+                ", departureDate=" + departureDate +
+                ", departureTime=" + departureTime +
+                '}';
+    }
 }
