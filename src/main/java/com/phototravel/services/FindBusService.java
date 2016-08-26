@@ -30,8 +30,9 @@ public class FindBusService {
     public List<ResultDetails> findBus(RequestForm requestForm) {
         //System.out.println("findBus=" + requestForm);
 
-        Date endDate =
-                requestForm.isScanForPeriod() ? requestForm.getDepartureEndAsDate() : requestForm.getDepartureAsDate();
+//        Date endDate =
+//                requestForm.isScanForPeriod() ? requestForm.getDepartureEndAsDate() : requestForm.getDepartureAsDate();
+        Date endDate = requestForm.getDepartureEndAsDate();
 
         List<Price> prices = priceRepository.findBusByRequestForm(requestForm.getFromCity(), requestForm.getToCity(),
                 requestForm.getDepartureAsDate(), endDate);
@@ -63,15 +64,23 @@ public class FindBusService {
 
     public List<ResultDetails> findBusForPeriod(RequestForm requestForm) {
 
-        Date endDate =
-                requestForm.isScanForPeriod() ? requestForm.getDepartureEndAsDate() : requestForm.getDepartureAsDate();
+//        Date endDate =
+//                requestForm.isScanForPeriod() ? requestForm.getDepartureEndAsDate() : requestForm.getDepartureAsDate();
 
         int from =requestForm.getFromCity();
         int to = requestForm.getToCity();
         Date d1 = requestForm.getDepartureAsDate();
-        Date d2 = endDate;
+        Date d2 = requestForm.getDepartureEndAsDate();
 
         List<Price> prices = priceRepository.findCheapestBusByRequestForm(from, to, d1, d2);
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+        LocalDate date1 = LocalDate.parse(requestForm.getDepartureDate(), formatter);
+        LocalDate date2 = LocalDate.parse(requestForm.getDepartureDateEnd(), formatter);
+//
+//        if
+//        date1.getDayOfYear()
+
         List<ResultDetails> resultDetailsList = transferDataToWebView(prices);
         sortByDepartureDate(resultDetailsList);
         return resultDetailsList;

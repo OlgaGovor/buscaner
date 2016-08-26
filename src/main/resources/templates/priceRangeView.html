@@ -52,21 +52,28 @@
 	<table class="table table-striped table-bordered">
 		<thead>
 		<tr>
-			<th>Route_number</th>
 			<th>Departure Date</th>
-			<th>Departure time</th>
+			<th>Departure Time</th>
+			<th>Arrival Time</th>
+			<th>Company</th>
 			<th>Price</th>
 			<th>Last Update</th>
+			<th>Link</th>
 		</tr>
 		</thead>
 		<tbody th:if="${prices != null}">
 		<th:block th:each="price: ${prices}">
 			<tr>
-				<td th:text="${price.routeId}">	</td>
 				<td th:text="${price.departureDate}"></td>
 				<td th:text="${price.departureTime}"></td>
-				<td th:text="${price.price}"></td>
+				<td th:text="${price.arrivalTime}"></td>
+				<td th:text="${price.company}"></td>
+				<td>
+					<div th:text="${price.price}" style="float:left;"></div>
+					<div th:text="${price.currency}"></div>
+				</td>
 				<td th:text="${price.lastUpdate}"></td>
+				<td th:text="${price.link}"></td>
 			</tr>
 		</th:block>
 		</tbody>
