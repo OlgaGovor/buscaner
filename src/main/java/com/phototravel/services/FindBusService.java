@@ -81,7 +81,34 @@ public class FindBusService {
         Period p = date1.until(date2);
 
         if ((p.getDays()+1) != prices.size()) {
-            scrapper.scrapAllForPeriod(from, to, date1, date2);
+
+            while (date1.isBefore(date2.plusDays(1))){
+
+                Date dateForReq = Date.from(date1.atStartOfDay(ZoneId.systemDefault()).toInstant());
+                prices = priceRepository.findBusByRequestForm(requestForm.getFromCity(), requestForm.getToCity(),
+                        dateForReq, dateForReq);
+
+                if (prices.size() == 0)
+                {
+                    LocalDate date = LocalDate.parse(requestForm.getDepartureDate(), formatter);
+                    scrapper.scrapAllForDay(requestForm.getFromCity(), requestForm.getToCity(), date);
+//                    prices = priceRepository.findBusByRequestForm(requestForm.getFromCity(), requestForm.getToCity(),
+//                            dateForReq, dateForReq);
+                }
+
+                LocalDate dateForComparing = prices.get(0).getLastUpdate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+
+                if (dateForComparing.isBefore(LocalDate.now().minusDays(1))){
+                    LocalDate date = LocalDate.parse(requestForm.getDepartureDate(), formatter);
+                    scrapper.scrapAllForDay(requestForm.getFromCity(), requestForm.getToCity(), date);
+//                    prices = priceRepository.findBusByRequestForm(requestForm.getFromCity(), requestForm.getToCity(),
+//                            dateForReq, dateForReq);
+                }
+                date1 = date1.plusDays(1);
+            }
+
+
+//            scrapper.scrapAllForPeriod(from, to, date1, date2);
             prices = priceRepository.findCheapestBusByRequestForm(from, to, d1, d2);
         }
 
