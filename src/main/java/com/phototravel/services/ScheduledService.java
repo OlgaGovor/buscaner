@@ -28,11 +28,11 @@ public class ScheduledService {
     @Value("${scrapper.scanPeriod}")
     private Integer scanPeriod;
 
-    @Scheduled(cron = "*/10 * * * * *")
+    @Scheduled(cron = "* */30 * * * *")
     public void runNightScan() {
-        logger.info("runNightScan........................");
+        logger.info("........................runNightScan........................");
         scanAllRoutes();
-        logger.info("endNightScan........................");
+        logger.info("........................endNightScan........................");
     }
 
 
