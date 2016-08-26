@@ -21,4 +21,11 @@ public interface Scrapper {
     void scrapRouteForPeriod(Route route, LocalDate startDate, LocalDate endDate);
     void scrapRouteForDate(Route route,  LocalDate date);
 
+    void scrapAllForDay(int fromId, int toId, LocalDate date);
+
+    void scrapAllForDay(String from, String to, LocalDate date);
+
+    void scrapAllForPeriod(int fromId, int toId, LocalDate date1, LocalDate date2);
+
+    void scrapAllForPeriod(String from, String to, LocalDate date1, LocalDate date2);
 }

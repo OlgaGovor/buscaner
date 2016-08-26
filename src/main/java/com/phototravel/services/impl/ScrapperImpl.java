@@ -25,6 +25,9 @@ import java.util.Map;
  */
 public class ScrapperImpl implements Scrapper {
 
+    static final Integer LUX_EXPRESS_ID = 2;
+    static final Integer POLSKI_BUS_ID = 1;
+
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     private Map<Integer, Fetcher> fetchers = new HashMap<>();
@@ -126,5 +129,31 @@ public class ScrapperImpl implements Scrapper {
             logger.info("price=" + p);
         }
 
+    }
+
+    @Override
+    public void scrapAllForDay(int fromId, int toId, LocalDate date)
+    {
+        scrapForDay(LUX_EXPRESS_ID, fromId, toId, date);
+        scrapForDay(POLSKI_BUS_ID, fromId, toId, date);
+    }
+
+    @Override
+    public void scrapAllForDay(String from, String to, LocalDate date)
+    {
+        scrapForDay(LUX_EXPRESS_ID, from, to, date);
+        scrapForDay(POLSKI_BUS_ID, from, to, date);
+    }
+
+    @Override
+    public void scrapAllForPeriod(int fromId, int toId, LocalDate date1, LocalDate date2){
+        scrapForPeriod(LUX_EXPRESS_ID, fromId, toId, date1, date2);
+        scrapForPeriod(POLSKI_BUS_ID, fromId, toId, date1, date2);
+    }
+
+    @Override
+    public void scrapAllForPeriod(String from, String to, LocalDate date1, LocalDate date2){
+        scrapForPeriod(LUX_EXPRESS_ID, from, to, date1, date2);
+        scrapForPeriod(POLSKI_BUS_ID, from, to, date1, date2);
     }
 }

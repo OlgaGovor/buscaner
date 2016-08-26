@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 
@@ -19,9 +20,6 @@ import java.util.*;
  */
 @Service
 public class FindBusService {
-    static final Integer LUX_EXPRESS_ID = 2;
-    static final Integer POLSKI_BUS_ID = 1;
-
     @Autowired
     Scrapper scrapper;
 
@@ -42,8 +40,17 @@ public class FindBusService {
         {
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
             LocalDate date = LocalDate.parse(requestForm.getDepartureDate(), formatter);
-            scrapper.scrapForDay(LUX_EXPRESS_ID, requestForm.getFromCity(), requestForm.getToCity(), date);
-            scrapper.scrapForDay(POLSKI_BUS_ID, requestForm.getFromCity(), requestForm.getToCity(), date);
+            scrapper.scrapAllForDay(requestForm.getFromCity(), requestForm.getToCity(), date);
+            prices = priceRepository.findBusByRequestForm(requestForm.getFromCity(), requestForm.getToCity(),
+                    requestForm.getDepartureAsDate(), endDate);
+        }
+
+        LocalDate dateForComparing = prices.get(0).getLastUpdate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+
+        if (dateForComparing.isBefore(LocalDate.now().minusDays(1))){
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+            LocalDate date = LocalDate.parse(requestForm.getDepartureDate(), formatter);
+            scrapper.scrapAllForDay(requestForm.getFromCity(), requestForm.getToCity(), date);
             prices = priceRepository.findBusByRequestForm(requestForm.getFromCity(), requestForm.getToCity(),
                     requestForm.getDepartureAsDate(), endDate);
         }
@@ -99,7 +106,7 @@ public class FindBusService {
             resultDetails.setCompany(companyName);
             resultDetails.setPrice(price.getPrice());
             resultDetails.setCurrency(price.getCurrency());
-            resultDetails.setLastUpdate(price.getLastUpdate());
+            resultDetails.setLastUpdate(price.getLastUpdateString());
             resultDetails.setLink("LINK");
 
             resultDetailsList.add(resultDetails);
@@ -115,6 +122,5 @@ public class FindBusService {
             }
         });
         System.out.println();
-//        return resultDetailsList;
     }
 }

@@ -96,7 +96,11 @@ public class Price {
         this.price = price;
     }
 
-    public String getLastUpdate() {
+    public Date getLastUpdate() {
+        return lastUpdate;
+    }
+
+    public String getLastUpdateString() {
 
         return DATE_TIME_FORMAT.format(lastUpdate);
     }
