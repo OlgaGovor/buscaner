@@ -57,4 +57,10 @@ public class RouteService {
         return  routeIds;
     }
 
+    public List<Integer> getRouteIdsByCitiesIdsAndCompany(int fromCityId, int toCityId, Integer companyId) {
+
+        List<Integer> routeIds = routeRepository.getRouteIdByCityIdAndCompanyId(fromCityId, toCityId, companyId);
+        return  routeIds;
+    }
+
 }

@@ -31,7 +31,7 @@ public class ScheduledService {
     @Scheduled(cron = "*/10 * * * * *")
     public void runNightScan() {
         logger.info("runNightScan........................");
-        scanAllRoutes();
+//        scanAllRoutes();
         logger.info("endNightScan........................");
     }
 

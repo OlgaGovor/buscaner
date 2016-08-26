@@ -12,9 +12,13 @@ public interface Scrapper {
 
     void scrapForDay(Integer companyId, String from, String to, LocalDate date);
 
+    void scrapForDay(Integer companyId, int from, int to, LocalDate date);
+
     void scrapForPeriod(Integer companyId, String from, String to, LocalDate date1, LocalDate date2);
 
-    void scrapRouteForPeriod(Route route,  LocalDate startDate, LocalDate endDate);
+    void scrapForPeriod(Integer companyId, int fromId, int toId, LocalDate date1, LocalDate date2);
+
+    void scrapRouteForPeriod(Route route, LocalDate startDate, LocalDate endDate);
     void scrapRouteForDate(Route route,  LocalDate date);
 
 }

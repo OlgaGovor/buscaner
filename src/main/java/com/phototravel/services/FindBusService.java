@@ -10,15 +10,20 @@ import com.phototravel.repositories.RouteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.*;
 
 /**
  * Created by PBezdienezhnykh on 026 26.7.2016.
  */
 @Service
 public class FindBusService {
+    static final Integer LUX_EXPRESS_ID = 2;
+    static final Integer POLSKI_BUS_ID = 1;
+
+    @Autowired
+    Scrapper scrapper;
 
     @Autowired
     PriceRepository priceRepository;
@@ -33,7 +38,18 @@ public class FindBusService {
         List<Price> prices = priceRepository.findBusByRequestForm(requestForm.getFromCity(), requestForm.getToCity(),
                 requestForm.getDepartureAsDate(), endDate);
 
+        if (prices.size() == 0)
+        {
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+            LocalDate date = LocalDate.parse(requestForm.getDepartureDate(), formatter);
+            scrapper.scrapForDay(LUX_EXPRESS_ID, requestForm.getFromCity(), requestForm.getToCity(), date);
+            scrapper.scrapForDay(POLSKI_BUS_ID, requestForm.getFromCity(), requestForm.getToCity(), date);
+            prices = priceRepository.findBusByRequestForm(requestForm.getFromCity(), requestForm.getToCity(),
+                    requestForm.getDepartureAsDate(), endDate);
+        }
+
         List<ResultDetails> resultDetailsList = transferDataToWebView(prices);
+        sortByDepartureDate(resultDetailsList);
         return resultDetailsList;
 
     }
@@ -50,7 +66,7 @@ public class FindBusService {
 
         List<Price> prices = priceRepository.findCheapestBusByRequestForm(from, to, d1, d2);
         List<ResultDetails> resultDetailsList = transferDataToWebView(prices);
-
+        sortByDepartureDate(resultDetailsList);
         return resultDetailsList;
     }
 
@@ -89,5 +105,16 @@ public class FindBusService {
             resultDetailsList.add(resultDetails);
         }
         return resultDetailsList;
+    }
+
+    public void sortByDepartureDate(List<ResultDetails> resultDetailsList){
+        Collections.sort(resultDetailsList, new Comparator<ResultDetails>() {
+            @Override
+            public int compare(ResultDetails o1, ResultDetails o2) {
+                return o1.getDepartureTime().compareTo(o2.getDepartureTime());
+            }
+        });
+        System.out.println();
+//        return resultDetailsList;
     }
 }

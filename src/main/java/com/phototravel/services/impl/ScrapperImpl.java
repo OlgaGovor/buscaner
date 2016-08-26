@@ -63,12 +63,33 @@ public class ScrapperImpl implements Scrapper {
     }
 
     @Override
+    public void scrapForDay(Integer companyId, int fromId, int toId, LocalDate date) {
+        List<Integer> routeIdsList = routeService.getRouteIdsByCitiesIdsAndCompany(fromId, toId, companyId);
+
+        for (int routeId : routeIdsList) {
+            Route route = routeRepository.getRouteByRouteId(routeId);
+            scrapRouteForDate(route, date);
+        }
+    }
+
+    @Override
     public void scrapForPeriod(Integer companyId, String from, String to, LocalDate date1, LocalDate date2) {
 
         LocalDate dateOfTrip = date1;
 
         while(dateOfTrip.isBefore(date2.plusDays(1))){
             scrapForDay(companyId, from, to, dateOfTrip);
+            dateOfTrip = dateOfTrip.plusDays(1);
+        }
+    }
+
+    @Override
+    public void scrapForPeriod(Integer companyId, int fromId, int toId, LocalDate date1, LocalDate date2) {
+
+        LocalDate dateOfTrip = date1;
+
+        while(dateOfTrip.isBefore(date2.plusDays(1))){
+            scrapForDay(companyId, fromId, toId, dateOfTrip);
             dateOfTrip = dateOfTrip.plusDays(1);
         }
     }
