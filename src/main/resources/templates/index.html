@@ -78,7 +78,6 @@
 			<tr>
 				<th>Departure Date</th>
 				<th>Departure Time</th>
-				<th>Length</th>
 				<th>Arrival Time</th>
 				<th>Company</th>
 				<th>Price</th>
@@ -91,15 +90,14 @@
 				<tr>
 					<td th:text="${price.departureDate}"></td>
 					<td th:text="${price.departureTime}"></td>
-					<td></td>
 					<td th:text="${price.arrivalTime}"></td>
-					<td></td>
+					<td th:text="${price.company}"></td>
 					<td>
                         <div th:text="${price.price}" style="float:left;"></div>
                         <div th:text="${price.currency}"></div>
                     </td>
 					<td th:text="${price.lastUpdate}"></td>
-					<td></td>
+					<td th:text="${price.link}"></td>
 				</tr>
 				</th:block>
 			</tbody>

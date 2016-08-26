@@ -113,8 +113,8 @@ public class Price {
         this.id = id;
     }
 
-    public Time getArrivalTime() {
-        return arrivalTime;
+    public String getArrivalTime() {
+        return TIME_FORMAT.format(arrivalTime);
     }
 
     public void setArrivalTime(Time arrivalTime) {

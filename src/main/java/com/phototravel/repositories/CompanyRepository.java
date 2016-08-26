@@ -21,4 +21,9 @@ public interface CompanyRepository extends CrudRepository<Company, Integer> {
             , nativeQuery = true
     )
     Integer findCompanyByName(@Param("companyName") String companyName);
+
+    @Query(value = "select company_name from company c where c.company_id= :companyId"
+            , nativeQuery = true
+    )
+    String findCompanyById(@Param("companyId") Integer companyId);
 }

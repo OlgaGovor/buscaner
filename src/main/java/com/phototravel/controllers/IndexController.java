@@ -2,7 +2,7 @@ package com.phototravel.controllers;
 
 import com.phototravel.controllers.entity.RequestForm;
 import com.phototravel.entity.City;
-import com.phototravel.entity.Price;
+import com.phototravel.entity.ResultDetails;
 import com.phototravel.repositories.PriceRepository;
 import com.phototravel.services.CityService;
 import com.phototravel.services.FindBusService;
@@ -61,10 +61,10 @@ public class IndexController {
             Iterable<City> cities = cityService.findAll();
             modelAndView.addObject("cities", cities);
 
-            List<Price> prices = findBusService.findBus(requestForm);
+            List<ResultDetails> resultDetailsList = findBusService.findBus(requestForm);
 
-            if (prices != null) {
-                modelAndView.addObject("prices", prices);
+            if (resultDetailsList != null) {
+                modelAndView.addObject("prices", resultDetailsList);
             }
         }
         else {
@@ -74,10 +74,10 @@ public class IndexController {
             Iterable<City> cities = cityService.findAll();
             modelAndView.addObject("cities", cities);
 
-            List<Price> prices = findBusService.findBusForPeriod(requestForm);
+            List<ResultDetails> resultDetailsList = findBusService.findBusForPeriod(requestForm);
 
-            if (prices != null) {
-                modelAndView.addObject("prices", prices);
+            if (resultDetailsList != null) {
+                modelAndView.addObject("prices", resultDetailsList);
             }
             Date date1 = requestForm.getDepartureAsDate();
             Date date2 = requestForm.getDepartureEndAsDate();
