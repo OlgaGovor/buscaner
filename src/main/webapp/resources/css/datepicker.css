@@ -282,10 +282,31 @@
 .datepicker tfoot tr:first-child th:hover {
   background: #eeeeee;
 }
-.input-append.date .add-on i,
-.input-prepend.date .add-on i {
-  display: block;
-  cursor: pointer;
-  width: 16px;
-  height: 16px;
-}
+.input-append .add-on,
+.input-prepend .add-on {
+    display: inline-block;
+    width: auto;
+    height: 34px;
+    min-width: 34px;
+    padding: 2px 2px;
+    font-size: 20px;
+    font-weight: normal;
+    line-height: 34px;
+    text-align: center;
+    text-shadow: 0 1px 0 #ffffff;
+    background-color: #eeeeee;
+    border: 1px solid #ccc;
+    margin-left: -35px;
+ }
+
+ .input-append .add-on,
+ .input-prepend .add-on,
+ .input-append .btn,
+ .input-prepend .btn,
+ .input-append .btn-group > .dropdown-toggle,
+ .input-prepend .btn-group > .dropdown-toggle {
+    vertical-align: top;
+    -webkit-border-radius: 0;
+    -moz-border-radius: 0;
+    border-radius: 0 4px 4px 0;
+ }
