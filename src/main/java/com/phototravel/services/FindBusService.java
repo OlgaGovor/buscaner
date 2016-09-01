@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.time.Period;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
@@ -32,6 +33,7 @@ public class FindBusService {
 
         Date endDate =
                 requestForm.isScanForPeriod() ? requestForm.getDepartureEndAsDate() : requestForm.getDepartureAsDate();
+//        Date endDate = requestForm.getDepartureEndAsDate();
 
         List<Price> prices = priceRepository.findBusByRequestForm(requestForm.getFromCity(), requestForm.getToCity(),
                 requestForm.getDepartureAsDate(), endDate);
@@ -44,17 +46,17 @@ public class FindBusService {
             prices = priceRepository.findBusByRequestForm(requestForm.getFromCity(), requestForm.getToCity(),
                     requestForm.getDepartureAsDate(), endDate);
         }
+        else {
+            LocalDate dateForComparing = prices.get(0).getLastUpdate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
 
-        LocalDate dateForComparing = prices.get(0).getLastUpdate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-
-        if (dateForComparing.isBefore(LocalDate.now().minusDays(1))){
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
-            LocalDate date = LocalDate.parse(requestForm.getDepartureDate(), formatter);
-            scrapper.scrapAllForDay(requestForm.getFromCity(), requestForm.getToCity(), date);
-            prices = priceRepository.findBusByRequestForm(requestForm.getFromCity(), requestForm.getToCity(),
-                    requestForm.getDepartureAsDate(), endDate);
+            if (dateForComparing.isBefore(LocalDate.now().minusDays(1))) {
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+                LocalDate date = LocalDate.parse(requestForm.getDepartureDate(), formatter);
+                scrapper.scrapAllForDay(requestForm.getFromCity(), requestForm.getToCity(), date);
+                prices = priceRepository.findBusByRequestForm(requestForm.getFromCity(), requestForm.getToCity(),
+                        requestForm.getDepartureAsDate(), endDate);
+            }
         }
-
         List<ResultDetails> resultDetailsList = transferDataToWebView(prices);
         sortByDepartureDate(resultDetailsList);
         return resultDetailsList;
@@ -63,15 +65,53 @@ public class FindBusService {
 
     public List<ResultDetails> findBusForPeriod(RequestForm requestForm) {
 
-        Date endDate =
-                requestForm.isScanForPeriod() ? requestForm.getDepartureEndAsDate() : requestForm.getDepartureAsDate();
+//        Date endDate =
+//                requestForm.isScanForPeriod() ? requestForm.getDepartureEndAsDate() : requestForm.getDepartureAsDate();
 
         int from =requestForm.getFromCity();
         int to = requestForm.getToCity();
         Date d1 = requestForm.getDepartureAsDate();
-        Date d2 = endDate;
+        Date d2 = requestForm.getDepartureEndAsDate();
 
         List<Price> prices = priceRepository.findCheapestBusByRequestForm(from, to, d1, d2);
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+        LocalDate date1 = LocalDate.parse(requestForm.getDepartureDate(), formatter);
+        LocalDate date2 = LocalDate.parse(requestForm.getDepartureDateEnd(), formatter);
+        Period p = date1.until(date2);
+
+        if ((p.getDays()+1) != prices.size()) {
+
+            while (date1.isBefore(date2.plusDays(1))){
+
+                Date dateForReq = Date.from(date1.atStartOfDay(ZoneId.systemDefault()).toInstant());
+                prices = priceRepository.findBusByRequestForm(requestForm.getFromCity(), requestForm.getToCity(),
+                        dateForReq, dateForReq);
+
+                if (prices.size() == 0)
+                {
+                    LocalDate date = LocalDate.parse(requestForm.getDepartureDate(), formatter);
+                    scrapper.scrapAllForDay(requestForm.getFromCity(), requestForm.getToCity(), date);
+//                    prices = priceRepository.findBusByRequestForm(requestForm.getFromCity(), requestForm.getToCity(),
+//                            dateForReq, dateForReq);
+                }
+                else {
+                    if (prices.size()!=0) {
+                        LocalDate dateForComparing = prices.get(0).getLastUpdate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+                        if (dateForComparing.isBefore(LocalDate.now().minusDays(1))) {
+                            LocalDate date = LocalDate.parse(requestForm.getDepartureDate(), formatter);
+                            scrapper.scrapAllForDay(requestForm.getFromCity(), requestForm.getToCity(), date);
+//                        prices = priceRepository.findBusByRequestForm(requestForm.getFromCity(), requestForm.getToCity(),
+//                                dateForReq, dateForReq);
+                        }
+                    }
+                }
+                date1 = date1.plusDays(1);
+            }
+//            scrapper.scrapAllForPeriod(from, to, date1, date2);
+            prices = priceRepository.findCheapestBusByRequestForm(from, to, d1, d2);
+        }
+
         List<ResultDetails> resultDetailsList = transferDataToWebView(prices);
         sortByDepartureDate(resultDetailsList);
         return resultDetailsList;
