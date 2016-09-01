@@ -30,28 +30,24 @@ public interface PriceRepository extends CrudRepository<Price, Integer> {
                                      @Param("departureDateEnd") Date departureDateEnd);
 
 
-    @Query(value = "SELECT " +
-            "  p.route_id, " +
-            "  departure_date, " +
-            "  departure_time, " +
-            "  min(p.price) AS price, " +
-            "  last_update, " +
-            "  arrival_time, " +
-            "  currency " +
-            "FROM price p " +
-            "  JOIN route r ON p.route_id = r.route_id " +
-            "WHERE r.from_city_id = :fromCity " +
-            "      AND r.to_city_id = :toCity " +
-            "      AND p.departure_date >= date(:departureDate) " +
-            "      AND p.departure_date <= date(:departureDateEnd) " +
-            "GROUP BY p.departure_date, p.route_id " +
-            "ORDER BY departure_date ASC;"
-            , nativeQuery = true
+  /*  @Query(value =
+            "SELECT NEW com.phototravel.controllers.entity.PriceCalendar (" +
+            "  p.id.departureDate, " +
+            "  min(p.price) AS price ) " +
+            "FROM Price p " +
+            "  JOIN Route r on r.routeId = p.id.routeId " +
+            "WHERE r.fromCityId = :fromCity " +
+            "      AND r.toCityId = :toCity " +
+            "      AND p.id.departureDate >= date(:departureDate) " +
+            "      AND p.id.departureDate <= date(:departureDateEnd) " +
+            "GROUP BY p.id.departureDate " +
+            "ORDER BY p.id.departureDate ASC"
+
     )
-    List<Price> findCheapestBusByRequestForm(@Param("fromCity") int fromCityId,
-                                             @Param("toCity") int toCityId,
-                                             @Param("departureDate") Date departureDate,
-                                             @Param("departureDateEnd") Date departureDateEnd);
+    List<PriceCalendar> findCheapestBusByRequestForm(@Param("fromCity") int fromCityId,
+                                           @Param("toCity") int toCityId,
+                                           @Param("departureDate") Date departureDate,
+                                           @Param("departureDateEnd") Date departureDateEnd);
 
-
+*/
 }

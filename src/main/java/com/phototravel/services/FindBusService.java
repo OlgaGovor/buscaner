@@ -1,5 +1,6 @@
 package com.phototravel.services;
 
+import com.phototravel.controllers.entity.PriceCalendar;
 import com.phototravel.controllers.entity.RequestForm;
 import com.phototravel.entity.Price;
 import com.phototravel.entity.ResultDetails;
@@ -7,6 +8,8 @@ import com.phototravel.entity.Route;
 import com.phototravel.repositories.CompanyRepository;
 import com.phototravel.repositories.PriceRepository;
 import com.phototravel.repositories.RouteRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -27,8 +30,15 @@ public class FindBusService {
     @Autowired
     PriceRepository priceRepository;
 
+    @Autowired
+    PriceService priceService;
+
+    private DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+    private final Logger logger = LoggerFactory.getLogger(this.getClass());
+
 
     public List<ResultDetails> findBus(RequestForm requestForm) {
+        logger.info("findBus");
         //System.out.println("findBus=" + requestForm);
 
         Date endDate =
@@ -40,7 +50,7 @@ public class FindBusService {
 
         if (prices.size() == 0)
         {
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+
             LocalDate date = LocalDate.parse(requestForm.getDepartureDate(), formatter);
             scrapper.scrapAllForDay(requestForm.getFromCity(), requestForm.getToCity(), date);
             prices = priceRepository.findBusByRequestForm(requestForm.getFromCity(), requestForm.getToCity(),
@@ -50,7 +60,7 @@ public class FindBusService {
             LocalDate dateForComparing = prices.get(0).getLastUpdate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
 
             if (dateForComparing.isBefore(LocalDate.now().minusDays(1))) {
-                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+
                 LocalDate date = LocalDate.parse(requestForm.getDepartureDate(), formatter);
                 scrapper.scrapAllForDay(requestForm.getFromCity(), requestForm.getToCity(), date);
                 prices = priceRepository.findBusByRequestForm(requestForm.getFromCity(), requestForm.getToCity(),
@@ -64,6 +74,7 @@ public class FindBusService {
     }
 
     public List<ResultDetails> findBusForPeriod(RequestForm requestForm) {
+        logger.info("findBusForPeriod");
 
 //        Date endDate =
 //                requestForm.isScanForPeriod() ? requestForm.getDepartureEndAsDate() : requestForm.getDepartureAsDate();
@@ -73,14 +84,14 @@ public class FindBusService {
         Date d1 = requestForm.getDepartureAsDate();
         Date d2 = requestForm.getDepartureEndAsDate();
 
-        List<Price> prices = priceRepository.findCheapestBusByRequestForm(from, to, d1, d2);
+        List<PriceCalendar> prices = priceService.pricesForCalendarView(from, to, d1, d2);
 
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+
         LocalDate date1 = LocalDate.parse(requestForm.getDepartureDate(), formatter);
         LocalDate date2 = LocalDate.parse(requestForm.getDepartureDateEnd(), formatter);
         Period p = date1.until(date2);
 
-        if ((p.getDays()+1) != prices.size()) {
+     /*   if ((p.getDays()+1) != prices.size()) {
 
             while (date1.isBefore(date2.plusDays(1))){
 
@@ -110,10 +121,10 @@ public class FindBusService {
             }
 //            scrapper.scrapAllForPeriod(from, to, date1, date2);
             prices = priceRepository.findCheapestBusByRequestForm(from, to, d1, d2);
-        }
+        }*/
 
-        List<ResultDetails> resultDetailsList = transferDataToWebView(prices);
-        sortByDepartureDate(resultDetailsList);
+        List<ResultDetails> resultDetailsList = buildResultForCalendarView(prices);
+        //sortByDepartureDate(resultDetailsList);
         return resultDetailsList;
     }
 
@@ -148,6 +159,20 @@ public class FindBusService {
             resultDetails.setCurrency(price.getCurrency());
             resultDetails.setLastUpdate(price.getLastUpdateString());
             resultDetails.setLink("LINK");
+
+            resultDetailsList.add(resultDetails);
+        }
+        return resultDetailsList;
+    }
+
+    public List<ResultDetails> buildResultForCalendarView(List<PriceCalendar> prices) {
+        List<ResultDetails> resultDetailsList = new ArrayList<ResultDetails>();
+
+        for (PriceCalendar price : prices) {
+            ResultDetails resultDetails = new ResultDetails();
+
+            resultDetails.setDepartureDate(price.getDateAsString());
+            resultDetails.setPrice(price.getPrice());
 
             resultDetailsList.add(resultDetails);
         }

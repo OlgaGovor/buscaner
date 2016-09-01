@@ -6,6 +6,8 @@ import com.phototravel.entity.ResultDetails;
 import com.phototravel.repositories.PriceRepository;
 import com.phototravel.services.CityService;
 import com.phototravel.services.FindBusService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -34,6 +36,8 @@ public class IndexController {
     @Autowired
     FindBusService findBusService;
 
+    private final Logger logger = LoggerFactory.getLogger(this.getClass());
+
     @RequestMapping()
     public ModelAndView defaultRequest() {
         System.out.println("defaultRequest");
@@ -50,7 +54,8 @@ public class IndexController {
     @RequestMapping(method = RequestMethod.POST)
     public ModelAndView formRequest(@ModelAttribute RequestForm requestForm) {
 
-        System.out.println(requestForm.getFromCity() + " " + requestForm.getToCity());
+
+        logger.info(requestForm.toString());
 
         ModelAndView modelAndView = null;
 

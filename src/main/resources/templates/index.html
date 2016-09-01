@@ -74,13 +74,15 @@
 				<div class="col-lg-2"></div>
 				<div class="input-append date col-lg-3 form-group" id="datepicker" data-date="dateValue: Customer.DateOfBirth" data-date-format="dd-mm-yyyy">
 					<!--<label for="departureDate">Start date for search</label>-->
-					<input class="form-control span2 pull-left" id="departureDate" type="text" th:field="*{departureDate}" size="16" readonly="readonly" data-bind="value: Customer.DateOfBirth" />
+					<input class="form-control span2 pull-left" id="departureDate" type="text"
+						   th:field="*{departureDate}" size="16" data-bind="value: Customer.DateOfBirth"/>
 					<span class="add-on"><i class="glyphicon glyphicon-calendar"></i></span>
 				</div>
 
 				<div class="input-append date col-lg-3" id="datepickerEnd" data-date="dateValue: Customer.DateOfBirth" data-date-format="dd-mm-yyyy">
                     <!--<label>End date for search</label>-->
-                    <input class="form-control span2 pull-left" id="departureDateEnd" type="text" th:field="*{departureDateEnd}" readonly="readonly" disabled="disabled"/>
+					<input class="form-control span2 pull-left" id="departureDateEnd" type="text"
+						   th:field="*{departureDateEnd}" disabled="disabled"/>
                     <span class="add-on"><i class="glyphicon glyphicon-calendar"></i></span>
                 </div>
 			</div>
@@ -184,21 +186,31 @@
 <script type="text/javascript">
 	$(function(){
 	    $('#scanForPeriod').click(function (){
-	        var x = document.getElementById("scanForPeriod").checked;
-	        if(x == false){
-	            $('#departureDateEnd').attr('disabled',true);
-	            $('#departureDateEnd').val('');
-	        };
-	        if(x == true){
-	            $('#departureDateEnd').removeAttr('disabled');
-	        };
+			enableDateEndField();
 	    });
 	});
-</script>
 
- <script>
-   	$('#datepicker').datepicker();
-   	$('#datepickerEnd').datepicker();
+
+	function enableDateEndField() {
+		if ($('#scanForPeriod').prop("checked")) {
+			$('#departureDateEnd').removeAttr('disabled');
+		}
+		else {
+			$('#departureDateEnd').attr('disabled', true);
+			$('#departureDateEnd').val('');
+		}
+	}
+
+	enableDateEndField();
+
+	$('#datepicker').datepicker({
+		"setDate": new Date(),
+		"autoclose": true
+	});
+	$('#datepickerEnd').datepicker({
+		"setDate": new Date(),
+		"autoclose": true
+	});
 </script>
 
 </body>
