@@ -54,17 +54,24 @@ public class IndexController {
     @RequestMapping(method = RequestMethod.POST)
     public ModelAndView formRequest(@ModelAttribute RequestForm requestForm) {
 
-
         logger.info(requestForm.toString());
 
-        ModelAndView modelAndView = null;
+        ModelAndView modelAndView = new ModelAndView();
+
+        //add cities list on the page
+        Iterable<City> cities = cityService.findAll();
+        modelAndView.addObject("cities", cities);
+
+        if (!validateRequestForm(requestForm)) {
+            logger.info("Invalid RequestForm");
+            modelAndView.setViewName("index");
+            modelAndView.addObject("message", "Invalid RequestForm");
+            return modelAndView;
+        }
+
 
         if (requestForm.getDepartureDateEnd() == null) {
-
-            modelAndView = new ModelAndView("index");
-            //add cities on the page
-            Iterable<City> cities = cityService.findAll();
-            modelAndView.addObject("cities", cities);
+            modelAndView.setViewName("index");
 
             List<ResultDetails> resultDetailsList = findBusService.findBus(requestForm);
 
@@ -74,10 +81,7 @@ public class IndexController {
         }
         else {
 
-            modelAndView = new ModelAndView("priceRangeView");
-            //add cities on the page
-            Iterable<City> cities = cityService.findAll();
-            modelAndView.addObject("cities", cities);
+            modelAndView.setViewName("priceRangeView");
 
             List<ResultDetails> resultDetailsList = findBusService.findBusForPeriod(requestForm);
 
@@ -118,5 +122,17 @@ public class IndexController {
 //    }
 
 
+    private boolean validateRequestForm(RequestForm requestForm) {
+        if (requestForm.getFromCity() < 0)
+            return false;
+        if (requestForm.getToCity() < 0)
+            return false;
 
+        if (requestForm.getDepartureDate() == null || requestForm.getDepartureDate().isEmpty())
+            return false;
+        if (requestForm.isScanForPeriod() && (requestForm.getDepartureDateEnd() == null || requestForm.getDepartureDateEnd().isEmpty()))
+            return false;
+
+        return true;
+    }
 }
