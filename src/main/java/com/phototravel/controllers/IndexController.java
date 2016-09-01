@@ -69,7 +69,7 @@ public class IndexController {
             List<ResultDetails> resultDetailsList = findBusService.findBus(requestForm);
 
             if (resultDetailsList != null) {
-                modelAndView.addObject("prices", resultDetailsList);
+                modelAndView.addObject("resultDetailsList", resultDetailsList);
             }
         }
         else {

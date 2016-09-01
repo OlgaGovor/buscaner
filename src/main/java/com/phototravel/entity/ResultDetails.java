@@ -5,14 +5,33 @@ package com.phototravel.entity;
  */
 public class ResultDetails {
 
+    private String fromDestination;
     private String departureDate;
     private String departureTime;
+    private String toDestination;
     private String arrivalTime;
     private double price;
     private String currency;
     private String company;
     private String lastUpdate;
     private String link;
+
+
+    public String getFromDestination() {
+        return fromDestination;
+    }
+
+    public void setFromDestination(String fromDestination) {
+        this.fromDestination = fromDestination;
+    }
+
+    public String getToDestination() {
+        return toDestination;
+    }
+
+    public void setToDestination(String toDestination) {
+        this.toDestination = toDestination;
+    }
 
     public String getDepartureDate() {
         return departureDate;

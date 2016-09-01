@@ -61,8 +61,8 @@
 			<th>Link</th>
 		</tr>
 		</thead>
-		<tbody th:if="${prices != null}">
-		<th:block th:each="price: ${prices}">
+		<tbody th:if="${resultDetailsList != null}">
+		<th:block th:each="price: ${resultDetailsList}">
 			<tr>
 				<td th:text="${price.departureDate}"></td>
 				<td th:text="${price.departureTime}"></td>

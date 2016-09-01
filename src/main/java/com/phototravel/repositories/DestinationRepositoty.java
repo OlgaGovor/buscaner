@@ -38,4 +38,8 @@ public interface DestinationRepositoty extends CrudRepository<Destination, Integ
     List<String> getRequestValuesByCompanyIdAndCityId(@Param("companyId") int companyId,
                                                       @Param("cityId") int cityId);
 
+    @Query(value = "select d.destination_name from destination d where d.destination_id= :destinationId"
+            , nativeQuery = true
+    )
+    String getDestinationNameByDestinationId(@Param("destinationId") int destinationId);
 }

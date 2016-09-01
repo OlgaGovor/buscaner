@@ -6,6 +6,7 @@ import com.phototravel.entity.Price;
 import com.phototravel.entity.ResultDetails;
 import com.phototravel.entity.Route;
 import com.phototravel.repositories.CompanyRepository;
+import com.phototravel.repositories.DestinationRepositoty;
 import com.phototravel.repositories.PriceRepository;
 import com.phototravel.repositories.RouteRepository;
 import org.slf4j.Logger;
@@ -14,7 +15,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
-import java.time.Period;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
@@ -87,11 +87,11 @@ public class FindBusService {
         List<PriceCalendar> prices = priceService.pricesForCalendarView(from, to, d1, d2);
 
 
-        LocalDate date1 = LocalDate.parse(requestForm.getDepartureDate(), formatter);
+      /*  LocalDate date1 = LocalDate.parse(requestForm.getDepartureDate(), formatter);
         LocalDate date2 = LocalDate.parse(requestForm.getDepartureDateEnd(), formatter);
         Period p = date1.until(date2);
 
-     /*   if ((p.getDays()+1) != prices.size()) {
+        if ((p.getDays()+1) != prices.size()) {
 
             while (date1.isBefore(date2.plusDays(1))){
 
@@ -139,6 +139,9 @@ public class FindBusService {
     @Autowired
     CompanyRepository companyRepository;
 
+    @Autowired
+    DestinationRepositoty destinationRepositoty;
+
     public List<ResultDetails> transferDataToWebView (List<Price> prices)
     {
         List<ResultDetails> resultDetailsList = new ArrayList<ResultDetails>();
@@ -147,11 +150,18 @@ public class FindBusService {
         for (Price price:prices) {
             ResultDetails resultDetails = new ResultDetails();
 
+            Route route = routeRepository.getRouteByRouteId(price.getRouteId());
+            String fromDestination = destinationRepositoty.getDestinationNameByDestinationId(route.getFromDestinationId());
+            String toDestination = destinationRepositoty.getDestinationNameByDestinationId(route.getToDestinationId());
+
+            resultDetails.setFromDestination(fromDestination);
+            resultDetails.setToDestination(toDestination);
+
             resultDetails.setDepartureDate(price.getDepartureDate());
             resultDetails.setDepartureTime(price.getDepartureTime());
             resultDetails.setArrivalTime(price.getArrivalTime());
 
-            Route route = routeRepository.getRouteByRouteId(price.getRouteId());
+
             Integer companyId = route.getCompanyId();
             String companyName = companyRepository.findCompanyById(companyId);
             resultDetails.setCompany(companyName);
