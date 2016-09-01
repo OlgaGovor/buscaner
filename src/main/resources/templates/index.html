@@ -35,7 +35,7 @@
 		<div class="row" style="height:1%;">
 		</div>
 		<div class="row" style="background-color:#FFFFFF; height:200pt;">
-			<form role="form" action="alert('asdf');" th:action="@{/index}" th:object="${requestForm}" method="post"
+			<form id="requestForm" role="form" action="#" th:action="@{/index}" th:object="${requestForm}" method="post"
 				  style="margin: 5pt 5pt 5pt 5pt">
 			<div class="row">
 				<div class="col-lg-2"></div>
@@ -45,13 +45,13 @@
 			</div>	
 			<div class="row" >
 				<div class="col-lg-2"></div>
-				<div class="col-lg-3"> 
-					<select th:field="*{fromCity}" class="form-control" id="fromCity">
+				<div class="col-lg-3">
+					<select id="fromCity" th:field="*{fromCity}" class="form-control">
 						<option th:each="city: ${cities}" th:value="${city.cityId}" th:text="${city.cityName}"></option>
 					</select>
 				</div>
-				<div class="col-lg-3" > 
-					<select th:field="*{toCity}" class="form-control" id="toCity">
+				<div class="col-lg-3" >
+					<select id="toCity" th:field="*{toCity}" class="form-control">
 						<option th:each="city: ${cities}" th:value="${city.cityId}" th:text="${city.cityName}"></option>
 					</select>
 				</div>
@@ -73,14 +73,14 @@
                 </div>
 			<div class="row" >
 				<div class="col-lg-2"></div>
-				<div class="input-append date col-lg-3 form-group" id="datepicker" data-date="dateValue: Customer.DateOfBirth" data-date-format="dd-mm-yyyy">
+				<div class="input-append date col-lg-3 form-group" id="datepicker" data-date-format="dd-mm-yyyy">
 					<!--<label for="departureDate">Start date for search</label>-->
 					<input class="form-control span2 pull-left" id="departureDate" type="text"
-						   th:field="*{departureDate}" size="16" data-bind="value: Customer.DateOfBirth"/>
+						   th:field="*{departureDate}" size="16"/>
 					<span class="add-on"><i class="glyphicon glyphicon-calendar"></i></span>
 				</div>
 
-				<div class="input-append date col-lg-3" id="datepickerEnd" data-date="dateValue: Customer.DateOfBirth" data-date-format="dd-mm-yyyy">
+				<div class="input-append date col-lg-3" id="datepickerEnd" data-date-format="dd-mm-yyyy">
                     <!--<label>End date for search</label>-->
 					<input class="form-control span2 pull-left" id="departureDateEnd" type="text"
 						   th:field="*{departureDateEnd}" disabled="disabled"/>
@@ -193,6 +193,13 @@
 	<!--});-->
 <!--</script>-->
 <script type="text/javascript">
+
+	$(document).ready(function () {
+		initDatePickers();
+
+		initFormOnLoad();
+	});
+
 	$(function(){
 	    $('#scanForPeriod').click(function (){
 			enableDateEndField();
@@ -210,16 +217,45 @@
 		}
 	}
 
-	enableDateEndField();
-
+	function initDatePickers() {
 	$('#datepicker').datepicker({
 		"setDate": new Date(),
 		"autoclose": true
 	});
-	$('#datepickerEnd').datepicker({
+		$('#datepickerEnd').datepicker({
 		"setDate": new Date(),
 		"autoclose": true
+		});
+
+	}
+
+
+	$('#requestForm').submit(function () {
+
+		if (localStorage) {
+			localStorage.setItem('requestForm.fromCity', $('#fromCity').val());
+			localStorage.setItem('requestForm.toCity', $('#toCity').val());
+			localStorage.setItem('requestForm.departureDate', $('#departureDate').val());
+			localStorage.setItem('requestForm.departureDateEnd', $('#departureDateEnd').val());
+			localStorage.setItem('requestForm.scanForPeriod', $('#scanForPeriod').val());
+
+		}
 	});
+
+	function initFormOnLoad() {
+		if (localStorage.getItem('requestForm.fromCity') != null) {
+			$('#fromCity').val(localStorage.getItem('requestForm.fromCity'));
+			$('#toCity').val(localStorage.getItem('requestForm.toCity'));
+			$('#departureDate').val(localStorage.getItem('requestForm.departureDate'));
+			$('#departureDateEnd').val(localStorage.getItem('requestForm.departureDateEnd'));
+			if (localStorage.getItem('requestForm.scanForPeriod') == 'true') {
+				$('#scanForPeriod').attr("checked", "checked");
+				enableDateEndField();
+			}
+
+		}
+
+	}
 </script>
 
 </body>
