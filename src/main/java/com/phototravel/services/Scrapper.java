@@ -1,5 +1,6 @@
 package com.phototravel.services;
 
+import com.phototravel.controllers.entity.RequestForm;
 import com.phototravel.entity.Route;
 
 import java.time.LocalDate;
@@ -20,6 +21,8 @@ public interface Scrapper {
 
     void scrapRouteForPeriod(Route route, LocalDate startDate, LocalDate endDate);
     void scrapRouteForDate(Route route,  LocalDate date);
+
+    void scrapForRequestForm(RequestForm requestForm);
 
     void scrapAllForDay(int fromId, int toId, LocalDate date);
 

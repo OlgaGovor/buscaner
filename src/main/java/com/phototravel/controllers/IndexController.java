@@ -6,10 +6,12 @@ import com.phototravel.entity.ResultDetails;
 import com.phototravel.repositories.PriceRepository;
 import com.phototravel.services.CityService;
 import com.phototravel.services.FindBusService;
+import com.phototravel.services.Scrapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -24,7 +26,7 @@ import java.util.List;
  * Created by PBezdienezhnykh on 026 26.7.2016.
  */
 @Controller
-@RequestMapping(value = {"/", "/index.html", "/index"})
+@RequestMapping(value = {"/", "/index.html", "/index", "/updateData"})
 public class IndexController {
 
     @Autowired
@@ -36,11 +38,24 @@ public class IndexController {
     @Autowired
     FindBusService findBusService;
 
+    @Autowired
+    Scrapper scrapper;
+
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
+
+    @RequestMapping(value = "/updateData", method = RequestMethod.POST)
+    public String updateData(Model model, @ModelAttribute RequestForm requestForm) {
+        logger.info("updateData " + requestForm.toString());
+
+        scrapper.scrapForRequestForm(requestForm);
+        List<ResultDetails> resultDetailsList = findBusService.findBus(requestForm);
+        model.addAttribute("resultDetailsList", resultDetailsList);
+        return "resultTable :: resultTable";
+    }
 
     @RequestMapping()
     public ModelAndView defaultRequest() {
-        System.out.println("defaultRequest");
+        logger.info("defaultRequest");
         ModelAndView modelAndView = new ModelAndView("index");
 
         Iterable<City> cities = cityService.findAll();
@@ -51,10 +66,10 @@ public class IndexController {
         return modelAndView;
     }
 
-    @RequestMapping(method = RequestMethod.POST)
+    @RequestMapping(value = {"/", "/index.html", "/index"}, method = RequestMethod.POST)
     public ModelAndView formRequest(@ModelAttribute RequestForm requestForm) {
 
-        logger.info(requestForm.toString());
+        logger.info("formRequest " + requestForm.toString());
 
         ModelAndView modelAndView = new ModelAndView();
 
@@ -70,24 +85,20 @@ public class IndexController {
         }
 
 
-        if (requestForm.getDepartureDateEnd() == null) {
+        List<ResultDetails> resultDetailsList = findBusService.findBus(requestForm);
+
+        if (resultDetailsList != null) {
+            modelAndView.addObject("resultDetailsList", resultDetailsList);
+        }
+
+        if (!requestForm.isScanForPeriod()) {
             modelAndView.setViewName("index");
 
-            List<ResultDetails> resultDetailsList = findBusService.findBus(requestForm);
 
-            if (resultDetailsList != null) {
-                modelAndView.addObject("resultDetailsList", resultDetailsList);
-            }
         }
         else {
-
             modelAndView.setViewName("priceRangeView");
 
-            List<ResultDetails> resultDetailsList = findBusService.findBusForPeriod(requestForm);
-
-            if (resultDetailsList != null) {
-                modelAndView.addObject("prices", resultDetailsList);
-            }
             Date date1 = requestForm.getDepartureAsDate();
             Date date2 = requestForm.getDepartureEndAsDate();
             LocalDate d1 = date1.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
@@ -105,6 +116,7 @@ public class IndexController {
 
         return modelAndView;
     }
+
 
 //    @RequestMapping(value = {"/route/{from}/{to}"})
 //    public ModelAndView findRoute(@PathVariable("from") Integer fromCityId,

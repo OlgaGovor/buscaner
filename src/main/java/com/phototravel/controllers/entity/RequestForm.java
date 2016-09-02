@@ -49,7 +49,7 @@ public class RequestForm {
     }
 
     public Date getDepartureEndAsDate() {
-        if (departureDateEnd != null) {
+        if (departureDateEnd != null && !departureDateEnd.isEmpty()) {
             try {
                 return df.parse(departureDateEnd);
             } catch (ParseException e) {

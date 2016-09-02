@@ -14,10 +14,12 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
-import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Date;
+import java.util.List;
 
 /**
  * Created by PBezdienezhnykh on 026 26.7.2016.
@@ -45,10 +47,11 @@ public class FindBusService {
                 requestForm.isScanForPeriod() ? requestForm.getDepartureEndAsDate() : requestForm.getDepartureAsDate();
 //        Date endDate = requestForm.getDepartureEndAsDate();
 
+
         List<Price> prices = priceRepository.findBusByRequestForm(requestForm.getFromCity(), requestForm.getToCity(),
                 requestForm.getDepartureAsDate(), endDate);
 
-        if (prices.size() == 0)
+       /* if (prices.size() == 0)
         {
 
             LocalDate date = LocalDate.parse(requestForm.getDepartureDate(), formatter);
@@ -59,16 +62,16 @@ public class FindBusService {
         else {
             LocalDate dateForComparing = prices.get(0).getLastUpdate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
 
-            if (dateForComparing.isBefore(LocalDate.now().minusDays(1))) {
+            if (true || dateForComparing.isBefore(LocalDate.now().minusDays(0))) {
 
                 LocalDate date = LocalDate.parse(requestForm.getDepartureDate(), formatter);
                 scrapper.scrapAllForDay(requestForm.getFromCity(), requestForm.getToCity(), date);
                 prices = priceRepository.findBusByRequestForm(requestForm.getFromCity(), requestForm.getToCity(),
                         requestForm.getDepartureAsDate(), endDate);
             }
-        }
+        }*/
         List<ResultDetails> resultDetailsList = transferDataToWebView(prices);
-        sortByDepartureDate(resultDetailsList);
+        // sortByDepartureDate(resultDetailsList);
         return resultDetailsList;
 
     }

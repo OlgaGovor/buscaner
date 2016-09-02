@@ -1,6 +1,7 @@
 package com.phototravel.services.impl;
 
 import com.phototravel.RequestSender;
+import com.phototravel.controllers.entity.RequestForm;
 import com.phototravel.entity.Destination;
 import com.phototravel.entity.Price;
 import com.phototravel.entity.Route;
@@ -9,6 +10,7 @@ import com.phototravel.repositories.PriceRepository;
 import com.phototravel.repositories.RouteRepository;
 import com.phototravel.services.CityService;
 import com.phototravel.services.Fetcher;
+import com.phototravel.services.PriceService;
 import com.phototravel.services.RouteService;
 import com.phototravel.services.Scrapper;
 import org.slf4j.Logger;
@@ -16,6 +18,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.time.LocalDate;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -36,6 +41,9 @@ public class ScrapperImpl implements Scrapper {
     private PriceRepository priceRepository;
 
     @Autowired
+    PriceService priceService;
+
+    @Autowired
     private RouteRepository routeRepository;
 
     @Autowired
@@ -54,6 +62,8 @@ public class ScrapperImpl implements Scrapper {
     public void register(Integer companyId, Fetcher fetcher) {
         fetchers.put(companyId, fetcher);
     }
+
+    private DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
 
     @Override
     public void scrapForDay(Integer companyId, String from, String to, LocalDate date) {
@@ -108,6 +118,7 @@ public class ScrapperImpl implements Scrapper {
         }
     }
 
+
     @Override
     public void scrapRouteForDate(Route route, LocalDate date) {
 
@@ -123,10 +134,17 @@ public class ScrapperImpl implements Scrapper {
 
         List<Price> listOfPrices = fetcher.fetch(fromRequestValue, toRequestValue, date, route.getRouteId());
 
+        Date departureDate = Date.from(date.atStartOfDay(ZoneId.systemDefault()).toInstant());
+
+        //priceRepository.movePriceToArchive(route.getRouteId(), departureDate);
+        System.out.println("delete:");
+        //priceRepository.deleteAllByIdRouteIdAndIdDepartureDate(route.getRouteId(), departureDate);
+        priceService.movePriceToArchive(route.getRouteId(), departureDate);
+        System.out.println("delete----");
+
         for (Price p : listOfPrices) {
             priceRepository.save(p);
-            //System.out.println(p.getRouteId() + "  " + p.getPrice());
-            logger.info("price=" + p);
+            logger.info("save price=" + p);
         }
 
     }
@@ -155,5 +173,19 @@ public class ScrapperImpl implements Scrapper {
     public void scrapAllForPeriod(String from, String to, LocalDate date1, LocalDate date2){
         scrapForPeriod(LUX_EXPRESS_ID, from, to, date1, date2);
         scrapForPeriod(POLSKI_BUS_ID, from, to, date1, date2);
+    }
+
+    @Override
+    public void scrapForRequestForm(RequestForm requestForm) {
+        if (!requestForm.isScanForPeriod()) {
+            LocalDate date = LocalDate.parse(requestForm.getDepartureDate(), formatter);
+            scrapAllForDay(requestForm.getFromCity(), requestForm.getToCity(), date);
+        } else {
+
+            LocalDate date = LocalDate.parse(requestForm.getDepartureDate(), formatter);
+            LocalDate dateEnd = LocalDate.parse(requestForm.getDepartureDate(), formatter);
+            scrapAllForPeriod(requestForm.getFromCity(), requestForm.getToCity(), date, dateEnd);
+        }
+
     }
 }

@@ -1,6 +1,8 @@
 package com.phototravel.services;
 
 import com.phototravel.controllers.entity.PriceCalendar;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
@@ -20,6 +22,7 @@ import java.util.List;
 public class PriceService {
 
     private NamedParameterJdbcTemplate jdbcTemplate;
+    private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @Autowired
     public void setDataSource(DataSource dataSource) {
@@ -37,6 +40,21 @@ public class PriceService {
             "      AND p.departure_date <= date(:departureDateEnd) " +
             "GROUP BY p.departure_date " +
             "ORDER BY departure_date ASC;";
+
+    public static final String MOVE_PRICE_TO_ARCHIVE = "insert into price_archive " +
+            "select route_id,\n" +
+            "      departure_date,\n" +
+            "      departure_time,\n" +
+            "      price,\n" +
+            "      last_update,\n" +
+            "      arrival_time,\n" +
+            "      currency " +
+
+            "from price " +
+            "where route_id=:routeId " +
+            "and departure_date=date(:departureDate); ";
+
+    public static final String DELETE_PRICE = "delete from price where route_id=:routeId and departure_date=date(:departureDate);";
 
     public List<PriceCalendar> pricesForCalendarView(int fromCityId, int toCityId,
                                                      Date departureDate, Date departureDateEnd) {
@@ -56,6 +74,17 @@ public class PriceService {
         });
         return result;
 
+    }
+
+    public void movePriceToArchive(int routId, Date departureDate) {
+        MapSqlParameterSource namedParameters = new MapSqlParameterSource("routeId", routId);
+        namedParameters.addValue("departureDate", departureDate);
+
+        int rowCount = jdbcTemplate.update(MOVE_PRICE_TO_ARCHIVE, namedParameters);
+        logger.info("moved " + rowCount + " rows");
+
+        rowCount = jdbcTemplate.update(DELETE_PRICE, namedParameters);
+        logger.info("deleted " + rowCount + " rows");
     }
 
 }

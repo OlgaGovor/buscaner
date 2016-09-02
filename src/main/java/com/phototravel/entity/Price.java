@@ -75,6 +75,10 @@ public class Price {
         return DATE_FORMAT.format(id.departureDate);
     }
 
+    public Date getRawDepartureDate() {
+        return id.departureDate;
+    }
+
     public void setDepartureDate(Date departureDate) {
         this.id.departureDate = departureDate;
     }
