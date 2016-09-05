@@ -26,7 +26,7 @@ import java.util.List;
  * Created by PBezdienezhnykh on 026 26.7.2016.
  */
 @Controller
-@RequestMapping(value = {"/", "/index.html", "/index", "/updateData"})
+@RequestMapping(value = {"/", "/index.html", "/index", "/updateData", "/searchData"})
 public class IndexController {
 
     @Autowired
@@ -50,6 +50,21 @@ public class IndexController {
         scrapper.scrapForRequestForm(requestForm);
         List<ResultDetails> resultDetailsList = findBusService.findBus(requestForm);
         model.addAttribute("resultDetailsList", resultDetailsList);
+        return "resultTable :: resultTable";
+    }
+
+    @RequestMapping(value = "/searchData", method = RequestMethod.POST)
+    public String searchData(Model model, @ModelAttribute RequestForm requestForm) {
+        logger.info("searchData " + requestForm.toString());
+
+        if (!validateRequestForm(requestForm)) {
+            logger.info("Invalid RequestForm");
+            model.addAttribute("resultMessage", "Invalid RequestForm");
+        } else {
+            List<ResultDetails> resultDetailsList = findBusService.findBus(requestForm);
+            model.addAttribute("resultDetailsList", resultDetailsList);
+        }
+
         return "resultTable :: resultTable";
     }
 

@@ -56,6 +56,17 @@ function setDatePickerValue(datePicker, value) {
 
 }
 
+function searchData() {
+
+    var form = $('#requestForm');
+    var url = form.attr("action");
+    var formData = $(form).serializeArray();
+    $.post(url, formData).done(function (data) {
+        $('#resultTable').html(data);
+    });
+
+}
+
 function updateData() {
     var url = '/updateData';
 
