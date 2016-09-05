@@ -81,5 +81,70 @@ function updateData() {
 
 
 function sortResultList(sortBy, sortOrder) {
-    alert('sortResultList ' + sortBy + ' ' + sortOrder);
+
+    var list = $("#resulList").find(".list-group-item");
+
+if(sortBy == "priceVal" && sortOrder == "ASC"){
+    list.sort(compareByPrice);
+    }
+else if(sortBy == "priceVal" && sortOrder == "DESC"){
+        list.sort(compareByPriceDESC);
+        }
+else if(sortBy == "timeVal"  && sortOrder == "ASC"){
+    list.sort(compareByTime);
+    }
+else if(sortBy == "timeVal"  && sortOrder == "DESC"){
+    list.sort(compareByTimeDESC);
+    }
+
+    $("#resulList").html(list);
+    }
+
+
+
+function compareByPrice (a, b){
+    a = $(a).attr("priceVal");
+    b = $(b).attr("priceVal");
+
+return (a - b);
+
+}
+
+function compareByPriceDESC (a, b){
+    a = $(a).attr("priceVal");
+    b = $(b).attr("priceVal");
+
+return (b - a);
+
+}
+
+
+function compareByTime (a, b){
+    a = $(a).attr("timeVal");
+    var splA = a.split(":");
+    var dtA = new Date();
+    dtA.setHours(splA[0]);
+    dtA.setMinutes(splA[1]);
+
+    b = $(b).attr("timeVal");
+    var splB = b.split(":");
+        var dtB = new Date();
+        dtB.setHours(splB[0]);
+        dtB.setMinutes(splB[1]);
+     return (dtA - dtB);
+}
+
+function compareByTimeDESC (a, b){
+    a = $(a).attr("timeVal");
+       var splA = a.split(":");
+       var dtA = new Date();
+       dtA.setHours(splA[0]);
+       dtA.setMinutes(splA[1]);
+
+       b = $(b).attr("timeVal");
+       var splB = b.split(":");
+           var dtB = new Date();
+           dtB.setHours(splB[0]);
+           dtB.setMinutes(splB[1]);
+        return (dtB - dtA);
 }

@@ -72,10 +72,15 @@ public class IndexController {
     public ModelAndView defaultRequest() {
         logger.info("defaultRequest");
         ModelAndView modelAndView = new ModelAndView("index");
+        try {
 
-        Iterable<City> cities = cityService.findAll();
-        modelAndView.addObject("cities", cities);
 
+            Iterable<City> cities = cityService.findAll();
+            modelAndView.addObject("cities", cities);
+        }
+        catch (Exception e){
+            modelAndView.addObject("resultMessage", "Error:" + e.getMessage());
+        }
         modelAndView.addObject("requestForm", new RequestForm());
 
         return modelAndView;

@@ -73,8 +73,8 @@
         </div>
 
 
-        <ul class="list-group">
-            <li class="list-group-item">
+        <ul class="list-group" id="resulList">
+           <!-- <li class="list-group-item">
                 <div class="row">
 
                     <div class="col-lg-8">Route</div>
@@ -83,7 +83,7 @@
 
 
                 </div>
-            </li>
+            </li>-->
 
             <li class="list-group-item" th:each="price: ${resultDetailsList}"
                 th:attr="priceVal = ${price.price}, timeVal = ${price.departureTime}"
@@ -111,7 +111,7 @@
 
                     <div class="col-lg-2" th:text="${price.company}">company</div>
                     <div class="col-lg-2">
-                        <div th:text="${price.price}" style="float:left;"></div>
+                        <div  th:text="${price.price}" style="float:left;"></div>
                         <div th:text="${price.currency}"></div>
                         <div th:text="${price.lastUpdate}"></div>
                     </div>
