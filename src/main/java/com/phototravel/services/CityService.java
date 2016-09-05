@@ -2,6 +2,8 @@ package com.phototravel.services;
 
 import com.phototravel.entity.City;
 import com.phototravel.repositories.CityRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -21,6 +23,8 @@ public class CityService {
     @Autowired
     CityRepository cityRepository;
 
+    private final Logger logger = LoggerFactory.getLogger(this.getClass());
+
     public void createCity(String name, Integer countryId) {
 
         City city = new City(name, countryId);
@@ -39,13 +43,14 @@ public class CityService {
     }
 
 
-    @Cacheable("city")
     private Map<Integer, City> getAllCitiesMap() {
+        logger.info("getAllCitiesMap");
         Map<Integer, City> citiesMap = new HashMap<>();
         Iterable<City> cities = cityRepository.findAll();
         for (City city : cities) {
             citiesMap.put(city.getCityId(), city);
         }
+        logger.info("getAllCitiesMap - done");
         return citiesMap;
     }
 
