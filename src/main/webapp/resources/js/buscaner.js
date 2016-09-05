@@ -78,3 +78,8 @@ function updateData() {
     });
 
 }
+
+
+function sortResultList(sortBy, sortOrder) {
+    alert('sortResultList ' + sortBy + ' ' + sortOrder);
+}

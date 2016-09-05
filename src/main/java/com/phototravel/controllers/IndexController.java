@@ -65,7 +65,7 @@ public class IndexController {
             model.addAttribute("resultDetailsList", resultDetailsList);
         }
 
-        return "resultTable :: resultTable";
+        return "resultTable :: resultList";
     }
 
     @RequestMapping()
