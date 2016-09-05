@@ -1,6 +1,7 @@
 function enableDateEndField() {
     if ($('#scanForPeriod').prop("checked")) {
         $('#departureDateEnd').removeAttr('disabled');
+        setDatePickerValue("departureDateEnd", localStorage.getItem('requestForm.departureDateEnd'));
     }
     else {
         $('#departureDateEnd').attr('disabled', true);
@@ -9,24 +10,28 @@ function enableDateEndField() {
 }
 
 function initDatePickers() {
-    $('#datepicker').datepicker({
-        "setDate": new Date(),
-        "autoclose": true
+    $('#departureDate').datepicker({
+        setDate: new Date(),
+        autoclose: true,
+        format: 'dd-mm-yyyy'
     });
-    $('#datepickerEnd').datepicker({
-        "setDate": new Date(),
-        "autoclose": true
+    $('#departureDateEnd').datepicker({
+        setDate: new Date(),
+        autoclose: true,
+        format: 'dd-mm-yyyy'
     });
+
 
 }
 
 
 function initFormOnLoad() {
+
     if (localStorage.getItem('requestForm.fromCity') != null) {
         $('#fromCity').val(localStorage.getItem('requestForm.fromCity'));
         $('#toCity').val(localStorage.getItem('requestForm.toCity'));
-        $('#departureDate').val(localStorage.getItem('requestForm.departureDate'));
-        $('#departureDateEnd').val(localStorage.getItem('requestForm.departureDateEnd'));
+        setDatePickerValue("departureDate", localStorage.getItem('requestForm.departureDate'));
+
         if (localStorage.getItem('requestForm.scanForPeriod') == 'true') {
             $('#scanForPeriod').prop("checked", true);
             enableDateEndField();
@@ -34,6 +39,20 @@ function initFormOnLoad() {
 
     }
 
+
+}
+function toDate(dateStr) {
+    var parts = dateStr.split("-");
+    var date = new Date(parts[2], parts[1] - 1, parseInt(parts[0]) + 1);
+    return date;
+
+}
+
+function setDatePickerValue(datePicker, value) {
+    if (value != null && value != '' && value.trim() != '') {
+
+        $('#' + datePicker).datepicker('update', toDate(value));
+    }
 
 }
 
