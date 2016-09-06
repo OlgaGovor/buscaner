@@ -51,7 +51,8 @@ CREATE TABLE IF NOT EXISTS route (
   FOREIGN KEY (to_destination_id) REFERENCES destination (destination_id),
   FOREIGN KEY (from_city_id) REFERENCES city (city_id),
   FOREIGN KEY (to_city_id) REFERENCES city (city_id),
-  FOREIGN KEY (company_id) REFERENCES company (company_id)
+  FOREIGN KEY (company_id) REFERENCES company (company_id),
+  INDEX city_index (from_city_id, to_city_id)
 );
 
 

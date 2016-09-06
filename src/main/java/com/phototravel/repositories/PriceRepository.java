@@ -29,25 +29,17 @@ public interface PriceRepository extends CrudRepository<Price, Integer> {
                                      @Param("departureDate") Date departureDate,
                                      @Param("departureDateEnd") Date departureDateEnd);
 
-
-   /* @Transactional
-    @Modifying
-    @Query(value = "insert into price_archive "+
-            "select route_id,\n" +
-            "      departure_date,\n" +
-            "      departure_time,\n" +
-            "      price,\n" +
-            "      last_update,\n" +
-            "      arrival_time,\n" +
-            "      currency " +
-
-            "from price " +
-            "where route_id=:routeId " +
-            "and departure_date=date(:departureDate);"
+    @Query(value = "select p.* \n" +
+            " from route r " +
+            " join price p on p.route_id = r.route_id\n" +
+            " where r.from_city_id= :fromCity " +
+            " and r.to_city_id= :toCity " +
+            " and p.departure_date = date(:departureDate) "
             , nativeQuery = true
     )
-    void movePriceToArchive(@Param("routeId") int routId, @Param("departureDate") Date departureDate);
+    List<Price> findBusForDay(@Param("fromCity") int fromCityId,
+                              @Param("toCity") int toCityId,
+                              @Param("departureDate") Date departureDate);
 
-    @Transactional
-    void deleteAllByIdRouteIdAndIdDepartureDate(int routId, Date departureDate);*/
+
 }

@@ -7,6 +7,7 @@ import com.phototravel.repositories.RouteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -30,15 +31,16 @@ public class RouteService {
         routeRepository.save(route);
     }
 
-//    public List<Integer> getRouteIdsByCities(String from, String to){
-//        City fromCityObj = cityService.findCityByName(from);
-//        Integer fromCityId = fromCityObj.getCityId();
-//        City toCityObj = cityService.findCityByName(to);
-//        Integer toCityId = toCityObj.getCityId();
-//
-//        List<Integer> routeIds = routeRepository.getRouteIdByCityId(fromCityId, toCityId);
-//        return  routeIds;
-//    }
+
+    Route getRouteByRouteId(Integer routeId) {
+        for (Route route : routeRepository.findAll()) {
+            if (route.getRouteId() == routeId) {
+                return route;
+            }
+        }
+        return null;
+    }
+
 
     public List<Integer> getRouteIdsByCitiesAndCompany(String from, String to, Integer companyId) {
         City fromCityObj = cityService.findCityByName(from);
@@ -53,14 +55,21 @@ public class RouteService {
         Integer toCityId = toCityObj.getCityId();
 
 
-        List<Integer> routeIds = routeRepository.getRouteIdByCityIdAndCompanyId(fromCityId, toCityId, companyId);
-        return  routeIds;
+        return getRouteIdsByCitiesIdsAndCompany(fromCityId, toCityId, companyId);
     }
 
     public List<Integer> getRouteIdsByCitiesIdsAndCompany(int fromCityId, int toCityId, Integer companyId) {
+        List<Integer> routeIds = new ArrayList<>();
 
-        List<Integer> routeIds = routeRepository.getRouteIdByCityIdAndCompanyId(fromCityId, toCityId, companyId);
-        return  routeIds;
+        for (Route route : routeRepository.findAll()) {
+            if (route.getFromCityId() == fromCityId
+                    && route.getToCityId() == toCityId
+                    && route.getCompanyId() == companyId) {
+                routeIds.add(route.getRouteId());
+            }
+        }
+        return routeIds;
     }
+
 
 }
