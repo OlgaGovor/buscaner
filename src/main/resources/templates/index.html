@@ -5,24 +5,30 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <!--<link href="resources/css/bootstrap.min.css" rel="stylesheet"/>-->
     <link href="resources/css/bootstrap.css" rel="stylesheet"/>
+
     <!--<script src="http://code.jquery.com/jquery-latest.js"></script>-->
     <!--<script src="resources/js/bootstrap.min.js"></script>-->
 
 
     <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"/>
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.11.0/css/bootstrap-select.min.css"/>
+
+    <link href="resources/css/buscaner.css" rel="stylesheet"/>
     <script src="resources/js/buscaner.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <!-- Latest compiled and minified CSS -->
+
+
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.11.0/js/bootstrap-select.min.js"></script>
 
     <script type="text/javascript" src="resources/js/bootstrap-datepicker.js"></script>
     <link href="resources/css/datepicker.css" rel="stylesheet"/>
 
     <style type="text/css">
-        * {
-            margin: 0;
-            padding: 0;
-            border: 0
-        }
+
 
         html, body {
             height: 100%
@@ -33,13 +39,16 @@
 <body style="background-color:#69AFFF; height:100%">
 
 
-<div class="row" style="background-color:#69AFFF; height: 100%;">
-    <div class="col-lg-6" style="left: 25%; height:100%;">
-        <div class="row" style="background-color:#FFFFFF; height:50pt;">
+<div class="container" style="background-color:#69AFFF; height: 100%">
+    <div class="row" style="height: 100%">
+        <div class="col-lg-10" style="height:100%;">
+            <div class="row" style="background-color:#FFFFFF; ">
             <div class="col-lg-12">
                 Header
             </div>
         </div>
+            <div class="row" style="height:1%;">
+            </div>
 
         <div class="row" style="background-color:#FFFFFF; height:200pt;">
             <form id="requestForm" role="form" action="#" th:action="@{/searchData}" th:object="${requestForm}"
@@ -55,7 +64,8 @@
                 <div class="row">
                     <div class="col-lg-2"></div>
                     <div class="col-lg-3">
-                        <select id="fromCity" th:field="*{fromCity}" class="form-control">
+                        <select id="fromCity" th:field="*{fromCity}" class="form-control selectpicker"
+                                data-live-search="true">
                             <option th:each="city: ${cities}" th:value="${city.cityId}"
                                     th:text="${city.cityName}"></option>
                         </select>
@@ -141,6 +151,7 @@
             <div class="col-lg-12">
                 Footer
             </div>
+        </div>
         </div>
     </div>
 

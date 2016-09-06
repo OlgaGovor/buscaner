@@ -1,4 +1,4 @@
-package com.phototravel.entity;
+package com.phototravel.controllers.entity;
 
 /**
  * Created by Olga_Govor on 8/26/2016.

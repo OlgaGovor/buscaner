@@ -4,7 +4,7 @@ import com.phototravel.controllers.entity.PriceCalendar;
 import com.phototravel.controllers.entity.RequestForm;
 import com.phototravel.entity.Company;
 import com.phototravel.entity.Price;
-import com.phototravel.entity.ResultDetails;
+import com.phototravel.controllers.entity.ResultDetails;
 import com.phototravel.entity.Route;
 import com.phototravel.repositories.PriceRepository;
 import org.slf4j.Logger;

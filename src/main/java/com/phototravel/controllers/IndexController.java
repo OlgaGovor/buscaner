@@ -2,7 +2,7 @@ package com.phototravel.controllers;
 
 import com.phototravel.controllers.entity.RequestForm;
 import com.phototravel.entity.City;
-import com.phototravel.entity.ResultDetails;
+import com.phototravel.controllers.entity.ResultDetails;
 import com.phototravel.repositories.PriceRepository;
 import com.phototravel.services.CityService;
 import com.phototravel.services.FindBusService;

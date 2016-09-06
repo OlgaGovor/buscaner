@@ -148,3 +148,7 @@ function compareByTimeDESC (a, b){
            dtB.setMinutes(splB[1]);
         return (dtB - dtA);
 }
+
+function buyTicket(link) {
+    alert(link);
+}
