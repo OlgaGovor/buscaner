@@ -139,10 +139,10 @@ public class ScrapperImpl implements Scrapper {
         Date departureDate = Date.from(date.atStartOfDay(ZoneId.systemDefault()).toInstant());
 
         //priceRepository.movePriceToArchive(route.getRouteId(), departureDate);
-        System.out.println("delete:");
+
         //priceRepository.deleteAllByIdRouteIdAndIdDepartureDate(route.getRouteId(), departureDate);
         priceService.movePriceToArchive(route.getRouteId(), departureDate);
-        System.out.println("delete----");
+
 
         for (Price p : listOfPrices) {
             priceRepository.save(p);
