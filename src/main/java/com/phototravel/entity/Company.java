@@ -19,8 +19,11 @@ public class Company {
     @Column(name = "company_name")
     private String companyName;
 
-    @Column(name = "company_urlid")
+    @Column(name = "company_url")
     private String companyUrl;
+
+    public Company() {
+    }
 
     public Company(String companyName, String companyUrl) {
         this.companyName = companyName;

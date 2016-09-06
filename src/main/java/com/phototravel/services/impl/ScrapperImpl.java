@@ -2,6 +2,7 @@ package com.phototravel.services.impl;
 
 import com.phototravel.RequestSender;
 import com.phototravel.controllers.entity.RequestForm;
+import com.phototravel.entity.City;
 import com.phototravel.entity.Destination;
 import com.phototravel.entity.Price;
 import com.phototravel.entity.Route;
@@ -63,20 +64,25 @@ public class ScrapperImpl implements Scrapper {
 
     @Override
     public void scrapForDay(Integer companyId, String from, String to, LocalDate date) {
-        List<Integer> routeIdsList = routeService.getRouteIdsByCitiesAndCompany(from, to, companyId);
-
-        for (int routeId : routeIdsList) {
-            Route route = routeService.getRouteByRouteId(routeId);
-            scrapRouteForDate(route, date);
+        City fromCityObj = cityService.findCityByName(from);
+        if (fromCityObj == null) {
+            throw new IllegalArgumentException("No FROM City found in city table - " + from);
         }
+        Integer fromCityId = fromCityObj.getCityId();
+        City toCityObj = cityService.findCityByName(to);
+        if (toCityObj == null) {
+            throw new IllegalArgumentException("No TO City found in city table - " + to);
+        }
+        Integer toCityId = toCityObj.getCityId();
+
+        scrapForDay(companyId, fromCityId, toCityId, date);
     }
 
     @Override
     public void scrapForDay(Integer companyId, int fromId, int toId, LocalDate date) {
-        List<Integer> routeIdsList = routeService.getRouteIdsByCitiesIdsAndCompany(fromId, toId, companyId);
+        List<Route> routesList = routeService.getRoutesByCitiesIdsAndCompany(fromId, toId, companyId);
 
-        for (int routeId : routeIdsList) {
-            Route route = routeService.getRouteByRouteId(routeId);
+        for (Route route : routesList) {
             scrapRouteForDate(route, date);
         }
     }

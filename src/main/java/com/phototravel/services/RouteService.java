@@ -1,6 +1,5 @@
 package com.phototravel.services;
 
-import com.phototravel.entity.City;
 import com.phototravel.entity.Route;
 import com.phototravel.repositories.CompanyRepository;
 import com.phototravel.repositories.RouteRepository;
@@ -33,42 +32,21 @@ public class RouteService {
 
 
     public Route getRouteByRouteId(Integer routeId) {
-        for (Route route : routeRepository.findAll()) {
-            if (route.getRouteId() == routeId) {
-                return route;
-            }
-        }
-        return null;
+        return routeRepository.findRouteByRouteId(routeId);
     }
 
 
-    public List<Integer> getRouteIdsByCitiesAndCompany(String from, String to, Integer companyId) {
-        City fromCityObj = cityService.findCityByName(from);
-        if (fromCityObj == null) {
-            throw new IllegalArgumentException("No FROM City found in city table - " + from);
-        }
-        Integer fromCityId = fromCityObj.getCityId();
-        City toCityObj = cityService.findCityByName(to);
-        if (toCityObj == null) {
-            throw new IllegalArgumentException("No TO City found in city table - " + to);
-        }
-        Integer toCityId = toCityObj.getCityId();
-
-
-        return getRouteIdsByCitiesIdsAndCompany(fromCityId, toCityId, companyId);
-    }
-
-    public List<Integer> getRouteIdsByCitiesIdsAndCompany(int fromCityId, int toCityId, Integer companyId) {
-        List<Integer> routeIds = new ArrayList<>();
+    public List<Route> getRoutesByCitiesIdsAndCompany(int fromCityId, int toCityId, Integer companyId) {
+        List<Route> routes = new ArrayList<>();
 
         for (Route route : routeRepository.findAll()) {
             if (route.getFromCityId() == fromCityId
                     && route.getToCityId() == toCityId
                     && route.getCompanyId() == companyId) {
-                routeIds.add(route.getRouteId());
+                routes.add(route);
             }
         }
-        return routeIds;
+        return routes;
     }
 
 

@@ -2,10 +2,10 @@ package com.phototravel.services;
 
 import com.phototravel.controllers.entity.PriceCalendar;
 import com.phototravel.controllers.entity.RequestForm;
+import com.phototravel.entity.Company;
 import com.phototravel.entity.Price;
 import com.phototravel.entity.ResultDetails;
 import com.phototravel.entity.Route;
-import com.phototravel.repositories.CompanyRepository;
 import com.phototravel.repositories.PriceRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -38,6 +38,9 @@ public class FindBusService {
 
     @Autowired
     DestinationService destinationService;
+
+    @Autowired
+    CompanyService companyService;
 
     private DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
@@ -84,21 +87,9 @@ public class FindBusService {
     }
 
 
-    private void findRoute(RequestForm requestForm) {
-
-    }
-
-
-
-    @Autowired
-    CompanyRepository companyRepository;
-
-
-
     public List<ResultDetails> buildResultForDayView(List<Price> prices)
     {
         List<ResultDetails> resultDetailsList = new ArrayList<ResultDetails>();
-
 
         for (Price price:prices) {
             ResultDetails resultDetails = new ResultDetails();
@@ -106,6 +97,7 @@ public class FindBusService {
             Route route = routeService.getRouteByRouteId(price.getRouteId());
             String fromDestination = destinationService.getDestinationNameByDestinationId(route.getFromDestinationId());
             String toDestination = destinationService.getDestinationNameByDestinationId(route.getToDestinationId());
+            Company company = companyService.findCompanyById(route.getCompanyId());
 
             resultDetails.setFromDestination(fromDestination);
             resultDetails.setToDestination(toDestination);
@@ -114,14 +106,11 @@ public class FindBusService {
             resultDetails.setDepartureTime(price.getDepartureTime());
             resultDetails.setArrivalTime(price.getArrivalTime());
 
-
-            Integer companyId = route.getCompanyId();
-            String companyName = companyRepository.findCompanyById(companyId);
-            resultDetails.setCompany(companyName);
+            resultDetails.setCompany(company.getCompanyName());
             resultDetails.setPrice(price.getPrice());
             resultDetails.setCurrency(price.getCurrency());
             resultDetails.setLastUpdate(price.getLastUpdateString());
-            resultDetails.setLink("LINK");
+            resultDetails.setLink(company.getCompanyUrl());
 
             resultDetailsList.add(resultDetails);
         }
