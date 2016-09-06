@@ -6,7 +6,6 @@ import com.phototravel.entity.Price;
 import com.phototravel.entity.ResultDetails;
 import com.phototravel.entity.Route;
 import com.phototravel.repositories.CompanyRepository;
-import com.phototravel.repositories.DestinationRepositoty;
 import com.phototravel.repositories.PriceRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -36,6 +35,9 @@ public class FindBusService {
 
     @Autowired
     RouteService routeService;
+
+    @Autowired
+    DestinationService destinationService;
 
     private DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
@@ -91,8 +93,7 @@ public class FindBusService {
     @Autowired
     CompanyRepository companyRepository;
 
-    @Autowired
-    DestinationRepositoty destinationRepositoty;
+
 
     public List<ResultDetails> buildResultForDayView(List<Price> prices)
     {
@@ -103,8 +104,8 @@ public class FindBusService {
             ResultDetails resultDetails = new ResultDetails();
 
             Route route = routeService.getRouteByRouteId(price.getRouteId());
-            String fromDestination = destinationRepositoty.getDestinationNameByDestinationId(route.getFromDestinationId());
-            String toDestination = destinationRepositoty.getDestinationNameByDestinationId(route.getToDestinationId());
+            String fromDestination = destinationService.getDestinationNameByDestinationId(route.getFromDestinationId());
+            String toDestination = destinationService.getDestinationNameByDestinationId(route.getToDestinationId());
 
             resultDetails.setFromDestination(fromDestination);
             resultDetails.setToDestination(toDestination);

@@ -1,20 +1,26 @@
 package com.phototravel.repositories;
 
 import com.phototravel.entity.Destination;
-import org.springframework.data.jpa.repository.Query;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.repository.CrudRepository;
-import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
-
-import java.util.List;
 
 /**
  * Created by PBezdienezhnykh on 026 26.7.2016.
  */
 @Repository
-public interface DestinationRepositoty extends CrudRepository<Destination, Integer> {
+public interface DestinationRepository extends CrudRepository<Destination, Integer> {
 
-    @Query(value = "select destination_id from destination d where d.request_value= :requestValue"
+    @Override
+    @CacheEvict("destination")
+    Destination save(Destination s);
+
+    @Override
+    @Cacheable("destination")
+    Iterable<Destination> findAll();
+
+   /* @Query(value = "select destination_id from destination d where d.request_value= :requestValue"
             , nativeQuery = true
     )
     Integer getDestIdByRequestValue(@Param("requestValue") String requestValue);
@@ -41,5 +47,5 @@ public interface DestinationRepositoty extends CrudRepository<Destination, Integ
     @Query(value = "select d.destination_name from destination d where d.destination_id= :destinationId"
             , nativeQuery = true
     )
-    String getDestinationNameByDestinationId(@Param("destinationId") int destinationId);
+    String getDestinationNameByDestinationId(@Param("destinationId") int destinationId);*/
 }

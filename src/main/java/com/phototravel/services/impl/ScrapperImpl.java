@@ -5,9 +5,8 @@ import com.phototravel.controllers.entity.RequestForm;
 import com.phototravel.entity.Destination;
 import com.phototravel.entity.Price;
 import com.phototravel.entity.Route;
-import com.phototravel.repositories.DestinationRepositoty;
+import com.phototravel.repositories.DestinationRepository;
 import com.phototravel.repositories.PriceRepository;
-import com.phototravel.repositories.RouteRepository;
 import com.phototravel.services.CityService;
 import com.phototravel.services.Fetcher;
 import com.phototravel.services.PriceService;
@@ -44,10 +43,7 @@ public class ScrapperImpl implements Scrapper {
     PriceService priceService;
 
     @Autowired
-    private RouteRepository routeRepository;
-
-    @Autowired
-    private DestinationRepositoty destinationRepositoty;
+    private DestinationRepository destinationRepository;
 
     @Autowired
     private RouteService routeService;
@@ -70,7 +66,7 @@ public class ScrapperImpl implements Scrapper {
         List<Integer> routeIdsList = routeService.getRouteIdsByCitiesAndCompany(from, to, companyId);
 
         for (int routeId : routeIdsList) {
-            Route route = routeRepository.getRouteByRouteId(routeId);
+            Route route = routeService.getRouteByRouteId(routeId);
             scrapRouteForDate(route, date);
         }
     }
@@ -80,7 +76,7 @@ public class ScrapperImpl implements Scrapper {
         List<Integer> routeIdsList = routeService.getRouteIdsByCitiesIdsAndCompany(fromId, toId, companyId);
 
         for (int routeId : routeIdsList) {
-            Route route = routeRepository.getRouteByRouteId(routeId);
+            Route route = routeService.getRouteByRouteId(routeId);
             scrapRouteForDate(route, date);
         }
     }
@@ -125,8 +121,8 @@ public class ScrapperImpl implements Scrapper {
         Integer fromDestId = route.getFromDestinationId();
         Integer toDestId = route.getToDestinationId();
 
-        Destination fromDestination = destinationRepositoty.findOne(fromDestId);
-        Destination toDestination = destinationRepositoty.findOne(toDestId);
+        Destination fromDestination = destinationRepository.findOne(fromDestId);
+        Destination toDestination = destinationRepository.findOne(toDestId);
         String fromRequestValue = fromDestination.getRequestValue();
         String toRequestValue = toDestination.getRequestValue();
 

@@ -32,7 +32,7 @@ public class RouteService {
     }
 
 
-    Route getRouteByRouteId(Integer routeId) {
+    public Route getRouteByRouteId(Integer routeId) {
         for (Route route : routeRepository.findAll()) {
             if (route.getRouteId() == routeId) {
                 return route;

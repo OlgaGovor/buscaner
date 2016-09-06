@@ -3,8 +3,8 @@ package com.phototravel.services.oneTimeServices.impl;
 import com.phototravel.Encoder;
 import com.phototravel.RequestSender;
 import com.phototravel.entity.City;
+import com.phototravel.entity.Destination;
 import com.phototravel.repositories.CompanyRepository;
-import com.phototravel.repositories.DestinationRepositoty;
 import com.phototravel.services.CityService;
 import com.phototravel.services.DestinationService;
 import com.phototravel.services.RouteService;
@@ -47,9 +47,6 @@ public class PolskibusCitiesAndRoutesFetcher implements CitiesAndRoutesFetcher {
 
     @Autowired
     DestinationService destinationService;
-
-    @Autowired
-    DestinationRepositoty destinationRepositoty;
 
     @Autowired
     RouteService routeService;
@@ -135,17 +132,17 @@ public class PolskibusCitiesAndRoutesFetcher implements CitiesAndRoutesFetcher {
 
 
         //get request values for PolskiBus
-        List<String> listRequestValue = destinationRepositoty.getRequestValuesByCompanyId(companyId);
+        List<Destination> destinations = destinationService.getDestinationByCompanyId(companyId);
 
         //for all request values create routes
-        for (String fromRequestValue: listRequestValue) {
+        for (Destination fromDestination : destinations) {
 
-            Integer from_dest_id = destinationRepositoty.getDestIdByRequestValue(fromRequestValue);
-            Integer from_city_id = destinationRepositoty.getCityIdByRequestValue(fromRequestValue);
+            Integer from_dest_id = fromDestination.getCityId();
+            Integer from_city_id = from_dest_id;
 
             JSONArray arr = null;
             try {
-                arr = obj.getJSONArray(fromRequestValue);
+                arr = obj.getJSONArray(fromDestination.getRequestValue());
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -159,13 +156,14 @@ public class PolskibusCitiesAndRoutesFetcher implements CitiesAndRoutesFetcher {
                     e.printStackTrace();
                 }
 
-                Integer to_dest_id = destinationRepositoty.getDestIdByRequestValue(toRequestValue);
-                Integer to_city_id = destinationRepositoty.getCityIdByRequestValue(toRequestValue);
+                Destination toDestination = destinationService.getDestinationByRequestValue(toRequestValue);
 
-                System.out.println(from_dest_id+" "+to_dest_id+" "+ from_city_id+" "+ to_city_id+" "+ companyId);
+                System.out.println(from_dest_id + " " + toDestination.getDestinationId() + " " +
+                        from_city_id + " " + toDestination.getCityId() + " " + companyId);
 
                 try {
-                    routeService.createRoute(from_dest_id, to_dest_id, from_city_id, to_city_id, companyId, true, false);
+                    routeService.createRoute(from_dest_id, toDestination.getDestinationId(),
+                            from_city_id, toDestination.getCityId(), companyId, true, false);
                 }
                 catch (Exception e){}
             }

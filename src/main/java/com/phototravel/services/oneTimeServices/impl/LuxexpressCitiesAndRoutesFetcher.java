@@ -1,9 +1,9 @@
 package com.phototravel.services.oneTimeServices.impl;
 
 import com.phototravel.entity.City;
+import com.phototravel.entity.Destination;
 import com.phototravel.outerRequests.SendRequestLuxexpress;
 import com.phototravel.repositories.CompanyRepository;
-import com.phototravel.repositories.DestinationRepositoty;
 import com.phototravel.services.CityService;
 import com.phototravel.services.DestinationService;
 import com.phototravel.services.RouteService;
@@ -13,6 +13,8 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -34,6 +36,8 @@ public class LuxexpressCitiesAndRoutesFetcher implements CitiesAndRoutesFetcher 
     private static final String CONTENTTYPE = "application/json";
     private static final String PATH_FOR_TIMETABLE = "https://ticket.luxexpress.eu/pl/wyjazdy-harmonogram/";
 
+    private final Logger logger = LoggerFactory.getLogger(this.getClass());
+
     @Autowired
     CityService cityService;
 
@@ -42,9 +46,6 @@ public class LuxexpressCitiesAndRoutesFetcher implements CitiesAndRoutesFetcher 
 
     @Autowired
     DestinationService destinationService;
-
-    @Autowired
-    DestinationRepositoty destinationRepositoty;
 
     @Autowired
     RouteService routeService;
@@ -84,8 +85,8 @@ public class LuxexpressCitiesAndRoutesFetcher implements CitiesAndRoutesFetcher 
     @Override
     public void fetchRoutes(Integer companyId) {
 
-        List<String> fromList = destinationRepositoty.getRequestValuesByCompanyId(companyId);
-        List<String> toList = fromList;
+        List<Destination> fromList = destinationService.getDestinationByCompanyId(companyId);
+        List<Destination> toList = fromList;
 
 
         Date date = new Date();
@@ -108,15 +109,15 @@ public class LuxexpressCitiesAndRoutesFetcher implements CitiesAndRoutesFetcher 
 //        list.add(562);
 
         SendRequestLuxexpress sendRequestLuxexpress = new SendRequestLuxexpress();
-        for (String from:fromList) {
-//            Integer dest_id = destinationRepositoty.getDestIdByRequestValue(from);
+        for (Destination fromDestination : fromList) {
+//            Integer dest_id = destinationRepositoty.getDestIdByRequestValue(fromDestination);
 
 //            if (!list.contains(dest_id) ) {
 
-                for (String to:toList) {
+            for (Destination toDestination : toList) {
 
-                    String url = PATH_FOR_TIMETABLE + from + "/" + to + "?Date=" + dateStr + "&Currency=CURRENCY.PLN";
-                    System.out.println(url);
+                String url = PATH_FOR_TIMETABLE + fromDestination.getRequestValue() + "/" + toDestination.getRequestValue() + "?Date=" + dateStr + "&Currency=CURRENCY.PLN";
+                logger.info(url);
 
                     ClientResponse response = sendRequestLuxexpress.sendGetRequest(sendRequestLuxexpress.createWebResource(url), CONTENTTYPE);
 
@@ -126,18 +127,18 @@ public class LuxexpressCitiesAndRoutesFetcher implements CitiesAndRoutesFetcher 
                     if (responseStr != null) {
                         if (!((responseStr.contains("Prosimy wybrać jako odjazd"))
                                 || (responseStr.contains("Aby wyszukać podróż")))) {
-                            System.out.println("Route exist"+ from+":"+to);
+                            logger.info("Route exist" + fromDestination + ":" + toDestination);
                             if (responseStr.contains("ico_transfer_route.gif")) {
                                 hasChanges = true;
                             }
                             if (responseStr.contains("amount")) {
                                 try {
-                                    Integer from_dest_id = destinationRepositoty.getDestIdByRequestValue(from);
-                                    Integer to_dest_id = destinationRepositoty.getDestIdByRequestValue(to);
-                                    Integer from_city_id = destinationRepositoty.getCityIdByRequestValue(from);
-                                    Integer to_city_id = destinationRepositoty.getCityIdByRequestValue(to);
+                                    Integer from_dest_id = fromDestination.getDestinationId();
+                                    Integer to_dest_id = toDestination.getDestinationId();
+                                    Integer from_city_id = fromDestination.getCityId();
+                                    Integer to_city_id = toDestination.getCityId();
 
-                                    System.out.println("Write to DB  "+from_dest_id + " " + to_dest_id + " " + from_city_id + " " + to_city_id + " " + companyId);
+                                    logger.info("Write toDestination DB  " + from_dest_id + " " + to_dest_id + " " + from_city_id + " " + to_city_id + " " + companyId);
 
                                     routeService.createRoute(from_dest_id, to_dest_id, from_city_id, to_city_id, companyId, true, hasChanges);
                                 } catch (Exception e) {
