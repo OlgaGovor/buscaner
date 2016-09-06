@@ -50,7 +50,7 @@ public class IndexController {
         scrapper.scrapForRequestForm(requestForm);
         List<ResultDetails> resultDetailsList = findBusService.findBus(requestForm);
         model.addAttribute("resultDetailsList", resultDetailsList);
-        return "resultTable :: resultTable";
+        return "resultTable :: resultList";
     }
 
     @RequestMapping(value = "/searchData", method = RequestMethod.POST)
