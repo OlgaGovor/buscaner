@@ -8,11 +8,7 @@ import com.phototravel.entity.Price;
 import com.phototravel.entity.Route;
 import com.phototravel.repositories.DestinationRepository;
 import com.phototravel.repositories.PriceRepository;
-import com.phototravel.services.CityService;
-import com.phototravel.services.Fetcher;
-import com.phototravel.services.PriceService;
-import com.phototravel.services.RouteService;
-import com.phototravel.services.Scrapper;
+import com.phototravel.services.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,7 +40,7 @@ public class ScrapperImpl implements Scrapper {
     PriceService priceService;
 
     @Autowired
-    private DestinationRepository destinationRepository;
+    private DestinationService destinationService;
 
     @Autowired
     private RouteService routeService;
@@ -128,8 +124,8 @@ public class ScrapperImpl implements Scrapper {
         Integer fromDestId = route.getFromDestinationId();
         Integer toDestId = route.getToDestinationId();
 
-        Destination fromDestination = destinationRepository.findOne(fromDestId);
-        Destination toDestination = destinationRepository.findOne(toDestId);
+        Destination fromDestination = destinationService.findOne(fromDestId);
+        Destination toDestination = destinationService.findOne(toDestId);
         String fromRequestValue = fromDestination.getRequestValue();
         String toRequestValue = toDestination.getRequestValue();
 
@@ -194,8 +190,8 @@ public class ScrapperImpl implements Scrapper {
 
     public String getLink(Route route, String date){
 
-        Destination fromDestination = destinationRepository.findOne(route.getFromDestinationId());
-        Destination toDestination = destinationRepository.findOne(route.getToDestinationId());
+        Destination fromDestination = destinationService.findOne(route.getFromDestinationId());
+        Destination toDestination = destinationService.findOne(route.getToDestinationId());
         String fromRequestValue = fromDestination.getRequestValue();
         String toRequestValue = toDestination.getRequestValue();
 

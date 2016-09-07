@@ -4,9 +4,13 @@ import com.phototravel.entity.City;
 import com.phototravel.entity.Route;
 import com.phototravel.repositories.CompanyRepository;
 import com.phototravel.repositories.RouteRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Service;
 
+import javax.sql.DataSource;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,9 +25,6 @@ public class RouteService {
 
     @Autowired
     CityService cityService;
-
-    @Autowired
-    CompanyRepository companyRepository;
 
     public void createRoute(Integer fromDestId, Integer toDestId, Integer fromCityId, Integer toCityId, Integer companyId, Boolean scan, Boolean hasChanges) {
 
@@ -56,19 +57,28 @@ public class RouteService {
 
         List<City> cities = new ArrayList<>();
 
-        List<Route> routes = new ArrayList<>();
+        List<Integer> cityIds = new ArrayList<>();
         if (depDst.equalsIgnoreCase("dep")) {
-            routes = routeRepository.findByFromCityId(cityId);
-            for (Route route : routes) {
-                cities.add(cityService.findOne(route.getToCityId()));
+            cityIds = routeRepository.findByFromCityId(cityId);
+            for (Integer toCityId : cityIds) {
+                City city = cityService.findOne(toCityId);
+                if (city != null) {
+                    cities.add(city);
+                }
             }
+
         } else if (depDst.equalsIgnoreCase("dst")) {
-            routes = routeRepository.findByToCityId(cityId);
-            for (Route route : routes) {
-                cities.add(cityService.findOne(route.getFromCityId()));
+            cityIds = routeRepository.findByToCityId(cityId);
+            for (Integer fromCityId : cityIds) {
+                City city = cityService.findOne(fromCityId);
+                if (city != null) {
+                    cities.add(city);
+                }
+
             }
 
         }
+
         return cities;
     }
 }

@@ -38,8 +38,18 @@ public interface RouteRepository extends CrudRepository<Route, Integer> {
 
 
     @Cacheable("route3")
-    List<Route> findByFromCityId(Integer fromCityId);
+    @Query(value = "select distinct to_city_id from route r " +
+            " where r.from_city_id= :fromCityId " +
+            " and is_active = TRUE and has_changes = FALSE "
+            , nativeQuery = true
+    )
+    List<Integer> findByFromCityId(@Param("fromCityId") Integer fromCityId);
 
     @Cacheable("route3")
-    List<Route> findByToCityId(Integer fromCityId);
+    @Query(value = "select distinct from_city_id from route r " +
+            " where r.to_city_id= :toCityId " +
+            " and is_active = TRUE and has_changes = FALSE "
+            , nativeQuery = true
+    )
+    List<Integer> findByToCityId(@Param("toCityId") Integer toCityId);
 }

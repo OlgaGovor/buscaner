@@ -24,12 +24,31 @@ function initDatePickers() {
 
 }
 
+function initSelectpickers(){
+$('.selectpicker').selectpicker({
+                 style: 'btn-outline-primary',
+                 size: 15,
+                 liveSearch: true
+               });
+
+$('#fromCity').change(function () {
+
+            loadRoutes($('#toCity'), $('#fromCity').val(), 'dep');
+
+    });
+  /*  $('#toCity').change(function () {
+
+            loadRoutes($('#fromCity'), $('#toCity').val(), 'dst');
+
+    });*/
+}
+
 
 function initFormOnLoad() {
 
     if (localStorage.getItem('requestForm.fromCity') != null) {
-        $('#fromCity').val(localStorage.getItem('requestForm.fromCity'));
-        $('#toCity').val(localStorage.getItem('requestForm.toCity'));
+        $('#fromCity').selectpicker('val', localStorage.getItem('requestForm.fromCity'));
+        $('#toCity').selectpicker('val',localStorage.getItem('requestForm.toCity'));
         setDatePickerValue("departureDate", localStorage.getItem('requestForm.departureDate'));
 
         if (localStorage.getItem('requestForm.scanForPeriod') == 'true') {
@@ -158,18 +177,25 @@ function loadRoutes(container, value, depDst) {
 
     $.post(url, {'cityId': value, 'depDst': depDst})
         .done(function (data) {
+        $(container).empty();
             var i = 0;
-            alert(data.length);
+
+var opt = document.createElement("option");
+                opt.value = "";
+                opt.style ="hidden";
+                opt.innerHTML = " ";
+                $(container).append(opt);
+
             for (; i < data.length; i++) {
 
-
-                alert(data[i]);
-
                 var opt = document.createElement("option");
-                opt.value = city.cityId;
-                opt.innerHTML = city.cityName;
-
+                opt.value = data[i].cityId;
+                opt.innerHTML = data[i].cityName;
+                $(container).append(opt);
             }
+        $(container).selectpicker('refresh');
+        $(container).selectpicker('toggle');
 
         });
+
 }

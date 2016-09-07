@@ -64,14 +64,13 @@
                 <div class="row">
                     <div class="col-lg-2"></div>
                     <div class="col-lg-3">
-                        <select id="fromCity" th:field="*{fromCity}" class="form-control selectpicker"
-                                data-live-search="true">
+                        <select id="fromCity" th:field="*{fromCity}" class="form-control selectpicker" initial="true">
                             <option th:each="city: ${cities}" th:value="${city.cityId}"
                                     th:text="${city.cityName}"></option>
                         </select>
                     </div>
                     <div class="col-lg-3">
-                        <select id="toCity" th:field="*{toCity}" class="form-control">
+                        <select id="toCity" th:field="*{toCity}" class="form-control selectpicker">
                             <option th:each="city: ${cities}" th:value="${city.cityId}"
                                     th:text="${city.cityName}"></option>
                         </select>
@@ -196,6 +195,7 @@
 
     $(document).ready(function () {
         initDatePickers();
+        initSelectpickers();
 
         initFormOnLoad();
     });
@@ -206,12 +206,7 @@
         });
     });
 
-    $('#fromCity').change(function () {
-        loadRoutes($('#toCity'), $('#fromCity').val(), 'dep');
-    });
-    $('#toCity').change(function () {
-        loadRoutes($('#fromCity'), $('#toCity').val(), 'dst');
-    });
+
 
     $('#searchButton').click(function () {
 

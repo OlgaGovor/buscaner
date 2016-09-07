@@ -100,7 +100,7 @@ public class FindBusService {
             Company company = companyService.findCompanyById(route.getCompanyId());
             //----link
             String url = scrapper.getLink(route, price.getDepartureDateString());
-            System.out.println(url);
+            logger.info(url);
             resultDetails.setLink(url);
             //------------------------
 

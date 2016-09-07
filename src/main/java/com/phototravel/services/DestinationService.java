@@ -23,6 +23,15 @@ public class DestinationService {
     }
 
 
+    public Destination findOne(int destinationId) {
+        for (Destination destination : destinationRepository.findAll()) {
+            if (destination.getDestinationId() == destinationId) {
+                return destination;
+            }
+        }
+        return null;
+    }
+
     public String getDestinationNameByDestinationId(int destinationId) {
         for (Destination destination : destinationRepository.findAll()) {
             if (destination.getDestinationId() == destinationId) {
