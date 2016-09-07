@@ -37,13 +37,14 @@ public class RouteService {
     }
 
 
-    public List<Route> getRoutesByCitiesIdsAndCompany(int fromCityId, int toCityId, Integer companyId) {
+    public List<Route> getRoutesByCitiesIdsAndCompany(int fromCityId, int toCityId, Integer companyId, Boolean hasChanges) {
         List<Route> routes = new ArrayList<>();
 
         for (Route route : routeRepository.findAll()) {
             if (route.getFromCityId() == fromCityId
                     && route.getToCityId() == toCityId
-                    && route.getCompanyId() == companyId) {
+                    && route.getCompanyId() == companyId
+                    && route.hasChanges() == hasChanges) {
                 routes.add(route);
             }
         }
