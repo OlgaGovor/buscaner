@@ -26,7 +26,7 @@ function initDatePickers() {
 
 function initSelectpickers(){
 $('.selectpicker').selectpicker({
-                 style: 'btn-outline-primary',
+                // style: 'btn-outline-info',
                  size: 15,
                  liveSearch: true
                });
