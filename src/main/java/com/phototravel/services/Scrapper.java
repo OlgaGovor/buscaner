@@ -31,4 +31,6 @@ public interface Scrapper {
     void scrapAllForPeriod(int fromId, int toId, LocalDate date1, LocalDate date2);
 
     void scrapAllForPeriod(String from, String to, LocalDate date1, LocalDate date2);
+
+    String getLink(Route route, String date);
 }

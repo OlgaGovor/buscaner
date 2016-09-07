@@ -61,6 +61,7 @@ public class ScrapperImpl implements Scrapper {
     }
 
     private DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+    private DateTimeFormatter formatterFromUI = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
     @Override
     public void scrapForDay(Integer companyId, String from, String to, LocalDate date) {
@@ -189,5 +190,19 @@ public class ScrapperImpl implements Scrapper {
             scrapAllForPeriod(requestForm.getFromCity(), requestForm.getToCity(), date, dateEnd);
         }
 
+    }
+
+    public String getLink(Route route, String date){
+
+        Destination fromDestination = destinationRepository.findOne(route.getFromDestinationId());
+        Destination toDestination = destinationRepository.findOne(route.getToDestinationId());
+        String fromRequestValue = fromDestination.getRequestValue();
+        String toRequestValue = toDestination.getRequestValue();
+
+        LocalDate dateOfTrip = LocalDate.parse(date, formatterFromUI);
+        Fetcher fetcher = fetchers.get(route.getCompanyId());
+
+        String url = fetcher.getRedirectUrl(fromRequestValue, toRequestValue, dateOfTrip, route.getRouteId());
+        return url;
     }
 }

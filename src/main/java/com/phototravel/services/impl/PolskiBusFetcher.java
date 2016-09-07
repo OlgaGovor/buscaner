@@ -96,4 +96,8 @@ public class PolskiBusFetcher implements Fetcher {
     }
 
 
+    public String getRedirectUrl(String fromRequestValue, String toRequestValue, LocalDate date, int routeId){
+        String url = PATHBASE + PATHFORCOOKIE;
+        return url;
+    }
 }

@@ -71,7 +71,7 @@ public class Price {
         this.id.routeId = routeId;
     }
 
-    public String getDepartureDate() {
+    public String getDepartureDateString() {
         return DATE_FORMAT.format(id.departureDate);
     }
 

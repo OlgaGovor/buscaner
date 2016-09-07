@@ -98,11 +98,17 @@ public class FindBusService {
             String fromDestination = destinationService.getDestinationNameByDestinationId(route.getFromDestinationId());
             String toDestination = destinationService.getDestinationNameByDestinationId(route.getToDestinationId());
             Company company = companyService.findCompanyById(route.getCompanyId());
+            //----link
+            String url = scrapper.getLink(route, price.getDepartureDateString());
+            System.out.println(url);
+            resultDetails.setLink(url);
+            //------------------------
+
 
             resultDetails.setFromDestination(fromDestination);
             resultDetails.setToDestination(toDestination);
 
-            resultDetails.setDepartureDate(price.getDepartureDate());
+            resultDetails.setDepartureDate(price.getDepartureDateString());
             resultDetails.setDepartureTime(price.getDepartureTime());
             resultDetails.setArrivalTime(price.getArrivalTime());
 
@@ -110,7 +116,7 @@ public class FindBusService {
             resultDetails.setPrice(price.getPrice());
             resultDetails.setCurrency(price.getCurrency());
             resultDetails.setLastUpdate(price.getLastUpdateString());
-            resultDetails.setLink(company.getCompanyUrl());
+
 
             resultDetailsList.add(resultDetails);
         }

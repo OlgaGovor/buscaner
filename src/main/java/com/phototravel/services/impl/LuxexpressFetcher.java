@@ -55,5 +55,14 @@ public class LuxexpressFetcher implements Fetcher {
         }
     }
 
+    public String getRedirectUrl(String fromRequestValue, String toRequestValue, LocalDate date, int routeId){
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM-dd-yyyy");
+        String dateStr = date.format(formatter);
+
+        String url = PATHLUX + fromRequestValue + "/" + toRequestValue + "?Date=" + dateStr +"&Currency=CURRENCY.PLN";
+        return url;
+    }
+
 
 }

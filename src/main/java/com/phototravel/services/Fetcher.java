@@ -12,5 +12,7 @@ public interface Fetcher {
 
     List<Price> fetch(String fromRequestValue, String toRequestValue, LocalDate date, int routeId);
 
+    String getRedirectUrl(String fromRequestValue, String toRequestValue, LocalDate date, int routeId);
+
 
 }
