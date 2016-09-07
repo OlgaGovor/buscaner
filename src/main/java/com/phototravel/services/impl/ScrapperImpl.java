@@ -81,7 +81,7 @@ public class ScrapperImpl implements Scrapper {
 
     @Override
     public void scrapForDay(Integer companyId, int fromId, int toId, LocalDate date) {
-        List<Route> routesList = routeService.getRoutesByCitiesIdsAndCompany(fromId, toId, companyId);
+        List<Route> routesList = routeService.getRoutesByCitiesIdsAndCompany(fromId, toId, companyId, false);
 
         for (Route route : routesList) {
             scrapRouteForDate(route, date);

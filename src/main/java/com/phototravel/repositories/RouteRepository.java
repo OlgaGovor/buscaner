@@ -34,12 +34,13 @@ public interface RouteRepository extends CrudRepository<Route, Integer> {
     @CacheEvict("route2")
     @Query(value = "select * from route r " +
             " where r.from_city_id= :fromCityId and r.to_city_id= :toCityId and r.company_id= :companyId" +
-            " and is_active = TRUE "
+            " and is_active = TRUE and has_changes = :hasChanges"
             , nativeQuery = true
     )
     List<Route> getRoutesByCityIdAndCompanyId(@Param("fromCityId") Integer fromCityId,
                                                  @Param("toCityId") Integer toCityId,
-                                                 @Param("companyId") Integer companyId);
+                                                 @Param("companyId") Integer companyId,
+                                                 @Param("hasChanges") Integer hasChanges);
 
 
 }
