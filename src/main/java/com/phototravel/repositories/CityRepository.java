@@ -6,6 +6,8 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 /**
  * Created by PBezdienezhnykh on 026 26.7.2016.
  */
@@ -18,5 +20,5 @@ public interface CityRepository extends CrudRepository<City, Integer> {
 
     @Override
     @Cacheable("city")
-    Iterable<City> findAll();
+    List<City> findAll();
 }

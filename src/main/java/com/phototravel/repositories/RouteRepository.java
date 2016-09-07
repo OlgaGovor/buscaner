@@ -21,15 +21,9 @@ public interface RouteRepository extends CrudRepository<Route, Integer> {
     Route findRouteByRouteId(int routeId);
 
     @Override
-    @CacheEvict(cacheNames = {"route", "route2"}, allEntries = true)
+    @CacheEvict(cacheNames = {"route", "route2", "route3"}, allEntries = true)
     Route save(Route s);
 
-   /* @Query(value = "select route_id from route r " +
-            " where r.from_city_id= :fromCityId and r.to_city_id= :toCityId"
-            , nativeQuery = true
-    )
-    List<Integer> getRouteIdByCityId(@Param("fromCityId") Integer fromCityId,
-                                     @Param("toCityId") Integer toCityId);*/
 
     @CacheEvict("route2")
     @Query(value = "select * from route r " +
@@ -42,4 +36,9 @@ public interface RouteRepository extends CrudRepository<Route, Integer> {
                                                  @Param("companyId") Integer companyId);
 
 
+    @Cacheable("route3")
+    List<Route> findByFromCityId(Integer fromCityId);
+
+    @Cacheable("route3")
+    List<Route> findByToCityId(Integer fromCityId);
 }

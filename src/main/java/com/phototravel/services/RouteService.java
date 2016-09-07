@@ -1,5 +1,6 @@
 package com.phototravel.services;
 
+import com.phototravel.entity.City;
 import com.phototravel.entity.Route;
 import com.phototravel.repositories.CompanyRepository;
 import com.phototravel.repositories.RouteRepository;
@@ -50,4 +51,23 @@ public class RouteService {
     }
 
 
+    public List<City> findRouteCities(Integer cityId, String depDst) {
+
+        List<City> cities = new ArrayList<>();
+
+        List<Route> routes = new ArrayList<>();
+        if (depDst.equalsIgnoreCase("dep")) {
+            routes = routeRepository.findByFromCityId(cityId);
+            for (Route route : routes) {
+                cities.add(cityService.findOne(route.getToCityId()));
+            }
+        } else if (depDst.equalsIgnoreCase("dst")) {
+            routes = routeRepository.findByToCityId(cityId);
+            for (Route route : routes) {
+                cities.add(cityService.findOne(route.getFromCityId()));
+            }
+
+        }
+        return cities;
+    }
 }

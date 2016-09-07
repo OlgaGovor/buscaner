@@ -152,3 +152,24 @@ function compareByTimeDESC (a, b){
 function buyTicket(link) {
     alert(link);
 }
+
+function loadRoutes(container, value, depDst) {
+    var url = '/loadRoutes';
+
+    $.post(url, {'cityId': value, 'depDst': depDst})
+        .done(function (data) {
+            var i = 0;
+            alert(data.length);
+            for (; i < data.length; i++) {
+
+
+                alert(data[i]);
+
+                var opt = document.createElement("option");
+                opt.value = city.cityId;
+                opt.innerHTML = city.cityName;
+
+            }
+
+        });
+}

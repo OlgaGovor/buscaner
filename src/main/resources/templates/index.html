@@ -206,6 +206,13 @@
         });
     });
 
+    $('#fromCity').change(function () {
+        loadRoutes($('#toCity'), $('#fromCity').val(), 'dep');
+    });
+    $('#toCity').change(function () {
+        loadRoutes($('#fromCity'), $('#toCity').val(), 'dst');
+    });
+
     $('#searchButton').click(function () {
 
         if (localStorage) {

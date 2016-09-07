@@ -1,11 +1,12 @@
 package com.phototravel.controllers;
 
 import com.phototravel.controllers.entity.RequestForm;
-import com.phototravel.entity.City;
 import com.phototravel.controllers.entity.ResultDetails;
+import com.phototravel.entity.City;
 import com.phototravel.repositories.PriceRepository;
 import com.phototravel.services.CityService;
 import com.phototravel.services.FindBusService;
+import com.phototravel.services.RouteService;
 import com.phototravel.services.Scrapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,6 +16,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.time.LocalDate;
@@ -26,11 +29,14 @@ import java.util.List;
  * Created by PBezdienezhnykh on 026 26.7.2016.
  */
 @Controller
-@RequestMapping(value = {"/", "/index.html", "/index", "/updateData", "/searchData"})
+@RequestMapping(value = {"/", "/index.html", "/index", "/updateData", "/searchData", "/loadRoutes"})
 public class IndexController {
 
     @Autowired
     CityService cityService;
+
+    @Autowired
+    RouteService routeService;
 
     @Autowired
     PriceRepository priceRepository;
@@ -51,6 +57,14 @@ public class IndexController {
         List<ResultDetails> resultDetailsList = findBusService.findBus(requestForm);
         model.addAttribute("resultDetailsList", resultDetailsList);
         return "resultTable :: resultList";
+    }
+
+    @RequestMapping(value = "/loadRoutes", method = RequestMethod.POST)
+    @ResponseBody
+    public List<City> loadRoutes(@RequestParam("cityId") Integer cityId, @RequestParam("depDst") String depDst) {
+        logger.info("loadRoutes " + cityId);
+
+        return routeService.findRouteCities(cityId, depDst);
     }
 
     @RequestMapping(value = "/searchData", method = RequestMethod.POST)

@@ -5,11 +5,9 @@ import com.phototravel.repositories.CityRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -54,13 +52,20 @@ public class CityService {
         return citiesMap;
     }
 
+
     public List<City> findAll() {
-        return new ArrayList(getAllCitiesMap().values());
+        return cityRepository.findAll();
     }
 
 
     public City findOne(Integer id) {
-        return getAllCitiesMap().get(id);
+        List<City> cities = cityRepository.findAll();
+        for (City city : cities) {
+            if (city.getCityId() == id) {
+                return city;
+            }
+        }
+        return null;
     }
 
     public City findCityByName(String cityName) {
