@@ -104,34 +104,43 @@ function fillDateSlider() {
 
     var form = $('#requestForm');
     var url = form.attr("action");
-    /* var formData = new Array();
-     formData.push({"fromCity":$('#fromCity').val()});
-     formData.push({"toCity":$('#toCity').val()});
-     formData.push({"scanForPeriod":"true"});
+    var formData = {};
+    formData["fromCity"] = $('#fromCity').val();
+    formData["toCity"] = $('#toCity').val();
+    formData["scanForPeriod"] = true;
+
      var departureDate = strToDate($('#departureDate').val());
      var departureDateEnd = new Date(departureDate.getTime());
      departureDate.setDate(departureDate.getDate() - daysRange);
-     departureDateEnd.setDate(departureDateEnd.getDate() + daysRange);*/
+     departureDateEnd.setDate(departureDateEnd.getDate() + daysRange);
 
-    //formData.set("departureDate", dateToStr(departureDate));
-    //formData.set("departureDateEnd", dateToStr(departureDateEnd));
-    var formData = $(form);
-    var fd = new FormData(formData);
-    fd.set("fromCity", 3);
+     formData["departureDate"] = dateToStr(departureDate);
+         formData["departureDateEnd"] = dateToStr(departureDateEnd);
+
     jQuery.ajax({
         url: url,
         type: "POST",
-        data: $(form).serialize(),
-        contentType: "application/json; charset=utf-8",
-        success: function () {
-            console.log(data);
+        data: JSON.stringify(formData),
+        contentType: "application/json",
+        dataType : 'json',
+        success: function (data) {
+            buildDateSlider(data);
         }
     });
+}
 
-    /* $.post(url, {'requestForm':formData,format:'json'}).done(function (data) {
-     alert(data);
+function buildDateSlider(data){
 
-     });*/
+for (var el, i = 0; i < data.length; i++) {
+var dayBlock= document.createElement('div');
+dayBlock.className='col-lg-1';
+dayBlock.innerHTML = data[i].departureDate + " "+data[i].price;
+$("#dateslider").append(dayBlock);
+
+}
+
+
+
 }
 
 
