@@ -60,15 +60,26 @@ function initFormOnLoad() {
 
 
 }
-function toDate(dateStr) {
+function strToDate(dateStr) {
     var parts = dateStr.split("-");
     var date = new Date(parts[2], parts[1] - 1, parseInt(parts[0]));
     return date;
 }
 
+function dateToStr(date) {
+    function pad(s) {
+        return (s < 10) ? '0' + s : s;
+    }
+
+    var month = date.getMonth() + 1;
+
+
+    return pad(date.getDate()) + "-" + pad(month) + "-" + date.getFullYear();
+}
+
 function setDatePickerValue(datePicker, value) {
     if (value != null && value != '' && value.trim() != '') {
-        $('#' + datePicker).datepicker('setDate', toDate(value));
+        $('#' + datePicker).datepicker('setDate', strToDate(value));
     }
 
 }
@@ -80,9 +91,49 @@ function searchData() {
     var formData = $(form).serializeArray();
     $.post(url, formData).done(function (data) {
         $('#resultTable').html(data);
+
+        if (!$('#scanForPeriod').prop("checked")) {
+            fillDateSlider();
+        }
     });
 
 }
+
+function fillDateSlider() {
+    var daysRange = 5;
+
+    var form = $('#requestForm');
+    var url = form.attr("action");
+    /* var formData = new Array();
+     formData.push({"fromCity":$('#fromCity').val()});
+     formData.push({"toCity":$('#toCity').val()});
+     formData.push({"scanForPeriod":"true"});
+     var departureDate = strToDate($('#departureDate').val());
+     var departureDateEnd = new Date(departureDate.getTime());
+     departureDate.setDate(departureDate.getDate() - daysRange);
+     departureDateEnd.setDate(departureDateEnd.getDate() + daysRange);*/
+
+    //formData.set("departureDate", dateToStr(departureDate));
+    //formData.set("departureDateEnd", dateToStr(departureDateEnd));
+    var formData = $(form);
+    var fd = new FormData(formData);
+    fd.set("fromCity", 3);
+    jQuery.ajax({
+        url: url,
+        type: "POST",
+        data: $(form).serialize(),
+        contentType: "application/json; charset=utf-8",
+        success: function () {
+            console.log(data);
+        }
+    });
+
+    /* $.post(url, {'requestForm':formData,format:'json'}).done(function (data) {
+     alert(data);
+
+     });*/
+}
+
 
 function updateData() {
     var url = '/updateData';

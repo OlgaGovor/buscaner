@@ -57,6 +57,13 @@
 
     </div>
 
+    <div class="row" id="dateslider">
+        <div class="col-lg-10 col-lg-offset-1">
+
+
+        </div>
+    </div>
+
 
     <div class="col-lg-12" th:if="${resultDetailsList != null}">
 
@@ -104,7 +111,9 @@
 
                                 </div>
                                 <div class="col-lg-2 result-list-content">
-                                    <div class="line">
+                                    <div class="row" th:text="${price.duration}">
+                                    </div>
+                                    <div class="row line">
 
                                     </div>
                                 </div>

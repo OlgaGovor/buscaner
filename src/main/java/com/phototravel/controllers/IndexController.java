@@ -67,7 +67,24 @@ public class IndexController {
         return routeService.findRouteCities(cityId, depDst);
     }
 
-    @RequestMapping(value = "/searchData", method = RequestMethod.POST)
+    @RequestMapping(value = "/searchData", method = RequestMethod.POST, consumes = "application/json")
+    @ResponseBody
+    public List<ResultDetails> searchDataJSON(@ModelAttribute RequestForm requestForm) {
+
+        logger.info("searchData JSON" + requestForm.toString());
+
+        String errorMessage = validateRequestForm(requestForm);
+        if (errorMessage != null) {
+            logger.info(errorMessage);
+            return null;
+        }
+
+        return findBusService.findBus(requestForm);
+
+
+    }
+
+    @RequestMapping(value = "/searchData", method = RequestMethod.POST, consumes = "!application/json")
     public String searchData(Model model, @ModelAttribute RequestForm requestForm) {
         logger.info("searchData " + requestForm.toString());
 
