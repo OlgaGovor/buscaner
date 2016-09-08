@@ -71,10 +71,10 @@ public class IndexController {
     public String searchData(Model model, @ModelAttribute RequestForm requestForm) {
         logger.info("searchData " + requestForm.toString());
 
-
-        if (!validateRequestForm(requestForm)) {
-            logger.info("Invalid RequestForm");
-            model.addAttribute("resultMessage", "Invalid RequestForm");
+        String errorMessage = validateRequestForm(requestForm);
+        if (errorMessage != null) {
+            logger.info(errorMessage);
+            model.addAttribute("resultMessage", errorMessage);
         } else {
             List<ResultDetails> resultDetailsList = findBusService.findBus(requestForm);
             model.addAttribute("resultDetailsList", resultDetailsList);
@@ -195,17 +195,22 @@ public class IndexController {
 //    }
 
 
-    private boolean validateRequestForm(RequestForm requestForm) {
+    private String validateRequestForm(RequestForm requestForm) {
+        String defaultErrorMessage = "Invalid request form!";
         if (requestForm.getFromCity() < 0)
-            return false;
+            return defaultErrorMessage;
         if (requestForm.getToCity() < 0)
-            return false;
+            return defaultErrorMessage;
 
         if (requestForm.getDepartureDate() == null || requestForm.getDepartureDate().isEmpty())
-            return false;
+            return defaultErrorMessage;
         if (requestForm.isScanForPeriod() && (requestForm.getDepartureDateEnd() == null || requestForm.getDepartureDateEnd().isEmpty()))
-            return false;
+            return defaultErrorMessage;
 
-        return true;
+        if (!findBusService.checkIfRouteExists(requestForm.getFromCity(), requestForm.getToCity(), false)) {
+            return "No such route Exists!";
+        }
+
+        return null;
     }
 }

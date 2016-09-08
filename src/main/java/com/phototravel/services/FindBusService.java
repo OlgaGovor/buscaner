@@ -146,4 +146,9 @@ public class FindBusService {
         });
         System.out.println();
     }
+
+    public boolean checkIfRouteExists(int fromCityId, int toCityId, Boolean hasChanges) {
+        List<Integer> routeIds = routeService.findRoutesByCityIds(fromCityId, toCityId, hasChanges);
+        return routeIds.size() > 0;
+    }
 }

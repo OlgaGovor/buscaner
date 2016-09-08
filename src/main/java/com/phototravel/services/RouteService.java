@@ -2,15 +2,10 @@ package com.phototravel.services;
 
 import com.phototravel.entity.City;
 import com.phototravel.entity.Route;
-import com.phototravel.repositories.CompanyRepository;
 import com.phototravel.repositories.RouteRepository;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Service;
 
-import javax.sql.DataSource;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -39,17 +34,8 @@ public class RouteService {
 
 
     public List<Route> getRoutesByCitiesIdsAndCompany(int fromCityId, int toCityId, Integer companyId, Boolean hasChanges) {
-        List<Route> routes = new ArrayList<>();
+        return routeRepository.getRoutesByCityIdAndCompanyId(fromCityId, toCityId, companyId, hasChanges);
 
-        for (Route route : routeRepository.findAll()) {
-            if (route.getFromCityId() == fromCityId
-                    && route.getToCityId() == toCityId
-                    && route.getCompanyId() == companyId
-                    && route.hasChanges() == hasChanges) {
-                routes.add(route);
-            }
-        }
-        return routes;
     }
 
 
@@ -80,5 +66,9 @@ public class RouteService {
         }
 
         return cities;
+    }
+
+    public List<Integer> findRoutesByCityIds(int fromCityId, int toCityId, Boolean hasChanges) {
+        return routeRepository.findByCityIds(fromCityId, toCityId, hasChanges);
     }
 }
