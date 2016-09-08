@@ -71,6 +71,7 @@ public class IndexController {
     public String searchData(Model model, @ModelAttribute RequestForm requestForm) {
         logger.info("searchData " + requestForm.toString());
 
+
         if (!validateRequestForm(requestForm)) {
             logger.info("Invalid RequestForm");
             model.addAttribute("resultMessage", "Invalid RequestForm");
@@ -79,7 +80,33 @@ public class IndexController {
             model.addAttribute("resultDetailsList", resultDetailsList);
         }
 
-        return "resultTable :: resultList";
+        if (requestForm.isScanForPeriod()) {
+
+            Date date1 = requestForm.getDepartureAsDate();
+            Date date2 = requestForm.getDepartureEndAsDate();
+            LocalDate d1 = date1.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+            LocalDate d2 = date2.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+
+
+            model.addAttribute("startYear", d1.getYear());
+            model.addAttribute("startMonth", d1.getMonthValue() - 1);
+            model.addAttribute("startDay", d1.getDayOfMonth());
+
+            model.addAttribute("endYear", d2.getYear());
+            model.addAttribute("endMonth", d2.getMonthValue() - 1);
+            model.addAttribute("endDay", d2.getDayOfMonth());
+        }
+
+
+        String viewType = "";
+        if (requestForm.isScanForPeriod()) {
+            viewType += "calendarView :: resultCalendar";
+        } else {
+            viewType += "resultTable :: resultList";
+        }
+
+
+        return viewType;
     }
 
     @RequestMapping()
@@ -100,7 +127,7 @@ public class IndexController {
         return modelAndView;
     }
 
-    @RequestMapping(value = {"/", "/index.html", "/index"}, method = RequestMethod.POST)
+  /*  @RequestMapping(value = {"/", "/index.html", "/index"}, method = RequestMethod.POST)
     public ModelAndView formRequest(@ModelAttribute RequestForm requestForm) {
 
         logger.info("formRequest " + requestForm.toString());
@@ -151,7 +178,7 @@ public class IndexController {
         return modelAndView;
     }
 
-
+*/
 //    @RequestMapping(value = {"/route/{from}/{to}"})
 //    public ModelAndView findRoute(@PathVariable("from") Integer fromCityId,
 //                                  @PathVariable("to") Integer toCityId,

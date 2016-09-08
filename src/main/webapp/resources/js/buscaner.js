@@ -62,15 +62,13 @@ function initFormOnLoad() {
 }
 function toDate(dateStr) {
     var parts = dateStr.split("-");
-    var date = new Date(parts[2], parts[1] - 1, parseInt(parts[0]) + 1);
+    var date = new Date(parts[2], parts[1] - 1, parseInt(parts[0]));
     return date;
-
 }
 
 function setDatePickerValue(datePicker, value) {
     if (value != null && value != '' && value.trim() != '') {
-
-        $('#' + datePicker).datepicker('update', toDate(value));
+        $('#' + datePicker).datepicker('setDate', toDate(value));
     }
 
 }
