@@ -15,6 +15,7 @@ public class ResultDetails {
     private String company;
     private String lastUpdate;
     private String link;
+    private String duration;
 
 
     public String getFromDestination() {
@@ -97,4 +98,11 @@ public class ResultDetails {
         this.link = link;
     }
 
+    public String getDuration() {
+        return duration;
+    }
+
+    public void setDuration(String duration) {
+        this.duration = duration;
+    }
 }

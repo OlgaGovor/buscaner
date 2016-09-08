@@ -64,6 +64,7 @@ CREATE TABLE IF NOT EXISTS price (
   price NUMERIC(7, 2) NOT NULL,
   currency     VARCHAR(10),
   last_update    DATETIME NOT NULL,
+  duration VARCHAR(5),
   PRIMARY KEY (route_id, departure_date, departure_time),
   FOREIGN KEY (route_id) REFERENCES route (route_id)
 
@@ -78,6 +79,7 @@ CREATE TABLE IF NOT EXISTS price_archive
   last_update    DATETIME      NOT NULL,
   arrival_time   TIME          NOT NULL,
   currency       VARCHAR(10),
+  duration VARCHAR(5),
   PRIMARY KEY (route_id, departure_date, departure_time, last_update),
   FOREIGN KEY (route_id) REFERENCES route (route_id)
 );

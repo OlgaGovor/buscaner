@@ -40,6 +40,9 @@ public class Price {
     @Column(name = "last_update")
     private Date lastUpdate;
 
+    @Column(name = "duration")
+    private String duration;
+
     @Transient
     private static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd");
     @Transient
@@ -135,6 +138,14 @@ public class Price {
 
     public void setCurrency(String currency) {
         this.currency = currency;
+    }
+
+    public String getDuration() {
+        return duration;
+    }
+
+    public void setDuration(String duration) {
+        this.duration = duration;
     }
 
     @Override

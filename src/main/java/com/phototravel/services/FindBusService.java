@@ -116,6 +116,7 @@ public class FindBusService {
             resultDetails.setPrice(price.getPrice());
             resultDetails.setCurrency(price.getCurrency());
             resultDetails.setLastUpdate(price.getLastUpdateString());
+            resultDetails.setDuration(price.getDuration());
 
 
             resultDetailsList.add(resultDetails);
