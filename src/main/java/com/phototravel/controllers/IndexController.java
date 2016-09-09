@@ -25,7 +25,7 @@ import java.util.List;
  * Created by PBezdienezhnykh on 026 26.7.2016.
  */
 @Controller
-@RequestMapping(value = {"/", "/index.html", "/index", "/updateData", "/searchData", "/loadRoutes"})
+@RequestMapping(value = {"/", "/index.html", "/index", "/updateData", "/searchData", "/loadRoutes", "/loadDateSlider"})
 public class IndexController {
 
     @Autowired
@@ -120,6 +120,22 @@ public class IndexController {
 
 
         return viewType;
+    }
+
+    @RequestMapping(value = "/loadDateSlider", method = RequestMethod.POST, consumes = "!application/json")
+    public String loadDateSlider(Model model, @ModelAttribute RequestForm requestForm) {
+        logger.info("loadDateSlider " + requestForm.toString());
+
+        String errorMessage = validateRequestForm(requestForm);
+        if (errorMessage != null) {
+            logger.info(errorMessage);
+            model.addAttribute("resultMessage", errorMessage);
+        } else {
+            List<ResultDetails> resultDetailsList = findBusService.findBus(requestForm);
+            model.addAttribute("resultDetailsList", resultDetailsList);
+        }
+
+        return "resultTable :: dateSlider";
     }
 
     @RequestMapping()

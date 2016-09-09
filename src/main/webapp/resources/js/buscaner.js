@@ -85,7 +85,6 @@ function setDatePickerValue(datePicker, value) {
 }
 
 function searchData() {
-
     var form = $('#requestForm');
     var url = form.attr("action");
     var formData = $(form).serializeArray();
@@ -100,6 +99,37 @@ function searchData() {
 }
 
 function fillDateSlider() {
+    var daysRange = 5;
+
+    var form = $('#requestForm');
+    var url = "/loadDateSlider";
+    var formData = {};
+    formData["fromCity"] = $('#fromCity').val();
+    formData["toCity"] = $('#toCity').val();
+    formData["scanForPeriod"] = true;
+
+    var departureDate = strToDate($('#departureDate').val());
+    var departureDateEnd = new Date(departureDate.getTime());
+    departureDate.setDate(departureDate.getDate() - daysRange);
+    departureDateEnd.setDate(departureDateEnd.getDate() + daysRange);
+
+    formData["departureDate"] = dateToStr(departureDate);
+    formData["departureDateEnd"] = dateToStr(departureDateEnd);
+
+    $.post(url, formData).done(function (data) {
+        $('#dateSlider').html(data);
+    });
+}
+
+function onDateSliderClick(div) {
+
+    console.log($(div).attr("departureDate"));
+    $('#departureDate').datepicker('setDate', strToDate($(div).attr("departureDate")));
+    searchData();
+
+}
+
+function fillDateSliderAjax() {
     var daysRange = 5;
 
     var form = $('#requestForm');
