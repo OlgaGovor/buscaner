@@ -139,7 +139,7 @@ public class ScrapperImpl implements Scrapper {
         //priceRepository.deleteAllByIdRouteIdAndIdDepartureDate(route.getRouteId(), departureDate);
 
         //CHECK AND THEN TURN ON
-//        priceService.movePriceToArchive(route.getRouteId(), departureDate);
+        priceService.movePriceToArchive(route.getRouteId(), departureDate);
 
 
         for (Price p : listOfPrices) {
