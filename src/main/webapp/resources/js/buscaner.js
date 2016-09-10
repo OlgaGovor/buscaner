@@ -99,7 +99,7 @@ function searchData() {
 }
 
 function fillDateSlider() {
-    var daysRange = 5;
+    var daysRange = 3;
 
     var form = $('#requestForm');
     var url = "/loadDateSlider";

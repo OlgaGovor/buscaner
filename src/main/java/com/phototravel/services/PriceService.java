@@ -48,7 +48,8 @@ public class PriceService {
             "      price,\n" +
             "      last_update,\n" +
             "      arrival_time,\n" +
-            "      currency " +
+            "      currency, " +
+            "      duration " +
 
             "from price " +
             "where route_id=:routeId " +
