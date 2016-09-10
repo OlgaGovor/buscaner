@@ -24,6 +24,11 @@
     font-size: 70%;
 }
 
+.price-bar {
+    height: 50%;
+    background-color: #428bca;
+}
+
 .line {
     height: 2px;
     width: 93%;
