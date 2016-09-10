@@ -36,6 +36,7 @@ public class PolskiBusFetcher implements Fetcher {
     private static final String XPATHPRICE = "//div[@class='onb_resultRow']//p[@class='priceHilite']";
     private static final String XPATHDEPARTURE = "//div[@class='onb_resultRow']//div[@class='onb_col onb_two']//p[position() mod 2 = 1]/b";
     private static final String XPATHARRIVAL = "//div[@class='onb_resultRow']//div[@class='onb_col onb_two']//p[position() mod 2 = 0]/b";
+    private static final String XPATHDURATION = "//div[@class='onb_resultRow']//div[contains(@class,'onb_three')]//strong";
 
     private static final String CURRENCY = "zl";
 
@@ -87,7 +88,7 @@ public class PolskiBusFetcher implements Fetcher {
         PolskiBusParser parser = new PolskiBusParser();
         List<Price> listOfPrices = new ArrayList<>();
         try {
-            listOfPrices =  parser.parse(responseStr, routeId, date, XPATHPRICE, XPATHDEPARTURE, XPATHARRIVAL, CURRENCY);
+            listOfPrices =  parser.parse(responseStr, routeId, date, XPATHPRICE, XPATHDEPARTURE, XPATHARRIVAL, XPATHDURATION, CURRENCY);
         } catch (Exception e) {
             e.printStackTrace();
         } finally {

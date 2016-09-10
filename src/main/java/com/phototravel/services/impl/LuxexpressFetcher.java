@@ -23,6 +23,7 @@ public class LuxexpressFetcher implements Fetcher {
     private static final String XPATHPRICE = "//div[contains (@class, 'regular-body')]//span[@class = 'amount']";
     private static final String XPATHDEPARTURE = "//div[contains(@class,'row times')]/div/span[1]";
     private static final String XPATHARRIVAL = "//div[contains(@class,'row times')]/div/span[2]";
+    private static final String XPATHDURATION = "//div[contains(@class, 'duration')]";
 
     private static final String CURRENCY = "zl";
 
@@ -47,7 +48,7 @@ public class LuxexpressFetcher implements Fetcher {
 //        about modification
         List<Price> listOfPrices = new ArrayList<>();
         try {
-            listOfPrices =  parser.parse(responseStr, routeId, date, XPATHPRICE, XPATHDEPARTURE, XPATHARRIVAL, CURRENCY);
+            listOfPrices =  parser.parse(responseStr, routeId, date, XPATHPRICE, XPATHDEPARTURE, XPATHARRIVAL, XPATHDURATION, CURRENCY);
         } catch (Exception e) {
             e.printStackTrace();
         } finally {

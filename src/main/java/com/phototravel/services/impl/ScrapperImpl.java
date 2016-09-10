@@ -6,7 +6,6 @@ import com.phototravel.entity.City;
 import com.phototravel.entity.Destination;
 import com.phototravel.entity.Price;
 import com.phototravel.entity.Route;
-import com.phototravel.repositories.DestinationRepository;
 import com.phototravel.repositories.PriceRepository;
 import com.phototravel.services.*;
 import org.slf4j.Logger;
@@ -138,7 +137,9 @@ public class ScrapperImpl implements Scrapper {
         //priceRepository.movePriceToArchive(route.getRouteId(), departureDate);
 
         //priceRepository.deleteAllByIdRouteIdAndIdDepartureDate(route.getRouteId(), departureDate);
-        priceService.movePriceToArchive(route.getRouteId(), departureDate);
+
+        //CHECK AND THEN TURN ON
+//        priceService.movePriceToArchive(route.getRouteId(), departureDate);
 
 
         for (Price p : listOfPrices) {
