@@ -26,4 +26,12 @@ public class LuxexpressParser extends BaseParser{
         return time;
     }
 
+    @Override
+    public String parseDuration(String dur) throws ParseException {
+        dur = dur.trim();
+        Integer ind = dur.indexOf('h');
+        dur = dur.substring(0,ind)+':'+dur.substring(ind+2,ind+4);
+        return dur;
+    }
+
 }

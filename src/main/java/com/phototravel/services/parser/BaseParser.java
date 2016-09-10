@@ -24,11 +24,12 @@ import java.util.List;
  */
 public abstract class BaseParser {
 
-    public List<Price> parse(String str, Integer routeId, LocalDate date, String xPathPrice, String xPathDeparture, String xPathArrival, String currency) throws Exception {
+    public List<Price> parse(String str, Integer routeId, LocalDate date, String xPathPrice, String xPathDeparture, String xPathArrival, String xPathDuration, String currency) throws Exception {
 
         List<String> listPrices = getRegularPrice(xPathPrice, str);
         List<String> listTimeOfDepartures = getTimeDeparture(xPathDeparture, str);
         List<String> listTimeOfArrival = getTimeArrival(xPathArrival, str);
+        List<String> listDuration = getDuration(xPathDuration, str);
 
         List<Price> listOfPriceEntity = new ArrayList<Price>();
 
@@ -52,6 +53,9 @@ public abstract class BaseParser {
 
             priceEntity.setLastUpdate(new Date());
 
+            String duration = parseDuration(listDuration.get(i));
+            priceEntity.setDuration(duration);
+
             listOfPriceEntity.add(priceEntity);
         }
         return listOfPriceEntity;
@@ -67,6 +71,10 @@ public abstract class BaseParser {
     }
 
     public List<String> getRegularPrice(String xPathExpression, String str) throws ParserConfigurationException, XPathExpressionException {
+        return parseResponseString(xPathExpression, str);
+    }
+
+    public List<String> getDuration(String xPathExpression, String str) throws ParserConfigurationException, XPathExpressionException {
         return parseResponseString(xPathExpression, str);
     }
 
@@ -110,6 +118,10 @@ public abstract class BaseParser {
         DateFormat formatter = new SimpleDateFormat("HH:mm");
         Time price = new Time(formatter.parse(timeStr).getTime());
         return price;
+    }
+
+    public String parseDuration(String dur) throws ParseException {
+        return dur.trim();
     }
 
 }

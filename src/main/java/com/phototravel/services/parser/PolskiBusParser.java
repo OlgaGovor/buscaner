@@ -1,9 +1,13 @@
 package com.phototravel.services.parser;
 
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.xpath.XPathExpressionException;
 import java.sql.Time;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class PolskiBusParser extends BaseParser{
@@ -25,6 +29,26 @@ public class PolskiBusParser extends BaseParser{
         DateFormat formatter = new SimpleDateFormat("HH:mm");
         Time time = new Time(formatter.parse(newTimeStr.substring(0,5)).getTime());
         return time;
+    }
+
+    @Override
+    public String parseDuration(String dur) throws ParseException {
+        dur = dur.trim();
+        Integer ind = dur.indexOf("hrs");
+        dur = dur.substring(0,ind)+':'+dur.substring(ind+4,ind+6);
+        return dur;
+    }
+
+    @Override
+    public List<String> getDuration(String xPathExpression, String str) throws ParserConfigurationException, XPathExpressionException {
+        List<String> hourAndMin = parseResponseString(xPathExpression, str);
+        List<String> resultTime = new ArrayList<String>();
+        for (int i=0; i<hourAndMin.size(); i=i+2) {
+            //04hrs 40min
+            String result = hourAndMin.get(i).trim()+ " " +hourAndMin.get(i+1).trim();
+            resultTime.add(result);
+        }
+        return resultTime;
     }
 
 }

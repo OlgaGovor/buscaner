@@ -51,7 +51,7 @@ public class Price {
     private static final SimpleDateFormat DATE_TIME_FORMAT = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
     public Price(int routeId, Date departureDate, Time departureTime, Time arrivalTime,
-                 double price, String currency, Date lastUpdate) {
+                 double price, String currency, Date lastUpdate, String duration) {
         this.id = new PricePK();
         this.id.routeId = routeId;
         this.id.departureDate = departureDate;
@@ -60,6 +60,7 @@ public class Price {
         this.price = price;
         this.currency = currency;
         this.lastUpdate = lastUpdate;
+        this.duration = duration;
     }
 
     public Price() {

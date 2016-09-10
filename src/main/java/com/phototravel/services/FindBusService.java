@@ -118,7 +118,6 @@ public class FindBusService {
             resultDetails.setLastUpdate(price.getLastUpdateString());
             resultDetails.setDuration(price.getDuration());
 
-
             resultDetailsList.add(resultDetails);
         }
         return resultDetailsList;
