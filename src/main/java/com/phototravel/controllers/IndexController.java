@@ -11,9 +11,15 @@ import com.phototravel.services.Scrapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.time.LocalDate;
@@ -142,6 +148,7 @@ public class IndexController {
     public ModelAndView defaultRequest() {
         logger.info("defaultRequest");
         ModelAndView modelAndView = new ModelAndView("index");
+        modelAndView.addObject("lang", LocaleContextHolder.getLocale());
         try {
 
 

@@ -28,19 +28,33 @@ function initSelectpickers(){
 $('.selectpicker').selectpicker({
                 // style: 'btn-outline-info',
                  size: 15,
-                 liveSearch: true
+             //    liveSearch: true
                });
 
 $('#fromCity').change(function () {
-
             loadRoutes($('#toCity'), $('#fromCity').val(), 'dep');
-
     });
+$("#langSelect").change(function(){
+    changeLang($("#langSelect").val());
+});
   /*  $('#toCity').change(function () {
 
             loadRoutes($('#fromCity'), $('#toCity').val(), 'dst');
 
     });*/
+}
+
+function changeLang(newLang){
+var url = document.URL;
+var re = /(lang=)\w\w/gi;
+if(url.indexOf('lang=') != -1){
+       url = url.replace(re,'lang='+newLang);
+  }
+else{
+      url += '?lang='+newLang;
+  }
+
+window.location = url;
 }
 
 

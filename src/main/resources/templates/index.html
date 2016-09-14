@@ -1,5 +1,5 @@
 <!DOCTYPE HTML>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" th:lang="${lang}">
 <head>
     <title>BusScaner</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
@@ -44,8 +44,12 @@
     <div class="row" style="height: 100%">
         <div class="col-lg-10" style="height:100%;">
             <div class="row" style="background-color:#FFFFFF; ">
-                <div class="col-lg-12">
-                    Header
+                <div class="col-lg-2 col-lg-offset-10">
+                    <select id="langSelect" class="selectpicker">
+                        <option value="en" th:selected="(${#strings.equalsIgnoreCase(lang,'en')})">english</option>
+                        <option value="ru" th:selected="(${#strings.equalsIgnoreCase(lang,'ru')})">русский</option>
+                        <option value="pl" th:selected="(${#strings.equalsIgnoreCase(lang,'pl')})">polska</option>
+                    </select>
                 </div>
             </div>
             <div class="row" style="height:1%;">
@@ -58,22 +62,24 @@
                           style="margin: 5pt 5pt 5pt 5pt">
                         <div class="row">
                             <div class="col-lg-2"></div>
-                            <label class="col-lg-3" for="fromCity"> From </label>
+                            <label class="col-lg-3" for="fromCity" th:text="#{form.fromCity.label}"> From </label>
 
                             <div class="col-lg-1"></div>
-                            <label class="col-lg-3" for="toCity"> To </label>
+                            <label class="col-lg-3" for="toCity" th:text="#{form.toCity.label}"> To </label>
                     </div>
                         <div class="row">
                             <div class="col-lg-2"></div>
                             <div class="col-lg-3">
                                 <select id="fromCity" th:field="*{fromCity}" class="form-control selectpicker"
+                                        data-live-search="true"
                                         initial="true">
                                     <option th:each="city: ${cities}" th:value="${city.cityId}"
                                             th:text="${city.cityName}"></option>
                                 </select>
                             </div>
                             <div class="col-lg-3">
-                                <select id="toCity" th:field="*{toCity}" class="form-control selectpicker">
+                                <select id="toCity" th:field="*{toCity}" class="form-control selectpicker"
+                                        data-live-search="true">
                                     <option th:each="city: ${cities}" th:value="${city.cityId}"
                                             th:text="${city.cityName}"></option>
                                 </select>
