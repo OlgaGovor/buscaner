@@ -10,12 +10,14 @@ public class PriceCalendar {
 
     private Date date;
     private Double price;
+    private String currency;
 
     private final SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy");
 
-    public PriceCalendar(Date date, Double price) {
+    public PriceCalendar(Date date, Double price, String currency) {
         this.date = date;
         this.price = price;
+        this.currency = currency;
     }
 
     public Date getDate() {
@@ -36,6 +38,14 @@ public class PriceCalendar {
 
     public void setPrice(Double price) {
         this.price = price;
+    }
+
+    public String getCurrency() {
+        return currency;
+    }
+
+    public void setCurrency(String currency) {
+        this.currency = currency;
     }
 
     @Override

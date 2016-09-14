@@ -25,7 +25,7 @@ public class LuxexpressFetcher implements Fetcher {
     private static final String XPATHARRIVAL = "//div[contains(@class,'row times')]/div/span[2]";
     private static final String XPATHDURATION = "//div[contains(@class, 'duration')]";
 
-    private static final String CURRENCY = "zl";
+    private static final String CURRENCY = "EUR";
 
     @Override
     public List<Price> fetch(String fromRequestValue, String toRequestValue, LocalDate date, int routeId) {
@@ -37,7 +37,7 @@ public class LuxexpressFetcher implements Fetcher {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM-dd-yyyy");
         String dateStr = date.format(formatter);
 
-        String url = PATHLUX + fromRequestValue + "/" + toRequestValue + "?Date=" + dateStr +"&Currency=CURRENCY.PLN";
+        String url = PATHLUX + fromRequestValue + "/" + toRequestValue + "?Date=" + dateStr +"&Currency=CURRENCY."+CURRENCY;
 
         //send request
         ClientResponse response = sendRequestLuxexpress.sendGetRequest(sendRequestLuxexpress.createWebResource(url), CONTENTTYPE);
@@ -61,7 +61,7 @@ public class LuxexpressFetcher implements Fetcher {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM-dd-yyyy");
         String dateStr = date.format(formatter);
 
-        String url = PATHLUX + fromRequestValue + "/" + toRequestValue + "?Date=" + dateStr +"&Currency=CURRENCY.PLN";
+        String url = PATHLUX + fromRequestValue + "/" + toRequestValue + "?Date=" + dateStr +"&Currency=CURRENCY."+CURRENCY;
         return url;
     }
 

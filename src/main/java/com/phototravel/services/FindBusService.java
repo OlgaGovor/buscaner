@@ -131,7 +131,7 @@ public class FindBusService {
 
             resultDetails.setDepartureDate(price.getDateAsString());
             resultDetails.setPrice(price.getPrice());
-            resultDetails.setCurrency("zl");
+            resultDetails.setCurrency(price.getCurrency());
 
             resultDetailsList.add(resultDetails);
         }

@@ -31,7 +31,8 @@ public class PriceService {
 
     private static final String SELECT_PRICES_FOR_CALENDAR_VIEW = "SELECT " +
             "  departure_date, " +
-            "  min(p.price) AS price " +
+            "  min(p.price) AS price, " +
+            "  currency " +
             "FROM price p " +
             "  JOIN route r on r.route_id = p.route_id " +
             "WHERE r.from_city_id = :fromCity " +
@@ -70,7 +71,7 @@ public class PriceService {
         List<PriceCalendar> result = jdbcTemplate.query(SELECT_PRICES_FOR_CALENDAR_VIEW, namedParameters, new RowMapper<PriceCalendar>() {
             @Override
             public PriceCalendar mapRow(ResultSet resultSet, int i) throws SQLException {
-                return new PriceCalendar(resultSet.getDate(1), resultSet.getDouble(2));
+                return new PriceCalendar(resultSet.getDate(1), resultSet.getDouble(2), resultSet.getString(3));
             }
         });
         return result;

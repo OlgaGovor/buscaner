@@ -38,7 +38,7 @@ public class PolskiBusFetcher implements Fetcher {
     private static final String XPATHARRIVAL = "//div[@class='onb_resultRow']//div[@class='onb_col onb_two']//p[position() mod 2 = 0]/b";
     private static final String XPATHDURATION = "//div[@class='onb_resultRow']//div[contains(@class,'onb_three')]//strong";
 
-    private static final String CURRENCY = "zl";
+    private static final String CURRENCY = "PLN";
 
     @Autowired
     RequestSender requestSender;
