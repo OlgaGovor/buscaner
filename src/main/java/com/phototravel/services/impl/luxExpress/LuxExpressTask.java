@@ -11,14 +11,15 @@ import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.api.client.WebResource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-@Component("LuxExpress")
-public class LuxExpressTask extends BusScanTask implements Runnable {
+@Component("Luxexpress")
+public class LuxExpressTask extends BusScanTask {
     private final Logger logger = LoggerFactory.getLogger(this.getClass() + " " + Thread.currentThread().getName());
 
 
@@ -26,15 +27,17 @@ public class LuxExpressTask extends BusScanTask implements Runnable {
     private static final String CURRENCY_REQUEST_VALUE = "CURRENCY.PLN";
 
 
-    private LuxexpressParser parser = new LuxexpressParser();
+    @Autowired
+    LuxexpressParser parser = new LuxexpressParser();
 
     public LuxExpressTask() {
 
     }
 
-    public LuxExpressTask(Route route, LocalDate date, DestinationService destinationService, DBWriterService dbWriterService) {
-        super(route, date, destinationService, dbWriterService);
+    public LuxExpressTask(Route route, LocalDate date) {
+        super(route, date);
     }
+
 
     @Override
     public void run() {

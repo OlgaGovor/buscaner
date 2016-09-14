@@ -1,7 +1,9 @@
 package com.phototravel.services.impl.luxExpress;
 
+import com.phototravel.entity.Company;
 import com.phototravel.entity.Route;
 import com.phototravel.services.CityService;
+import com.phototravel.services.CompanyService;
 import com.phototravel.services.DestinationService;
 import com.phototravel.services.RouteService;
 import com.phototravel.services.dbWriter.DBWriterService;
@@ -27,7 +29,7 @@ public class ScrapperImplM {
     DBWriterService dbWriterService;
 
     @Autowired
-    private DestinationService destinationService;
+    CompanyService companyService;
 
     @Autowired
     TaskFactory taskFactory;
@@ -70,12 +72,11 @@ public class ScrapperImplM {
     }
 
     private void addTaskToQueue(Route route, LocalDate date) {
-        if (!dbWriterService.isStarted()) {
-            dbWriterService.startService();
-        }
-        Task task1 = taskFactory.getTask("LuxExpress");
+        Company company = companyService.findCompanyById(route.getCompanyId());
 
-        LuxExpressTask task = new LuxExpressTask(route, date, destinationService, dbWriterService);
+        Task task = taskFactory.getTask(company.getCompanyName());
+        task.setRoute(route);
+        task.setDate(date);
 
         taskExecutor.execute(task);
 

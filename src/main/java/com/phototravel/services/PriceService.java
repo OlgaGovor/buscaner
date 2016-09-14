@@ -61,9 +61,9 @@ public class PriceService {
 
             "from price " +
             "where route_id=:routeId " +
-            "and departure_date= :departureDate";
+            "and departure_date= date(:departureDate)";
 
-    public static final String DELETE_PRICE = "delete from price where route_id=:routeId and departure_date=:departureDate";
+    public static final String DELETE_PRICE = "delete from price where route_id=:routeId and departure_date=date(:departureDate)";
 
 
 
@@ -90,16 +90,17 @@ public class PriceService {
     public void movePriceToArchive(int routId, Date departureDate) {
         MapSqlParameterSource namedParameters = new MapSqlParameterSource("routeId", routId);
         namedParameters.addValue("departureDate", departureDate);
-        logger.info(MOVE_PRICE_TO_ARCHIVE);
-        int rowCount = jdbcTemplate.update(MOVE_PRICE_TO_ARCHIVE, namedParameters);
-        logger.info("moved " + rowCount + " rows");
+
+        int rowCount = 0;// jdbcTemplate.update(MOVE_PRICE_TO_ARCHIVE, namedParameters);
+        logger.info(routId + " " + departureDate + " moved " + rowCount + " rows");
 
         rowCount = jdbcTemplate.update(DELETE_PRICE, namedParameters);
-        logger.info("deleted " + rowCount + " rows");
+        logger.info(routId + " " + departureDate + " deleted " + rowCount + " rows");
     }
 
     public void save(Price price) {
         movePriceToArchive(price.getRouteId(), price.getRawDepartureDate());
+        logger.info("save " + price);
         priceRepository.save(price);
     }
 

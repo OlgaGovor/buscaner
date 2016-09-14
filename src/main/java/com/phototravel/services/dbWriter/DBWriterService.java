@@ -7,6 +7,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.sql.SQLException;
 import java.util.concurrent.ArrayBlockingQueue;
 
 @Component
@@ -81,10 +82,15 @@ public class DBWriterService {
 
                     if (price != null) {
                         logger.info("save");
-                        priceService.save(price);
+                        try {
+                            priceService.save(price);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
 
                     }
                 }
+                logger.info("DBWriterService end");
 
             }
         };

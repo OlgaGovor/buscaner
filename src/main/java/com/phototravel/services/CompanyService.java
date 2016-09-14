@@ -13,7 +13,7 @@ public class CompanyService {
     @Autowired
     CompanyRepository companyRepository;
 
-    Company findCompanyById(Integer companyId) {
+    public Company findCompanyById(Integer companyId) {
         for (Company company : companyRepository.findAll()) {
             if (company.getCompanyId() == companyId) {
                 return company;

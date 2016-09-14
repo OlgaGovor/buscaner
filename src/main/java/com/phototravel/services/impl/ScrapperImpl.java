@@ -214,7 +214,7 @@ public class ScrapperImpl implements Scrapper {
         return url;
     }
 
-    public void scrapRouteForDateM(Route route, LocalDate date) {
+  /*  public void scrapRouteForDateM(Route route, LocalDate date) {
         taskExecutor.setThreadNamePrefix("scannerThreadPool");
         dbWriterService.startService();
         LuxExpressTask task = new LuxExpressTask(route, date, destinationService, dbWriterService);
@@ -238,5 +238,5 @@ public class ScrapperImpl implements Scrapper {
         logger.info("scrapRouteForDateM - End");
 
 
-    }
+    }*/
 }

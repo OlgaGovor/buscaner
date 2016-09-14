@@ -11,16 +11,20 @@ import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.api.client.WebResource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 
-public class BusScanTask implements Task {
+public abstract class BusScanTask implements Task {
     protected final Logger logger = LoggerFactory.getLogger(this.getClass());
-    protected DestinationService destinationService;
-    protected DBWriterService dbWriterService;
+
+    @Autowired
+    DestinationService destinationService;
+    @Autowired
+    DBWriterService dbWriterService;
 
 
     protected Route route;
@@ -33,11 +37,10 @@ public class BusScanTask implements Task {
     public BusScanTask() {
     }
 
-    public BusScanTask(Route route, LocalDate date, DestinationService destinationService, DBWriterService dbWriterService) {
+    public BusScanTask(Route route, LocalDate date) {
         this.route = route;
         this.date = date;
-        this.destinationService = destinationService;
-        this.dbWriterService = dbWriterService;
+
     }
 
     protected WebResource createWebResource(String url) {
@@ -90,5 +93,11 @@ public class BusScanTask implements Task {
         }
     }
 
+    public void setRoute(Route route) {
+        this.route = route;
+    }
 
+    public void setDate(LocalDate date) {
+        this.date = date;
+    }
 }
