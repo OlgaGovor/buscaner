@@ -27,6 +27,7 @@ public class LuxexpressFetcher implements Fetcher {
 
     private static final String CURRENCY = "EUR";
 
+
     @Override
     public List<Price> fetch(String fromRequestValue, String toRequestValue, LocalDate date, int routeId) {
         logger.info("fromRequestValue=" + fromRequestValue + " toRequestValue=" + toRequestValue +
@@ -48,7 +49,7 @@ public class LuxexpressFetcher implements Fetcher {
 //        about modification
         List<Price> listOfPrices = new ArrayList<>();
         try {
-            listOfPrices =  parser.parse(responseStr, routeId, date, XPATHPRICE, XPATHDEPARTURE, XPATHARRIVAL, XPATHDURATION, CURRENCY);
+            listOfPrices = parser.parse(responseStr, routeId, date);
         } catch (Exception e) {
             e.printStackTrace();
         } finally {

@@ -1,6 +1,5 @@
 package com.phototravel.services.impl;
 
-import com.phototravel.RequestSender;
 import com.phototravel.entity.Price;
 import com.phototravel.outerRequests.SendRequestPolskiBus;
 import com.phototravel.services.Fetcher;
@@ -10,7 +9,6 @@ import com.sun.jersey.api.client.WebResource;
 import com.sun.jersey.core.util.MultivaluedMapImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.ws.rs.core.Cookie;
 import javax.ws.rs.core.MultivaluedMap;
@@ -40,8 +38,6 @@ public class PolskiBusFetcher implements Fetcher {
 
     private static final String CURRENCY = "PLN";
 
-    @Autowired
-    RequestSender requestSender;
 
     @Override
     public List<Price> fetch(String fromRequestValue, String toRequestValue, LocalDate date, int routeId) {
@@ -88,7 +84,7 @@ public class PolskiBusFetcher implements Fetcher {
         PolskiBusParser parser = new PolskiBusParser();
         List<Price> listOfPrices = new ArrayList<>();
         try {
-            listOfPrices =  parser.parse(responseStr, routeId, date, XPATHPRICE, XPATHDEPARTURE, XPATHARRIVAL, XPATHDURATION, CURRENCY);
+            listOfPrices = parser.parse(responseStr, routeId, date);
         } catch (Exception e) {
             e.printStackTrace();
         } finally {

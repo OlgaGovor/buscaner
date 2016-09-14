@@ -22,14 +22,22 @@ import java.util.List;
 /**
  * Created by Olga_Govor on 7/1/2016.
  */
-public abstract class BaseParser {
+public abstract class BaseResponseParser {
 
-    public List<Price> parse(String str, Integer routeId, LocalDate date, String xPathPrice, String xPathDeparture, String xPathArrival, String xPathDuration, String currency) throws Exception {
+    protected static String XPATH_PRICE = "";
+    protected static String XPATH_DEPARTURE = "";
+    protected static String XPATH_ARRIVAL = "";
+    protected static String XPATH_DURATION = "";
+    protected static String CURRENCY = "";
 
-        List<String> listPrices = getRegularPrice(xPathPrice, str);
-        List<String> listTimeOfDepartures = getTimeDeparture(xPathDeparture, str);
-        List<String> listTimeOfArrival = getTimeArrival(xPathArrival, str);
-        List<String> listDuration = getDuration(xPathDuration, str);
+    public List<Price> parse(String str, Integer routeId, LocalDate date) throws Exception {
+
+        System.out.println(XPATH_PRICE);
+        String str1 = XPATH_PRICE;
+        List<String> listPrices = getRegularPrice(XPATH_PRICE, str);
+        List<String> listTimeOfDepartures = getTimeDeparture(XPATH_DEPARTURE, str);
+        List<String> listTimeOfArrival = getTimeArrival(XPATH_ARRIVAL, str);
+        List<String> listDuration = getDuration(XPATH_DURATION, str);
 
         List<Price> listOfPriceEntity = new ArrayList<Price>();
 
@@ -37,7 +45,7 @@ public abstract class BaseParser {
             Price priceEntity = new Price();
 
             priceEntity.setRouteId(routeId);
-            priceEntity.setCurrency(currency);
+            priceEntity.setCurrency(CURRENCY);
 
             Double priceFromRequest = parsePrice(listPrices.get(i));
             priceEntity.setPrice(priceFromRequest);
@@ -84,26 +92,26 @@ public abstract class BaseParser {
 
     public List<String> parseResponseString(String xPathExpression, String str) throws ParserConfigurationException, XPathExpressionException {
 
-            List<String> list = new ArrayList<String>();
-            TagNode tagNode = new HtmlCleaner().clean(str);
+        List<String> list = new ArrayList<String>();
+        TagNode tagNode = new HtmlCleaner().clean(str);
 
-            org.w3c.dom.Document doc;
-            doc = new org.htmlcleaner.DomSerializer(new CleanerProperties()).createDOM(tagNode);
+        org.w3c.dom.Document doc;
+        doc = new org.htmlcleaner.DomSerializer(new CleanerProperties()).createDOM(tagNode);
 
-            XPath xpath = XPathFactory.newInstance().newXPath();
+        XPath xpath = XPathFactory.newInstance().newXPath();
 
-            try {
-                //create XPathExpression object
-                XPathExpression expr =
-                        xpath.compile(xPathExpression);
-                //evaluate expression result on XML document
-                NodeList nodes = (NodeList) expr.evaluate(doc, XPathConstants.NODESET);
-                for (int i = 0; i < nodes.getLength(); i++) {
-                    list.add(nodes.item(i).getFirstChild().getNodeValue());
-                }
-            } catch (XPathExpressionException e) {
-                e.printStackTrace();
+        try {
+            //create XPathExpression object
+            XPathExpression expr =
+                    xpath.compile(xPathExpression);
+            //evaluate expression result on XML document
+            NodeList nodes = (NodeList) expr.evaluate(doc, XPathConstants.NODESET);
+            for (int i = 0; i < nodes.getLength(); i++) {
+                list.add(nodes.item(i).getFirstChild().getNodeValue());
             }
+        } catch (XPathExpressionException e) {
+            e.printStackTrace();
+        }
         return list;
     }
 

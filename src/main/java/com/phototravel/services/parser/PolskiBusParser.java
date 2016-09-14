@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class PolskiBusParser extends BaseParser{
+public class PolskiBusParser extends BaseResponseParser {
 
     @Override
     public Double parsePrice(String priceStr){

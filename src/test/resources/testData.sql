@@ -7,14 +7,16 @@ INSERT INTO company (company_id, company_name, company_url) VALUES (1, 'PolskiBu
 INSERT INTO company (company_id, company_name, company_url) VALUES (2, 'Luxexpress', 'luxexpress.pl');
 
 
-INSERT INTO destination (destination_id, company_id, city_id, request_value, destination_name) VALUES (49, 1, 3, '15', 'Krakow');
-INSERT INTO destination (destination_id, company_id, city_id, request_value, destination_name) VALUES (84, 1, 231, '44', 'Warszawa');
+INSERT INTO destination (destination_id, company_id, city_id, request_value, destination_name) VALUES (49, 1, 3, 'krakow', 'Krakow');
+INSERT INTO destination (destination_id, company_id, city_id, request_value, destination_name) VALUES (84, 1, 231, '22002', 'Warszawa');
 
-INSERT INTO route (route_id, from_destination_id, to_destination_id, company_id, is_active, from_city_id, to_city_id, has_changes) VALUES (6, 49, 84, 1, 1, 3, 231, 0);
+INSERT INTO route (route_id, from_destination_id, to_destination_id, company_id, is_active, from_city_id, to_city_id, has_changes)
+VALUES (6, 49, 84, 1, 1, 3, 231, 0);
 
 
 
-INSERT INTO price (route_id, departure_date, departure_time, price, last_update, arrival_time, currency) VALUES (6, '2016-08-29', '01:35:00', 38.00, '2016-08-17 14:36:23', '06:30:00', 'zl');
+
+/*INSERT INTO price (route_id, departure_date, departure_time, price, last_update, arrival_time, currency) VALUES (6, '2016-08-29', '01:35:00', 38.00, '2016-08-17 14:36:23', '06:30:00', 'zl');
 INSERT INTO price (route_id, departure_date, departure_time, price, last_update, arrival_time, currency) VALUES (6, '2016-08-29', '05:00:00', 25.00, '2016-08-17 14:36:23', '10:00:00', 'zl');
 INSERT INTO price (route_id, departure_date, departure_time, price, last_update, arrival_time, currency) VALUES (6, '2016-08-29', '07:00:00', 22.00, '2016-08-17 14:36:23', '11:55:00', 'zl');
 INSERT INTO price (route_id, departure_date, departure_time, price, last_update, arrival_time, currency) VALUES (6, '2016-08-29', '08:30:00', 20.00, '2016-08-17 14:36:23', '13:35:00', 'zl');
@@ -58,5 +60,5 @@ INSERT INTO price (route_id, departure_date, departure_time, price, last_update,
 INSERT INTO price (route_id, departure_date, departure_time, price, last_update, arrival_time, currency) VALUES (6, '2016-10-03', '16:00:00', 10.00, '2016-08-17 14:12:26', '20:55:00', 'zl');
 INSERT INTO price (route_id, departure_date, departure_time, price, last_update, arrival_time, currency) VALUES (6, '2016-10-03', '17:15:00', 15.00, '2016-08-17 14:12:26', '22:10:00', 'zl');
 INSERT INTO price (route_id, departure_date, departure_time, price, last_update, arrival_time, currency) VALUES (6, '2016-10-03', '18:10:00', 10.00, '2016-08-17 14:12:26', '23:05:00', 'zl');
-INSERT INTO price (route_id, departure_date, departure_time, price, last_update, arrival_time, currency) VALUES (6, '2016-10-03', '19:00:00', 10.00, '2016-08-17 14:12:26', '23:55:00', 'zl');
+INSERT INTO price (route_id, departure_date, departure_time, price, last_update, arrival_time, currency) VALUES (6, '2016-10-03', '19:00:00', 10.00, '2016-08-17 14:12:26', '23:55:00', 'zl');*/
 

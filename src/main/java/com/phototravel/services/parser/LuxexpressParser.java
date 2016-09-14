@@ -1,14 +1,29 @@
 package com.phototravel.services.parser;
 
+import org.springframework.stereotype.Component;
+
 import java.sql.Time;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
-/**
- * Created by Olga_Govor on 6/29/2016.
- */
-public class LuxexpressParser extends BaseParser{
+@Component
+public class LuxexpressParser extends BaseResponseParser {
+
+    static {
+        XPATH_PRICE = "//div[contains (@class, 'regular-body')]//span[@class = 'amount']";
+        XPATH_DEPARTURE = "//div[contains(@class,'row times')]/div/span[1]";
+        XPATH_ARRIVAL = "//div[contains(@class,'row times')]/div/span[2]";
+        XPATH_DURATION = "//div[contains(@class, 'duration')]";
+        CURRENCY = "EUR";
+    }
+   /* protected static final String XPATH_PRICE = "//div[contains (@class, 'regular-body')]//span[@class = 'amount']";
+    protected static final String XPATH_DEPARTURE = "//div[contains(@class,'row times')]/div/span[1]";
+    protected static final String XPATH_ARRIVAL = "//div[contains(@class,'row times')]/div/span[2]";
+    protected static final String XPATH_DURATION = "//div[contains(@class, 'duration')]";
+    protected static final String CURRENCY = "EUR";*/
+
+
 
     @Override
     public Double parsePrice(String priceStr){
@@ -29,9 +44,16 @@ public class LuxexpressParser extends BaseParser{
     @Override
     public String parseDuration(String dur) throws ParseException {
         dur = dur.trim();
-        Integer ind = dur.indexOf('h');
-        dur = dur.substring(0,ind)+':'+dur.substring(ind+2,ind+4);
+        Integer dIndex = dur.indexOf('d');
+        Integer hIndex = dur.indexOf('h');
+        Integer mIndex = dur.indexOf('h');
+        if (dIndex > 0) {
+            dur = "24:00";
+        } else {
+            dur = dur.substring(0, hIndex) + ':' + dur.substring(hIndex + 2, hIndex + 4);
+        }
         return dur;
     }
+
 
 }

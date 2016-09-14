@@ -1,16 +1,23 @@
 package com.phototravel.services.impl;
 
-import com.phototravel.RequestSender;
 import com.phototravel.controllers.entity.RequestForm;
 import com.phototravel.entity.City;
 import com.phototravel.entity.Destination;
 import com.phototravel.entity.Price;
 import com.phototravel.entity.Route;
 import com.phototravel.repositories.PriceRepository;
-import com.phototravel.services.*;
+import com.phototravel.services.CityService;
+import com.phototravel.services.DestinationService;
+import com.phototravel.services.Fetcher;
+import com.phototravel.services.PriceService;
+import com.phototravel.services.RouteService;
+import com.phototravel.services.Scrapper;
+import com.phototravel.services.dbWriter.DBWriterService;
+import com.phototravel.services.impl.luxExpress.LuxExpressTask;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 
 import java.time.LocalDate;
 import java.time.ZoneId;
@@ -48,7 +55,11 @@ public class ScrapperImpl implements Scrapper {
     private CityService cityService;
 
     @Autowired
-    private RequestSender requestSender;
+    ThreadPoolTaskExecutor taskExecutor;
+
+    @Autowired
+    DBWriterService dbWriterService;
+
 
     @Override
     public void register(Integer companyId, Fetcher fetcher) {
@@ -201,5 +212,31 @@ public class ScrapperImpl implements Scrapper {
 
         String url = fetcher.getRedirectUrl(fromRequestValue, toRequestValue, dateOfTrip, route.getRouteId());
         return url;
+    }
+
+    public void scrapRouteForDateM(Route route, LocalDate date) {
+        taskExecutor.setThreadNamePrefix("scannerThreadPool");
+        dbWriterService.startService();
+        LuxExpressTask task = new LuxExpressTask(route, date, destinationService, dbWriterService);
+        taskExecutor.execute(task);
+
+        for (; ; ) {
+            int count = taskExecutor.getActiveCount();
+            System.out.println("Active Threads : " + count);
+            try {
+                Thread.sleep(500);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            if (count == 0) {
+                taskExecutor.shutdown();
+                dbWriterService.stopService();
+                break;
+            }
+        }
+
+        logger.info("scrapRouteForDateM - End");
+
+
     }
 }

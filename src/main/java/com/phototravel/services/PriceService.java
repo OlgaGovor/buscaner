@@ -1,6 +1,8 @@
 package com.phototravel.services;
 
 import com.phototravel.controllers.entity.PriceCalendar;
+import com.phototravel.entity.Price;
+import com.phototravel.repositories.PriceRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +31,9 @@ public class PriceService {
         this.jdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
     }
 
+    @Autowired
+    PriceRepository priceRepository;
+
     private static final String SELECT_PRICES_FOR_CALENDAR_VIEW = "SELECT " +
             "  departure_date, " +
             "  min(p.price) AS price, " +
@@ -42,6 +47,8 @@ public class PriceService {
             "GROUP BY p.departure_date " +
             "ORDER BY departure_date ASC;";
 
+    public static String date_format = "date(:departureDate)";
+
     public static final String MOVE_PRICE_TO_ARCHIVE = "insert into price_archive " +
             "select route_id,\n" +
             "      departure_date,\n" +
@@ -54,9 +61,11 @@ public class PriceService {
 
             "from price " +
             "where route_id=:routeId " +
-            "and departure_date=date(:departureDate); ";
+            "and departure_date= :departureDate";
 
-    public static final String DELETE_PRICE = "delete from price where route_id=:routeId and departure_date=date(:departureDate);";
+    public static final String DELETE_PRICE = "delete from price where route_id=:routeId and departure_date=:departureDate";
+
+
 
     public List<PriceCalendar> pricesForCalendarView(int fromCityId, int toCityId,
                                                      Date departureDate, Date departureDateEnd) {
@@ -81,12 +90,19 @@ public class PriceService {
     public void movePriceToArchive(int routId, Date departureDate) {
         MapSqlParameterSource namedParameters = new MapSqlParameterSource("routeId", routId);
         namedParameters.addValue("departureDate", departureDate);
-
+        logger.info(MOVE_PRICE_TO_ARCHIVE);
         int rowCount = jdbcTemplate.update(MOVE_PRICE_TO_ARCHIVE, namedParameters);
         logger.info("moved " + rowCount + " rows");
 
         rowCount = jdbcTemplate.update(DELETE_PRICE, namedParameters);
         logger.info("deleted " + rowCount + " rows");
     }
+
+    public void save(Price price) {
+        movePriceToArchive(price.getRouteId(), price.getRawDepartureDate());
+        priceRepository.save(price);
+    }
+
+
 
 }

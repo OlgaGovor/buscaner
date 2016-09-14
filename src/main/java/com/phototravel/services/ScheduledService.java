@@ -2,6 +2,7 @@ package com.phototravel.services;
 
 import com.phototravel.entity.Route;
 import com.phototravel.repositories.RouteRepository;
+import com.phototravel.services.impl.luxExpress.ScrapperImplM;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +11,8 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by PBezdienezhnykh on 024 24.8.2016.
@@ -23,15 +26,15 @@ public class ScheduledService {
     RouteRepository routeRepository;
 
     @Autowired
-    Scrapper scrapper;
+    ScrapperImplM scrapperImplM;
 
     @Value("${scrapper.scanPeriod}")
     private Integer scanPeriod;
 
-    @Scheduled(cron = "0 */30 * * * *")
+    @Scheduled(cron = "*/5 * * * * *")
     public void runNightScan() {
         logger.info("........................runNightScan........................");
-        //scanAllRoutes();
+        scanAllRoutes();
         logger.info("........................endNightScan........................");
     }
 
@@ -40,13 +43,30 @@ public class ScheduledService {
         LocalDate startDate = LocalDate.now();
         LocalDate endDate = startDate.plusDays(scanPeriod);
 
+        List<LocalDate> dates = new ArrayList<>();
+        while (startDate.isBefore(endDate.plusDays(1))) {
+            dates.add(startDate);
+            startDate = startDate.plusDays(1);
+        }
+
 
         Iterable<Route> routes = routeRepository.findAll();
+        List<Route> someRoutes = new ArrayList<>();
 
+        Integer i = 0;
         for (Route route : routes) {
-            logger.info("run scrapRouteForPeriod " + route + " " + startDate + " " + endDate);
-            scrapper.scrapRouteForPeriod(route, startDate, endDate);
+            if (route.getCompanyId() == 2) {
+                someRoutes.add(route);
+                i++;
+                if (i > 40) {
+                    break;
+                }
+            }
+
         }
+
+
+        scrapperImplM.scrap(someRoutes, dates);
 
 
     }

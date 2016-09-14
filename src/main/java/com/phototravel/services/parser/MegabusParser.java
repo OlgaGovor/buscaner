@@ -21,7 +21,7 @@ import java.util.List;
 /**
  * Created by Olga_Govor on 7/1/2016.
  */
-public class MegabusParser extends BaseParser {
+public class MegabusParser extends BaseResponseParser {
 
     @Override
     public Double parsePrice(String priceStr){

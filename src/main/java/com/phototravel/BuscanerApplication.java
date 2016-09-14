@@ -12,6 +12,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
 import org.springframework.scheduling.annotation.EnableScheduling;
+import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
@@ -70,5 +71,15 @@ public class BuscanerApplication extends WebMvcConfigurerAdapter {
 		registry.addInterceptor(localeChangeInterceptor());
 	}
 
+
+	@Bean
+	public ThreadPoolTaskExecutor taskExecutor() {
+		ThreadPoolTaskExecutor pool = new ThreadPoolTaskExecutor();
+
+		pool.setCorePoolSize(10);
+		pool.setMaxPoolSize(10);
+		pool.setWaitForTasksToCompleteOnShutdown(true);
+		return pool;
+	}
 
 }
