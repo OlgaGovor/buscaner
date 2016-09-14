@@ -11,11 +11,13 @@ import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.api.client.WebResource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+@Component("LuxExpress")
 public class LuxExpressTask extends BusScanTask implements Runnable {
     private final Logger logger = LoggerFactory.getLogger(this.getClass() + " " + Thread.currentThread().getName());
 
@@ -26,6 +28,9 @@ public class LuxExpressTask extends BusScanTask implements Runnable {
 
     private LuxexpressParser parser = new LuxexpressParser();
 
+    public LuxExpressTask() {
+
+    }
 
     public LuxExpressTask(Route route, LocalDate date, DestinationService destinationService, DBWriterService dbWriterService) {
         super(route, date, destinationService, dbWriterService);
@@ -35,7 +40,7 @@ public class LuxExpressTask extends BusScanTask implements Runnable {
     public void run() {
 
 
-        logger.info("run " + route + date);
+        logger.info("scan for " + route + date);
 
         WebResource webResource = createWebResource(buildRequestUrl());
         ClientResponse response = sendGetRequest(webResource, CONTENT_TYPE);

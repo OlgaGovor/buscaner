@@ -4,6 +4,8 @@ import com.phototravel.services.Scrapper;
 import com.phototravel.services.impl.LuxexpressFetcher;
 import com.phototravel.services.impl.PolskiBusFetcher;
 import com.phototravel.services.impl.ScrapperImpl;
+import com.phototravel.services.impl.luxExpress.TaskFactory;
+import org.springframework.beans.factory.config.ServiceLocatorFactoryBean;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cache.annotation.EnableCaching;
@@ -20,6 +22,7 @@ import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
 import org.springframework.web.servlet.i18n.SessionLocaleResolver;
 
 import java.util.Locale;
+import java.util.Properties;
 
 @Configuration
 @SpringBootApplication
@@ -80,6 +83,14 @@ public class BuscanerApplication extends WebMvcConfigurerAdapter {
 		pool.setMaxPoolSize(10);
 		pool.setWaitForTasksToCompleteOnShutdown(true);
 		return pool;
+	}
+
+	@Bean
+	public ServiceLocatorFactoryBean myFactoryServiceLocatorFactoryBean() {
+		ServiceLocatorFactoryBean bean = new ServiceLocatorFactoryBean();
+
+		bean.setServiceLocatorInterface(TaskFactory.class);
+		return bean;
 	}
 
 }

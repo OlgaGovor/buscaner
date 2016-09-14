@@ -5,6 +5,7 @@ import com.phototravel.entity.Price;
 import com.phototravel.entity.Route;
 import com.phototravel.services.DestinationService;
 import com.phototravel.services.dbWriter.DBWriterService;
+import com.phototravel.services.impl.luxExpress.Task;
 import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.api.client.WebResource;
@@ -16,7 +17,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 
-public class BusScanTask {
+public class BusScanTask implements Task {
     protected final Logger logger = LoggerFactory.getLogger(this.getClass());
     protected DestinationService destinationService;
     protected DBWriterService dbWriterService;
@@ -28,6 +29,9 @@ public class BusScanTask {
     protected DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM-dd-yyyy");
 
     protected static final String CONTENT_TYPE = "application/json";
+
+    public BusScanTask() {
+    }
 
     public BusScanTask(Route route, LocalDate date, DestinationService destinationService, DBWriterService dbWriterService) {
         this.route = route;

@@ -58,7 +58,7 @@ public class DBWriterService {
 
             @Override
             public void run() {
-                logger.info("run");
+                logger.info("DBWriterService run");
                 while (!stop || priceQueue.isEmpty()) {
                     if (priceQueue.isEmpty()) {
                         try {
