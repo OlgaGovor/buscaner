@@ -98,7 +98,7 @@ public class FindBusService {
             String fromDestination = destinationService.getDestinationNameByDestinationId(route.getFromDestinationId());
             String toDestination = destinationService.getDestinationNameByDestinationId(route.getToDestinationId());
             Company company = companyService.findCompanyById(route.getCompanyId());
-            //----link
+            //--TODO: correct and working link
             String url = scrapper.getLink(route, price.getDepartureDateString());
             logger.info(url);
             resultDetails.setLink(url);
@@ -113,8 +113,12 @@ public class FindBusService {
             resultDetails.setArrivalTime(price.getArrivalTime());
 
             resultDetails.setCompany(company.getCompanyName());
+
+            //TODO: convert in user currency
             resultDetails.setPrice(price.getPrice());
             resultDetails.setCurrency(price.getCurrency());
+
+            //-------------------------
             resultDetails.setLastUpdate(price.getLastUpdateString());
             resultDetails.setDuration(price.getDuration());
 
