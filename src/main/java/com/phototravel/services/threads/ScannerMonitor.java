@@ -31,7 +31,7 @@ public class ScannerMonitor {
     }
 
     public boolean isScanInProgress() {
-        return stop;
+        return !stop;
     }
 
     private void runMonitorThread() {

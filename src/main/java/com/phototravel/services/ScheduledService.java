@@ -34,10 +34,10 @@ public class ScheduledService {
     @Autowired
     ScannerMonitor scannerMonitor;
 
-    @Scheduled(cron = "* */30 * * * *")
+    @Scheduled(cron = "* */40 * * * *")
     public void runNightScan() {
         logger.info("........................runScheduledScan........................");
-        if (!scannerMonitor.isScanInProgress()) {
+        if (scannerMonitor.isScanInProgress()) {
             logger.info("........................runScan..................................");
             scanAllRoutes();
         } else {
