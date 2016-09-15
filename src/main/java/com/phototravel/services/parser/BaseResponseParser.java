@@ -2,6 +2,7 @@ package com.phototravel.services.parser;
 
 
 import com.phototravel.entity.Price;
+import com.phototravel.services.companiesConfig.Config;
 import org.htmlcleaner.CleanerProperties;
 import org.htmlcleaner.HtmlCleaner;
 import org.htmlcleaner.TagNode;
@@ -24,20 +25,12 @@ import java.util.List;
  */
 public abstract class BaseResponseParser {
 
-    protected static String XPATH_PRICE = "";
-    protected static String XPATH_DEPARTURE = "";
-    protected static String XPATH_ARRIVAL = "";
-    protected static String XPATH_DURATION = "";
-    protected static String CURRENCY = "";
+    public List<Price> parse(String str, Integer routeId, LocalDate date, Config config) throws Exception {
 
-    public List<Price> parse(String str, Integer routeId, LocalDate date) throws Exception {
-
-        System.out.println(XPATH_PRICE);
-        String str1 = XPATH_PRICE;
-        List<String> listPrices = getRegularPrice(XPATH_PRICE, str);
-        List<String> listTimeOfDepartures = getTimeDeparture(XPATH_DEPARTURE, str);
-        List<String> listTimeOfArrival = getTimeArrival(XPATH_ARRIVAL, str);
-        List<String> listDuration = getDuration(XPATH_DURATION, str);
+        List<String> listPrices = getRegularPrice(config.getParam("XPATH_PRICE"), str);
+        List<String> listTimeOfDepartures = getTimeDeparture(config.getParam("XPATH_DEPARTURE"), str);
+        List<String> listTimeOfArrival = getTimeArrival(config.getParam("XPATH_ARRIVAL"), str);
+        List<String> listDuration = getDuration(config.getParam("XPATH_DURATION"), str);
 
         List<Price> listOfPriceEntity = new ArrayList<Price>();
 
@@ -45,7 +38,7 @@ public abstract class BaseResponseParser {
             Price priceEntity = new Price();
 
             priceEntity.setRouteId(routeId);
-            priceEntity.setCurrency(CURRENCY);
+            priceEntity.setCurrency(config.getParam("CURRENCY"));
 
             Double priceFromRequest = parsePrice(listPrices.get(i));
             priceEntity.setPrice(priceFromRequest);

@@ -1,9 +1,5 @@
 package com.phototravel;
 
-import com.phototravel.services.Scrapper;
-import com.phototravel.services.impl.LuxexpressFetcher;
-import com.phototravel.services.impl.PolskiBusFetcher;
-import com.phototravel.services.impl.ScrapperImpl;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
@@ -26,12 +22,4 @@ public class BuscanerTestApplication {
                 .build();
     }
 
-    @Bean
-    public Scrapper scrapper() {
-        Scrapper scrapper = new ScrapperImpl();
-        scrapper.register(PolskiBusFetcher.COMPANY_ID, new PolskiBusFetcher());
-        scrapper.register(LuxexpressFetcher.COMPANY_ID, new LuxexpressFetcher());
-        //register all fetchers
-        return scrapper;
-    }
 }

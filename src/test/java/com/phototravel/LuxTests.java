@@ -1,6 +1,5 @@
 package com.phototravel;
 
-import com.phototravel.services.Scrapper;
 import com.phototravel.services.oneTimeServices.impl.LuxexpressCitiesAndRoutesFetcher;
 import org.json.JSONException;
 import org.json.simple.parser.ParseException;
@@ -28,8 +27,8 @@ public class LuxTests {
 
     static final Integer LUX_EXPRESS_ID = 2;
 
-    @Autowired
-    Scrapper scrapper;
+  /*  @Autowired
+    Scrapper scrapper;*/
 
     @Autowired
     LuxexpressCitiesAndRoutesFetcher luxexpressCitiesAndRoutesFetcher;
@@ -43,7 +42,7 @@ public class LuxTests {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
         LocalDate date = LocalDate.parse(d, formatter);
 
-        scrapper.scrapForDay(LUX_EXPRESS_ID, from, to, date);
+        // scrapper.scrapForDay(LUX_EXPRESS_ID, from, to, date);
     }
 
     @Test
@@ -57,7 +56,7 @@ public class LuxTests {
         LocalDate date1 = LocalDate.parse(d1, formatter);
         LocalDate date2 = LocalDate.parse(d2, formatter);
 
-        scrapper.scrapForPeriod(LUX_EXPRESS_ID, from, to, date1, date2);
+        //  scrapper.scrapForPeriod(LUX_EXPRESS_ID, from, to, date1, date2);
     }
 
 

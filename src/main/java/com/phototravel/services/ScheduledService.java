@@ -2,7 +2,7 @@ package com.phototravel.services;
 
 import com.phototravel.entity.Route;
 import com.phototravel.repositories.RouteRepository;
-import com.phototravel.services.impl.luxExpress.ScrapperImplM;
+import com.phototravel.services.dbWriter.ScannerMonitor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,20 +26,29 @@ public class ScheduledService {
     RouteRepository routeRepository;
 
     @Autowired
-    ScrapperImplM scrapperImplM;
+    Scrapper scrapper;
 
     @Value("${scrapper.scanPeriod}")
     private Integer scanPeriod;
 
-    @Scheduled(cron = "*/5 * * * * *")
+    @Autowired
+    ScannerMonitor scannerMonitor;
+
+    @Scheduled(cron = "* */30 * * * *")
     public void runNightScan() {
-        logger.info("........................runNightScan........................");
-        scanAllRoutes();
-        logger.info("........................endNightScan........................");
+        logger.info("........................runScheduledScan........................");
+        if (!scannerMonitor.isScanInProgress()) {
+            logger.info("........................runScan..................................");
+            scanAllRoutes();
+        } else {
+            logger.info("........................SkipScan - in progress...................");
+        }
+        logger.info("........................endScheduledScan........................");
     }
 
 
     private void scanAllRoutes() {
+
         LocalDate startDate = LocalDate.now();
         LocalDate endDate = startDate.plusDays(scanPeriod);
 
@@ -66,7 +75,7 @@ public class ScheduledService {
         }
 
 
-        scrapperImplM.scrap(someRoutes, dates);
+        scrapper.scrap(someRoutes, dates);
 
 
     }

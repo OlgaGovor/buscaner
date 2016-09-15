@@ -1,9 +1,7 @@
 package com.phototravel;
 
-import com.phototravel.services.Scrapper;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
@@ -21,9 +19,9 @@ public class ConnectionOfCompanies {
 
     static final Integer LUX_EXPRESS_ID = 2;
     static final Integer POLSKI_BUS_ID = 1;
-
+/*
     @Autowired
-    Scrapper scrapper;
+    Scrapper scrapper;*/
 
     @Test
     public void getPriceForDateAndDirections() throws java.text.ParseException {
@@ -36,7 +34,7 @@ public class ConnectionOfCompanies {
         LocalDate date = LocalDate.parse(d, formatter);
 
 
-        scrapper.scrapAllForDay(from, to, date);
+        // scrapper.scrapAllForDay(from, to, date);
     }
 
     @Test
@@ -50,7 +48,7 @@ public class ConnectionOfCompanies {
         LocalDate date1 = LocalDate.parse(d1, formatter);
         LocalDate date2 = LocalDate.parse(d2, formatter);
 
-        scrapper.scrapAllForPeriod(from, to, date1, date2);
+        // scrapper.scrapAllForPeriod(from, to, date1, date2);
     }
 
 

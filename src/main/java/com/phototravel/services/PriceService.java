@@ -98,10 +98,12 @@ public class PriceService {
         logger.info(routId + " " + departureDate + " deleted " + rowCount + " rows");
     }
 
-    public void save(Price price) {
-        movePriceToArchive(price.getRouteId(), price.getRawDepartureDate());
+    public boolean save(Price price) {
         logger.info("save " + price);
-        priceRepository.save(price);
+        if (priceRepository.save(price) != null)
+            return true;
+
+        return false;
     }
 
 

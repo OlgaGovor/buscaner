@@ -10,21 +10,6 @@ import java.text.SimpleDateFormat;
 @Component
 public class LuxexpressParser extends BaseResponseParser {
 
-    static {
-        XPATH_PRICE = "//div[contains (@class, 'regular-body')]//span[@class = 'amount']";
-        XPATH_DEPARTURE = "//div[contains(@class,'row times')]/div/span[1]";
-        XPATH_ARRIVAL = "//div[contains(@class,'row times')]/div/span[2]";
-        XPATH_DURATION = "//div[contains(@class, 'duration')]";
-        CURRENCY = "EUR";
-    }
-   /* protected static final String XPATH_PRICE = "//div[contains (@class, 'regular-body')]//span[@class = 'amount']";
-    protected static final String XPATH_DEPARTURE = "//div[contains(@class,'row times')]/div/span[1]";
-    protected static final String XPATH_ARRIVAL = "//div[contains(@class,'row times')]/div/span[2]";
-    protected static final String XPATH_DURATION = "//div[contains(@class, 'duration')]";
-    protected static final String CURRENCY = "EUR";*/
-
-
-
     @Override
     public Double parsePrice(String priceStr){
         String [] s = priceStr.split(",");

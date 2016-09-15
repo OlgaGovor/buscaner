@@ -2,11 +2,13 @@ package com.phototravel.services;
 
 import com.phototravel.controllers.entity.PriceCalendar;
 import com.phototravel.controllers.entity.RequestForm;
+import com.phototravel.controllers.entity.ResultDetails;
 import com.phototravel.entity.Company;
 import com.phototravel.entity.Price;
-import com.phototravel.controllers.entity.ResultDetails;
 import com.phototravel.entity.Route;
 import com.phototravel.repositories.PriceRepository;
+import com.phototravel.services.companiesConfig.Config;
+import com.phototravel.services.companiesConfig.ConfigFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,8 +16,6 @@ import org.springframework.stereotype.Service;
 
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 
@@ -41,6 +41,9 @@ public class FindBusService {
 
     @Autowired
     CompanyService companyService;
+
+    @Autowired
+    protected ConfigFactory configFactory;
 
     private DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
@@ -99,7 +102,8 @@ public class FindBusService {
             String toDestination = destinationService.getDestinationNameByDestinationId(route.getToDestinationId());
             Company company = companyService.findCompanyById(route.getCompanyId());
             //--TODO: correct and working link
-            String url = scrapper.getLink(route, price.getDepartureDateString());
+            Config companyConfig = configFactory.getConfig(company.getCompanyName() + "Config");
+            String url = companyConfig.getLink(route, price.getDepartureDateString()); //scrapper.getLink(route, price.getDepartureDateString());
             logger.info(url);
             resultDetails.setLink(url);
             //------------------------
@@ -142,18 +146,9 @@ public class FindBusService {
         return resultDetailsList;
     }
 
-    public void sortByDepartureDate(List<ResultDetails> resultDetailsList){
-        Collections.sort(resultDetailsList, new Comparator<ResultDetails>() {
-            @Override
-            public int compare(ResultDetails o1, ResultDetails o2) {
-                return o1.getDepartureTime().compareTo(o2.getDepartureTime());
-            }
-        });
-        System.out.println();
-    }
 
     public boolean checkIfRouteExists(int fromCityId, int toCityId, Boolean hasChanges) {
-        List<Integer> routeIds = routeService.findRoutesByCityIds(fromCityId, toCityId, hasChanges);
+        List<Integer> routeIds = routeService.findRouteIdsByCityIds(fromCityId, toCityId, hasChanges);
         return routeIds.size() > 0;
     }
 }

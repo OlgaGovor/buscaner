@@ -1,5 +1,7 @@
 package com.phototravel.services.parser;
 
+import org.springframework.stereotype.Component;
+
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.xpath.XPathExpressionException;
 import java.sql.Time;
@@ -9,7 +11,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
-
+@Component
 public class PolskiBusParser extends BaseResponseParser {
 
     @Override

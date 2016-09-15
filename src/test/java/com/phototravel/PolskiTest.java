@@ -1,6 +1,5 @@
 package com.phototravel;
 
-import com.phototravel.services.Scrapper;
 import com.phototravel.services.oneTimeServices.impl.PolskibusCitiesAndRoutesFetcher;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -24,9 +23,9 @@ public class PolskiTest {
 
     static final Integer POLSKI_BUS_ID = 1;
 
-    @Autowired
-    Scrapper scrapper;
-
+    /*  @Autowired
+      Scrapper scrapper;
+  */
     @Autowired
     PolskibusCitiesAndRoutesFetcher polskibusCitiesAndRoutesFetcher;
 
@@ -40,7 +39,7 @@ public class PolskiTest {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
         LocalDate date = LocalDate.parse(d, formatter);
 
-        scrapper.scrapForDay(POLSKI_BUS_ID, from, to, date);
+        //scrapper.scrapForDay(POLSKI_BUS_ID, from, to, date);
     }
 
     @Test
@@ -54,7 +53,7 @@ public class PolskiTest {
         LocalDate date1 = LocalDate.parse(d1, formatter);
         LocalDate date2 = LocalDate.parse(d2, formatter);
 
-        scrapper.scrapForPeriod(POLSKI_BUS_ID, from, to, date1, date2);
+        //  scrapper.scrapForPeriod(POLSKI_BUS_ID, from, to, date1, date2);
     }
 
 

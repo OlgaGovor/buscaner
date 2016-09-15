@@ -1,10 +1,7 @@
 package com.phototravel;
 
-import com.phototravel.services.Scrapper;
-import com.phototravel.services.impl.LuxexpressFetcher;
-import com.phototravel.services.impl.PolskiBusFetcher;
-import com.phototravel.services.impl.ScrapperImpl;
-import com.phototravel.services.impl.luxExpress.TaskFactory;
+import com.phototravel.services.companiesConfig.ConfigFactory;
+import com.phototravel.services.scannerTask.BusScannerTaskFactory;
 import org.springframework.beans.factory.config.ServiceLocatorFactoryBean;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -22,7 +19,6 @@ import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
 import org.springframework.web.servlet.i18n.SessionLocaleResolver;
 
 import java.util.Locale;
-import java.util.Properties;
 
 @Configuration
 @SpringBootApplication
@@ -35,14 +31,14 @@ public class BuscanerApplication extends WebMvcConfigurerAdapter {
 		SpringApplication.run(BuscanerApplication.class, args);
 	}
 
-	@Bean
+/*	@Bean
 	public Scrapper scrapper() {
 		Scrapper scrapper = new ScrapperImpl();
 		scrapper.register(PolskiBusFetcher.COMPANY_ID, new PolskiBusFetcher());
 		scrapper.register(LuxexpressFetcher.COMPANY_ID, new LuxexpressFetcher());
 		//register all fetchers
 		return scrapper;
-	}
+	}*/
 
 
 	@Bean
@@ -79,17 +75,25 @@ public class BuscanerApplication extends WebMvcConfigurerAdapter {
 	public ThreadPoolTaskExecutor taskExecutor() {
 		ThreadPoolTaskExecutor pool = new ThreadPoolTaskExecutor();
 
-		pool.setCorePoolSize(1);
-		pool.setMaxPoolSize(1);
+		pool.setCorePoolSize(10);
+		pool.setMaxPoolSize(10);
 		pool.setWaitForTasksToCompleteOnShutdown(true);
 		return pool;
 	}
 
 	@Bean
-	public ServiceLocatorFactoryBean myFactoryServiceLocatorFactoryBean() {
+	public ServiceLocatorFactoryBean busScannerTaskFactoryBean() {
 		ServiceLocatorFactoryBean bean = new ServiceLocatorFactoryBean();
+		bean.setServiceLocatorInterface(BusScannerTaskFactory.class);
 
-		bean.setServiceLocatorInterface(TaskFactory.class);
+		return bean;
+	}
+
+	@Bean
+	public ServiceLocatorFactoryBean companiesConfigurationFactoryBean() {
+		ServiceLocatorFactoryBean bean = new ServiceLocatorFactoryBean();
+		bean.setServiceLocatorInterface(ConfigFactory.class);
+
 		return bean;
 	}
 
