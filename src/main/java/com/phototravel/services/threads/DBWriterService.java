@@ -1,4 +1,4 @@
-package com.phototravel.services.dbWriter;
+package com.phototravel.services.threads;
 
 import com.phototravel.entity.Price;
 import com.phototravel.services.PriceService;

@@ -1,4 +1,4 @@
-package com.phototravel.services.dbWriter;
+package com.phototravel.services.threads;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

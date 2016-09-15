@@ -1,4 +1,4 @@
-package com.phototravel;
+package com.phototravel.services.oneTimeServices;
 
 import org.springframework.stereotype.Service;
 

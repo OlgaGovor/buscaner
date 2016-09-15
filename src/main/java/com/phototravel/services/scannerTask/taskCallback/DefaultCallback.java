@@ -1,4 +1,4 @@
-package com.phototravel.services.scannerTask;
+package com.phototravel.services.scannerTask.taskCallback;
 
 import java.util.concurrent.CountDownLatch;
 

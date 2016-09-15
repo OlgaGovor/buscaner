@@ -4,7 +4,6 @@ import com.phototravel.entity.City;
 import com.phototravel.entity.Country;
 import com.phototravel.repositories.CityRepository;
 import com.phototravel.repositories.CountryRepository;
-import com.phototravel.services.CountryService;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -23,8 +22,6 @@ public class BuscanerApplicationTests {
 	public void contextLoads() {
 	}
 
-	@Autowired
-	CountryService countryService;
 
 	@Autowired
 	CityRepository cityRepository;

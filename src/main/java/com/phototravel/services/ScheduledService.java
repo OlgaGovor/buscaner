@@ -2,7 +2,7 @@ package com.phototravel.services;
 
 import com.phototravel.entity.Route;
 import com.phototravel.repositories.RouteRepository;
-import com.phototravel.services.dbWriter.ScannerMonitor;
+import com.phototravel.services.threads.ScannerMonitor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

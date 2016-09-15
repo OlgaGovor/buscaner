@@ -2,7 +2,7 @@ package com.phototravel.services.oneTimeServices.impl;
 
 import com.phototravel.entity.City;
 import com.phototravel.entity.Destination;
-import com.phototravel.outerRequests.SendRequestLuxexpress;
+import com.phototravel.services.oneTimeServices.outerRequests.SendRequestLuxexpress;
 import com.phototravel.repositories.CompanyRepository;
 import com.phototravel.services.CityService;
 import com.phototravel.services.DestinationService;

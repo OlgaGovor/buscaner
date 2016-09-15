@@ -1,7 +1,7 @@
 package com.phototravel.services.oneTimeServices.impl;
 
-import com.phototravel.Encoder;
-import com.phototravel.RequestSender;
+import com.phototravel.services.oneTimeServices.Encoder;
+import com.phototravel.services.oneTimeServices.RequestSender;
 import com.phototravel.entity.City;
 import com.phototravel.entity.Destination;
 import com.phototravel.repositories.CompanyRepository;

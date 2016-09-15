@@ -1,4 +1,4 @@
-package com.phototravel;
+package com.phototravel.services.oneTimeServices;
 
 /**
  * Created by Olga_Govor on 7/27/2016.

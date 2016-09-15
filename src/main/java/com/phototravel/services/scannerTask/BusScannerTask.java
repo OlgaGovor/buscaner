@@ -1,6 +1,7 @@
 package com.phototravel.services.scannerTask;
 
 import com.phototravel.entity.Route;
+import com.phototravel.services.scannerTask.taskCallback.TaskCallback;
 
 import java.time.LocalDate;
 

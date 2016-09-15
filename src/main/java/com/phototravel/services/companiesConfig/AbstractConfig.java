@@ -11,7 +11,7 @@ import java.util.Map;
 
 public abstract class AbstractConfig implements Config {
 
-    Map<String, String> configParams = new HashMap<>();
+    protected Map<String, String> configParams = new HashMap<>();
 
     @Autowired
     private DestinationService destinationService;
@@ -32,5 +32,5 @@ public abstract class AbstractConfig implements Config {
         return url;
     }
 
-    abstract String getRedirectUrl(String fromRequestValue, String toRequestValue, String date);
+    protected abstract String getRedirectUrl(String fromRequestValue, String toRequestValue, String date);
 }

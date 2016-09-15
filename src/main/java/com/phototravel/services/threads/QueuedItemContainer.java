@@ -1,6 +1,6 @@
-package com.phototravel.services.dbWriter;
+package com.phototravel.services.threads;
 
-import com.phototravel.services.scannerTask.TaskCallback;
+import com.phototravel.services.scannerTask.taskCallback.TaskCallback;
 
 public class QueuedItemContainer<E> {
 

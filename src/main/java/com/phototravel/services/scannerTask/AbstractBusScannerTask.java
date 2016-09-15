@@ -6,8 +6,9 @@ import com.phototravel.entity.Route;
 import com.phototravel.services.DestinationService;
 import com.phototravel.services.companiesConfig.Config;
 import com.phototravel.services.companiesConfig.ConfigFactory;
-import com.phototravel.services.dbWriter.DBWriterService;
-import com.phototravel.services.dbWriter.QueuedItemContainer;
+import com.phototravel.services.threads.DBWriterService;
+import com.phototravel.services.threads.QueuedItemContainer;
+import com.phototravel.services.scannerTask.taskCallback.TaskCallback;
 import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.api.client.WebResource;
@@ -33,7 +34,7 @@ public abstract class AbstractBusScannerTask implements BusScannerTask {
     @Autowired
     protected ConfigFactory configFactory;
 
-    Config config;
+    protected Config config;
 
     protected Route route;
     protected LocalDate date;

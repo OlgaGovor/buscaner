@@ -1,7 +1,8 @@
-package com.phototravel.services.companiesConfig;
+package com.phototravel.services.companiesConfig.impl;
 
 
 import com.phototravel.services.DestinationService;
+import com.phototravel.services.companiesConfig.AbstractConfig;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 

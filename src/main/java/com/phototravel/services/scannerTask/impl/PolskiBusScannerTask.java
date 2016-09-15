@@ -1,7 +1,8 @@
-package com.phototravel.services.scannerTask;
+package com.phototravel.services.scannerTask.impl;
 
 import com.phototravel.entity.Price;
 import com.phototravel.services.parser.PolskiBusParser;
+import com.phototravel.services.scannerTask.AbstractBusScannerTask;
 import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.api.client.WebResource;
 import com.sun.jersey.core.util.MultivaluedMapImpl;
