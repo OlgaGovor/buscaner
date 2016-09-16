@@ -100,7 +100,9 @@ public class Scrapper {
 
         for (Route route : routes) {
             for (LocalDate date : dates) {
+                logger.info("deleting old prices for " + route + date);
                 priceService.movePriceToArchive(route.getRouteId(), Date.from(date.atStartOfDay(ZoneId.systemDefault()).toInstant()));
+
                 addTaskToQueue(route, date, callback);
             }
         }

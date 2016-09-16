@@ -50,7 +50,7 @@ public class FindBusService {
 
 
     public List<ResultDetails> findBus(RequestForm requestForm) {
-        logger.info("findBus");
+        logger.info("findBus: " + requestForm);
 
         if (requestForm.isScanForPeriod()) {
             return findBusForPeriod(requestForm);
@@ -66,7 +66,15 @@ public class FindBusService {
 
         List<Price> prices = priceRepository.findBusForDay(requestForm.getFromCity(), requestForm.getToCity(),
                 requestForm.getDepartureAsDate());
-        logger.info("findBusForDay - done");
+        logger.info("findBusForDay - done, found: " + prices.size());
+
+        if (prices == null || prices.isEmpty()) {
+            logger.info("call scrapper");
+            scrapper.scrapForRequestForm(requestForm);
+            prices = priceRepository.findBusForDay(requestForm.getFromCity(), requestForm.getToCity(),
+                    requestForm.getDepartureAsDate());
+            logger.info("findBusForDay - after scrapping, found: " + prices.size());
+        }
 
         List<ResultDetails> resultDetailsList = buildResultForDayView(prices);
 
@@ -104,7 +112,7 @@ public class FindBusService {
             //--TODO: correct and working link
             Config companyConfig = configFactory.getConfig(company.getCompanyName() + "Config");
             String url = companyConfig.getLink(route, price.getDepartureDateString()); //scrapper.getLink(route, price.getDepartureDateString());
-            logger.info(url);
+            // logger.info(url);
             resultDetails.setLink(url);
             //------------------------
 
