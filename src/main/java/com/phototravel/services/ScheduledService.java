@@ -34,7 +34,7 @@ public class ScheduledService {
     @Autowired
     ScannerMonitor scannerMonitor;
 
-    @Scheduled(cron = "* */40 * * * *")
+    @Scheduled(cron = "* */42 * * * *")
     public void runNightScan() {
         logger.info("........................runScheduledScan........................");
         if (scannerMonitor.isScanInProgress()) {
@@ -59,23 +59,10 @@ public class ScheduledService {
         }
 
 
-        Iterable<Route> routes = routeRepository.findAll();
-        List<Route> someRoutes = new ArrayList<>();
-
-        Integer i = 0;
-        for (Route route : routes) {
-            if (route.getCompanyId() == 2) {
-                someRoutes.add(route);
-                i++;
-                if (i > 40) {
-                    break;
-                }
-            }
-
-        }
+        Iterable<Route> routes = routeRepository.findAll(false);
 
 
-        scrapper.scrap(someRoutes, dates);
+        scrapper.scrap(routes, dates);
 
 
     }

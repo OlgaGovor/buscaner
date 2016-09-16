@@ -46,7 +46,7 @@ public interface RouteRepository extends CrudRepository<Route, Integer> {
                                 @Param("toCityId") Integer toCityId,
                                 @Param("hasChanges") Boolean hasChanges);
 
-    //@Cacheable("route2")
+    @Cacheable("route2")
     @Query(value = "select * from route r " +
             " where r.from_city_id= :fromCityId and r.to_city_id= :toCityId " +
             " and is_active = TRUE and has_changes = :hasChanges"
@@ -72,4 +72,9 @@ public interface RouteRepository extends CrudRepository<Route, Integer> {
             , nativeQuery = true
     )
     List<Integer> findByToCityId(@Param("toCityId") Integer toCityId);
+
+    @Query(value = "from Route " +
+            " where hasChanges = :hasChanges "
+    )
+    List<Route> findAll(@Param("hasChanges") Boolean hasChanges);
 }
