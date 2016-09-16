@@ -196,6 +196,7 @@ function updateData() {
     var formData = $(form).serializeArray();
     $.post(url, formData).done(function (data) {
         $('#resultTable').html(data);
+        fillDateSlider();
     });
 
 }
