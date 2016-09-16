@@ -272,7 +272,7 @@ function compareByTimeDESC (a, b){
 }
 
 function buyTicket(link) {
-    alert(link);
+    window.open(link, '_blank');
 }
 
 function loadRoutes(container, value, depDst) {
