@@ -68,9 +68,6 @@ public class RouteService {
         return cities;
     }
 
-    public List<Integer> findRouteIdsByCityIds(int fromCityId, int toCityId, Boolean hasChanges) {
-        return routeRepository.findByCityIds(fromCityId, toCityId, hasChanges);
-    }
 
     public List<Route> findRoutesByCityIds(Integer fromCityId, Integer toCityId, Boolean hasChanges) {
         return routeRepository.findRoutesByCityIds(fromCityId, toCityId, hasChanges);

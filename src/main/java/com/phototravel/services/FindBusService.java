@@ -148,7 +148,7 @@ public class FindBusService {
 
 
     public boolean checkIfRouteExists(int fromCityId, int toCityId, Boolean hasChanges) {
-        List<Integer> routeIds = routeService.findRouteIdsByCityIds(fromCityId, toCityId, hasChanges);
-        return routeIds.size() > 0;
+        List<Route> routes = routeService.findRoutesByCityIds(fromCityId, toCityId, hasChanges);
+        return routes.size() > 0;
     }
 }
