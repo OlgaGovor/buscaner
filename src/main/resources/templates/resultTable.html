@@ -7,24 +7,15 @@
 <body>
 
 
-<div th:fragment="resultList" class="col-lg-12"
-     style="background-color:#FFFFFF; min-height:58%; padding-bottom:6%; box-sizing: border-box;">
-    <div class="row row-centered">
-        <div id="resultMessage" class="col-lg-6 col-centered alert alert-danger" th:if="${resultMessageKey != null}"
+<div th:fragment="resultList" class="col-lg-12">
+    <div class="row row-centered" th:if="${resultMessageKey != null}">
+        <div id="resultMessage" class="col-lg-6 col-centered alert alert-danger"
              th:text="#{${resultMessageKey}}">
 
         </div>
     </div>
 
-    <div class="row">
-        <div class="col-lg-10 col-lg-offset-1" id="dateslider">
-
-
-        </div>
-    </div>
-
-
-    <div class="col-lg-12" th:if="${resultDetailsList != null}">
+    <div th:if="${resultDetailsList != null}">
 
         <div class="row">
             <div class="col-lg-2 col-lg-offset-10">
@@ -44,70 +35,61 @@
         </div>
 
         <div class="row">
-            <div class="col-lg-12">
-                <ul class="list-group" id="resulList">
-                    <!-- <li class="list-group-item">
-                         <div class="row">
-
-                             <div class="col-lg-8">Route</div>
-                             <div class="col-lg-2">company</div>
-                             <div class="col-lg-2">Price</div>
+            <div class="col-lg-12" id="resulList">
 
 
-                         </div>
-                     </li>-->
+                <div class="row list-group-item result-list" th:each="price: ${resultDetailsList}"
+                     th:attr="priceVal = ${price.price}, timeVal = ${price.departureTime}, buyurl = ${price.link}"
+                     th:onclick="'javascript:buyTicket(\''+ ${price.link} +'\');'"
+                        >
 
-                    <li class="list-group-item result-list" th:each="price: ${resultDetailsList}"
-                        th:attr="priceVal = ${price.price}, timeVal = ${price.departureTime}, buyurl = ${price.link}"
-                            >
-                        <div class="row" onclick="buyTicket($().parent('li').attr('buyurl'));">
-                            <div class="col-lg-8 result-list-content">
-                                <div class="col-lg-5">
-                                    <div class="row" th:text="${price.fromDestination}">
-                                    </div>
-                                    <div class="row" th:text="${price.departureDate} + ' ' + ${price.departureTime}">
-                                    </div>
-
-                                </div>
-                                <div class="col-lg-2 result-list-content">
-                                    <div class="row" th:text="${price.duration}">
-                                    </div>
-                                    <div class="row line">
-
-                                    </div>
-                                </div>
-                                <div class="col-lg-5 result-list-content">
-                                    <div class="row" th:text="${price.toDestination}">
-                                    </div>
-                                    <div class="row" th:text="${price.arrivalTime}">
-                                    </div>
-                                </div>
+                    <div class="col-lg-8 result-list-content">
+                        <div class="col-xs-5">
+                            <div class="row" th:text="${price.fromDestination}">
                             </div>
-
-
-                            <div class="col-lg-2 result-list-content" th:text="${price.company}">company</div>
-                            <div class="col-lg-2 price-box">
-                                <div class="price">
-                                    <div th:text="${price.price}" style="float:left;"></div>
-                                    <div th:text="' ' + ${price.currency}"></div>
-                                </div>
-                                <div class="row">
-                                    <button id="buyTicket" onclick="buyTicket($().parent('li').attr('buyurl'));"
-                                            type="button" class="btn btn-primary btn-sm">
-                                        Buy ticket
-                                    </button>
-                                </div>
-                                <div class="row text-info last-update-time"
-                                     th:text="'Last Update:' + ${price.lastUpdate}"></div>
+                            <div class="row" th:text="${price.departureDate} + ' ' + ${price.departureTime}">
                             </div>
-
 
                         </div>
+                        <div class="col-xs-2 result-list-content">
+                            <div class="row" th:text="${price.duration}">
+                            </div>
+                            <div class="row line">
+
+                            </div>
+                        </div>
+                        <div class="col-xs-5 result-list-content">
+                            <div class="row" th:text="${price.toDestination}">
+                            </div>
+                            <div class="row" th:text="${price.arrivalTime}">
+                            </div>
+                        </div>
+                    </div>
 
 
-                    </li>
+                    <div class="col-xs-2 result-list-content" th:text="${price.company}">company</div>
+                    <div class="col-xs-2 result-list-content price-box">
+                        <div class="row price">
+                            <div class="col-xs-6" th:text="${price.price}" style="float:left;"></div>
+                            <div class="col-xs-6" th:text="' ' + ${price.currency}"></div>
+                        </div>
+                        <div class="row">
+                            <button class="col-xs-6 btn btn-primary btn-sm" id="buyTicket"
+                                    onclick="buyTicket($().parent('li').attr('buyurl'));"
+                                    type="button">
+                                Buy ticket
+                            </button>
+                        </div>
+                        <div class="row text-info last-update-time">
+                            <div class="col-xs-12"
+                                 th:text="'Last Update:' + ${price.lastUpdate}"></div>
+                        </div>
+                    </div>
 
-                </ul>
+
+                </div>
+
+
             </div>
         </div>
         <div class="row">

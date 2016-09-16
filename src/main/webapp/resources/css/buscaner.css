@@ -1,12 +1,13 @@
-.result-list {
-    padding: 0;
 
+.result-list {
+    text-align: center;
+    padding: 0;
+    margin-left: 0;
+    margin-right: 0;
 }
 
 .result-list-content {
-    text-align: center;
     padding: 5px;
-
 }
 
 .slider-block {
