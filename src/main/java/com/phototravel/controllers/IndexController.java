@@ -93,7 +93,7 @@ public class IndexController {
         String errorMessage = validateRequestForm(requestForm);
         if (errorMessage != null) {
             logger.info(errorMessage);
-            model.addAttribute("resultMessage", errorMessage);
+            model.addAttribute("resultMessageKey", errorMessage);
         } else {
             List<ResultDetails> resultDetailsList = findBusService.findBus(requestForm);
             model.addAttribute("resultDetailsList", resultDetailsList);
@@ -232,7 +232,7 @@ public class IndexController {
 
 
     private String validateRequestForm(RequestForm requestForm) {
-        String defaultErrorMessage = "Invalid request form!";
+        String defaultErrorMessage = "requestFormValidation.invalidRequestForm";
         if (requestForm.getFromCity() < 0)
             return defaultErrorMessage;
         if (requestForm.getToCity() < 0)
@@ -244,7 +244,7 @@ public class IndexController {
             return defaultErrorMessage;
 
         if (!findBusService.checkIfRouteExists(requestForm.getFromCity(), requestForm.getToCity(), false)) {
-            return "No such route Exists!";
+            return "requestFormValidation.noRouteExists";
         }
 
         return null;
