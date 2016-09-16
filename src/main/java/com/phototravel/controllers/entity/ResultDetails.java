@@ -105,4 +105,8 @@ public class ResultDetails {
     public void setDuration(String duration) {
         this.duration = duration;
     }
+
+    public static enum ViewType {
+        DAILY, CALENDAR, DATE_SLIDER
+    }
 }

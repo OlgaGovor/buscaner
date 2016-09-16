@@ -1,7 +1,8 @@
 package com.phototravel.controllers.entity;
 
+import java.sql.Date;
 import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.time.LocalDate;
 
 /**
  * Created by PBezdienezhnykh on 001 01.9.2016.
@@ -26,6 +27,10 @@ public class PriceCalendar {
 
     public String getDateAsString() {
         return df.format(date);
+    }
+
+    public LocalDate getDateAsLocalDate() {
+        return date.toLocalDate();
     }
 
     public void setDate(Date date) {

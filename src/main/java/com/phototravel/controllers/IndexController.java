@@ -56,7 +56,7 @@ public class IndexController {
         logger.info("updateData " + requestForm.toString());
 
         scrapper.scrapForRequestForm(requestForm);
-        List<ResultDetails> resultDetailsList = findBusService.findBus(requestForm);
+        List<ResultDetails> resultDetailsList = findBusService.findBus(requestForm, ResultDetails.ViewType.DAILY);
         model.addAttribute("resultDetailsList", resultDetailsList);
         return "resultTable :: resultList";
     }
@@ -137,8 +137,15 @@ public class IndexController {
             logger.info(errorMessage);
             model.addAttribute("resultMessage", errorMessage);
         } else {
-            List<ResultDetails> resultDetailsList = findBusService.findBus(requestForm);
+            List<ResultDetails> resultDetailsList = findBusService.findBus(requestForm, ResultDetails.ViewType.DATE_SLIDER);
             model.addAttribute("resultDetailsList", resultDetailsList);
+            double maxPrice = 1;
+            for (ResultDetails resultDetails : resultDetailsList) {
+                if (resultDetails.getPrice() > maxPrice) {
+                    maxPrice = resultDetails.getPrice();
+                }
+            }
+            model.addAttribute("maxPrice", maxPrice);
         }
 
         return "resultTable :: dateSlider";

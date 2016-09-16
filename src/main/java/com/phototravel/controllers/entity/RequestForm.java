@@ -2,6 +2,8 @@ package com.phototravel.controllers.entity;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 
 /**
@@ -16,6 +18,7 @@ public class RequestForm {
     private String departureDateEnd;
 
     private final SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy");
+    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
 
     public int getFromCity() {
         return fromCity;
@@ -46,6 +49,14 @@ public class RequestForm {
             }
         }
         return null;
+    }
+
+    public LocalDate getDepartureDateAsLocalDate() {
+        return LocalDate.parse(departureDate, formatter);
+    }
+
+    public LocalDate getDepartureDateEndAsLocalDate() {
+        return LocalDate.parse(departureDateEnd, formatter);
     }
 
     public Date getDepartureEndAsDate() {

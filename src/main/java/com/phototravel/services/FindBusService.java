@@ -14,6 +14,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
@@ -50,12 +51,19 @@ public class FindBusService {
 
 
     public List<ResultDetails> findBus(RequestForm requestForm) {
+        if (requestForm.isScanForPeriod()) {
+            return findBus(requestForm, ResultDetails.ViewType.CALENDAR);
+        } else {
+            return findBus(requestForm, ResultDetails.ViewType.DAILY);
+        }
+    }
+
+    public List<ResultDetails> findBus(RequestForm requestForm, ResultDetails.ViewType viewType) {
         logger.info("findBus: " + requestForm);
 
         if (requestForm.isScanForPeriod()) {
-            return findBusForPeriod(requestForm);
-        }
-        else {
+            return findBusForPeriod(requestForm, viewType);
+        } else {
             return findBusForDay(requestForm);
         }
 
@@ -82,7 +90,7 @@ public class FindBusService {
     }
 
 
-    private List<ResultDetails> findBusForPeriod(RequestForm requestForm) {
+    private List<ResultDetails> findBusForPeriod(RequestForm requestForm, ResultDetails.ViewType viewType) {
         logger.info("findBusForPeriod");
 
         int fromCityId = requestForm.getFromCity();
@@ -92,17 +100,18 @@ public class FindBusService {
 
         List<PriceCalendar> prices = priceService.pricesForCalendarView(fromCityId, toCityId, startDate, endDate);
 
-        List<ResultDetails> resultDetailsList = buildResultForCalendarView(prices);
-
-        return resultDetailsList;
+        if (viewType == ResultDetails.ViewType.DATE_SLIDER) {
+            return buildResultForDateSliderView(requestForm, prices);
+        } else {
+            return buildResultForCalendarView(prices);
+        }
     }
 
 
-    public List<ResultDetails> buildResultForDayView(List<Price> prices)
-    {
+    public List<ResultDetails> buildResultForDayView(List<Price> prices) {
         List<ResultDetails> resultDetailsList = new ArrayList<ResultDetails>();
 
-        for (Price price:prices) {
+        for (Price price : prices) {
             ResultDetails resultDetails = new ResultDetails();
 
             Route route = routeService.getRouteByRouteId(price.getRouteId());
@@ -151,6 +160,41 @@ public class FindBusService {
 
             resultDetailsList.add(resultDetails);
         }
+        return resultDetailsList;
+    }
+
+    public List<ResultDetails> buildResultForDateSliderView(RequestForm requestForm, List<PriceCalendar> prices) {
+
+        LocalDate startDate = requestForm.getDepartureDateAsLocalDate();
+        LocalDate endDate = requestForm.getDepartureDateEndAsLocalDate();
+
+        List<ResultDetails> resultDetailsList = new ArrayList<ResultDetails>();
+
+        for (LocalDate date = startDate; date.isBefore(endDate) || date.isEqual(endDate); date = date.plusDays(1)) {
+            boolean found = false;
+            for (PriceCalendar price : prices) {
+                if (price.getDateAsLocalDate().isEqual(date)) {
+                    found = true;
+                    ResultDetails resultDetails = new ResultDetails();
+
+                    resultDetails.setDepartureDate(price.getDateAsString());
+                    resultDetails.setPrice(price.getPrice());
+                    resultDetails.setCurrency(price.getCurrency());
+
+                    resultDetailsList.add(resultDetails);
+
+                    break;
+                }
+            }
+            if (!found) {
+                ResultDetails resultDetails = new ResultDetails();
+                resultDetails.setDepartureDate(date.format(formatter));
+
+                resultDetailsList.add(resultDetails);
+            }
+
+        }
+
         return resultDetailsList;
     }
 

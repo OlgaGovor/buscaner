@@ -67,8 +67,8 @@ public class Scrapper {
         if (!requestForm.isScanForPeriod()) {
             dates.add(LocalDate.parse(requestForm.getDepartureDate(), formatter));
         } else {
-            LocalDate startDate = LocalDate.parse(requestForm.getDepartureDate(), formatter);
-            LocalDate endDate = LocalDate.parse(requestForm.getDepartureDate(), formatter);
+            LocalDate startDate = requestForm.getDepartureDateAsLocalDate();
+            LocalDate endDate = requestForm.getDepartureDateEndAsLocalDate();
             while (startDate.isBefore(endDate.plusDays(1))) {
                 dates.add(startDate);
                 startDate = startDate.plusDays(1);

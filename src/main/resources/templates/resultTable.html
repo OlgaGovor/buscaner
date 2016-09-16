@@ -128,12 +128,17 @@
         <div class="col-lg-1 col-centered btn btn-default" th:each="price: ${resultDetailsList}"
              th:attr="departureDate = ${price.departureDate}"
              onclick="onDateSliderClick(this);">
-            <div class="row row-centered" th:text="${#numbers.formatDecimal(price.price,1,0)}">
+            <div class="row row-centered"
+                 th:text="(${price.price} == 0) ? '&nbsp;' : ${#numbers.formatDecimal(price.price,1,0) + ' ' + price.currency}">
             </div>
             <div class="row row-centered">
-                <div class="col-xs-3 col-centered price-bar">
-                    <p class="price-bar"></p>
+                <div class="progress progress-bar-vertical">
+                    <div class="progress-bar"
+                         th:style="'height : '+${price.price/maxPrice *100} +'%;'">
+
+                    </div>
                 </div>
+
             </div>
             <div class="row row-centered" th:text="${#strings.substring(price.departureDate,0,5)}">
             </div>
