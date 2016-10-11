@@ -13,12 +13,15 @@ function initDatePickers() {
     $('#departureDate').datepicker({
         setDate: new Date(),
         autoclose: true,
-        format: 'dd-mm-yyyy'
+        format: 'dd-mm-yyyy',
+        startDate: "today"
+
     });
     $('#departureDateEnd').datepicker({
         setDate: new Date(),
         autoclose: true,
-        format: 'dd-mm-yyyy'
+        format: 'dd-mm-yyyy',
+        startDate: "today"
     });
 
 
