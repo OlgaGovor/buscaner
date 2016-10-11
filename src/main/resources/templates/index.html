@@ -126,11 +126,18 @@
                     </div>
                         <div class="row">
                             <div class="col-lg-2"></div>
-                            <div class="col-lg-4"></div>
+                            <div class="col-lg-4">
+
+                            </div>
                             <div class="col-lg-2">
                                 <!--<input type="submit" class="btn btn-info form-control" value="Search"/>-->
-                                <button id="searchButton" name="searchButton" class="btn btn-primary"
-                                        type="button">Search
+                                <button id="searchButton" name="searchButton" class="btn btn-primary form-control"
+                                        type="button">
+
+                                    <span id="loadingIndicator"
+                                          class="glyphicon glyphicon-refresh glyphicon-refresh-animate"
+                                          style="display: none;"/>
+                                    Search
                                 </button>
                             </div>
                     </div>
@@ -233,13 +240,16 @@
 
     $.ajaxSetup({
         beforeSend: function () {
-            $("#messageBox").html("loading...");
-            $("#messageBox").show();
+            //$("#messageBox").html("loading...");
+            //$("#messageBox").show();
+            $("#loadingIndicator").show();
         },
         complete: function () {
-            $("#messageBox").hide();
+            //$("#messageBox").hide();
+            $("#loadingIndicator").hide();
         },
         error : function(jqXHR, textStatus, errorThrown) {
+         $("#loadingIndicator").hide();
         if (jqXHR.status == 404) {
             $("#messageBox").html("server not found");
         } else {

@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title></title>
+</head>
+<body>
+
+
+<div th:fragment="messageBox" class="col-lg-12">
+    <div class="row row-centered" th:if="${resultMessageKey != null}">
+        <div id="resultMessage" class="col-lg-6 col-centered alert alert-danger"
+             th:text="#{${resultMessageKey}}">
+
+        </div>
+    </div>
+
+
+</div>
+
+</body>
+</html>
