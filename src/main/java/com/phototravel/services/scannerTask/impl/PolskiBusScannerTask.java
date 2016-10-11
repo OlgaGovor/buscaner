@@ -28,7 +28,7 @@ public class PolskiBusScannerTask extends AbstractBusScannerTask {
     PolskiBusParser parser;
 
     @Override
-    public void run() {
+    public void executeTask() {
         logger = LoggerFactory.getLogger(this.getClass() + " " + Thread.currentThread().getName());
 
         logger.info("scan for " + route + date);
@@ -68,7 +68,7 @@ public class PolskiBusScannerTask extends AbstractBusScannerTask {
         ClientResponse response3 = sendGetRequestWithCookie(webResource3, config.getParam("CONTENT_TYPE"), cookie);
         String responseStr = response3.getEntity(String.class);
 
-        PolskiBusParser parser = new PolskiBusParser();
+        //PolskiBusParser parser = new PolskiBusParser();
         List<Price> listOfPrices = new ArrayList<>();
         try {
             listOfPrices = parser.parse(responseStr, route.getRouteId(), date, config);

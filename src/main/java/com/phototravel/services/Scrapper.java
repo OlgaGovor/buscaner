@@ -24,6 +24,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.TimeUnit;
 
 @Component
 public class Scrapper {
@@ -83,10 +84,11 @@ public class Scrapper {
         scrap(routes, dates, callback);
 
         try {
-            doneSignal.await();
+            doneSignal.await(20, TimeUnit.SECONDS);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+        logger.info("scrapForRequestForm done");
     }
 
 

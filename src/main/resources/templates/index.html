@@ -225,6 +225,8 @@
             localStorage.setItem('requestForm.scanForPeriod', $('#scanForPeriod').prop("checked"));
 
         }
+        $('#dateSlider').empty();
+        $('#resultTable').empty();
         searchData();
     });
 
@@ -236,7 +238,14 @@
         },
         complete: function () {
             $("#messageBox").hide();
+        },
+        error : function(jqXHR, textStatus, errorThrown) {
+        if (jqXHR.status == 404) {
+            $("#messageBox").html("server not found");
+        } else {
+            $("#messageBox").html("Error: " + textStatus + ": " + errorThrown);
         }
+    }
     });
 
 

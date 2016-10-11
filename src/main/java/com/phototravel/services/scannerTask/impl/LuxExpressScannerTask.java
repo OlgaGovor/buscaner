@@ -28,7 +28,7 @@ public class LuxExpressScannerTask extends AbstractBusScannerTask {
     }
 
     @Override
-    public void run() {
+    public void executeTask() {
 
         logger = LoggerFactory.getLogger(this.getClass() + " " + Thread.currentThread().getName());
 

@@ -172,4 +172,16 @@ public abstract class AbstractBusScannerTask implements BusScannerTask {
         this.companyName = companyName;
         initConfig();
     }
+
+    @Override
+    public void run() {
+        try {
+            executeTask();
+        } catch (Exception e) {
+            callback();
+            e.printStackTrace();
+        }
+    }
+
+    abstract public void executeTask() throws Exception;
 }

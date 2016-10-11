@@ -94,18 +94,28 @@ public class IndexController {
     public String searchData(Model model, @ModelAttribute RequestForm requestForm) {
         logger.info("searchData " + requestForm.toString());
 
+        String viewName = "";
+
 
         String errorMessage = formValidator.validateRequestForm(requestForm);
         if (errorMessage != null) {
             logger.info(errorMessage);
             model.addAttribute("resultMessageKey", errorMessage);
-            return "error :: messageBox";
+            viewName = "error :: messageBox";
+            return viewName;
         } else {
             List<ResultDetails> resultDetailsList = findBusService.findBus(requestForm);
-            model.addAttribute("resultDetailsList", resultDetailsList);
+            if (resultDetailsList.isEmpty()) {
+                model.addAttribute("resultMessageKey", "requestFormValidation.noTicketsFound");
+                viewName = "error :: messageBox";
+                return viewName;
+            } else {
+                model.addAttribute("resultDetailsList", resultDetailsList);
+            }
         }
 
         if (requestForm.isScanForPeriod()) {
+            viewName = "calendarView :: resultCalendar";
 
             Date date1 = requestForm.getDepartureAsDate();
             Date date2 = requestForm.getDepartureEndAsDate();
@@ -120,18 +130,11 @@ public class IndexController {
             model.addAttribute("endYear", d2.getYear());
             model.addAttribute("endMonth", d2.getMonthValue() - 1);
             model.addAttribute("endDay", d2.getDayOfMonth());
-        }
-
-
-        String viewType = "";
-        if (requestForm.isScanForPeriod()) {
-            viewType += "calendarView :: resultCalendar";
         } else {
-            viewType += "resultTable :: resultList";
+            viewName = "resultTable :: resultList";
         }
 
-
-        return viewType;
+        return viewName;
     }
 
     @RequestMapping(value = "/loadDateSlider", method = RequestMethod.POST, consumes = "!application/json")

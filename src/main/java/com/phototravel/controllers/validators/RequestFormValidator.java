@@ -5,6 +5,8 @@ import com.phototravel.services.FindBusService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDate;
+
 @Component
 public class RequestFormValidator {
 
@@ -22,12 +24,22 @@ public class RequestFormValidator {
             return defaultErrorMessage;
         if (requestForm.isScanForPeriod() && (requestForm.getDepartureDateEnd() == null || requestForm.getDepartureDateEnd().isEmpty()))
             return defaultErrorMessage;
+
+       /* if(requestForm.getDepartureDateAsLocalDate().isBefore(LocalDate.now())){
+            return "requestFormValidation.dateBeforeNow";
+        }*/
+
+
         if (requestForm.isScanForPeriod() && (
                 (requestForm.getDepartureDate() == null || requestForm.getDepartureDate().isEmpty())
                         ||
                         (requestForm.getDepartureDateEnd() == null || requestForm.getDepartureDateEnd().isEmpty())
         ))
             return defaultErrorMessage;
+
+        if (requestForm.isScanForPeriod() && requestForm.getDepartureDateEndAsLocalDate().isBefore(LocalDate.now())) {
+            return "requestFormValidation.dateBeforeNow";
+        }
 
         if (!findBusService.checkIfRouteExists(requestForm.getFromCity(), requestForm.getToCity(), false)) {
             return "requestFormValidation.noRouteExists";
