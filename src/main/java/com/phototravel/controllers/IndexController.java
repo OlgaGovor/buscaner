@@ -2,6 +2,7 @@ package com.phototravel.controllers;
 
 import com.phototravel.controllers.entity.RequestForm;
 import com.phototravel.controllers.entity.ResultDetails;
+import com.phototravel.controllers.validators.RequestFormValidator;
 import com.phototravel.entity.City;
 import com.phototravel.repositories.PriceRepository;
 import com.phototravel.services.CityService;
@@ -14,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,10 +24,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.validation.Valid;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by PBezdienezhnykh on 026 26.7.2016.
@@ -41,13 +45,13 @@ public class IndexController {
     RouteService routeService;
 
     @Autowired
-    PriceRepository priceRepository;
-
-    @Autowired
     FindBusService findBusService;
 
     @Autowired
     Scrapper scrapper;
+
+    @Autowired
+    RequestFormValidator formValidator;
 
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
@@ -75,7 +79,7 @@ public class IndexController {
 
         logger.info("searchData JSON" + requestForm.toString());
 
-        String errorMessage = validateRequestForm(requestForm);
+        String errorMessage = formValidator.validateRequestForm(requestForm);
         if (errorMessage != null) {
             logger.info(errorMessage);
             return null;
@@ -90,10 +94,12 @@ public class IndexController {
     public String searchData(Model model, @ModelAttribute RequestForm requestForm) {
         logger.info("searchData " + requestForm.toString());
 
-        String errorMessage = validateRequestForm(requestForm);
+
+        String errorMessage = formValidator.validateRequestForm(requestForm);
         if (errorMessage != null) {
             logger.info(errorMessage);
             model.addAttribute("resultMessageKey", errorMessage);
+            return "error :: messageBox";
         } else {
             List<ResultDetails> resultDetailsList = findBusService.findBus(requestForm);
             model.addAttribute("resultDetailsList", resultDetailsList);
@@ -132,7 +138,7 @@ public class IndexController {
     public String loadDateSlider(Model model, @ModelAttribute RequestForm requestForm) {
         logger.info("loadDateSlider " + requestForm.toString());
 
-        String errorMessage = validateRequestForm(requestForm);
+        String errorMessage = formValidator.validateRequestForm(requestForm);
         if (errorMessage != null) {
             logger.info(errorMessage);
             model.addAttribute("resultMessage", errorMessage);
@@ -238,22 +244,4 @@ public class IndexController {
 //    }
 
 
-    private String validateRequestForm(RequestForm requestForm) {
-        String defaultErrorMessage = "requestFormValidation.invalidRequestForm";
-        if (requestForm.getFromCity() < 0)
-            return defaultErrorMessage;
-        if (requestForm.getToCity() < 0)
-            return defaultErrorMessage;
-
-        if (requestForm.getDepartureDate() == null || requestForm.getDepartureDate().isEmpty())
-            return defaultErrorMessage;
-        if (requestForm.isScanForPeriod() && (requestForm.getDepartureDateEnd() == null || requestForm.getDepartureDateEnd().isEmpty()))
-            return defaultErrorMessage;
-
-        if (!findBusService.checkIfRouteExists(requestForm.getFromCity(), requestForm.getToCity(), false)) {
-            return "requestFormValidation.noRouteExists";
-        }
-
-        return null;
-    }
 }
