@@ -33,7 +33,7 @@ public class LuxExpressConfig extends AbstractConfig {
         configParams.put("XPATH_ARRIVAL", "//div[contains(@class,'row times')]/div/span[2]");
         configParams.put("XPATH_DURATION", "//div[contains(@class, 'duration')]");
 
-        configParams.put("CURRENCY", "EUR");
+        configParams.put("CURRENCY", "PLN");
         configParams.put("CURRENCY_REQUEST_VALUE", "CURRENCY.PLN");
     }
 
