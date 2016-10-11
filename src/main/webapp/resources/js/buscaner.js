@@ -1,7 +1,7 @@
 function enableDateEndField() {
     if ($('#scanForPeriod').prop("checked")) {
         $('#departureDateEnd').removeAttr('disabled');
-        setDatePickerValue("departureDateEnd", localStorage.getItem('requestForm.departureDateEnd'));
+        setDatePickerValue("departureDateEnd", strToDate(localStorage.getItem('requestForm.departureDateEnd')));
     }
     else {
         $('#departureDateEnd').attr('disabled', true);
@@ -63,7 +63,8 @@ function initFormOnLoad() {
     if (localStorage.getItem('requestForm.fromCity') != null) {
         $('#fromCity').selectpicker('val', localStorage.getItem('requestForm.fromCity'));
         $('#toCity').selectpicker('val',localStorage.getItem('requestForm.toCity'));
-        setDatePickerValue("departureDate", localStorage.getItem('requestForm.departureDate'));
+
+        setDatePickerValue("departureDate", strToDate(localStorage.getItem('requestForm.departureDate')));
 
         if (localStorage.getItem('requestForm.scanForPeriod') == 'true') {
             $('#scanForPeriod').prop("checked", true);
@@ -75,6 +76,9 @@ function initFormOnLoad() {
 
 }
 function strToDate(dateStr) {
+    if(dateStr == null || dateStr == ''){
+        return null;
+    }
     var parts = dateStr.split("-");
     var date = new Date(parts[2], parts[1] - 1, parseInt(parts[0]));
     return date;
@@ -91,9 +95,14 @@ function dateToStr(date) {
     return pad(date.getDate()) + "-" + pad(month) + "-" + date.getFullYear();
 }
 
-function setDatePickerValue(datePicker, value) {
-    if (value != null && value != '' && value.trim() != '') {
-        $('#' + datePicker).datepicker('setDate', strToDate(value));
+function setDatePickerValue(datePicker, date) {
+    if (date != null) {
+            var today = new Date();
+            today.setHours(0,0,0,0)
+            if(date < today){
+                date = today;
+            }
+        $('#' + datePicker).datepicker('setDate', date);
     }
 
 }
