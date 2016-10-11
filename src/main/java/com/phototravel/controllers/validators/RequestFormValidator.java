@@ -25,9 +25,9 @@ public class RequestFormValidator {
         if (requestForm.isScanForPeriod() && (requestForm.getDepartureDateEnd() == null || requestForm.getDepartureDateEnd().isEmpty()))
             return defaultErrorMessage;
 
-       /* if(requestForm.getDepartureDateAsLocalDate().isBefore(LocalDate.now())){
+        if (requestForm.getDepartureDateAsLocalDate().isBefore(LocalDate.now())) {
             return "requestFormValidation.dateBeforeNow";
-        }*/
+        }
 
 
         if (requestForm.isScanForPeriod() && (
@@ -36,6 +36,10 @@ public class RequestFormValidator {
                         (requestForm.getDepartureDateEnd() == null || requestForm.getDepartureDateEnd().isEmpty())
         ))
             return defaultErrorMessage;
+
+        if (requestForm.isScanForPeriod() && requestForm.getDepartureDateEndAsLocalDate().isBefore(LocalDate.now())) {
+            return "requestFormValidation.dateBeforeNow";
+        }
 
         if (requestForm.isScanForPeriod() && requestForm.getDepartureDateEndAsLocalDate().isBefore(LocalDate.now())) {
             return "requestFormValidation.dateBeforeNow";
