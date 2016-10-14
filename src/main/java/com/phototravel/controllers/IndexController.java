@@ -4,7 +4,6 @@ import com.phototravel.controllers.entity.RequestForm;
 import com.phototravel.controllers.entity.ResultDetails;
 import com.phototravel.controllers.validators.RequestFormValidator;
 import com.phototravel.entity.City;
-import com.phototravel.repositories.PriceRepository;
 import com.phototravel.services.CityService;
 import com.phototravel.services.FindBusService;
 import com.phototravel.services.RouteService;
@@ -15,7 +14,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,12 +22,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.validation.Valid;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by PBezdienezhnykh on 026 26.7.2016.
@@ -115,7 +111,7 @@ public class IndexController {
         }
 
         if (requestForm.isScanForPeriod()) {
-            viewName = "calendarView :: resultCalendar";
+            viewName = "resultCalendar :: resultCalendar";
 
             Date date1 = requestForm.getDepartureAsDate();
             Date date2 = requestForm.getDepartureEndAsDate();

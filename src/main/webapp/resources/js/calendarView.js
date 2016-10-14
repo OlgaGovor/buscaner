@@ -229,7 +229,7 @@ function drawCalendar(tableBgColor, headerHeight, border,
 
                 var date = new Date(year, month, digit);
 
-                if ((inc < priceList.length) && (date.getTime() == toDate(priceList[inc].departureDate).getTime())) {
+                if ((inc < priceList.length) && (date.getTime() == strToDate(priceList[inc].departureDate).getTime())) {
                     text += priceList[inc].price + priceList[inc].currency;
                     inc++;
                 }
