@@ -198,7 +198,5 @@ function buildCalendarCell(date, price) {
 
 function onDayClicked(element) {
     var dateAttr = $(element).attr("date");
-    alert(dateAttr);
-    fillResultList(dateAttr);
-
+    switchToResultList(dateAttr);
 }

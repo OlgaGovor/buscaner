@@ -26,12 +26,9 @@
     <link href="resources/css/datepicker.css" rel="stylesheet"/>
 
     <style type="text/css">
-
-
         html, body {
             height: 100%
         }
-
     </style>
 </head>
 <body style="background-color:#69AFFF; height:100%">
@@ -166,96 +163,14 @@
         </div>
     </div>
 
-
 </div>
 
-<!--<div class="row">-->
-<!--<div th:if="${prices != null}" class="col-lg-8" style="left: 25%;">-->
-<!--Prices compact view:-->
-<!--<div th:each="price: ${prices}" th:text="${price.departureDate + ' ' +-->
-<!--price.price}"></div>-->
-<!--</div>-->
-<!--</div>-->
-<!--<div class="row">-->
-<!--<div th:if=" ${cities !=null}" class="col-lg-12" style="left: 25%;">-->
-<!--<p>Available Cities:</p>-->
-<!--<div style="overflow-y: scroll; height: 300px;" class="col-lg-8">-->
-<!--<div th:each="city: ${cities}" th:text="${city.cityId + ' -  ' + city.cityName}"></div>-->
-<!--</div>-->
-<!--</div>-->
-<!--</div>-->
 
-<!--<script type="text/javascript">-->
-<!--$(function(){-->
-<!--$('#oneWayOrReturn input:radio').click(function (){-->
-<!--$('#oneWayOrReturn input:radio').each(function (){-->
-<!--if(this.checked){-->
-<!--if (this.value=='oneWay'){-->
-<!--$('#departureDateEnd').attr('disabled',true);-->
-<!--};-->
-<!--};-->
-<!--if (this.checked){-->
-<!--if (this.value == 'returnWay'){-->
-<!--$('#departureDateEnd').removeAttr('disabled');-->
-<!--};-->
-<!--};-->
-<!--});-->
-<!--});-->
-<!--});-->
-<!--</script>-->
 <script type="text/javascript">
 
     $(document).ready(function () {
-        initDatePickers();
-        initSelectpickers();
-
-        initFormOnLoad();
+        initForm();
     });
-
-    $(function () {
-        $('#scanForPeriod').click(function () {
-            enableDateEndField();
-        });
-    });
-
-
-    $('#searchButton').click(function () {
-
-        if (localStorage) {
-            localStorage.setItem('requestForm.fromCity', $('#fromCity').val());
-            localStorage.setItem('requestForm.toCity', $('#toCity').val());
-            localStorage.setItem('requestForm.departureDate', $('#departureDate').val());
-            localStorage.setItem('requestForm.departureDateEnd', $('#departureDateEnd').val());
-            localStorage.setItem('requestForm.scanForPeriod', $('#scanForPeriod').prop("checked"));
-
-        }
-        $('#dateSlider').empty();
-        $('#resultTable').empty();
-        searchData();
-    });
-
-
-    $.ajaxSetup({
-        beforeSend: function () {
-            //$("#messageBox").html("loading...");
-            //$("#messageBox").show();
-            $("#loadingIndicator").show();
-        },
-        complete: function () {
-            //$("#messageBox").hide();
-            $("#loadingIndicator").hide();
-        },
-        error : function(jqXHR, textStatus, errorThrown) {
-         $("#loadingIndicator").hide();
-        if (jqXHR.status == 404) {
-            $("#messageBox").html("server not found");
-        } else {
-            $("#messageBox").html("Error: " + textStatus + ": " + errorThrown);
-        }
-    }
-    });
-
-
 </script>
 
 </body>

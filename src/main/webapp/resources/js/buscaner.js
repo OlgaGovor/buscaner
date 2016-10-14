@@ -1,4 +1,22 @@
-function enableDateEndField() {
+function initForm(){
+    setupEnv();
+    initDatePickers();
+    initSelectpickers();
+    initFormOnLoad();
+
+    $('#scanForPeriod').click(function () {
+                initDateEndField();
+            });
+
+    $('#searchButton').click(function () {
+            saveFormDataOnSearch();
+            $('#dateSlider').empty();
+            $('#resultTable').empty();
+            searchData();
+        });
+}
+
+function initDateEndField() {
     if ($('#scanForPeriod').prop("checked")) {
         $('#departureDateEnd').removeAttr('disabled');
         setDatePickerValue("departureDateEnd", strToDate(localStorage.getItem('requestForm.departureDateEnd')));
@@ -29,9 +47,7 @@ function initDatePickers() {
 
 function initSelectpickers(){
 $('.selectpicker').selectpicker({
-                // style: 'btn-outline-info',
-                 size: 15,
-             //    liveSearch: true
+                 size: 15
                });
 
 $('#fromCity').change(function () {
@@ -65,18 +81,27 @@ function initFormOnLoad() {
 
     if (localStorage.getItem('requestForm.fromCity') != null) {
         $('#fromCity').selectpicker('val', localStorage.getItem('requestForm.fromCity'));
+
         $('#toCity').selectpicker('val',localStorage.getItem('requestForm.toCity'));
+       // loadRoutes($('#toCity'), $('#fromCity').val(), 'dep');
 
         setDatePickerValue("departureDate", strToDate(localStorage.getItem('requestForm.departureDate')));
 
         if (localStorage.getItem('requestForm.scanForPeriod') == 'true') {
             $('#scanForPeriod').prop("checked", true);
-            enableDateEndField();
+            initDateEndField();
         }
-
     }
+}
 
-
+function saveFormDataOnSearch(){
+    if (localStorage) {
+        localStorage.setItem('requestForm.fromCity', $('#fromCity').val());
+        localStorage.setItem('requestForm.toCity', $('#toCity').val());
+        localStorage.setItem('requestForm.departureDate', $('#departureDate').val());
+        localStorage.setItem('requestForm.departureDateEnd', $('#departureDateEnd').val());
+        localStorage.setItem('requestForm.scanForPeriod', $('#scanForPeriod').prop("checked"));
+    }
 }
 function strToDate(dateStr) {
     if(dateStr == null || dateStr == ''){
@@ -147,16 +172,11 @@ function fillDateSlider() {
     });
 }
 
-function fillResultList(date) {
-    var form = $('#requestForm');
-    var url = form.attr("action");
+function switchToResultList(date) {
 
     setDatePickerValue("departureDate", strToDate(date));
     $('#scanForPeriod').prop("checked", false);
-    enableDateEndField();
-
-
-
+    initDateEndField();
     searchData();
 }
 
@@ -326,4 +346,27 @@ var opt = document.createElement("option");
 
         });
 
+}
+
+
+function setupEnv(){
+    $.ajaxSetup({
+        beforeSend: function () {
+            //$("#messageBox").html("loading...");
+            //$("#messageBox").show();
+            $("#loadingIndicator").show();
+        },
+        complete: function () {
+            //$("#messageBox").hide();
+            $("#loadingIndicator").hide();
+        },
+        error : function(jqXHR, textStatus, errorThrown) {
+         $("#loadingIndicator").hide();
+        if (jqXHR.status == 404) {
+            $("#messageBox").html("server not found");
+        } else {
+            $("#messageBox").html("Error: " + textStatus + ": " + errorThrown);
+        }
+    }
+    });
 }
