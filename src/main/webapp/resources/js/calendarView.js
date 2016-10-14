@@ -26,6 +26,12 @@ function getDays(month, year) {
     return ar[month]
 }
 
+function getLastDayOfMonth(year, month)
+{
+console.log("getLastDayOfMonth " + year + month + " result="+new Date(year, month+1, 0));
+    return new Date(year, month+1, 0).getDate();
+}
+
 //Функция возвращает название месяца
 function getMonthName(month, nameMonth) {
     // Создаем массив, для хранения названия каждого месяца
@@ -47,12 +53,25 @@ function drawPriceView(startYear, startMonth, startDay, endYear, endMonth, endDa
     var startDate = new Date(startYear, startMonth, 1);
     var endDate = new Date(endYear, endMonth, 1);
     while (startDate <= endDate) {
-        result += setCalendar(startDate.getFullYear(), startDate.getMonth(), priceList, dayNames);
+        var currentStartDay = 1;
+        var currentEndDay = 1;
+
+        if (startYear == startDate.getFullYear() && startMonth == startDate.getMonth()){
+            currentStartDay = startDay;
+            currentEndDay = getLastDayOfMonth(startYear, startMonth);
+        }
+        else if (endYear == startDate.getFullYear() && endMonth == startDate.getMonth()){
+                currentStartDay = 1;
+                currentEndDay = endDay;
+        }
+        else {
+                currentStartDay = 1;
+                currentEndDay = getLastDayOfMonth(startDate.getFullYear(), startDate.getMonth());
+        }
+        result += setCalendar(startDate.getFullYear(), startDate.getMonth(), currentStartDay, currentEndDay, priceList, dayNames);
         startDate.setMonth(startDate.getMonth() + 1);
     }
 
-
-   // $("#calendar").html(result);
 }
 
 function showPrevNextButtons(startYear, startMonth, priceList) {
@@ -79,15 +98,16 @@ function onNextClick(year, month, priceList) {
 
 
 // Функция установки настроек календаря
-function setCalendar(year, month, priceList, dayNames) {
+function setCalendar(year, month, startDate, endDate, priceList, dayNames) {
+//console.log(year + " " + month + " " + startDate + " " + endDate);
     var nameMonth = "rus"; // rus, russ, russs, eng, engs, engss
-    var text = drawCalendar(nameMonth, year, month, priceList, dayNames)
+    var text = drawCalendar(nameMonth, year, month, startDate, endDate, priceList, dayNames)
     return text;
 }
 
 
 // Функция формирования кода календаря для одного месяца
-function drawCalendar(nameMonth, year, month, priceList, dayNames) {
+function drawCalendar(nameMonth, year, month, startDate, endDate, priceList, dayNames) {
 
     var container = $("#calendar");
 
@@ -101,6 +121,9 @@ function drawCalendar(nameMonth, year, month, priceList, dayNames) {
     else {
         firstDay = firstDay - 1;
     }
+
+    startDate = new Date(year, month, startDate);
+    endDate = new Date(year, month, endDate);
 
 
     // Число дней в текущем месяце
@@ -157,6 +180,13 @@ function drawCalendar(nameMonth, year, month, priceList, dayNames) {
                 $(calendarCell)
                     .addClass("currentMonth");
                 var date = new Date(year, month, currentDay);
+                if(date >= startDate && date<= endDate){
+                    $(calendarCell).addClass("selectedRange");
+                }
+                else{
+                    $(calendarCell).addClass("notSelectedRange");
+                }
+
                 if ((inc < priceList.length) && (date.getTime() == strToDate(priceList[inc].departureDate).getTime())) {
                     var cell = buildCalendarCell(date, priceList[inc]);
                     $(calendarCell).append(cell);
