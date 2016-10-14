@@ -1,0 +1,60 @@
+.calendarTable {
+    border-spacing: 5px;
+
+    background-color: #ffffff;
+}
+
+.calendarHeader {
+    padding: 5px;
+    height: 50px;
+    text-align: center;
+    font-weight: bold;
+
+}
+
+.weekDayRow {
+    height: 50px;
+    text-align: center;
+}
+
+.weekDayCell {
+    padding: 5px;
+    width: 60px;
+    text-align: center;
+    font-weight: bold;
+}
+
+.calendarRow {
+    height: 50px;
+}
+
+.calendarCell {
+    padding: 5px;
+    width: 60px;
+    position: relative;
+
+    border: black;
+    border-width: thin;
+    border-style: solid;
+}
+
+.dataContainer {
+
+}
+
+.dateContainer {
+    position: absolute;
+    top: 0;
+    right: 0;
+}
+
+.priceContainer {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    margin: 0;
+}
+
+.beforeFirst {
+
+}
