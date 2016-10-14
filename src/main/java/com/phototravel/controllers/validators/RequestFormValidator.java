@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 
 @Component
 public class RequestFormValidator {
@@ -43,6 +44,13 @@ public class RequestFormValidator {
 
         if (requestForm.isScanForPeriod() && requestForm.getDepartureDateEndAsLocalDate().isBefore(LocalDate.now())) {
             return "requestFormValidation.dateBeforeNow";
+        }
+
+
+        if (requestForm.isScanForPeriod()
+                && ChronoUnit.DAYS.between(requestForm.getDepartureDateAsLocalDate(), requestForm.getDepartureDateEndAsLocalDate()) > 31
+                ) {
+            return "requestFormValidation.toBigRange";
         }
 
         if (!findBusService.checkIfRouteExists(requestForm.getFromCity(), requestForm.getToCity(), false)) {
