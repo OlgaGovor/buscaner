@@ -147,6 +147,19 @@ function fillDateSlider() {
     });
 }
 
+function fillResultList(date) {
+    var form = $('#requestForm');
+    var url = form.attr("action");
+
+    setDatePickerValue("departureDate", strToDate(date));
+    $('#scanForPeriod').prop("checked", false);
+    enableDateEndField();
+
+
+
+    searchData();
+}
+
 function onDateSliderClick(div) {
 
     console.log($(div).attr("departureDate"));

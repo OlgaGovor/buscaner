@@ -42,6 +42,7 @@ function getMonthName(month, nameMonth) {
 function drawPriceView(startYear, startMonth, startDay, endYear, endMonth, endDay, priceList, dayNames) {
 
     var result = "";
+    $("#calendar").empty();
 
     var startDate = new Date(startYear, startMonth, 1);
     var endDate = new Date(endYear, endMonth, 1);
@@ -51,7 +52,7 @@ function drawPriceView(startYear, startMonth, startDay, endYear, endMonth, endDa
     }
 
 
-    $("#calendar").html(result);
+   // $("#calendar").html(result);
 }
 
 function showPrevNextButtons(startYear, startMonth, priceList) {
@@ -87,7 +88,9 @@ function setCalendar(year, month, priceList, dayNames) {
 
 // Функция формирования кода календаря для одного месяца
 function drawCalendar(nameMonth, year, month, priceList, dayNames) {
-    console.log("drawCalendar " + year + " " + month + " " + priceList);
+
+    var container = $("#calendar");
+
     // Переменные
     var monthName = getMonthName(month, nameMonth);
     var firstDayInstance = new Date(year, month, 1);
@@ -106,10 +109,11 @@ function drawCalendar(nameMonth, year, month, priceList, dayNames) {
     var weekDay = dayNames;
 
 
-
     // Создаем основную структуру таблицы
     var calendarTable = $("<table/>")
         .addClass("calendarTable");
+
+    $(container).append(calendarTable);
 
     var header = $('<th/>')
         .addClass("calendarHeader")
@@ -137,9 +141,12 @@ function drawCalendar(nameMonth, year, month, priceList, dayNames) {
         var calendarRow = $("<tr/>")
             .addClass("calendarRow");
 
+        $(calendarTable).append(calendarRow);
+
         for (var col = 1; col <= 7; ++col) {
             var calendarCell = $("<td/>")
                 .addClass("calendarCell");
+            $(calendarRow).append(calendarCell);
 
             if (curCell < firstDay || currentDay > lastDate) {
                 $(calendarCell)
@@ -151,7 +158,9 @@ function drawCalendar(nameMonth, year, month, priceList, dayNames) {
                     .addClass("currentMonth");
                 var date = new Date(year, month, currentDay);
                 if ((inc < priceList.length) && (date.getTime() == strToDate(priceList[inc].departureDate).getTime())) {
-                    $(calendarCell).append(buildCalendarCell(date, priceList[inc]));
+                    var cell = buildCalendarCell(date, priceList[inc]);
+                    $(calendarCell).append(cell);
+                    $(calendarCell).click(function() {onDayClicked(cell);});
                     inc++;
                 }
                 else {
@@ -159,19 +168,18 @@ function drawCalendar(nameMonth, year, month, priceList, dayNames) {
                 }
                 currentDay++;
             }
-            $(calendarRow).append(calendarCell);
+
         }
-        $(calendarTable).append(calendarRow);
+
     }
 
-    var wrapper = $("<div/>").append(calendarTable)
-    return wrapper.html();
 }
 
 function buildCalendarCell(date, price) {
     var cell = $('<div/>')
         .addClass("dataContainer")
         .attr("date", dateToStr(date));
+
 
     var dateContainer = $("<p/>")
         .addClass("dateContainer")
@@ -183,8 +191,6 @@ function buildCalendarCell(date, price) {
             .addClass("priceContainer")
             .text(price.price + ' ' + price.currency);
         $(cell).append(priceContainer);
-        $(cell).click(onDayClicked);
-
     }
 
     return cell;
@@ -193,5 +199,6 @@ function buildCalendarCell(date, price) {
 function onDayClicked(element) {
     var dateAttr = $(element).attr("date");
     alert(dateAttr);
+    fillResultList(dateAttr);
 
 }
