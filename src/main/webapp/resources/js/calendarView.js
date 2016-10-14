@@ -183,8 +183,15 @@ function buildCalendarCell(date, price) {
             .addClass("priceContainer")
             .text(price.price + ' ' + price.currency);
         $(cell).append(priceContainer);
+        $(cell).click(onDayClicked);
 
     }
 
     return cell;
+}
+
+function onDayClicked(element) {
+    var dateAttr = $(element).attr("date");
+    alert(dateAttr);
+
 }
