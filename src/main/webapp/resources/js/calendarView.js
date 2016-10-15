@@ -49,12 +49,36 @@ function drawPriceView(startYear, startMonth, startDay, endYear, endMonth, endDa
 
     var result = "";
     $("#calendar").empty();
+    $("#calendar").addClass("calendar-container");
+
 
     var startDate = new Date(startYear, startMonth, 1);
     var endDate = new Date(endYear, endMonth, 1);
+    var count = 0;
+    var rowContainer;
     while (startDate <= endDate) {
         var currentStartDay = 1;
         var currentEndDay = 1;
+
+console.log("count="+count + " count%2="+count%2 + "!="+(!(count%2)));
+        if(!(count%2)){
+        rowContainer = $("<div/>").addClass("calendar-month-row");
+        rowContainer.addClass("count"+count);
+        $("#calendar").append(rowContainer);
+        }
+
+        var monthContainer = $("<div/>");
+        $(monthContainer).addClass("calendar-month-item");
+        $(rowContainer).append(monthContainer);
+
+        if(count%2){
+            $(monthContainer).addClass("col2");
+        }
+        else{
+            $(monthContainer).addClass("col1");
+        }
+
+
 
         if (startYear == startDate.getFullYear() && startMonth == startDate.getMonth()){
             currentStartDay = startDay;
@@ -68,8 +92,9 @@ function drawPriceView(startYear, startMonth, startDay, endYear, endMonth, endDa
                 currentStartDay = 1;
                 currentEndDay = getLastDayOfMonth(startDate.getFullYear(), startDate.getMonth());
         }
-        result += setCalendar(startDate.getFullYear(), startDate.getMonth(), currentStartDay, currentEndDay, priceList, dayNames);
+        setCalendar(monthContainer, startDate.getFullYear(), startDate.getMonth(), currentStartDay, currentEndDay, priceList, dayNames);
         startDate.setMonth(startDate.getMonth() + 1);
+        count++;
     }
 
 }
@@ -98,18 +123,16 @@ function onNextClick(year, month, priceList) {
 
 
 // Функция установки настроек календаря
-function setCalendar(year, month, startDate, endDate, priceList, dayNames) {
+function setCalendar(container, year, month, startDate, endDate, priceList, dayNames) {
 //console.log(year + " " + month + " " + startDate + " " + endDate);
     var nameMonth = "rus"; // rus, russ, russs, eng, engs, engss
-    var text = drawCalendar(nameMonth, year, month, startDate, endDate, priceList, dayNames)
+    var text = drawCalendar(container, nameMonth, year, month, startDate, endDate, priceList, dayNames)
     return text;
 }
 
 
 // Функция формирования кода календаря для одного месяца
-function drawCalendar(nameMonth, year, month, startDate, endDate, priceList, dayNames) {
-
-    var container = $("#calendar");
+function drawCalendar(container, nameMonth, year, month, startDate, endDate, priceList, dayNames) {
 
     // Переменные
     var monthName = getMonthName(month, nameMonth);

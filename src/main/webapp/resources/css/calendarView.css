@@ -1,3 +1,23 @@
+.calendar-container{
+    display:  table;
+    width:100%;
+}
+.calendar-month-row{
+    display: table-row;
+}
+.calendar-month-item{
+        display: table-column;
+        margin: 10px;
+}
+
+.calendar-month-item.col1{
+        float: left;
+}
+
+.calendar-month-item.col2{
+        float: right;
+}
+
 .calendarTable {
     border-spacing: 5px;
 
