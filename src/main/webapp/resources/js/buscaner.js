@@ -116,10 +116,7 @@ function dateToStr(date) {
     function pad(s) {
         return (s < 10) ? '0' + s : s;
     }
-
     var month = date.getMonth() + 1;
-
-
     return pad(date.getDate()) + "-" + pad(month) + "-" + date.getFullYear();
 }
 
@@ -132,7 +129,6 @@ function setDatePickerValue(datePicker, date) {
             }
         $('#' + datePicker).datepicker('setDate', date);
     }
-
 }
 
 function searchData() {
@@ -146,11 +142,10 @@ function searchData() {
             fillDateSlider();
         }
     });
-
 }
 
 function fillDateSlider() {
-    var daysRange = 3;
+    var daysRange = 6;
 
     var form = $('#requestForm');
     var url = "/loadDateSlider";
@@ -161,8 +156,9 @@ function fillDateSlider() {
 
     var departureDate = strToDate($('#departureDate').val());
     var departureDateEnd = new Date(departureDate.getTime());
-    departureDate.setDate(departureDate.getDate() - daysRange);
-    departureDateEnd.setDate(departureDateEnd.getDate() + daysRange);
+
+    departureDate = getFirstDateForSlider(departureDate, daysRange);
+    departureDateEnd.setDate(departureDate.getDate() + daysRange);
 
     formData["departureDate"] = dateToStr(departureDate);
     formData["departureDateEnd"] = dateToStr(departureDateEnd);
@@ -170,6 +166,18 @@ function fillDateSlider() {
     $.post(url, formData).done(function (data) {
         $('#dateSlider').html(data);
     });
+}
+
+function getFirstDateForSlider(selectedDate, daysRange){
+    var firstDate = new Date(selectedDate);
+    firstDate.setDate(selectedDate.getDate() - (Math.floor(daysRange/2)));
+
+    var today = new Date();
+    today.setHours(0,0,0,0)
+    while(firstDate < today){
+        firstDate.setDate(firstDate.getDate()+1);
+    }
+    return firstDate;
 }
 
 function switchToResultList(date) {
