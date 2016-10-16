@@ -57,6 +57,9 @@
     border-width: thin;
     border-style: solid;
 }
+.cell-with-price{
+    cursor: pointer;
+}
 
 .dataContainer {
 

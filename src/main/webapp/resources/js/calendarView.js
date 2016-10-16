@@ -215,6 +215,7 @@ function drawCalendar(container, nameMonth, year, month, startDate, endDate, pri
                         var cell = buildCalendarCell(date, priceList[i]);
                         $(calendarCell).append(cell);
                         $(calendarCell).click(function() {onDayClicked(cell);});
+                        $(calendarCell).addClass("cell-with-price");
                         priceFound = true;
                         break;
                     }

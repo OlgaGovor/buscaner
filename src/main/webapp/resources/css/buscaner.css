@@ -4,6 +4,7 @@
     padding: 0;
     margin-left: 0;
     margin-right: 0;
+    cursor: pointer;
 }
 
 .result-list-content {
@@ -45,6 +46,7 @@
 .date-slider-block {
     padding: 0;
     width: 6%;
+    cursor: pointer;
 }
 
 .date-slider-block-selected-sate{
