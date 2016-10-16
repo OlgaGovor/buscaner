@@ -165,9 +165,10 @@ function fillDateSlider() {
 
     $.post(url, formData).done(function (data) {
         $('#dateSlider').html(data);
+        updateSliderCurrentDate($('#dateSlider'), $('#departureDate').val());
     });
 }
-
+/*calculates the first date for date slider depends on current date*/
 function getFirstDateForSlider(selectedDate, daysRange){
     var firstDate = new Date(selectedDate);
     firstDate.setDate(selectedDate.getDate() - (Math.floor(daysRange/2)));
@@ -179,9 +180,12 @@ function getFirstDateForSlider(selectedDate, daysRange){
     }
     return firstDate;
 }
+/*change color of slider block that represents selected in filter date*/
+function updateSliderCurrentDate(sliderContainer, selectedDate){
+    $(sliderContainer).find("div.date-slider-block[departuredate='"+selectedDate+"']").addClass("date-slider-block-selected-sate");
+}
 
 function switchToResultList(date) {
-
     setDatePickerValue("departureDate", strToDate(date));
     $('#scanForPeriod').prop("checked", false);
     initDateEndField();

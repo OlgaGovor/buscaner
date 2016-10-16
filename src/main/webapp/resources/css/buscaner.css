@@ -40,9 +40,15 @@
     padding: 0;
 }
 
-.slider-block {
+
+
+.date-slider-block {
     padding: 0;
     width: 6%;
+}
+
+.date-slider-block-selected-sate{
+    background-color: #69AFFF;
 }
 
 /* centered columns styles */
