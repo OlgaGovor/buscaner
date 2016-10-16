@@ -155,10 +155,11 @@ function fillDateSlider() {
     formData["scanForPeriod"] = true;
 
     var departureDate = strToDate($('#departureDate').val());
-    var departureDateEnd = new Date(departureDate.getTime());
+
 
     departureDate = getFirstDateForSlider(departureDate, daysRange);
-    departureDateEnd.setDate(departureDate.getDate() + daysRange);
+    var departureDateEnd = new Date(departureDate.getTime());
+    departureDateEnd.setDate(departureDateEnd.getDate() + daysRange);
 
     formData["departureDate"] = dateToStr(departureDate);
     formData["departureDateEnd"] = dateToStr(departureDateEnd);
@@ -191,6 +192,18 @@ function switchToResultList(date) {
     initDateEndField();
     searchData();
 }
+function switchToResultCalendar(date) {
+    $('#scanForPeriod').prop("checked", true);
+    initDateEndField();
+    var date = strToDate(date);
+    var startDate = getFirstAllowedDayOfMonth(date.getFullYear(), date.getMonth());
+    var endDate = getLastDayOfMonth(date.getFullYear(), date.getMonth());
+    setDatePickerValue("departureDate", startDate);
+    setDatePickerValue("departureDateEnd", endDate);
+
+    $('#dateSlider').empty();
+    searchData();
+}
 
 function onDateSliderClick(div) {
 
@@ -199,6 +212,7 @@ function onDateSliderClick(div) {
     searchData();
 
 }
+/*
 
 function fillDateSliderAjax() {
     var daysRange = 5;
@@ -243,6 +257,7 @@ $("#dateslider").append(dayBlock);
 
 
 }
+*/
 
 
 function updateData() {

@@ -26,10 +26,18 @@ function getDays(month, year) {
     return ar[month]
 }
 
-function getLastDayOfMonth(year, month)
-{
-console.log("getLastDayOfMonth " + year + month + " result="+new Date(year, month+1, 0));
-    return new Date(year, month+1, 0).getDate();
+function getLastDayOfMonth(year, month){
+    return new Date(year, month+1, 0);
+}
+
+function getFirstAllowedDayOfMonth(year, month){
+    var date = new Date(year, month, 1);
+    var today = new Date();
+    today.setHours(0,0,0,0)
+    if(date < today){
+        return today;
+    }
+    return date;
 }
 
 //Функция возвращает название месяца
@@ -81,7 +89,7 @@ function drawPriceView(startYear, startMonth, startDay, endYear, endMonth, endDa
 
         if (startYear == startDate.getFullYear() && startMonth == startDate.getMonth()){
             currentStartDay = startDay;
-            currentEndDay = getLastDayOfMonth(startYear, startMonth);
+            currentEndDay = getLastDayOfMonth(startYear, startMonth).getDate();
         }
         else if (endYear == startDate.getFullYear() && endMonth == startDate.getMonth()){
                 currentStartDay = 1;
@@ -89,7 +97,7 @@ function drawPriceView(startYear, startMonth, startDay, endYear, endMonth, endDa
         }
         else {
                 currentStartDay = 1;
-                currentEndDay = getLastDayOfMonth(startDate.getFullYear(), startDate.getMonth());
+                currentEndDay = getLastDayOfMonth(startDate.getFullYear(), startDate.getMonth()).getDate();
         }
         setCalendar(monthContainer, startDate.getFullYear(), startDate.getMonth(), currentStartDay, currentEndDay, priceList, dayNames);
         startDate.setMonth(startDate.getMonth() + 1);
@@ -214,7 +222,7 @@ function drawCalendar(container, nameMonth, year, month, startDate, endDate, pri
                     if(date.getTime() == strToDate(priceList[i].departureDate).getTime()){
                         var cell = buildCalendarCell(date, priceList[i]);
                         $(calendarCell).append(cell);
-                        $(calendarCell).click(function() {onDayClicked(cell);});
+                        $(calendarCell).click(function(){onDayClicked(this);});
                         $(calendarCell).addClass("cell-with-price");
                         priceFound = true;
                         break;
@@ -254,6 +262,6 @@ function buildCalendarCell(date, price) {
 }
 
 function onDayClicked(element) {
-    var dateAttr = $(element).attr("date");
+    var dateAttr = $(element).find("div.dataContainer").attr("date");
     switchToResultList(dateAttr);
 }

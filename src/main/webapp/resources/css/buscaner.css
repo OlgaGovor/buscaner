@@ -42,7 +42,24 @@
 }
 
 
+.before-date-slider{
+    font-family: 'Glyphicons Halflings';
+    content: "\e109";
+    display: inline-block;
+    font-size: 42px;
+    color: #00bd68;
+    cursor: pointer;
 
+}
+.after-date-slider{
+    font-family: 'Glyphicons Halflings';
+    content: "\e109";
+    display: inline-block;
+    font-size: 42px;
+    color: #00bd68;
+    cursor: pointer;
+
+}
 .date-slider-block {
     padding: 0;
     width: 6%;

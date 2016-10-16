@@ -115,7 +115,13 @@
 
 <div th:fragment="dateSlider" class="col-lg-12"
      style="background-color:#FFFFFF;">
-    <div class="row row-centered">
+    <div class="row row-centered date-slider-container">
+
+        <div class="col-lg-1 col-centered before-date-slider glyphicon glyphicon-calendar"
+             th:if="${resultDetailsList != null}"
+             th:attr="departureDate = ${resultDetailsList[0].departureDate}"
+             onclick="switchToResultCalendar($(this).attr('departureDate'));">
+        </div>
         <div class="col-lg-1 col-centered btn btn-default date-slider-block" th:each="price: ${resultDetailsList}"
              th:attr="departureDate = ${price.departureDate}"
              onclick="onDateSliderClick(this);">
@@ -138,6 +144,11 @@
             </div>
             <div class="row row-centered" th:text="${#strings.substring(price.departureDate,0,5)}">
             </div>
+        </div>
+        <div class="col-lg-1 col-centered after-date-slider glyphicon glyphicon-calendar"
+             th:if="${resultDetailsList != null}"
+             th:attr="departureDate = ${resultDetailsList[resultDetailsList.size()-1].departureDate}"
+             onclick="switchToResultCalendar($(this).attr('departureDate'));">
         </div>
     </div>
 
