@@ -60,7 +60,6 @@ function drawPriceView(startYear, startMonth, startDay, endYear, endMonth, endDa
         var currentStartDay = 1;
         var currentEndDay = 1;
 
-console.log("count="+count + " count%2="+count%2 + "!="+(!(count%2)));
         if(!(count%2)){
         rowContainer = $("<div/>").addClass("calendar-month-row");
         rowContainer.addClass("count"+count);
@@ -210,13 +209,17 @@ function drawCalendar(container, nameMonth, year, month, startDate, endDate, pri
                     $(calendarCell).addClass("notSelectedRange");
                 }
 
-                if ((inc < priceList.length) && (date.getTime() == strToDate(priceList[inc].departureDate).getTime())) {
-                    var cell = buildCalendarCell(date, priceList[inc]);
-                    $(calendarCell).append(cell);
-                    $(calendarCell).click(function() {onDayClicked(cell);});
-                    inc++;
+                var priceFound = false;
+                for(var i =0; i < priceList.length; i++){
+                    if(date.getTime() == strToDate(priceList[i].departureDate).getTime()){
+                        var cell = buildCalendarCell(date, priceList[i]);
+                        $(calendarCell).append(cell);
+                        $(calendarCell).click(function() {onDayClicked(cell);});
+                        priceFound = true;
+                        break;
+                    }
                 }
-                else {
+                if(!priceFound){
                     $(calendarCell).append(buildCalendarCell(date));
                 }
                 currentDay++;
