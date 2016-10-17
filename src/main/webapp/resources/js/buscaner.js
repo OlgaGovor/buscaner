@@ -172,6 +172,7 @@ function fillDateSlider() {
     $.post(url, formData).done(function (data) {
         $('#dateSlider').html(data);
         updateSliderCurrentDate($('#dateSlider'), $('#departureDate').val());
+        updateSliderWeekDays($('#dateSlider'));
     });
 }
 /*calculates the first date for date slider depends on current date*/
@@ -188,7 +189,18 @@ function getFirstDateForSlider(selectedDate, daysRange){
 }
 /*change color of slider block that represents selected in filter date*/
 function updateSliderCurrentDate(sliderContainer, selectedDate){
-    $(sliderContainer).find("div.date-slider-block[departuredate='"+selectedDate+"']").addClass("date-slider-block-selected-sate");
+    $(sliderContainer).find("div.date-slider-block[departuredate='" + selectedDate + "']").addClass("date-slider-block-selected-date");
+}
+
+/*set names of week days to ech dateSlider block*/
+function updateSliderWeekDays(sliderContainer) {
+    var weekDay = $.fn.datepicker.dates[language].daysMin; //values from bootstrap-datetimepicker.LANG.js
+    var blocks = $(sliderContainer).find(".date-slider-block");
+    for (var i = 0; i < blocks.length; i++) {
+        var date = strToDate($(blocks[i]).attr("departureDate"));
+        var dayName = weekDay[date.getDay()];
+        $(blocks[i]).find(".week-day-name").text(dayName);
+    }
 }
 
 function switchToResultList(date) {

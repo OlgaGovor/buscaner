@@ -66,8 +66,8 @@
     cursor: pointer;
 }
 
-.date-slider-block-selected-sate{
-    background-color: #69AFFF;
+.date-slider-block-selected-date {
+    background-color: #c1daff;
 }
 
 /* centered columns styles */
