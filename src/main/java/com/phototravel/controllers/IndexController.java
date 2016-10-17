@@ -101,7 +101,7 @@ public class IndexController {
             return viewName;
         } else {
             List<ResultDetails> resultDetailsList = findBusService.findBus(requestForm);
-            if (resultDetailsList.isEmpty()) {
+            if (!requestForm.isScanForPeriod() && resultDetailsList.isEmpty()) {
                 model.addAttribute("resultMessageKey", "requestFormValidation.noTicketsFound");
                 viewName = "error :: messageBox";
                 return viewName;
