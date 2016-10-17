@@ -116,6 +116,12 @@ body {
     transition: height 0.6s ease;
 }
 
+.refresh-icon {
+    width: 100%;
+    color: green;
+    top: -2px;
+}
+
 
 /*loading icon animation*/
 .glyphicon-refresh-animate {
