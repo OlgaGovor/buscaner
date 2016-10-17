@@ -1,31 +1,3 @@
-// Copyright (c) 2002 Yura Ladik http://www.javaportal.ru All rights reserved.
-// Permission given to use the script provided that this notice remains as is.
-// С изменениями KDG http://htmlweb.ru/
-
-//Функция проверки на высокосный год
-function isLeapYear(year) {
-    return (year % 4 == 0)
-}
-
-//Функция возвращает колличество дней в месяце в зависимости от года
-function getDays(month, year) {
-    // Создаем массив, для хранения числа дней в каждом месяце
-    var ar = new Array(12);
-    ar[0] = 31; // Январь
-    ar[1] = (isLeapYear(year)) ? 29 : 28;// Февраль
-    ar[2] = 31; // Март
-    ar[3] = 30; // Апрель
-    ar[4] = 31; // Май
-    ar[5] = 30; // Июнь
-    ar[6] = 31; // Июль
-    ar[7] = 31; // Август
-    ar[8] = 30; // Сентябрь
-    ar[9] = 31; // Остябрь
-    ar[10] = 30; // Ноябрь
-    ar[11] = 31; // Декабрь
-    return ar[month]
-}
-
 function getLastDayOfMonth(year, month){
     return new Date(year, month+1, 0);
 }
@@ -40,20 +12,8 @@ function getFirstAllowedDayOfMonth(year, month){
     return date;
 }
 
-//Функция возвращает название месяца
-function getMonthName(month, nameMonth) {
-    // Создаем массив, для хранения названия каждого месяца
-    var ar = new Array(12);
-    if (nameMonth == "rus" || nameMonth == "russ" || nameMonth == "russs") {
-        ar = ["Январь", "Февраль", "Март", "Апрель", "Май", "Июнь", "Июль", "Август", "Сентабрь", "Октябрь", "Ноябрь", "Декабрь"];
-    } else {
-        ar = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-    }
-    return ar[month]
-}
-
 //Функция выбор кол-ва отображаемых месяцев с последующей прорисовкой календаря
-function drawPriceView(startYear, startMonth, startDay, endYear, endMonth, endDay, priceList, dayNames) {
+function drawPriceView(startYear, startMonth, startDay, endYear, endMonth, endDay, priceList, dayNames, monthNames) {
 
     var result = "";
     $("#calendar").find("div").remove();
@@ -99,7 +59,7 @@ function drawPriceView(startYear, startMonth, startDay, endYear, endMonth, endDa
                 currentStartDay = 1;
                 currentEndDay = getLastDayOfMonth(startDate.getFullYear(), startDate.getMonth()).getDate();
         }
-        setCalendar(monthContainer, startDate.getFullYear(), startDate.getMonth(), currentStartDay, currentEndDay, priceList, dayNames);
+        setCalendar(monthContainer, startDate.getFullYear(), startDate.getMonth(), currentStartDay, currentEndDay, priceList, dayNames, monthNames);
         startDate.setMonth(startDate.getMonth() + 1);
         count++;
     }
@@ -130,19 +90,19 @@ function onNextClick(year, month, priceList) {
 
 
 // Функция установки настроек календаря
-function setCalendar(container, year, month, startDate, endDate, priceList, dayNames) {
+function setCalendar(container, year, month, startDate, endDate, priceList, dayNames, monthNames) {
 //console.log(year + " " + month + " " + startDate + " " + endDate);
     var nameMonth = "rus"; // rus, russ, russs, eng, engs, engss
-    var text = drawCalendar(container, nameMonth, year, month, startDate, endDate, priceList, dayNames)
+    var text = drawCalendar(container, nameMonth, year, month, startDate, endDate, priceList, dayNames, monthNames)
     return text;
 }
 
 
 // Функция формирования кода календаря для одного месяца
-function drawCalendar(container, nameMonth, year, month, startDate, endDate, priceList, dayNames) {
+function drawCalendar(container, nameMonth, year, month, startDate, endDate, priceList, dayNames, monthNames) {
 
     // Переменные
-    var monthName = getMonthName(month, nameMonth);
+    var monthName = monthNames[month];
     var firstDayInstance = new Date(year, month, 1);
     var firstDay = firstDayInstance.getDay();
     if (firstDay == 0) {
@@ -157,7 +117,7 @@ function drawCalendar(container, nameMonth, year, month, startDate, endDate, pri
 
 
     // Число дней в текущем месяце
-    var lastDate = getDays(month, year);
+    var lastDate = getLastDayOfMonth(month, year).getDate();
 // Создаем массив сокращенных названий дней недели
     var weekDay = dayNames;
 

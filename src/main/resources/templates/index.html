@@ -158,6 +158,12 @@
 
 </div>
 
+<script type="text/javascript" th:inline="javascript">
+    var dayString = [[#{calendar.dayNames}]];
+    var monthString = [[#{calendar.monthsNames}]];
+    var dayNames = dayString.split(", ");
+    var monthNames = monthString.split(", ");
+</script>
 
 <script type="text/javascript">
 

@@ -19,10 +19,9 @@
 		    var endYear = [[${endYear}]];
 		    var endMonth = [[${endMonth}]];
 		    var endDay = [[${endDay}]];
-         var priceList = [[${resultDetailsList}]];
-         var dayNames = ["Пн", "Вт", "Ср", "Чт", "Пт", "Сб", "Вс"];
+			var priceList = [[${resultDetailsList}]];
 
-         drawPriceView(startYear, startMonth, startDay, endYear, endMonth, endDay, priceList, dayNames);
+			drawPriceView(startYear, startMonth, startDay, endYear, endMonth, endDay, priceList, dayNames, monthNames);
 		});
 	</script>
 
@@ -30,23 +29,3 @@
 
 </body>
 </html>
-
-<!--
-if (nameMonth == "rus") {
-weekDay = ["Пн", "Вт", "Ср", "Чт", "Пт", "Сб", "Вс"];
-}
-else if (nameMonth == "russ") {
-weekDay = ["пн", "вт", "ср", "чт", "пт", "сб", "вс"];
-}
-else if (nameMonth == "russs") {
-weekDay = ["п", "в", "с", "ч", "п", "с", "в"];
-}
-else if (nameMonth == "eng") {
-weekDay = ["Mon", "Tues", "Wed", "Thu", "Fri", "Sat", "Sun"]
-}
-else if (nameMonth == "engs") {
-weekDay = ["Mo", "Tu", "We", "Th", "Fr", "Sa", "Su"];
-}
-else if (nameMonth == "engss") {
-weekDay = ["m", "t", "w", "t", "f", "s", "s"];
-}-->
