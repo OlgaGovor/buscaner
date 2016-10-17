@@ -32,14 +32,17 @@ function initDatePickers() {
         setDate: new Date(),
         autoclose: true,
         format: 'dd-mm-yyyy',
-        startDate: "today"
-
+        startDate: "today",
+        language: language,
+        weekStart: 1
     });
     $('#departureDateEnd').datepicker({
         setDate: new Date(),
         autoclose: true,
         format: 'dd-mm-yyyy',
-        startDate: "today"
+        startDate: "today",
+        language: language,
+        weekStart: 1
     });
 
     $("#departureDate").on("changeDate", function (e) {

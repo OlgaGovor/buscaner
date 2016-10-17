@@ -13,7 +13,7 @@ function getFirstAllowedDayOfMonth(year, month){
 }
 
 //Функция выбор кол-ва отображаемых месяцев с последующей прорисовкой календаря
-function drawPriceView(startYear, startMonth, startDay, endYear, endMonth, endDay, priceList, dayNames, monthNames) {
+function drawPriceView(startYear, startMonth, startDay, endYear, endMonth, endDay, priceList) {
 
     var result = "";
     $("#calendar").find("div").remove();
@@ -59,7 +59,7 @@ function drawPriceView(startYear, startMonth, startDay, endYear, endMonth, endDa
                 currentStartDay = 1;
                 currentEndDay = getLastDayOfMonth(startDate.getFullYear(), startDate.getMonth()).getDate();
         }
-        setCalendar(monthContainer, startDate.getFullYear(), startDate.getMonth(), currentStartDay, currentEndDay, priceList, dayNames, monthNames);
+        setCalendar(monthContainer, startDate.getFullYear(), startDate.getMonth(), currentStartDay, currentEndDay, priceList);
         startDate.setMonth(startDate.getMonth() + 1);
         count++;
     }
@@ -90,19 +90,20 @@ function onNextClick(year, month, priceList) {
 
 
 // Функция установки настроек календаря
-function setCalendar(container, year, month, startDate, endDate, priceList, dayNames, monthNames) {
+function setCalendar(container, year, month, startDate, endDate, priceList) {
 //console.log(year + " " + month + " " + startDate + " " + endDate);
-    var nameMonth = "rus"; // rus, russ, russs, eng, engs, engss
-    var text = drawCalendar(container, nameMonth, year, month, startDate, endDate, priceList, dayNames, monthNames)
+
+    var text = drawCalendar(container, year, month, startDate, endDate, priceList)
     return text;
 }
 
 
 // Функция формирования кода календаря для одного месяца
-function drawCalendar(container, nameMonth, year, month, startDate, endDate, priceList, dayNames, monthNames) {
+function drawCalendar(container, year, month, startDate, endDate, priceList) {
 
     // Переменные
-    var monthName = monthNames[month];
+
+    var monthName = $.fn.datepicker.dates[language].months[month]; //values from bootstrap-datetimepicker.LANG.js
     var firstDayInstance = new Date(year, month, 1);
     var firstDay = firstDayInstance.getDay();
     if (firstDay == 0) {
@@ -119,7 +120,7 @@ function drawCalendar(container, nameMonth, year, month, startDate, endDate, pri
     // Число дней в текущем месяце
     var lastDate = getLastDayOfMonth(month, year).getDate();
 // Создаем массив сокращенных названий дней недели
-    var weekDay = dayNames;
+    var weekDay = $.fn.datepicker.dates[language].daysMin; //values from bootstrap-datetimepicker.LANG.js
 
 
     // Создаем основную структуру таблицы
@@ -138,11 +139,14 @@ function drawCalendar(container, nameMonth, year, month, startDate, endDate, pri
         .addClass("weekDayRow");
 
     $(calendarTable).append(weekDayRow);
-    /*building empty cells before first day od current month*/
-    for (var dayNum = 0; dayNum < 7; ++dayNum) {
+
+    var firstDayOfWeek = 1; // day of the week start. 0 for Sunday - 6 for Saturday
+    var dowCnt = 1;
+    /*building cells with names of days*/
+    while (dowCnt < firstDayOfWeek + 7) {
         var weekDayCell = $("<td/>")
             .addClass("calendarCell weekDayCell");
-        $(weekDayCell).text(weekDay[dayNum]);
+        $(weekDayCell).text(weekDay[(dowCnt++) % 7]);
         $(weekDayRow).append(weekDayCell);
     }
 
@@ -160,7 +164,7 @@ function drawCalendar(container, nameMonth, year, month, startDate, endDate, pri
             var calendarCell = $("<td/>")
                 .addClass("calendarCell");
             $(calendarRow).append(calendarCell);
-
+            /*building empty cells before first day od current month*/
             if (curCell < firstDay || currentDay > lastDate) {
                 $(calendarCell)
                     .addClass("beforeFirst");

@@ -16,6 +16,9 @@
     <script src="resources/js/bootstrap.min.js"></script>
     <script src="resources/js/bootstrap-select.min.js"></script>
     <script src="resources/js/bootstrap-datepicker.js"></script>
+    <script th:if="${lang.language != 'en'}"
+            th:src="'resources/js/bootstrap-datepicker.'+${lang.language}+'.js'"
+            />
 
 
     <style type="text/css">
@@ -159,10 +162,7 @@
 </div>
 
 <script type="text/javascript" th:inline="javascript">
-    var dayString = [[#{calendar.dayNames}]];
-    var monthString = [[#{calendar.monthsNames}]];
-    var dayNames = dayString.split(", ");
-    var monthNames = monthString.split(", ");
+    var language = [[${lang.language}]];
 </script>
 
 <script type="text/javascript">
