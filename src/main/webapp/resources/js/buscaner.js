@@ -42,7 +42,9 @@ function initDatePickers() {
         startDate: "today"
     });
 
-
+    $("#departureDate").on("changeDate", function (e) {
+        $('#departureDateEnd').datepicker('setStartDate', e.date);
+    });
 }
 
 function initSelectpickers(){
