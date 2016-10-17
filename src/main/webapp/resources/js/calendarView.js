@@ -56,7 +56,7 @@ function getMonthName(month, nameMonth) {
 function drawPriceView(startYear, startMonth, startDay, endYear, endMonth, endDay, priceList, dayNames) {
 
     var result = "";
-    $("#calendar").empty();
+    $("#calendar").find("div").remove();
     $("#calendar").addClass("calendar-container");
 
 
@@ -69,13 +69,13 @@ function drawPriceView(startYear, startMonth, startDay, endYear, endMonth, endDa
         var currentEndDay = 1;
 
         if(!(count%2)){
-        rowContainer = $("<div/>").addClass("calendar-month-row");
+            rowContainer = $("<div/>").addClass("row calendar-month-row");
         rowContainer.addClass("count"+count);
         $("#calendar").append(rowContainer);
         }
 
         var monthContainer = $("<div/>");
-        $(monthContainer).addClass("calendar-month-item");
+        $(monthContainer).addClass("col-md-6 calendar-month-item");
         $(rowContainer).append(monthContainer);
 
         if(count%2){
@@ -181,7 +181,7 @@ function drawCalendar(container, nameMonth, year, month, startDate, endDate, pri
     /*building empty cells before first day od current month*/
     for (var dayNum = 0; dayNum < 7; ++dayNum) {
         var weekDayCell = $("<td/>")
-            .addClass("weekDayCell");
+            .addClass("calendarCell weekDayCell");
         $(weekDayCell).text(weekDay[dayNum]);
         $(weekDayRow).append(weekDayCell);
     }
@@ -230,6 +230,9 @@ function drawCalendar(container, nameMonth, year, month, startDate, endDate, pri
                 }
                 if(!priceFound){
                     $(calendarCell).append(buildCalendarCell(date));
+                    $(calendarCell).click(function () {
+                        onDayClicked(this);
+                    });
                 }
                 currentDay++;
             }
@@ -256,6 +259,14 @@ function buildCalendarCell(date, price) {
             .addClass("priceContainer")
             .text(price.price + ' ' + price.currency);
         $(cell).append(priceContainer);
+    }
+    else {
+        var iconContainer = $("<p/>")
+            .addClass("search-icon-container");
+        var icon = $("<span/>")
+            .addClass("glyphicon glyphicon-refresh");
+        $(iconContainer).append(icon);
+        $(cell).append(iconContainer);
     }
 
     return cell;
