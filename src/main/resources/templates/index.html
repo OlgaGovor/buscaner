@@ -50,24 +50,28 @@
                     <form id="requestForm" role="form" action="#" th:action="@{/searchData}" th:object="${requestForm}"
                           method="post"
                           style="margin: 5pt 5pt 5pt 5pt">
-                        <div class="row">
-                            <div class="col-lg-2"></div>
-                            <label class="col-lg-3" for="fromCity" th:text="#{form.fromCity.label}"> From </label>
+                        <!--   <div class="row">
+                               <div class="col-lg-2"></div>
+                               <label class="col-lg-3" for="fromCity" th:text="#{form.fromCity.label}"> From </label>
 
-                            <div class="col-lg-1"></div>
-                            <label class="col-lg-3" for="toCity" th:text="#{form.toCity.label}"> To </label>
-                    </div>
+                               <div class="col-lg-1"></div>
+                               <label class="col-lg-3" for="toCity" th:text="#{form.toCity.label}"> To </label>
+                       </div>-->
                         <div class="row">
-                            <div class="col-lg-2"></div>
-                            <div class="col-lg-3">
+                            <div class="col-sm-2"></div>
+                            <div class="col-sm-3">
+                                <label for="fromCity" th:text="#{form.fromCity.label}"> From </label>
                                 <select id="fromCity" th:field="*{fromCity}" class="form-control selectpicker"
                                         data-live-search="true"
                                         initial="true">
                                     <option th:each="city: ${cities}" th:value="${city.cityId}"
                                             th:text="${city.cityName}"></option>
                                 </select>
+
                             </div>
-                            <div class="col-lg-3">
+                            <div class="col-sm-1 btn glyphicon glyphicon-sort"/>
+                            <div class="col-sm-3">
+                                <label for="toCity" th:text="#{form.toCity.label}"> To </label>
                                 <select id="toCity" th:field="*{toCity}" class="form-control selectpicker"
                                         data-live-search="true">
                                     <option th:each="city: ${cities}" th:value="${city.cityId}"
@@ -82,38 +86,41 @@
                                                            th:field="*{scanForPeriod}"
                                                            th:value="${scanForPeriod}"/>Scan for period</label>
                     </div>
-                        <div class="row">
-                            <div class="col-lg-2"></div>
-                            <div class="col-lg-3">
-                                <label>Start date for search</label>
-                            </div>
+                        <!--  <div class="row">
+                              <div class="col-lg-2"></div>
+                              <div class="col-lg-3">
+                                  <label>Start date for search</label>
+                              </div>
 
-                            <div class="col-lg-3">
-                                <label>End date for search</label>
-                            </div>
-                    </div>
+                              <div class="col-lg-3">
+                                  <label>End date for search</label>
+                              </div>
+                      </div>-->
                         <div class="row">
-                            <div class="col-lg-2"></div>
-                            <div class="input-append date col-lg-3 form-group" id="datepicker">
-                                <!--<label for="departureDate">Start date for search</label>-->
+                            <div class="col-sm-2"></div>
+                            <div class="input-append date col-sm-3 form-group" id="datepicker">
+                                <label for="departureDate" th:text="#{form.fromDate.label}">Start date for
+                                    search</label>
                                 <input class="form-control span2 pull-left" id="departureDate" type="text"
                                        th:field="*{departureDate}" size="16"/>
                                 <!--<span class="add-on"><i class="glyphicon glyphicon-calendar"></i></span>-->
                             </div>
 
-                            <div class="input-append date col-lg-3" id="datepickerEnd">
-                                <!--<label>End date for search</label>-->
+                            <div class="col-sm-1"/>
+
+                            <div class="input-append date col-sm-3" id="datepickerEnd">
+                                <label for="departureDateEnd" th:text="#{form.toDate.label}">End date for search</label>
                                 <input class="form-control span2 pull-left" id="departureDateEnd" type="text"
                                        th:field="*{departureDateEnd}" disabled="disabled"/>
                                 <!--<span class="add-on"><i class="glyphicon glyphicon-calendar"></i></span>-->
                             </div>
                     </div>
-                        <div class="row">
+                        <!--<div class="row">
                             <div class="col-lg-2"></div>
                             <div class="checkbox col-lg-3">
                                 <label><input type="checkbox" value=""/>No changes</label>
                             </div>
-                    </div>
+                    </div>-->
                         <div class="row">
                             <div class="col-lg-2"></div>
                             <div class="col-lg-4">
