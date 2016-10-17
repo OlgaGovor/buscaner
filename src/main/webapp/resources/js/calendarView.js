@@ -26,7 +26,7 @@ function drawPriceView(startYear, startMonth, startDay, endYear, endMonth, endDa
     var rowContainer;
     while (startDate <= endDate) {
         var currentStartDay = 1;
-        var currentEndDay = 1;
+        var currentEndDay = getLastDayOfMonth(startYear, startMonth).getDate();;
 
         if(!(count%2)){
             rowContainer = $("<div/>").addClass("row calendar-month-row");
@@ -49,16 +49,11 @@ function drawPriceView(startYear, startMonth, startDay, endYear, endMonth, endDa
 
         if (startYear == startDate.getFullYear() && startMonth == startDate.getMonth()){
             currentStartDay = startDay;
-            currentEndDay = getLastDayOfMonth(startYear, startMonth).getDate();
         }
-        else if (endYear == startDate.getFullYear() && endMonth == startDate.getMonth()){
-                currentStartDay = 1;
+        if (endYear == startDate.getFullYear() && endMonth == startDate.getMonth()){
                 currentEndDay = endDay;
         }
-        else {
-                currentStartDay = 1;
-                currentEndDay = getLastDayOfMonth(startDate.getFullYear(), startDate.getMonth()).getDate();
-        }
+
         setCalendar(monthContainer, startDate.getFullYear(), startDate.getMonth(), currentStartDay, currentEndDay, priceList);
         startDate.setMonth(startDate.getMonth() + 1);
         count++;
