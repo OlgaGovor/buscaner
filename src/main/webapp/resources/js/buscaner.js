@@ -15,8 +15,6 @@ function initForm() {
         saveFormDataOnSearch();
         $('#dateSlider').empty();
         $('#resultTable').empty();
-        $('#messageBox').empty();
-        $('#messageBox').hide();
         searchData();
     });
     $("#swapCities").click(function () {
@@ -58,7 +56,10 @@ function initDatePickers() {
     $("#departureDateEnd").datepicker('setDate', new Date());
 
     $("#departureDate").on("changeDate", function (e) {
+        var date = new Date(e.date.getTime());
+        date.setMonth(date.getMonth() +1);
         $('#departureDateEnd').datepicker('setStartDate', e.date);
+        $('#departureDateEnd').datepicker('setEndDate', date);
         if ($('#scanForPeriod').prop("checked")) {
             $('#departureDateEnd').datepicker("show");
         }
@@ -166,6 +167,8 @@ function setDatePickerValue(datePicker, date) {
 }
 
 function searchData() {
+    $('#messageBox').empty();
+    $('#messageBox').hide();
     var form = $('#requestForm');
     var url = form.attr("action");
     var formData = $(form).serializeArray();
