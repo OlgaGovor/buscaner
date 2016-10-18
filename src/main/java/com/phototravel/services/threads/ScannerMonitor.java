@@ -20,15 +20,21 @@ public class ScannerMonitor {
 
     private Thread monitorThread;
     private boolean stop;
-    private boolean sleep;
+    Object monitorObj = new Object();
 
     public void stopMonitor() {
         stop = true;
     }
 
-    public void startMonitor() {
-        stop = false;
-        runMonitorThread();
+    public synchronized void startMonitor() {
+
+        if (monitorThread == null || !monitorThread.isAlive()) {
+            stop = false;
+            runMonitorThread();
+        } else {
+            resumeMonitorThread();
+        }
+
     }
 
     public boolean isScanInProgress() {
@@ -36,12 +42,14 @@ public class ScannerMonitor {
     }
 
     public void pauseMonitorThread() {
-        sleep = true;
+
     }
 
     public void resumeMonitorThread() {
-        sleep = false;
-        this.notify();
+
+        synchronized (monitorObj) {
+            monitorObj.notify();
+        }
     }
 
     private void runMonitorThread() {
@@ -49,15 +57,7 @@ public class ScannerMonitor {
             public void run() {
                 while (!stop) {
 
-                    if (sleep) {
-                        synchronized (this) {
-                            try {
-                                this.wait();
-                            } catch (InterruptedException e) {
-                                e.printStackTrace();
-                            }
-                        }
-                    }
+
 
                     int count = taskExecutor.getActiveCount();
 
@@ -67,18 +67,28 @@ public class ScannerMonitor {
                             " Done BusScannerTask count: " + taskExecutor.getThreadPoolExecutor().getCompletedTaskCount() +
                             " Queue size: " + taskExecutor.getThreadPoolExecutor().getQueue().size());
                     logger.info(dbWriterService.getStatistics());
-                    try {
-                        Thread.sleep(500);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
+
                     if (count == 0 && !dbWriterService.isStarted()) {
-                        stopMonitor();
-                        logger.info("Monitor stop");
-                        break;
+                        synchronized (monitorObj) {
+                            try {
+                                logger.info("Monitor sleep until events");
+                                monitorObj.wait();
+                                logger.info("Monitor awaken");
+                            } catch (InterruptedException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    } else {
+                        try {
+                            logger.info("Monitor sleep for 500ms");
+                            Thread.sleep(500);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
                     }
 
                 }
+                stop = false;
             }
 
         };

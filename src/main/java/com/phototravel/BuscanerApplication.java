@@ -75,8 +75,9 @@ public class BuscanerApplication extends WebMvcConfigurerAdapter {
 	public ThreadPoolTaskExecutor taskExecutor() {
 		ThreadPoolTaskExecutor pool = new ThreadPoolTaskExecutor();
 
-		pool.setCorePoolSize(10);
+		pool.setCorePoolSize(5);
 		pool.setMaxPoolSize(10);
+		pool.setKeepAliveSeconds(60);
 		pool.setWaitForTasksToCompleteOnShutdown(true);
 		return pool;
 	}

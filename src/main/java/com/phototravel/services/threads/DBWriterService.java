@@ -54,7 +54,7 @@ public class DBWriterService {
     }
 
     public boolean isStarted() {
-        return !stop;
+        return !stop && !(writerThread.getState() == Thread.State.WAITING);
     }
 
     public String getStatistics() {
@@ -63,8 +63,7 @@ public class DBWriterService {
                 " saved rows count: " + savedRowsCount;
     }
 
-    public void startService() {
-
+    public synchronized void startService() {
         if (writerThread == null || !writerThread.isAlive()) {
             stop = false;
             runThread();
@@ -84,12 +83,13 @@ public class DBWriterService {
                         try {
                             synchronized (monitor) {
                                 logger.info("No rows in queue - waiting");
+                                scannerMonitor.pauseMonitorThread();
                                 monitor.wait();
                             }
                         } catch (InterruptedException e) {
                             e.printStackTrace();
                         }
-                        scannerMonitor.pauseMonitorThread();
+
                     }
 
                     logger.info("try to take row");
