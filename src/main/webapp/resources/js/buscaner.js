@@ -445,8 +445,9 @@ function setupEnv() {
             if (jqXHR.status == 404) {
                 $("#messageBox").html("server not found");
             } else {
-                $("#messageBox").html("Error: " + textStatus + ": " + errorThrown);
+                $("#messageBox").html(textStatus + ": " + errorThrown + ": " + jqXHR.responseJSON.exception + ": " + jqXHR.responseJSON.message);
             }
+            $('#messageBox').show();
         }
     });
 }
