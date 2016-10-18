@@ -1,3 +1,57 @@
+html, body {
+    width: 100%;
+    height: 100%;
+    display: table;
+    background-color: #69AFFF;
+}
+
+.container {
+    background-color: #69AFFF;
+}
+
+.main-container {
+    height: 95%;
+}
+
+.footer-container {
+    height: 5%;
+}
+
+body {
+    display: table-cell;
+    vertical-align: middle;
+}
+
+#header-block {
+    margin-bottom: 10px;
+    background-color: #FFFFFF;
+}
+
+#request-form-block {
+    background-color: #FFFFFF;
+    margin-bottom: 10px;
+    padding: 5px;
+}
+
+#dateSlider, #resultTable {
+    background-color: #FFFFFF;
+    margin-bottom: 5px;
+
+}
+
+#messageBox {
+    text-align: center;
+    display: none;
+}
+
+#footer-block {
+    background-color: #FFFFFF;
+    height: 100%;
+}
+
+.result-list-container {
+    padding: 5px;
+}
 
 .result-list {
     text-align: center;
@@ -41,8 +95,11 @@
     padding: 0;
 }
 
+.date-slider-container {
+    margin: 5px;
+}
 
-.before-date-slider{
+.before-date-slider {
     font-family: 'Glyphicons Halflings';
     content: "\e109";
     display: inline-block;
@@ -51,7 +108,8 @@
     cursor: pointer;
 
 }
-.after-date-slider{
+
+.after-date-slider {
     font-family: 'Glyphicons Halflings';
     content: "\e109";
     display: inline-block;
@@ -60,6 +118,7 @@
     cursor: pointer;
 
 }
+
 .date-slider-block {
     padding: 0;
     width: 6%;
@@ -80,22 +139,6 @@
     float: none;
     /* reset the text-align */
     text-align: left;
-}
-
-/* centering styles for jsbin */
-html,
-body {
-    width: 100%;
-    height: 100%;
-}
-
-html {
-    display: table;
-}
-
-body {
-    display: table-cell;
-    vertical-align: middle;
 }
 
 .progress-bar-vertical {
@@ -122,6 +165,11 @@ body {
     top: -2px;
 }
 
+.swap-icon {
+    transform: rotate(90deg);
+    webkit-transform: rotate(90deg);
+    -ms-transform: rotate(90deg);
+}
 
 /*loading icon animation*/
 .glyphicon-refresh-animate {
@@ -130,11 +178,19 @@ body {
 }
 
 @-webkit-keyframes spin2 {
-    from { -webkit-transform: rotate(0deg);}
-    to { -webkit-transform: rotate(360deg);}
+    from {
+        -webkit-transform: rotate(0deg);
+    }
+    to {
+        -webkit-transform: rotate(360deg);
+    }
 }
 
 @keyframes spin {
-    from { transform: scale(1) rotate(0deg);}
-    to { transform: scale(1) rotate(360deg);}
+    from {
+        transform: scale(1) rotate(0deg);
+    }
+    to {
+        transform: scale(1) rotate(360deg);
+    }
 }
