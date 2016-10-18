@@ -62,18 +62,19 @@
                             <div class="col-sm-3">
                                 <label for="fromCity" th:text="#{form.fromCity.label}"> From </label>
                                 <select id="fromCity" th:field="*{fromCity}" class="form-control selectpicker"
-                                        data-live-search="true"
+                                        title="Choose city"
                                         initial="true">
                                     <option th:each="city: ${cities}" th:value="${city.cityId}"
                                             th:text="${city.cityName}"></option>
                                 </select>
 
                             </div>
-                            <div class="col-sm-1 btn glyphicon glyphicon-sort"/>
+                            <div class="col-sm-1 btn glyphicon glyphicon-sort" id="swapCities"/>
                             <div class="col-sm-3">
                                 <label for="toCity" th:text="#{form.toCity.label}"> To </label>
                                 <select id="toCity" th:field="*{toCity}" class="form-control selectpicker"
-                                        data-live-search="true">
+                                        title="Choose city"
+                                        >
                                     <option th:each="city: ${cities}" th:value="${city.cityId}"
                                             th:text="${city.cityName}"></option>
                                 </select>
@@ -126,7 +127,7 @@
                             <div class="col-lg-4">
 
                             </div>
-                            <div class="col-lg-2">
+                            <div class="col-sm-2">
                                 <!--<input type="submit" class="btn btn-info form-control" value="Search"/>-->
                                 <button id="searchButton" name="searchButton" class="btn btn-primary form-control"
                                         type="button">

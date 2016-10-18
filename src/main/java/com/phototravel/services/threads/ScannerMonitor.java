@@ -20,6 +20,7 @@ public class ScannerMonitor {
 
     private Thread monitorThread;
     private boolean stop;
+    private boolean sleep;
 
     public void stopMonitor() {
         stop = true;
@@ -34,10 +35,29 @@ public class ScannerMonitor {
         return !stop;
     }
 
+    public void pauseMonitorThread() {
+        sleep = true;
+    }
+
+    public void resumeMonitorThread() {
+        sleep = false;
+        this.notify();
+    }
+
     private void runMonitorThread() {
         Runnable monitor = new Runnable() {
             public void run() {
                 while (!stop) {
+
+                    if (sleep) {
+                        synchronized (this) {
+                            try {
+                                this.wait();
+                            } catch (InterruptedException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    }
 
                     int count = taskExecutor.getActiveCount();
 
@@ -52,7 +72,7 @@ public class ScannerMonitor {
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
-                    if (count == 0) {
+                    if (count == 0 && !dbWriterService.isStarted()) {
                         stopMonitor();
                         logger.info("Monitor stop");
                         break;

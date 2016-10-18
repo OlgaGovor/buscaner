@@ -24,6 +24,9 @@ public class DBWriterService {
     @Autowired
     PriceService priceService;
 
+    @Autowired
+    ScannerMonitor scannerMonitor;
+
 
     public void addToQueue(QueuedItemContainer<Price> priceContainer) throws InterruptedException {
         logger.info("addToQueue " + priceContainer.getItem());
@@ -33,6 +36,7 @@ public class DBWriterService {
         synchronized (monitor) {
             monitor.notifyAll();
         }
+        scannerMonitor.resumeMonitorThread();
     }
 
     public QueuedItemContainer<Price> take() throws InterruptedException {
@@ -85,6 +89,7 @@ public class DBWriterService {
                         } catch (InterruptedException e) {
                             e.printStackTrace();
                         }
+                        scannerMonitor.pauseMonitorThread();
                     }
 
                     logger.info("try to take row");
