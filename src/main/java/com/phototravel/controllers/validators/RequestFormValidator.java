@@ -46,6 +46,10 @@ public class RequestFormValidator {
             return "requestFormValidation.dateBeforeNow";
         }
 
+        if (requestForm.isScanForPeriod() && requestForm.getDepartureDateEndAsLocalDate().isBefore(requestForm.getDepartureDateAsLocalDate())) {
+            return "requestFormValidation.invalidRequestForm";
+        }
+
 
         if (requestForm.isScanForPeriod()
                 && ChronoUnit.DAYS.between(requestForm.getDepartureDateAsLocalDate(), requestForm.getDepartureDateEndAsLocalDate()) > 31
