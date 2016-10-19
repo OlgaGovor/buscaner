@@ -189,9 +189,13 @@ function drawCalendar(container, year, month, startDate, endDate, priceList) {
                 }
                 if(!priceFound){
                     $(calendarCell).append(buildCalendarCell(date));
-                    $(calendarCell).click(function () {
-                        onDayClicked(this);
-                    });
+                     var today = new Date();
+                         today.setHours(0,0,0,0);
+                     if (date >= today)  {
+                        $(calendarCell).click(function () {
+                            onDayClicked(this);
+                        });
+                    }
                 }
                 currentDay++;
             }
@@ -203,6 +207,8 @@ function drawCalendar(container, year, month, startDate, endDate, priceList) {
 }
 
 function buildCalendarCell(date, price) {
+    var today = new Date();
+     today.setHours(0,0,0,0);
     var cell = $('<div/>')
         .addClass("dataContainer")
         .attr("date", dateToStr(date));
@@ -219,7 +225,7 @@ function buildCalendarCell(date, price) {
             .text(price.price + ' ' + price.currency);
         $(cell).append(priceContainer);
     }
-    else {
+    else if (date >= today)  {
         var iconContainer = $("<p/>")
             .addClass("search-icon-container");
         var icon = $("<span/>")
