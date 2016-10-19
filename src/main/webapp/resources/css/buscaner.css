@@ -49,85 +49,9 @@ body {
     height: 100%;
 }
 
-.result-list-container {
-    padding: 5px;
-}
 
-.result-list {
-    text-align: center;
-    padding: 0;
-    margin-left: 0;
-    margin-right: 0;
-    cursor: pointer;
-}
 
-.result-list-content {
-    padding: 5px;
-}
 
-.price-box {
-    border-left: 1px solid #d6d9dd;
-
-}
-
-.price {
-    font-size: 120%;
-    color: #00bd68;
-
-}
-
-.last-update-time {
-    font-size: 70%;
-    padding: 2px;
-}
-
-.price-bar {
-    height: 50%;
-    background-color: #428bca;
-}
-
-.line {
-    height: 2px;
-    width: 93%;
-    background-color: #00bd68;
-    margin: 5px auto;
-    position: relative;
-    padding: 0;
-}
-
-.date-slider-container {
-    margin: 5px;
-}
-
-.before-date-slider {
-    font-family: 'Glyphicons Halflings';
-    content: "\e109";
-    display: inline-block;
-    font-size: 42px;
-    color: #00bd68;
-    cursor: pointer;
-
-}
-
-.after-date-slider {
-    font-family: 'Glyphicons Halflings';
-    content: "\e109";
-    display: inline-block;
-    font-size: 42px;
-    color: #00bd68;
-    cursor: pointer;
-
-}
-
-.date-slider-block {
-    padding: 0;
-    width: 6%;
-    cursor: pointer;
-}
-
-.date-slider-block-selected-date {
-    background-color: #c1daff;
-}
 
 /* centered columns styles */
 .row-centered {
@@ -141,23 +65,6 @@ body {
     text-align: left;
 }
 
-.progress-bar-vertical {
-    width: 20px;
-    min-height: 50px;
-    display: inline-flex;
-    align-items: flex-end;
-    border-radius: 0 0 0 0;
-    margin: 0;
-
-}
-
-.progress-bar-vertical .progress-bar {
-    width: 100%;
-    height: 0;
-    -webkit-transition: height 0.6s ease;
-    -o-transition: height 0.6s ease;
-    transition: height 0.6s ease;
-}
 
 .refresh-icon {
     width: 100%;

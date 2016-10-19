@@ -1,0 +1,55 @@
+.result-list-container {
+    padding: 5px;
+}
+
+.result-list-filter-panel {
+    padding: 5px;
+}
+
+.result-list-element {
+    text-align: center;
+    padding: 0;
+    margin-left: 0;
+    margin-right: 0;
+    cursor: pointer;
+    border: #999;
+    border-width: thin;
+    border-style: solid;
+}
+
+.result-list-route-info-block {
+
+}
+
+.result-list-content {
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+
+.result-list-price-block {
+    border-left: 1px solid #d6d9dd;
+}
+@media all and (max-width: 768px){
+.result-list-price-block div {
+    display: inline-block;
+}
+}
+
+.result-list-price{
+    font-size: 120%;
+    color: #00bd68;
+}
+
+.last-update-time {
+    font-size: 70%;
+    padding: 2px;
+}
+
+.line {
+    height: 2px;
+    width: 93%;
+    background-color: #00bd68;
+    margin: 5px auto;
+    position: relative;
+    padding: 0;
+}

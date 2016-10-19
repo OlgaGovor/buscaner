@@ -8,6 +8,8 @@
     <link href="resources/css/bootstrap-select.min.css" rel="stylesheet"/>
     <link href="resources/css/buscaner.css" rel="stylesheet"/>
     <link href="resources/css/calendarView.css" rel="stylesheet"/>
+    <link href="resources/css/listView.css" rel="stylesheet"/>
+    <link href="resources/css/dateSlider.css" rel="stylesheet"/>
     <link href="resources/css/datepicker.css" rel="stylesheet"/>
 
     <script src="resources/js/buscaner.js"></script>
@@ -71,15 +73,15 @@
                 </div>
 
                 <div class="row">
-                    <div class="col-sm-2"></div>
-                    <div class="input-append date col-sm-3 form-group" id="datepicker">
+
+                    <div class="col-sm-3 col-md-offset-2" id="datepicker">
                         <label for="departureDate" th:text="#{form.fromDate.label}">Start date for
                             search</label>
                         <input class="form-control span2 pull-left" id="departureDate" type="text"
                                th:field="*{departureDate}" size="16"/>
                     </div>
 
-                    <div class="input-append date col-sm-3 col-md-offset-1" id="datepickerEnd">
+                    <div class="col-sm-3 col-sm-offset-1" id="datepickerEnd">
                         <label for="departureDateEnd" th:text="#{form.toDate.label}">End date for search</label>
                         <input class="form-control span2 pull-left" id="departureDateEnd" type="text"
                                th:field="*{departureDateEnd}" disabled="disabled"/>

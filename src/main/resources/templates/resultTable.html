@@ -11,8 +11,8 @@
 
     <div th:if="${resultDetailsList != null}">
 
-        <div class="row">
-            <div class="col-lg-2 col-lg-offset-10">
+        <div class="row result-list-filter-panel">
+            <div class="col-sm-2 col-sm-offset-10">
                 <div class="dropdown">
                     <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Sort By:
                         <span class="caret"></span></button>
@@ -29,64 +29,50 @@
         </div>
 
         <div class="row">
-            <div class="col-lg-12" id="resulList">
+            <div class="col-md-12" id="resulList">
 
 
-                <div class="row list-group-item result-list" th:each="price: ${resultDetailsList}"
+                <div class="row list-group-item result-list-element" th:each="price: ${resultDetailsList}"
                      th:attr="priceVal = ${price.price}, timeVal = ${price.departureTime}, buyurl = ${price.link}"
                      th:onclick="'javascript:buyTicket(\''+ ${price.link} +'\');'"
                         >
 
-                    <div class="col-lg-8 result-list-content">
-                        <div class="col-xs-5">
-                            <div class="row" th:text="${price.fromDestination}">
-                            </div>
-                            <div class="row" th:text="${price.departureDate} + ' ' + ${price.departureTime}">
-                            </div>
+                    <div class="col-sm-10 col-xs-12 result-list-route-info-block">
+                        <div class="col-xs-4">
+
+                            <div class="" th:text="${price.fromDestination}"></div>
+                            <div class="" th:text="${price.departureDate} + ' ' + ${price.departureTime}"></div>
+
 
                         </div>
-                        <div class="col-xs-2 result-list-content">
-                            <div class="row" th:text="${price.duration}">
-                            </div>
-                            <div class="row line">
+                        <div class="col-xs-1 result-list-content">
 
-                            </div>
+                            <div class="" th:text="${price.duration}"></div>
+                            <div class="line"></div>
+
                         </div>
-                        <div class="col-xs-5 result-list-content">
-                            <div class="row" th:text="${price.toDestination}">
-                            </div>
-                            <div class="row" th:text="${price.arrivalTime}">
-                            </div>
+                        <div class="col-xs-4 result-list-content">
+
+                            <div class="" th:text="${price.toDestination}"></div>
+                            <div class="" th:text="${price.arrivalTime}"></div>
+
                         </div>
+                        <div class="col-xs-1 result-list-content" th:text="${price.company}">company</div>
                     </div>
 
 
-                    <div class="col-xs-2 result-list-content" th:text="${price.company}">company</div>
+                    <div class="col-sm-2 col-xs-12  result-list-content result-list-price-block">
 
+                        <div class="result-list-price" th:text="${price.price} + ' ' + ${price.currency}"></div>
 
-                    <div class="col-xs-2 result-list-content price-box">
-                        <div class="row price">
-                            <div class="col-xs-3 col-xs-offset-1">
-                                <div th:text="${price.price}" style="text-align: right;"></div>
-                            </div>
-                            <div class="col-xs-3">
-                                <div th:text="${price.currency}" style="text-align: left;"></div>
-                            </div>
-                            <div class="col-xs-5"></div>
-                        </div>
-                        <div class="row">
-                            <div class="col-xs-6 col-xs-offset-3">
-                                <button class="btn btn-primary btn-sm" id="buyTicket"
+                        <div class="btn btn-primary btn-sm" id="buyTicket"
                                         onclick="buyTicket($().parent('li').attr('buyurl'));"
                                         type="button">
                                     Buy ticket
-                                </button>
-                            </div>
                         </div>
-                        <div class="row text-info">
-                            <div class="col-xs-12 last-update-time"
-                                 th:text="'Last Update:' + ${price.lastUpdate}"></div>
-                        </div>
+
+                        <div class="last-update-time" th:text="'Last Update:' + ${price.lastUpdate}"></div>
+
                     </div>
 
 
@@ -95,7 +81,7 @@
 
             </div>
         </div>
-        <div class="row">
+        <div class="row result-list-filter-panel">
             <div class="col-lg-2 col-lg-offset-5">
 
                 <button id="updateData" onclick="updateData();" type="button" class="btn btn-primary">
