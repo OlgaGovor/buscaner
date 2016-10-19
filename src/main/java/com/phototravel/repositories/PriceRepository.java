@@ -34,7 +34,8 @@ public interface PriceRepository extends CrudRepository<Price, Integer> {
             " join price p on p.route_id = r.route_id\n" +
             " where r.from_city_id= :fromCity " +
             " and r.to_city_id= :toCity " +
-            " and p.departure_date = date(:departureDate) "
+            " and p.departure_date = date(:departureDate) " +
+            " order by departure_time"
             , nativeQuery = true
     )
     List<Price> findBusForDay(@Param("fromCity") int fromCityId,
