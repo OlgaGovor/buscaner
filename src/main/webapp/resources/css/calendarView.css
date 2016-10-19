@@ -1,5 +1,7 @@
 .calendar-container{
     width:100%;
+    padding-top: 5px;
+    padding-bottom: 5px;
 }
 .calendar-month-row{
 }
@@ -93,4 +95,23 @@
 
 .notSelectedRange{
 
+}
+
+.calendar-btn-prev {
+    position: absolute;
+    height: 30px;
+}
+
+.calendar-btn-next {
+    position: absolute;
+    height: 30px;
+    right: 20px;
+}
+
+.btn-sm.disabled{
+    cursor: not-allowed;
+    filter: alpha(opacity=65);
+    -webkit-box-shadow: none;
+    box-shadow: none;
+    opacity: .65;
 }

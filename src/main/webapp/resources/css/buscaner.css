@@ -33,7 +33,7 @@ body {
     padding: 5px;
 }
 
-#dateSlider, #resultTable {
+#dateSlider, #resultTable, #calendar {
     background-color: #FFFFFF;
     margin-bottom: 5px;
 

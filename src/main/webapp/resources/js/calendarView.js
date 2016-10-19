@@ -30,9 +30,9 @@ function drawPriceView(startYear, startMonth, startDay, endYear, endMonth, endDa
 
         if(!(count%2)){
             rowContainer = $("<div/>").addClass("row calendar-month-row");
-        rowContainer.addClass("count"+count);
         $("#calendar").append(rowContainer);
         }
+
 
         var monthContainer = $("<div/>");
         $(monthContainer).addClass("col-md-6 calendar-month-item");
@@ -43,6 +43,28 @@ function drawPriceView(startYear, startMonth, startDay, endYear, endMonth, endDa
         }
         else{
             $(monthContainer).addClass("col1");
+        }
+
+        if(count == 0){
+            var prevBtn = $("<div/>")
+                         .addClass("btn-sm btn-primary calendar-btn-prev")
+                         .text("<-prev");
+
+
+            if (startYear <= new Date().getFullYear() && startMonth <= new Date().getMonth()){
+                $(prevBtn).addClass("disabled");
+            }
+            else {
+                $(prevBtn).click(function () {onPrevClick();})
+            }
+            $(monthContainer).append(prevBtn);
+        }
+        if(count == 1 || (endYear == startDate.getFullYear() && endMonth == startDate.getMonth())){
+            var nextBtn = $("<div/>")
+                         .addClass("btn-sm btn-primary calendar-btn-next")
+                         .text("next->")
+                         .click(function () {onNextClick();});
+            $(monthContainer).append(nextBtn);
         }
 
 
@@ -61,26 +83,12 @@ function drawPriceView(startYear, startMonth, startDay, endYear, endMonth, endDa
 
 }
 
-function showPrevNextButtons(startYear, startMonth, priceList) {
-    var text = " <button type='button' id='prevBtn'  onclick=\"onPrevClick(" + startYear + "," + (startMonth - 1) + ")\">prev</button>" +
-        " <button type='button' id='nextBtn' onclick=\"onNextClick(" + startYear + "," + (startMonth + 1) + ")\">next</button>";
-    return text;
-}
-
-function onPrevClick(year, month, priceList) {
-    if (month < 0) {
-        year = year - 1;
-        month = 11;
-    }
-    //setMultiMonthView(year, month, priceList);
+function onPrevClick() {
+    alert("prev");
 }
 
 function onNextClick(year, month, priceList) {
-    if (month > 11) {
-        year = year + 1;
-        month = 0;
-    }
-    // setMultiMonthView(year, month, priceList);
+    alert("next");
 }
 
 
