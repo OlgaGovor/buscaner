@@ -26,7 +26,10 @@ function initDateEndField() {
     if ($('#scanForPeriod').prop("checked")) {
         $('#departureDateEnd').removeAttr('disabled');
         setDatePickerValue("departureDateEnd", strToDate(localStorage.getItem('requestForm.departureDateEnd')));
-        // $('#departureDateEnd').datepicker("show");
+        var date = strToDate($('#departureDate').val());
+        date.setMonth(date.getMonth() +1);
+        $('#departureDateEnd').datepicker('setStartDate', strToDate($('#departureDate').val()));
+        $('#departureDateEnd').datepicker('setEndDate', date);
     }
     else {
         $('#departureDateEnd').attr('disabled', true);
@@ -56,18 +59,16 @@ function initDatePickers() {
     $("#departureDateEnd").datepicker('setDate', new Date());
 
     $("#departureDate").on("changeDate", function (e) {
-        var date = new Date(e.date.getTime());
-        date.setMonth(date.getMonth() +1);
-        $('#departureDateEnd').datepicker('setStartDate', e.date);
-        $('#departureDateEnd').datepicker('setEndDate', date);
+
         if ($('#scanForPeriod').prop("checked")) {
+            initDateEndField();
             $('#departureDateEnd').datepicker("show");
-        }
+            }
     });
 
-    $("#departureDateEnd").on("changeDate", function (e) {
+  /*  $("#departureDateEnd").on("changeDate", function (e) {
         $('#departureDate').datepicker('setEndDate', e.date);
-    });
+    });*/
 }
 
 function initSelectpickers() {
