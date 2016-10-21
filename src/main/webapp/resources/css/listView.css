@@ -47,9 +47,57 @@
 
 .line {
     height: 2px;
-    width: 93%;
+    width: 60%;
     background-color: #00bd68;
     margin: 5px auto;
     position: relative;
     padding: 0;
+    display: inline-block;
+}
+.line-arrow {
+  width: 0;
+  height: 0;
+  border-top: 7px solid transparent;
+  border-bottom: 7px solid transparent;
+  border-left: 7px solid #00bd68;
+  display: inline-block;
+}
+.line1::after {
+    font-family: 'Glyphicons Halflings';
+    content: "\e092"; /*glyphicon-arrow-right*/
+
+}
+
+
+.destination-block{
+
+}
+
+.date-block{
+
+}
+
+.time-block{
+    color: #69AFFF;
+    font-weight: 700;
+    font-size: 16px;
+}
+
+.duration-block{
+    color: #a9a9a9;
+    font-weight: 700;
+    font-size: 16px;
+}
+.duration-block::after {
+    font-family: 'Glyphicons Halflings';
+    content: "\e092"; /*glyphicon-arrow-right*/
+    color: #a9a9a9;
+    font-size: 13px;
+}
+
+.duration-block::before {
+    font-family: 'Glyphicons Halflings';
+    content: "\e092"; /*glyphicon-arrow-right*/
+    color: #a9a9a9;
+    font-size: 13px;
 }

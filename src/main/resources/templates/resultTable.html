@@ -12,7 +12,7 @@
     <div th:if="${resultDetailsList != null}">
 
         <div class="row result-list-filter-panel">
-            <div class="col-sm-2 col-sm-offset-10">
+            <div class="col-sm-2 col-xs-offset-10">
                 <div class="dropdown">
                     <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Sort By:
                         <span class="caret"></span></button>
@@ -38,26 +38,32 @@
                         >
 
                     <div class="col-sm-10 col-xs-12 result-list-route-info-block">
-                        <div class="col-xs-4">
+                        <div class="row">
 
-                            <div class="" th:text="${price.fromDestination}"></div>
-                            <div class="" th:text="${price.departureDate} + ' ' + ${price.departureTime}"></div>
+                            <div class="col-xs-4 result-list-content">
 
+                                <div class="time-block" th:text="${price.departureTime}"></div>
+                                <div class="destination-block" th:text="${price.fromDestination}"></div>
+                                <div class="date-block" th:text="${price.departureDate}"></div>
 
                         </div>
+
                         <div class="col-xs-1 result-list-content">
 
-                            <div class="" th:text="${price.duration}"></div>
-                            <div class="line"></div>
+                            <div class="duration-block" th:text="${price.duration}"></div>
+
 
                         </div>
+
                         <div class="col-xs-4 result-list-content">
 
-                            <div class="" th:text="${price.toDestination}"></div>
-                            <div class="" th:text="${price.arrivalTime}"></div>
+                            <div class="time-block" th:text="${price.arrivalTime}"></div>
+                            <div class="destination-block" th:text="${price.toDestination}"></div>
 
                         </div>
-                        <div class="col-xs-1 result-list-content" th:text="${price.company}">company</div>
+
+                            <div class="col-xs-1 result-list-content" th:text="${price.company}">company</div>
+                        </div>
                     </div>
 
 
@@ -82,7 +88,7 @@
             </div>
         </div>
         <div class="row result-list-filter-panel">
-            <div class="col-lg-2 col-lg-offset-5">
+            <div class="col-xs-2 col-xs-offset-5">
 
                 <button id="updateData" onclick="updateData();" type="button" class="btn btn-primary">
                     Update Data
