@@ -13,7 +13,7 @@ function getFirstAllowedDayOfMonth(year, month) {
 }
 
 //Функция выбор кол-ва отображаемых месяцев с последующей прорисовкой календаря
-function drawPriceView(requestForm, priceList) {
+function drawPriceView(requestForm, priceList, prevButtonName, nextButtonName) {
 
     var result = "";
     $("#calendar").find("div").remove();
@@ -50,7 +50,7 @@ function drawPriceView(requestForm, priceList) {
         if (count == 0) {
             var prevBtn = $("<div/>")
                 .addClass("btn-sm btn-primary calendar-btn-prev")
-                .text("<-prev");
+                .text(prevButtonName);
 
 
             if (currentDate.getFullYear() <= new Date().getFullYear() && currentDate.getMonth() <= new Date().getMonth()) {
@@ -66,7 +66,7 @@ function drawPriceView(requestForm, priceList) {
         if (count == 1 || (endDate.getFullYear() == currentDate.getFullYear() && endDate.getMonth() == currentDate.getMonth())) {
             var nextBtn = $("<div/>")
                 .addClass("btn-sm btn-primary calendar-btn-next")
-                .text("next->")
+                .text(nextButtonName)
                 .click(function () {
                     onPrevNextClick(requestForm, 1);
                 });

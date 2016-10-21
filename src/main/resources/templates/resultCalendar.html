@@ -15,8 +15,10 @@
 
 			var requestForm = [[${requestForm}]]
 			var priceList = [[${resultDetailsList}]];
+			var prevButtonName = [[#{view.calendar.prevBtn.label}]];
+			var nextButtonName = [[#{view.calendar.nextBtn.label}]];
 
-			drawPriceView(requestForm, priceList);
+			drawPriceView(requestForm, priceList, prevButtonName, nextButtonName);
 		});
 	</script>
 

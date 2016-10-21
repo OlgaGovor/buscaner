@@ -181,12 +181,13 @@ function searchDataByForm(requestForm) {
     var url = $('#requestForm').attr("action");
     var callback = function (data) {
         $('#resultTable').html(data);
+        if (!$('#scanForPeriod').prop("checked")) {
+            fillDateSlider();
+        }
     };
     loadData(requestForm, url, callback);
 
-    if (!$('#scanForPeriod').prop("checked")) {
-        fillDateSlider();
-    }
+
 }
 
 function searchData() {
