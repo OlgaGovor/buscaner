@@ -61,7 +61,17 @@ public class FindBusService {
     public List<ResultDetails> findBus(RequestForm requestForm, ResultDetails.ViewType viewType) {
         logger.info("findBus: " + requestForm);
 
-        if (requestForm.isScanForPeriod()) {
+        if (viewType == ResultDetails.ViewType.CALENDAR) {
+            RequestForm monthRequest = new RequestForm();
+            monthRequest.setFromCity(requestForm.getFromCity());
+            monthRequest.setToCity(requestForm.getToCity());
+            monthRequest.setScanForPeriod(requestForm.isScanForPeriod());
+
+            monthRequest.setDepartureDate(requestForm.getDepartureDateAsLocalDate().withDayOfMonth(1));
+            LocalDate departureDateEnd = requestForm.getDepartureDateEndAsLocalDate();
+            monthRequest.setDepartureDateEnd(departureDateEnd.withDayOfMonth(departureDateEnd.lengthOfMonth()));
+            return findBusForPeriod(monthRequest, viewType);
+        } else if (viewType == ResultDetails.ViewType.DATE_SLIDER) {
             return findBusForPeriod(requestForm, viewType);
         } else {
             return findBusForDay(requestForm);

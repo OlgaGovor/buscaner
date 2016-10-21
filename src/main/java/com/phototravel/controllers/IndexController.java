@@ -22,9 +22,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import java.time.LocalDate;
-import java.time.ZoneId;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -111,21 +108,10 @@ public class IndexController {
         }
 
         if (requestForm.isScanForPeriod()) {
+            model.addAttribute("requestForm", requestForm);
             viewName = "resultCalendar :: resultCalendar";
 
-            Date date1 = requestForm.getDepartureAsDate();
-            Date date2 = requestForm.getDepartureEndAsDate();
-            LocalDate d1 = date1.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-            LocalDate d2 = date2.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
 
-
-            model.addAttribute("startYear", d1.getYear());
-            model.addAttribute("startMonth", d1.getMonthValue() - 1);
-            model.addAttribute("startDay", d1.getDayOfMonth());
-
-            model.addAttribute("endYear", d2.getYear());
-            model.addAttribute("endMonth", d2.getMonthValue() - 1);
-            model.addAttribute("endDay", d2.getDayOfMonth());
         } else {
             viewName = "resultTable :: resultList";
         }

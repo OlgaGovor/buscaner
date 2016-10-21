@@ -166,23 +166,37 @@ function setDatePickerValue(datePicker, date) {
     }
 }
 
-function searchData() {
+function loadData(requestForm, url, callback) {
     $('#messageBox').empty();
     $('#messageBox').hide();
-    var form = $('#requestForm');
-    var url = form.attr("action");
-    var formData = $(form).serializeArray();
-    $.post(url, formData).done(function (data) {
-        $('#resultTable').html(data);
 
-        if (!$('#scanForPeriod').prop("checked")) {
-            fillDateSlider();
-        }
+    $.post(url, requestForm).done(function (data) {
+        callback(data);
     });
+
+}
+
+function searchDataByForm(requestForm) {
+    $('#resultTable').empty();
+    var url = $('#requestForm').attr("action");
+    var callback = function (data) {
+        $('#resultTable').html(data);
+    };
+    loadData(requestForm, url, callback);
+
+    if (!$('#scanForPeriod').prop("checked")) {
+        fillDateSlider();
+    }
+}
+
+function searchData() {
+    var requestForm = $('#requestForm').serializeArray();
+    searchDataByForm(requestForm);
 }
 
 function fillDateSlider() {
     var daysRange = 6;
+    $('#dateSlider').empty();
 
     var form = $('#requestForm');
     var url = "/loadDateSlider";
@@ -201,11 +215,14 @@ function fillDateSlider() {
     formData["departureDate"] = dateToStr(departureDate);
     formData["departureDateEnd"] = dateToStr(departureDateEnd);
 
-    $.post(url, formData).done(function (data) {
+    var callback = function (data) {
         $('#dateSlider').html(data);
         updateSliderCurrentDate($('#dateSlider'), $('#departureDate').val());
         updateSliderWeekDays($('#dateSlider'));
-    });
+    };
+
+    loadData(formData, url, callback);
+
 }
 /*calculates the first date for date slider depends on current date*/
 function getFirstDateForSlider(selectedDate, daysRange) {
@@ -325,6 +342,31 @@ function updateData() {
         fillDateSlider();
     });
 
+}
+
+function getForm() {
+
+    var formData = {
+        fromCity: $('#fromCity').val(),
+        toCity: $('#toCity').val(),
+        departureDate: $('#departureDate').val(),
+        departureDateEnd: $('#departureDateEnd').val(),
+        scanForPeriod: $('#scanForPeriod').prop("checked")
+    }
+
+    return formData;
+
+}
+
+function setForm(formData) {
+    console.log(formData);
+    $('#fromCity').selectpicker('val', formData.fromCity);
+    $('#toCity').selectpicker('val', formData.toCity);
+    setDatePickerValue("departureDate", strToDate(formData.departureDate));
+    if (formData.scanForPeriod == 'true') {
+        $('#scanForPeriod').prop("checked", true);
+        setDatePickerValue("departureDateEnd", strToDate(formData.departureDateEnd));
+    }
 }
 
 
