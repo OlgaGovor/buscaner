@@ -12,15 +12,13 @@
 
 	<script type="text/javascript" th:inline="javascript">
 	    $(function() {
-            var startYear = [[${startYear}]];
-		    var startMonth = [[${startMonth}]];
-		    var startDay = [[${startDay}]];
-		    var endYear = [[${endYear}]];
-		    var endMonth = [[${endMonth}]];
-		    var endDay = [[${endDay}]];
-			var priceList = [[${resultDetailsList}]];
 
-			drawPriceView(startYear, startMonth, startDay, endYear, endMonth, endDay, priceList);
+			var requestForm = [[${requestForm}]]
+			var priceList = [[${resultDetailsList}]];
+			var prevButtonName = [[#{view.calendar.prevBtn.label}]];
+			var nextButtonName = [[#{view.calendar.nextBtn.label}]];
+
+			drawPriceView(requestForm, priceList, prevButtonName, nextButtonName);
 		});
 	</script>
 

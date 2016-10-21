@@ -74,6 +74,11 @@ public class RequestForm {
         this.departureDate = departureDate;
     }
 
+    public void setDepartureDate(LocalDate departureDate) {
+        this.departureDate = formatter.format(departureDate);
+    }
+
+
     public boolean isScanForPeriod() {
         return scanForPeriod;
     }
@@ -88,6 +93,10 @@ public class RequestForm {
 
     public void setDepartureDateEnd(String departureDateEnd) {
         this.departureDateEnd = departureDateEnd;
+    }
+
+    public void setDepartureDateEnd(LocalDate departureDateEnd) {
+        this.departureDateEnd = formatter.format(departureDateEnd);
     }
 
     @Override

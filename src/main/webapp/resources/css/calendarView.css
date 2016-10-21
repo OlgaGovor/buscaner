@@ -102,10 +102,20 @@
     height: 30px;
 }
 
+.calendar-btn-prev::before {
+    font-family: 'Glyphicons Halflings';
+    content: "\e091\00a0";
+}
+
 .calendar-btn-next {
     position: absolute;
     height: 30px;
     right: 20px;
+}
+
+.calendar-btn-next::after {
+    font-family: 'Glyphicons Halflings';
+    content: " \e092";
 }
 
 .btn-sm.disabled{

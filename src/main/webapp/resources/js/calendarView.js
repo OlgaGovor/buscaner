@@ -1,36 +1,38 @@
-function getLastDayOfMonth(year, month){
-    return new Date(year, month+1, 0);
+function getLastDayOfMonth(year, month) {
+    return new Date(year, month + 1, 0);
 }
 
-function getFirstAllowedDayOfMonth(year, month){
+function getFirstAllowedDayOfMonth(year, month) {
     var date = new Date(year, month, 1);
     var today = new Date();
-    today.setHours(0,0,0,0)
-    if(date < today){
+    today.setHours(0, 0, 0, 0)
+    if (date < today) {
         return today;
     }
     return date;
 }
 
 //Функция выбор кол-ва отображаемых месяцев с последующей прорисовкой календаря
-function drawPriceView(startYear, startMonth, startDay, endYear, endMonth, endDay, priceList) {
+function drawPriceView(requestForm, priceList, prevButtonName, nextButtonName) {
 
     var result = "";
     $("#calendar").find("div").remove();
     $("#calendar").addClass("calendar-container");
 
 
-    var startDate = new Date(startYear, startMonth, 1);
-    var endDate = new Date(endYear, endMonth, 1);
+    var startDate = strToDate(requestForm.departureDate);
+    startDate.setDate(1);
+    var endDate = strToDate(requestForm.departureDateEnd);
     var count = 0;
     var rowContainer;
-    while (startDate <= endDate) {
-        var currentStartDay = 1;
-        var currentEndDay = getLastDayOfMonth(startYear, startMonth).getDate();;
+    var currentDate = new Date(startDate.getTime());
+    while (currentDate <= endDate) {
+        var currentStartDay = 0;
+        var currentEndDay = 0;
 
-        if(!(count%2)){
+        if (!(count % 2)) {
             rowContainer = $("<div/>").addClass("row calendar-month-row");
-        $("#calendar").append(rowContainer);
+            $("#calendar").append(rowContainer);
         }
 
 
@@ -38,57 +40,91 @@ function drawPriceView(startYear, startMonth, startDay, endYear, endMonth, endDa
         $(monthContainer).addClass("col-md-6 calendar-month-item");
         $(rowContainer).append(monthContainer);
 
-        if(count%2){
+        if (count % 2) {
             $(monthContainer).addClass("col2");
         }
-        else{
+        else {
             $(monthContainer).addClass("col1");
         }
 
-        if(count == 0){
+        if (count == 0) {
             var prevBtn = $("<div/>")
-                         .addClass("btn-sm btn-primary calendar-btn-prev")
-                         .text("<-prev");
+                .addClass("btn-sm btn-primary calendar-btn-prev")
+                .text(prevButtonName);
 
 
-            if (startYear <= new Date().getFullYear() && startMonth <= new Date().getMonth()){
+            if (currentDate.getFullYear() <= new Date().getFullYear() && currentDate.getMonth() <= new Date().getMonth()) {
                 $(prevBtn).addClass("disabled");
             }
             else {
-                $(prevBtn).click(function () {onPrevClick();})
+                $(prevBtn).click(function () {
+                    onPrevNextClick(requestForm, -1);
+                })
             }
             $(monthContainer).append(prevBtn);
         }
-        if(count == 1 || (endYear == startDate.getFullYear() && endMonth == startDate.getMonth())){
+        if (count == 1 || (endDate.getFullYear() == currentDate.getFullYear() && endDate.getMonth() == currentDate.getMonth())) {
             var nextBtn = $("<div/>")
-                         .addClass("btn-sm btn-primary calendar-btn-next")
-                         .text("next->")
-                         .click(function () {onNextClick();});
+                .addClass("btn-sm btn-primary calendar-btn-next")
+                .text(nextButtonName)
+                .click(function () {
+                    onPrevNextClick(requestForm, 1);
+                });
             $(monthContainer).append(nextBtn);
         }
 
+        var pageRequestForm = getForm();
+        var pageDepartureDate = strToDate(pageRequestForm.departureDate)
+        var pageDepartureDateEnd = strToDate(pageRequestForm.departureDateEnd);
 
 
-        if (startYear == startDate.getFullYear() && startMonth == startDate.getMonth()){
-            currentStartDay = startDay;
+        if (currentDate.getFullYear() == pageDepartureDate.getFullYear()
+            && currentDate.getMonth() == pageDepartureDate.getMonth()
+            && currentDate.getFullYear() == pageDepartureDateEnd.getFullYear()
+            && currentDate.getMonth() == pageDepartureDateEnd.getMonth()) {
+            currentStartDay = strToDate(pageRequestForm.departureDate).getDate();
+            currentEndDay = strToDate(pageRequestForm.departureDateEnd).getDate();
         }
-        if (endYear == startDate.getFullYear() && endMonth == startDate.getMonth()){
-                currentEndDay = endDay;
+        else if (currentDate.getFullYear() == pageDepartureDate.getFullYear()
+            && currentDate.getMonth() == pageDepartureDate.getMonth()) {
+            currentStartDay = strToDate(pageRequestForm.departureDate).getDate();
+            currentEndDay = getLastDayOfMonth(currentDate.getFullYear(), currentDate.getMonth()).getDate()
+        }
+        else if (currentDate.getFullYear() == pageDepartureDateEnd.getFullYear()
+            && currentDate.getMonth() == pageDepartureDateEnd.getMonth()) {
+            currentStartDay = 1;
+            currentEndDay = strToDate(pageRequestForm.departureDateEnd).getDate();
         }
 
-        setCalendar(monthContainer, startDate.getFullYear(), startDate.getMonth(), currentStartDay, currentEndDay, priceList);
-        startDate.setMonth(startDate.getMonth() + 1);
+
+        setCalendar(monthContainer, currentDate.getFullYear(), currentDate.getMonth(), currentStartDay, currentEndDay, priceList);
+        currentDate.setMonth(currentDate.getMonth() + 1);
         count++;
     }
 
 }
 
-function onPrevClick() {
-    alert("prev");
-}
+function onPrevNextClick(requestForm, shift) {
+    var formData = getForm();
 
-function onNextClick(year, month, priceList) {
-    alert("next");
+    var depDate = strToDate(requestForm.departureDate);
+    var depDateEnd = strToDate(requestForm.departureDateEnd);
+
+
+    if (depDate.getFullYear() == depDateEnd.getFullYear()
+        && depDate.getMonth() == depDateEnd.getMonth()) {
+        depDateEnd.setMonth(depDateEnd.getMonth() + shift);
+        depDateEnd.setDate(1);
+        formData.departureDateEnd = dateToStr(depDateEnd);
+    }
+    else {
+        depDate.setMonth(depDate.getMonth() + shift);
+        depDateEnd.setMonth(depDateEnd.getMonth() + shift)
+        formData.departureDate = dateToStr(depDate);
+        formData.departureDateEnd = dateToStr(depDateEnd);
+    }
+
+    searchDataByForm(formData);
 }
 
 
@@ -177,29 +213,31 @@ function drawCalendar(container, year, month, startDate, endDate, priceList) {
                 $(calendarCell)
                     .addClass("currentMonth");
                 var date = new Date(year, month, currentDay);
-                if(date >= startDate && date<= endDate){
+                if (date >= startDate && date <= endDate) {
                     $(calendarCell).addClass("selectedRange");
                 }
-                else{
+                else {
                     $(calendarCell).addClass("notSelectedRange");
                 }
 
                 var priceFound = false;
-                for(var i =0; i < priceList.length; i++){
-                    if(date.getTime() == strToDate(priceList[i].departureDate).getTime()){
+                for (var i = 0; i < priceList.length; i++) {
+                    if (date.getTime() == strToDate(priceList[i].departureDate).getTime()) {
                         var cell = buildCalendarCell(date, priceList[i]);
                         $(calendarCell).append(cell);
-                        $(calendarCell).click(function(){onDayClicked(this);});
+                        $(calendarCell).click(function () {
+                            onDayClicked(this);
+                        });
                         $(calendarCell).addClass("cell-with-price");
                         priceFound = true;
                         break;
                     }
                 }
-                if(!priceFound){
+                if (!priceFound) {
                     $(calendarCell).append(buildCalendarCell(date));
-                     var today = new Date();
-                         today.setHours(0,0,0,0);
-                     if (date >= today)  {
+                    var today = new Date();
+                    today.setHours(0, 0, 0, 0);
+                    if (date >= today) {
                         $(calendarCell).click(function () {
                             onDayClicked(this);
                         });
@@ -216,7 +254,7 @@ function drawCalendar(container, year, month, startDate, endDate, priceList) {
 
 function buildCalendarCell(date, price) {
     var today = new Date();
-     today.setHours(0,0,0,0);
+    today.setHours(0, 0, 0, 0);
     var cell = $('<div/>')
         .addClass("dataContainer")
         .attr("date", dateToStr(date));
@@ -233,7 +271,7 @@ function buildCalendarCell(date, price) {
             .text(price.price + ' ' + price.currency);
         $(cell).append(priceContainer);
     }
-    else if (date >= today)  {
+    else if (date >= today) {
         var iconContainer = $("<p/>")
             .addClass("search-icon-container");
         var icon = $("<span/>")

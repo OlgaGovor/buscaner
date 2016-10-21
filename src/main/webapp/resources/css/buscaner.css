@@ -49,9 +49,10 @@ body {
     height: 100%;
 }
 
-
-
-
+.form-control {
+    margin-bottom: 2px;
+    margin-top: 2px;
+}
 
 /* centered columns styles */
 .row-centered {
