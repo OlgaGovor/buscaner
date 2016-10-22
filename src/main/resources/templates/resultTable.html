@@ -13,16 +13,20 @@
 
         <div class="row result-list-filter-panel">
             <div class="col-sm-2 col-xs-offset-10">
-                <div class="dropdown">
-                    <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Sort By:
+                <div class="dropdown" th:inline="text">
+                    <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">
+                        [[#{view.list.sortingBtn.label}]]
                         <span class="caret"></span></button>
                     <ul class="dropdown-menu">
-                        <li class="dropdown-header">Price:</li>
-                        <li><a href="#" onclick="sortResultList('priceVal', 'ASC')">ASC</a></li>
-                        <li><a href="#" onclick="sortResultList('priceVal', 'DESC')">DESC</a></li>
-                        <li class="dropdown-header">Time:</li>
-                        <li><a href="#" onclick="sortResultList('timeVal', 'ASC')">ASC</a></li>
-                        <li><a href="#" onclick="sortResultList('timeVal', 'DESC')">DESC</a></li>
+                        <li class="dropdown-header">[[#{view.list.sorting.price}]]</li>
+                        <li><a href="#" onclick="sortResultList('priceVal', 'ASC')">[[#{view.list.sorting.ASC}]]</a>
+                        </li>
+                        <li><a href="#" onclick="sortResultList('priceVal', 'DESC')">[[#{view.list.sorting.DESC}]]</a>
+                        </li>
+                        <li class="dropdown-header">[[#{view.list.sorting.time}]]</li>
+                        <li><a href="#" onclick="sortResultList('timeVal', 'ASC')">[[#{view.list.sorting.ASC}]]</a></li>
+                        <li><a href="#" onclick="sortResultList('timeVal', 'DESC')">[[#{view.list.sorting.DESC}]]</a>
+                        </li>
                     </ul>
                 </div>
             </div>
@@ -69,15 +73,17 @@
 
                     <div class="col-sm-2 col-xs-12  result-list-content result-list-price-block">
 
-                        <div class="result-list-price" th:text="${price.price} + ' ' + ${price.currency}"></div>
 
-                        <div class="btn btn-primary btn-sm" id="buyTicket"
+                        <div class="btn btn-success btn-md buy-btn" id="buyTicket"
+                             th:inline="text"
                                         onclick="buyTicket($().parent('li').attr('buyurl'));"
                                         type="button">
-                                    Buy ticket
+                            [[${price.price}]]
+                            <div class="result-list-price" th:text="${price.currency}"></div>
                         </div>
 
-                        <div class="last-update-time" th:text="'Last Update:' + ${price.lastUpdate}"></div>
+                        <div class="last-update-time"
+                             th:text="#{view.list.lastUpdate.label} + ${price.lastUpdate}"></div>
 
                     </div>
 
@@ -89,10 +95,18 @@
         </div>
         <div class="row result-list-filter-panel">
             <div class="col-xs-2 col-xs-offset-5">
-
-                <button id="updateData" onclick="updateData();" type="button" class="btn btn-primary">
-                    Update Data
+                <button id="updateData" name="updateData" class="btn btn-primary"
+                        type="button"
+                        onclick="updateData();"
+                        th:inline="text">
+                                    <span class="loadingIndicator glyphicon glyphicon-refresh glyphicon-refresh-animate"
+                                          style="display: none;"/>
+                    [[#{view.list.refreshBtn.label}]]
                 </button>
+
+                <!--   <button id="updateData" onclick="updateData();" type="button" class="btn btn-primary">
+                       Update Data
+                   </button>-->
             </div>
         </div>
     </div>

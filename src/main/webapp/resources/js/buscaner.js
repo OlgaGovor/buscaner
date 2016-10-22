@@ -478,11 +478,11 @@ function setupEnv() {
         beforeSend: function () {
             //$("#messageBox").html("loading...");
             //$("#messageBox").show();
-            $("#loadingIndicator").show();
+            $(".loadingIndicator").show();
         },
         complete: function () {
             //$("#messageBox").hide();
-            $("#loadingIndicator").hide();
+            $(".loadingIndicator").hide();
         },
         error: function (jqXHR, textStatus, errorThrown) {
             $("#loadingIndicator").hide();

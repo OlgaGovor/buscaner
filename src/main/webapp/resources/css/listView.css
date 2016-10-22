@@ -29,15 +29,28 @@
 .result-list-price-block {
     border-left: 1px solid #d6d9dd;
 }
+.buy-btn {
+    width: 50%;
+      font-size: 150%;
+      padding: 2px;
+}
 @media all and (max-width: 768px){
 .result-list-price-block div {
     display: inline-block;
 }
+.buy-btn {
+    width: 30%;
+      font-size: 150%;
+      padding: 2px;
+}
 }
 
+
+
 .result-list-price{
-    font-size: 120%;
-    color: #00bd68;
+    font-size: 50%;
+    /*color: #00bd68;*/
+    display: inline-block;
 }
 
 .last-update-time {
