@@ -153,8 +153,7 @@ public class IndexController {
 
             Iterable<City> cities = cityService.findAll();
             modelAndView.addObject("cities", cities);
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             modelAndView.addObject("resultMessage", "Error:" + e.getMessage());
         }
         modelAndView.addObject("requestForm", new RequestForm());

@@ -6,7 +6,6 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Date;
 
 /**
  * Created by PBezdienezhnykh on 029 29.7.2016.
@@ -33,17 +32,11 @@ public class CalendarTest {
         endDate.add(Calendar.DATE, 6);
 
 
-
-
-
-
-        while(startDate.before(endDate)){
+        while (startDate.before(endDate)) {
             System.out.println(df.format(startDate.getTime()));
             startDate.add(Calendar.DATE, 1);
         }
         System.out.println(df.format(endDate.getTime()));
-
-
 
 
     }

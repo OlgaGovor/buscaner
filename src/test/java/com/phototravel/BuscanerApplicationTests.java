@@ -17,21 +17,21 @@ import org.springframework.test.context.web.WebAppConfiguration;
 @WebAppConfiguration
 public class BuscanerApplicationTests {
 
-	@Test
-	@Ignore
-	public void contextLoads() {
-	}
+    @Test
+    @Ignore
+    public void contextLoads() {
+    }
 
 
-	@Autowired
-	CityRepository cityRepository;
+    @Autowired
+    CityRepository cityRepository;
 
-	@Autowired
-	CountryRepository countryRepository;
+    @Autowired
+    CountryRepository countryRepository;
 
-	@Test
-	@Ignore
-	public void addCountries(){
+    @Test
+    @Ignore
+    public void addCountries() {
 //		countryService.createCountry("Poland");
 //		countryService.createCountry("Germany");
 //		countryService.createCountry("Czech Republic");
@@ -39,21 +39,21 @@ public class BuscanerApplicationTests {
 //		countryService.createCountry("Hungary");
 //		countryService.createCountry("Ukraine");
 //		countryService.createCountry("Slovakia");
-	}
+    }
 
 
-	@Test
-	public void testDBConn() {
-		Country testCountry = countryRepository.save(new Country("testCountry"));
-		System.out.println("saved=" + testCountry.getCountryId() + " " + testCountry.getCountryName());
-		cityRepository.save(new City("testCity", testCountry.getCountryId()));
-		System.out.println("save new city");
-		Iterable<City> cities = cityRepository.findAll();
-		for (City city : cities) {
-			System.out.println(city.getCityId() + " " + city.getCityName());
-		}
+    @Test
+    public void testDBConn() {
+        Country testCountry = countryRepository.save(new Country("testCountry"));
+        System.out.println("saved=" + testCountry.getCountryId() + " " + testCountry.getCountryName());
+        cityRepository.save(new City("testCity", testCountry.getCountryId()));
+        System.out.println("save new city");
+        Iterable<City> cities = cityRepository.findAll();
+        for (City city : cities) {
+            System.out.println(city.getCityId() + " " + city.getCityName());
+        }
 
-		System.out.println("end");
-	}
+        System.out.println("end");
+    }
 
 }

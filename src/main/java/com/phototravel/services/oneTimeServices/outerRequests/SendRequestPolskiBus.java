@@ -9,16 +9,14 @@ import javax.ws.rs.core.MultivaluedMap;
  */
 public class SendRequestPolskiBus extends BaseSendRequest {
 
-    public String getCookie (ClientResponse response)
-    {
+    public String getCookie(ClientResponse response) {
         String headerStr = "";
-        if (response.getClientResponseStatus() == ClientResponse.Status.OK)
-        {
+        if (response.getClientResponseStatus() == ClientResponse.Status.OK) {
             MultivaluedMap<String, String> headers = response.getHeaders();
             headerStr = headers.get("Set-Cookie").toString();
         }
 
-        String cookieValue = headerStr.substring(19,43);
+        String cookieValue = headerStr.substring(19, 43);
         return cookieValue;
     }
 }

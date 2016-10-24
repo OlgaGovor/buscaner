@@ -10,17 +10,17 @@
 
 <div th:fragment="resultCalendar" id="calendar" class="col-lg-12">
 
-	<script type="text/javascript" th:inline="javascript">
-	    $(function() {
+    <script type="text/javascript" th:inline="javascript">
+        $(function () {
 
-			var requestForm = [[${requestForm}]]
-			var priceList = [[${resultDetailsList}]];
-			var prevButtonName = [[#{view.calendar.prevBtn.label}]];
-			var nextButtonName = [[#{view.calendar.nextBtn.label}]];
+            var requestForm = [[${requestForm}]]
+            var priceList = [[${resultDetailsList}]];
+            var prevButtonName = [[#{view.calendar.prevBtn.label}]];
+            var nextButtonName = [[#{view.calendar.nextBtn.label}]];
 
-			drawPriceView(requestForm, priceList, prevButtonName, nextButtonName);
-		});
-	</script>
+            drawPriceView(requestForm, priceList, prevButtonName, nextButtonName);
+        });
+    </script>
 
 </div>
 

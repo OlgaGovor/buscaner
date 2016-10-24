@@ -27,7 +27,7 @@ function initDateEndField() {
         $('#departureDateEnd').removeAttr('disabled');
         setDatePickerValue("departureDateEnd", strToDate(localStorage.getItem('requestForm.departureDateEnd')));
         var date = strToDate($('#departureDate').val());
-        date.setMonth(date.getMonth() +1);
+        date.setMonth(date.getMonth() + 1);
         $('#departureDateEnd').datepicker('setStartDate', strToDate($('#departureDate').val()));
         $('#departureDateEnd').datepicker('setEndDate', date);
     }
@@ -63,12 +63,12 @@ function initDatePickers() {
         if ($('#scanForPeriod').prop("checked")) {
             initDateEndField();
             $('#departureDateEnd').datepicker("show");
-            }
+        }
     });
 
-  /*  $("#departureDateEnd").on("changeDate", function (e) {
-        $('#departureDate').datepicker('setEndDate', e.date);
-    });*/
+    /*  $("#departureDateEnd").on("changeDate", function (e) {
+     $('#departureDate').datepicker('setEndDate', e.date);
+     });*/
 }
 
 function initSelectpickers() {

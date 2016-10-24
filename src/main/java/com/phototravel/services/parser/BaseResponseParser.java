@@ -9,7 +9,11 @@ import org.htmlcleaner.TagNode;
 import org.w3c.dom.NodeList;
 
 import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.xpath.*;
+import javax.xml.xpath.XPath;
+import javax.xml.xpath.XPathConstants;
+import javax.xml.xpath.XPathExpression;
+import javax.xml.xpath.XPathExpressionException;
+import javax.xml.xpath.XPathFactory;
 import java.sql.Time;
 import java.text.DateFormat;
 import java.text.ParseException;

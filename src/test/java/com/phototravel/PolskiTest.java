@@ -60,14 +60,14 @@ public class PolskiTest {
     @Test
     @Ignore
     //one time per month
-    public void getDestinations(){
+    public void getDestinations() {
         polskibusCitiesAndRoutesFetcher.fetchDestinations(POLSKI_BUS_ID);
     }
 
     @Test
     @Ignore
     //one time per change
-    public void saveCitiesToDb(){
+    public void saveCitiesToDb() {
         polskibusCitiesAndRoutesFetcher.fetchCities();
     }
 
@@ -75,7 +75,7 @@ public class PolskiTest {
     @Test
     @Ignore
     //one time per month
-    public void addRouteToDbFromPolskiBus(){
+    public void addRouteToDbFromPolskiBus() {
         polskibusCitiesAndRoutesFetcher.fetchRoutes(POLSKI_BUS_ID);
     }
 

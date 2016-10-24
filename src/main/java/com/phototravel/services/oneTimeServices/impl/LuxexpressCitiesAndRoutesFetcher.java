@@ -2,12 +2,12 @@ package com.phototravel.services.oneTimeServices.impl;
 
 import com.phototravel.entity.City;
 import com.phototravel.entity.Destination;
-import com.phototravel.services.oneTimeServices.outerRequests.SendRequestLuxexpress;
 import com.phototravel.repositories.CompanyRepository;
 import com.phototravel.services.CityService;
 import com.phototravel.services.DestinationService;
 import com.phototravel.services.RouteService;
 import com.phototravel.services.oneTimeServices.CitiesAndRoutesFetcher;
+import com.phototravel.services.oneTimeServices.outerRequests.SendRequestLuxexpress;
 import com.sun.jersey.api.client.ClientResponse;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -69,9 +69,9 @@ public class LuxexpressCitiesAndRoutesFetcher implements CitiesAndRoutesFetcher 
             e.printStackTrace();
         }
 
-        JSONArray array1 = (JSONArray)obj;
+        JSONArray array1 = (JSONArray) obj;
 
-        for(int i = 0; i < array1.size(); i++) {
+        for (int i = 0; i < array1.size(); i++) {
             JSONObject ob = (JSONObject) array1.get(i);
             String city = ob.get("StopName").toString();
             listOfCities.add(city);
@@ -119,34 +119,34 @@ public class LuxexpressCitiesAndRoutesFetcher implements CitiesAndRoutesFetcher 
                 String url = PATH_FOR_TIMETABLE + fromDestination.getRequestValue() + "/" + toDestination.getRequestValue() + "?Date=" + dateStr + "&Currency=CURRENCY.PLN";
                 logger.info(url);
 
-                    ClientResponse response = sendRequestLuxexpress.sendGetRequest(sendRequestLuxexpress.createWebResource(url), CONTENTTYPE);
+                ClientResponse response = sendRequestLuxexpress.sendGetRequest(sendRequestLuxexpress.createWebResource(url), CONTENTTYPE);
 
-                    String responseStr = sendRequestLuxexpress.getResponseString(response);
+                String responseStr = sendRequestLuxexpress.getResponseString(response);
 
-                    Boolean hasChanges = false;
-                    if (responseStr != null) {
-                        if (!((responseStr.contains("Prosimy wybrać jako odjazd"))
-                                || (responseStr.contains("Aby wyszukać podróż")))) {
-                            logger.info("Route exist" + fromDestination + ":" + toDestination);
-                            if (responseStr.contains("ico_transfer_route.gif")) {
-                                hasChanges = true;
-                            }
-                            if (responseStr.contains("amount")) {
-                                try {
-                                    Integer from_dest_id = fromDestination.getDestinationId();
-                                    Integer to_dest_id = toDestination.getDestinationId();
-                                    Integer from_city_id = fromDestination.getCityId();
-                                    Integer to_city_id = toDestination.getCityId();
+                Boolean hasChanges = false;
+                if (responseStr != null) {
+                    if (!((responseStr.contains("Prosimy wybrać jako odjazd"))
+                            || (responseStr.contains("Aby wyszukać podróż")))) {
+                        logger.info("Route exist" + fromDestination + ":" + toDestination);
+                        if (responseStr.contains("ico_transfer_route.gif")) {
+                            hasChanges = true;
+                        }
+                        if (responseStr.contains("amount")) {
+                            try {
+                                Integer from_dest_id = fromDestination.getDestinationId();
+                                Integer to_dest_id = toDestination.getDestinationId();
+                                Integer from_city_id = fromDestination.getCityId();
+                                Integer to_city_id = toDestination.getCityId();
 
-                                    logger.info("Write toDestination DB  " + from_dest_id + " " + to_dest_id + " " + from_city_id + " " + to_city_id + " " + companyId);
+                                logger.info("Write toDestination DB  " + from_dest_id + " " + to_dest_id + " " + from_city_id + " " + to_city_id + " " + companyId);
 
-                                    routeService.createRoute(from_dest_id, to_dest_id, from_city_id, to_city_id, companyId, true, hasChanges);
-                                } catch (Exception e) {
-                                }
+                                routeService.createRoute(from_dest_id, to_dest_id, from_city_id, to_city_id, companyId, true, hasChanges);
+                            } catch (Exception e) {
                             }
                         }
                     }
                 }
+            }
 //            }
         }
     }
@@ -170,8 +170,8 @@ public class LuxexpressCitiesAndRoutesFetcher implements CitiesAndRoutesFetcher 
             e.printStackTrace();
         }
 
-        JSONArray array1 = (JSONArray)obj;
-        for(int i = 0; i < array1.size(); i++) {
+        JSONArray array1 = (JSONArray) obj;
+        for (int i = 0; i < array1.size(); i++) {
 
 
             JSONObject ob = (JSONObject) array1.get(i);
@@ -179,24 +179,21 @@ public class LuxexpressCitiesAndRoutesFetcher implements CitiesAndRoutesFetcher 
             String key = ob.get("StopName").toString();
             String value = ob.get("Slug").toString();
             listOfDestinations.put(key, value);
-            System.out.println(key+"  "+value);
+            System.out.println(key + "  " + value);
         }
 
         //write Destinations to DB
-        for (Map.Entry<String, String> entry : listOfDestinations.entrySet())
-        {
-            try
-            {
+        for (Map.Entry<String, String> entry : listOfDestinations.entrySet()) {
+            try {
                 City city = cityService.findCityByName(entry.getKey());
                 Integer cityId = city.getCityId();
 
-                System.out.println(companyId+"  "+cityId+"  "+entry.getValue()+"  "+entry.getKey());
+                System.out.println(companyId + "  " + cityId + "  " + entry.getValue() + "  " + entry.getKey());
                 destinationService.createDestination(companyId, cityId, entry.getValue(), entry.getKey());
-            }
-            catch (Exception e)
-            {
+            } catch (Exception e) {
 
-            };
+            }
+            ;
         }
 
     }

@@ -17,8 +17,7 @@ public class BaseSendRequest {
 
     private static final String CONTENTTYPE = "application/json";
 
-    public ClientResponse sendGetRequest(WebResource webResource, String dataType)
-    {
+    public ClientResponse sendGetRequest(WebResource webResource, String dataType) {
         ClientResponse response = webResource
                 .type(dataType)
                 .accept(dataType)
@@ -27,8 +26,7 @@ public class BaseSendRequest {
         return response;
     }
 
-    public ClientResponse sendGetRequestWithCookie(WebResource webResource, String dataType, Cookie cookie)
-    {
+    public ClientResponse sendGetRequestWithCookie(WebResource webResource, String dataType, Cookie cookie) {
         ClientResponse response = webResource
                 .type(dataType)
                 .cookie(cookie)
@@ -37,19 +35,16 @@ public class BaseSendRequest {
         return response;
     }
 
-    public WebResource createWebResource (String url)
-    {
+    public WebResource createWebResource(String url) {
         Client client = Client.create();
         client.setFollowRedirects(false);
         WebResource webResource = client.resource(url);
         return webResource;
     }
 
-    public String getCookie (ClientResponse response)
-    {
+    public String getCookie(ClientResponse response) {
         String headerStr = "";
-        if (response.getClientResponseStatus() == ClientResponse.Status.OK)
-        {
+        if (response.getClientResponseStatus() == ClientResponse.Status.OK) {
             MultivaluedMap<String, String> headers = response.getHeaders();
             headerStr = headers.get("Set-Cookie").toString();
         }
@@ -57,26 +52,23 @@ public class BaseSendRequest {
         return headerStr;
     }
 
-    public String getLocationFromHeader (ClientResponse response)
-    {
+    public String getLocationFromHeader(ClientResponse response) {
         MultivaluedMap<String, String> headers = response.getHeaders();
 
         String headerStr = headers.get("Location").toString();
-        headerStr = headerStr.substring(1, headerStr.length()-1);
-        return  headerStr;
+        headerStr = headerStr.substring(1, headerStr.length() - 1);
+        return headerStr;
     }
 
-    public String getResponseString(ClientResponse response)
-    {
+    public String getResponseString(ClientResponse response) {
         if (response.getClientResponseStatus() == ClientResponse.Status.OK) {
             String responseStr = response.getEntity(String.class);
-            return  responseStr;
+            return responseStr;
         }
         return null;
     }
 
-    public ClientResponse sendWidePostRequest(WebResource webResource, Cookie cookie, String dataType, MultivaluedMap map)
-    {
+    public ClientResponse sendWidePostRequest(WebResource webResource, Cookie cookie, String dataType, MultivaluedMap map) {
         ClientResponse response = webResource
                 .cookie(cookie)
                 .type(dataType)

@@ -28,14 +28,12 @@ public class CityService {
         City city = new City(name, countryId);
         try {
             cityRepository.save(city);
+        } catch (DataIntegrityViolationException e) {
         }
-        catch (DataIntegrityViolationException e)
-        {}
     }
 
-    public void saveCitiesToDb(List<String> listOfCities)
-    {
-        for (String city: listOfCities) {
+    public void saveCitiesToDb(List<String> listOfCities) {
+        for (String city : listOfCities) {
             createCity(city, 1);
         }
     }

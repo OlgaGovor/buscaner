@@ -60,7 +60,7 @@ public class LuxTests {
     }
 
 
-//    @Test
+    //    @Test
 //    public void getDestinations() throws ParserConfigurationException, XPathExpressionException, JSONException, ParseException {
 //
 //        Map<String, String> listOfDestinations = luxexpressDestinationGetter.getDestinations();

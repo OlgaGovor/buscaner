@@ -76,5 +76,6 @@ public class Destination {
         this.destinationName = destinationName;
     }
 
-    public Destination(){}
+    public Destination() {
+    }
 }

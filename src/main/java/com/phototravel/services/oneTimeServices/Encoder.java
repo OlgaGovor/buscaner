@@ -5,9 +5,9 @@ package com.phototravel.services.oneTimeServices;
  */
 public class Encoder {
 
-    public String encode (String input){
+    public String encode(String input) {
 
-        for (int i=0; i<2; i++) {
+        for (int i = 0; i < 2; i++) {
 
             if (input.indexOf("&oacute;") > -1)
                 input = input.substring(0, input.indexOf("&oacute;")) + "o" + input.substring(input.indexOf("&oacute;") + 8);

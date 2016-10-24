@@ -32,8 +32,8 @@ public interface RouteRepository extends CrudRepository<Route, Integer> {
             , nativeQuery = true
     )
     List<Route> getRoutesByCityIdAndCompanyId(@Param("fromCityId") Integer fromCityId,
-                                                 @Param("toCityId") Integer toCityId,
-                                                 @Param("companyId") Integer companyId,
+                                              @Param("toCityId") Integer toCityId,
+                                              @Param("companyId") Integer companyId,
                                               @Param("hasChanges") Boolean hasChanges);
 
     @Cacheable("route2")

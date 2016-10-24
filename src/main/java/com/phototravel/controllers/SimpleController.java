@@ -17,7 +17,7 @@ public class SimpleController {
     CacheManagerService cacheManagerService;
 
     @RequestMapping("/hello")
-    public ModelAndView helloWorld(@RequestParam(value="name", required=false, defaultValue="World") String name){
+    public ModelAndView helloWorld(@RequestParam(value = "name", required = false, defaultValue = "World") String name) {
         System.out.println("helloWorld");
         ModelAndView modelAndView = new ModelAndView("hello");
         //    model.addAttribute("name", name);

@@ -27,12 +27,12 @@ import java.util.Locale;
 
 public class BuscanerApplication extends WebMvcConfigurerAdapter {
 
-	public static void main(String[] args) {
-		SpringApplication.run(BuscanerApplication.class, args);
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(BuscanerApplication.class, args);
+    }
 
 /*	@Bean
-	public Scrapper scrapper() {
+    public Scrapper scrapper() {
 		Scrapper scrapper = new ScrapperImpl();
 		scrapper.register(PolskiBusFetcher.COMPANY_ID, new PolskiBusFetcher());
 		scrapper.register(LuxexpressFetcher.COMPANY_ID, new LuxexpressFetcher());
@@ -41,61 +41,61 @@ public class BuscanerApplication extends WebMvcConfigurerAdapter {
 	}*/
 
 
-	@Bean
-	public MessageSource messageSource() {
-		ReloadableResourceBundleMessageSource messageSource = new ReloadableResourceBundleMessageSource();
-		messageSource.setBasename("classpath:i18n/messages/messages");
-		messageSource.setFallbackToSystemLocale(false);
-		messageSource.setDefaultEncoding("UTF-8");
-		return messageSource;
-	}
+    @Bean
+    public MessageSource messageSource() {
+        ReloadableResourceBundleMessageSource messageSource = new ReloadableResourceBundleMessageSource();
+        messageSource.setBasename("classpath:i18n/messages/messages");
+        messageSource.setFallbackToSystemLocale(false);
+        messageSource.setDefaultEncoding("UTF-8");
+        return messageSource;
+    }
 
 
-	@Bean
-	public LocaleResolver localeResolver() {
-		SessionLocaleResolver slr = new SessionLocaleResolver();
-		slr.setDefaultLocale(Locale.ENGLISH);
-		return slr;
-	}
+    @Bean
+    public LocaleResolver localeResolver() {
+        SessionLocaleResolver slr = new SessionLocaleResolver();
+        slr.setDefaultLocale(Locale.ENGLISH);
+        return slr;
+    }
 
-	@Bean
-	public LocaleChangeInterceptor localeChangeInterceptor() {
-		LocaleChangeInterceptor lci = new LocaleChangeInterceptor();
-		lci.setParamName("lang");
-		return lci;
-	}
+    @Bean
+    public LocaleChangeInterceptor localeChangeInterceptor() {
+        LocaleChangeInterceptor lci = new LocaleChangeInterceptor();
+        lci.setParamName("lang");
+        return lci;
+    }
 
-	@Override
-	public void addInterceptors(InterceptorRegistry registry) {
-		registry.addInterceptor(localeChangeInterceptor());
-	}
+    @Override
+    public void addInterceptors(InterceptorRegistry registry) {
+        registry.addInterceptor(localeChangeInterceptor());
+    }
 
 
-	@Bean
-	public ThreadPoolTaskExecutor taskExecutor() {
-		ThreadPoolTaskExecutor pool = new ThreadPoolTaskExecutor();
+    @Bean
+    public ThreadPoolTaskExecutor taskExecutor() {
+        ThreadPoolTaskExecutor pool = new ThreadPoolTaskExecutor();
 
-		pool.setCorePoolSize(5);
-		pool.setMaxPoolSize(10);
-		pool.setKeepAliveSeconds(60);
-		pool.setWaitForTasksToCompleteOnShutdown(true);
-		return pool;
-	}
+        pool.setCorePoolSize(5);
+        pool.setMaxPoolSize(10);
+        pool.setKeepAliveSeconds(60);
+        pool.setWaitForTasksToCompleteOnShutdown(true);
+        return pool;
+    }
 
-	@Bean
-	public ServiceLocatorFactoryBean busScannerTaskFactoryBean() {
-		ServiceLocatorFactoryBean bean = new ServiceLocatorFactoryBean();
-		bean.setServiceLocatorInterface(BusScannerTaskFactory.class);
+    @Bean
+    public ServiceLocatorFactoryBean busScannerTaskFactoryBean() {
+        ServiceLocatorFactoryBean bean = new ServiceLocatorFactoryBean();
+        bean.setServiceLocatorInterface(BusScannerTaskFactory.class);
 
-		return bean;
-	}
+        return bean;
+    }
 
-	@Bean
-	public ServiceLocatorFactoryBean companiesConfigurationFactoryBean() {
-		ServiceLocatorFactoryBean bean = new ServiceLocatorFactoryBean();
-		bean.setServiceLocatorInterface(ConfigFactory.class);
+    @Bean
+    public ServiceLocatorFactoryBean companiesConfigurationFactoryBean() {
+        ServiceLocatorFactoryBean bean = new ServiceLocatorFactoryBean();
+        bean.setServiceLocatorInterface(ConfigFactory.class);
 
-		return bean;
-	}
+        return bean;
+    }
 
 }

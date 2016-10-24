@@ -50,21 +50,21 @@
                                 <div class="destination-block" th:text="${price.fromDestination}"></div>
                                 <div class="date-block" th:text="${price.departureDate}"></div>
 
-                        </div>
+                            </div>
 
-                        <div class="col-xs-1 result-list-content">
+                            <div class="col-xs-1 result-list-content">
 
-                            <div class="duration-block" th:text="${price.duration}"></div>
+                                <div class="duration-block" th:text="${price.duration}"></div>
 
 
-                        </div>
+                            </div>
 
-                        <div class="col-xs-4 result-list-content">
+                            <div class="col-xs-4 result-list-content">
 
-                            <div class="time-block" th:text="${price.arrivalTime}"></div>
-                            <div class="destination-block" th:text="${price.toDestination}"></div>
+                                <div class="time-block" th:text="${price.arrivalTime}"></div>
+                                <div class="destination-block" th:text="${price.toDestination}"></div>
 
-                        </div>
+                            </div>
 
                             <div class="col-xs-1 result-list-content" th:text="${price.company}">company</div>
                         </div>
@@ -76,8 +76,8 @@
 
                         <div class="btn btn-success btn-md buy-btn" id="buyTicket"
                              th:inline="text"
-                                        onclick="buyTicket($().parent('li').attr('buyurl'));"
-                                        type="button">
+                             onclick="buyTicket($().parent('li').attr('buyurl'));"
+                             type="button">
                             [[${price.price}]]
                             <div class="result-list-price" th:text="${price.currency}"></div>
                         </div>

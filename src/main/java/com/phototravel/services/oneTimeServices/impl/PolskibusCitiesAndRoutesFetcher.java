@@ -1,7 +1,5 @@
 package com.phototravel.services.oneTimeServices.impl;
 
-import com.phototravel.services.oneTimeServices.Encoder;
-import com.phototravel.services.oneTimeServices.RequestSender;
 import com.phototravel.entity.City;
 import com.phototravel.entity.Destination;
 import com.phototravel.repositories.CompanyRepository;
@@ -9,6 +7,8 @@ import com.phototravel.services.CityService;
 import com.phototravel.services.DestinationService;
 import com.phototravel.services.RouteService;
 import com.phototravel.services.oneTimeServices.CitiesAndRoutesFetcher;
+import com.phototravel.services.oneTimeServices.Encoder;
+import com.phototravel.services.oneTimeServices.RequestSender;
 import org.htmlcleaner.CleanerProperties;
 import org.htmlcleaner.HtmlCleaner;
 import org.htmlcleaner.TagNode;
@@ -79,10 +79,10 @@ public class PolskibusCitiesAndRoutesFetcher implements CitiesAndRoutesFetcher {
             //evaluate expression result on XML document
             NodeList nodes = (NodeList) expr.evaluate(doc, XPathConstants.NODESET);
             for (int i = 1; i < nodes.getLength(); i++) {
-                String city =  nodes.item(i).getFirstChild().getNodeValue().toLowerCase();
+                String city = nodes.item(i).getFirstChild().getNodeValue().toLowerCase();
 
                 city = encoder.encode(city);
-                city = city.substring(0,1).toUpperCase()+city.substring(1);
+                city = city.substring(0, 1).toUpperCase() + city.substring(1);
 
                 System.out.println(city);
                 listOfCities.add(city);
@@ -115,14 +115,14 @@ public class PolskibusCitiesAndRoutesFetcher implements CitiesAndRoutesFetcher {
 
         //get JSON with routes from response
         System.out.println(responseStr);
-        String connected ="";
+        String connected = "";
         XPathExpression expr2 = null;
         JSONObject obj = null;
         try {
             expr2 = xpath.compile("//script");
             NodeList nodes = (NodeList) expr2.evaluate(doc, XPathConstants.NODESET);
-            connected = nodes.item(nodes.getLength()-1).getFirstChild().getNodeValue();
-            connected = connected.substring(24, connected.indexOf(";")-1);
+            connected = nodes.item(nodes.getLength() - 1).getFirstChild().getNodeValue();
+            connected = connected.substring(24, connected.indexOf(";") - 1);
 
             obj = new JSONObject(connected);
 
@@ -147,8 +147,7 @@ public class PolskibusCitiesAndRoutesFetcher implements CitiesAndRoutesFetcher {
                 e.printStackTrace();
             }
 
-            for (int i = 0; i < arr.length(); i++)
-            {
+            for (int i = 0; i < arr.length(); i++) {
                 String toRequestValue = null;
                 try {
                     toRequestValue = arr.getJSONObject(i).getString("First");
@@ -164,8 +163,8 @@ public class PolskibusCitiesAndRoutesFetcher implements CitiesAndRoutesFetcher {
                 try {
                     routeService.createRoute(from_dest_id, toDestination.getDestinationId(),
                             from_city_id, toDestination.getCityId(), companyId, true, false);
+                } catch (Exception e) {
                 }
-                catch (Exception e){}
             }
         }
 
@@ -177,7 +176,7 @@ public class PolskibusCitiesAndRoutesFetcher implements CitiesAndRoutesFetcher {
 
         responseStr = requestSender.excutePost(PATH, "");
 
-        Map <String, String> listOfDestinations = new LinkedHashMap<String, String>();
+        Map<String, String> listOfDestinations = new LinkedHashMap<String, String>();
 
         TagNode tagNode = new HtmlCleaner().clean(responseStr);
 
@@ -198,13 +197,13 @@ public class PolskibusCitiesAndRoutesFetcher implements CitiesAndRoutesFetcher {
             //evaluate expression result on XML document
             NodeList nodes = (NodeList) expr.evaluate(doc, XPathConstants.NODESET);
             for (int i = 1; i < nodes.getLength(); i++) {
-                String key =  nodes.item(i).getFirstChild().getNodeValue().toLowerCase();
+                String key = nodes.item(i).getFirstChild().getNodeValue().toLowerCase();
                 String value = nodes.item(i).getAttributes().getNamedItem("value").getNodeValue();
 
                 key = encoder.encode(key);
-                key = key.substring(0,1).toUpperCase()+key.substring(1);
+                key = key.substring(0, 1).toUpperCase() + key.substring(1);
 
-                System.out.println(key+"  "+value);
+                System.out.println(key + "  " + value);
                 listOfDestinations.put(key, value);
             }
         } catch (XPathExpressionException e) {
@@ -212,19 +211,16 @@ public class PolskibusCitiesAndRoutesFetcher implements CitiesAndRoutesFetcher {
         }
 
         //write Destinations to DB
-        for (Map.Entry<String, String> entry : listOfDestinations.entrySet())
-        {
-            try
-            {
+        for (Map.Entry<String, String> entry : listOfDestinations.entrySet()) {
+            try {
                 City city = cityService.findCityByName(entry.getKey());
                 Integer cityId = city.getCityId();
-                System.out.println(companyId+"  "+cityId+"  "+entry.getValue()+"  "+entry.getKey());
+                System.out.println(companyId + "  " + cityId + "  " + entry.getValue() + "  " + entry.getKey());
                 destinationService.createDestination(companyId, cityId, entry.getValue(), entry.getKey());
-            }
-            catch (Exception e)
-            {
+            } catch (Exception e) {
 
-            };
+            }
+            ;
         }
 
     }

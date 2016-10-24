@@ -15,11 +15,11 @@ import java.util.List;
 public class PolskiBusParser extends BaseResponseParser {
 
     @Override
-    public Double parsePrice(String priceStr){
+    public Double parsePrice(String priceStr) {
         priceStr = priceStr.trim();
-        String newStr = priceStr.substring(0,priceStr.indexOf('z'));
-        String [] s = newStr.split(",");
-        newStr = s[0]+"."+s[1];
+        String newStr = priceStr.substring(0, priceStr.indexOf('z'));
+        String[] s = newStr.split(",");
+        newStr = s[0] + "." + s[1];
         Double price = Double.parseDouble(newStr);
         return price;
     }
@@ -29,7 +29,7 @@ public class PolskiBusParser extends BaseResponseParser {
 
         String newTimeStr = timeStr.substring(11).trim();
         DateFormat formatter = new SimpleDateFormat("HH:mm");
-        Time time = new Time(formatter.parse(newTimeStr.substring(0,5)).getTime());
+        Time time = new Time(formatter.parse(newTimeStr.substring(0, 5)).getTime());
         return time;
     }
 
@@ -37,7 +37,7 @@ public class PolskiBusParser extends BaseResponseParser {
     public String parseDuration(String dur) throws ParseException {
         dur = dur.trim();
         Integer ind = dur.indexOf("hrs");
-        dur = dur.substring(0,ind)+':'+dur.substring(ind+4,ind+6);
+        dur = dur.substring(0, ind) + ':' + dur.substring(ind + 4, ind + 6);
         return dur;
     }
 
@@ -45,9 +45,9 @@ public class PolskiBusParser extends BaseResponseParser {
     public List<String> getDuration(String xPathExpression, String str) throws ParserConfigurationException, XPathExpressionException {
         List<String> hourAndMin = parseResponseString(xPathExpression, str);
         List<String> resultTime = new ArrayList<String>();
-        for (int i=0; i<hourAndMin.size(); i=i+2) {
+        for (int i = 0; i < hourAndMin.size(); i = i + 2) {
             //04hrs 40min
-            String result = hourAndMin.get(i).trim()+ " " +hourAndMin.get(i+1).trim();
+            String result = hourAndMin.get(i).trim() + " " + hourAndMin.get(i + 1).trim();
             resultTime.add(result);
         }
         return resultTime;

@@ -29,25 +29,26 @@
 .result-list-price-block {
     border-left: 1px solid #d6d9dd;
 }
+
 .buy-btn {
     width: 60%;
-      font-size: 150%;
-      padding: 2px;
-}
-@media all and (max-width: 768px){
-.result-list-price-block div {
-    display: inline-block;
-}
-.buy-btn {
-    width: 30%;
-      font-size: 150%;
-      padding: 2px;
-}
+    font-size: 150%;
+    padding: 2px;
 }
 
+@media all and (max-width: 768px) {
+    .result-list-price-block div {
+        display: inline-block;
+    }
 
+    .buy-btn {
+        width: 30%;
+        font-size: 150%;
+        padding: 2px;
+    }
+}
 
-.result-list-price{
+.result-list-price {
     font-size: 50%;
     /*color: #00bd68;*/
     display: inline-block;
@@ -67,40 +68,42 @@
     padding: 0;
     display: inline-block;
 }
+
 .line-arrow {
-  width: 0;
-  height: 0;
-  border-top: 7px solid transparent;
-  border-bottom: 7px solid transparent;
-  border-left: 7px solid #00bd68;
-  display: inline-block;
+    width: 0;
+    height: 0;
+    border-top: 7px solid transparent;
+    border-bottom: 7px solid transparent;
+    border-left: 7px solid #00bd68;
+    display: inline-block;
 }
+
 .line1::after {
     font-family: 'Glyphicons Halflings';
     content: "\e092"; /*glyphicon-arrow-right*/
 
 }
 
-
-.destination-block{
-
-}
-
-.date-block{
+.destination-block {
 
 }
 
-.time-block{
+.date-block {
+
+}
+
+.time-block {
     color: #69AFFF;
     font-weight: 700;
     font-size: 16px;
 }
 
-.duration-block{
+.duration-block {
     color: #a9a9a9;
     font-weight: 700;
     font-size: 16px;
 }
+
 .duration-block::after {
     font-family: 'Glyphicons Halflings';
     content: "\e092"; /*glyphicon-arrow-right*/

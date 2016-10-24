@@ -66,7 +66,6 @@ public class PriceService {
     public static final String DELETE_PRICE = "delete from price where route_id=:routeId and departure_date=date(:departureDate)";
 
 
-
     public List<PriceCalendar> pricesForCalendarView(int fromCityId, int toCityId,
                                                      Date departureDate, Date departureDateEnd) {
 
@@ -105,7 +104,6 @@ public class PriceService {
 
         return false;
     }
-
 
 
 }

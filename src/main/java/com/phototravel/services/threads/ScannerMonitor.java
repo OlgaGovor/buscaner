@@ -58,7 +58,6 @@ public class ScannerMonitor {
                 while (!stop) {
 
 
-
                     int count = taskExecutor.getActiveCount();
 
 

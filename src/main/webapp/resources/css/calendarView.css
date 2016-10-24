@@ -1,17 +1,19 @@
-.calendar-container{
-    width:100%;
+.calendar-container {
+    width: 100%;
     padding-top: 5px;
     padding-bottom: 5px;
 }
-.calendar-month-row{
-}
-.calendar-month-item{
+
+.calendar-month-row {
 }
 
-.calendar-month-item.col1{
+.calendar-month-item {
 }
 
-.calendar-month-item.col2{
+.calendar-month-item.col1 {
+}
+
+.calendar-month-item.col2 {
 }
 
 .calendarTable {
@@ -55,7 +57,7 @@
     height: 50px;
 }
 
-.cell-with-price{
+.cell-with-price {
     cursor: pointer;
 }
 
@@ -89,11 +91,11 @@
 
 }
 
-.selectedRange{
+.selectedRange {
     background-color: rgb(193, 218, 255);;
 }
 
-.notSelectedRange{
+.notSelectedRange {
 
 }
 
@@ -118,7 +120,7 @@
     content: " \e092";
 }
 
-.btn-sm.disabled{
+.btn-sm.disabled {
     cursor: not-allowed;
     filter: alpha(opacity=65);
     -webkit-box-shadow: none;

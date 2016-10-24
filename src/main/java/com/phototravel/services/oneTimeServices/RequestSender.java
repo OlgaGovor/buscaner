@@ -20,10 +20,16 @@ public class RequestSender {
 
     public RequestSender() {
         TrustManager[] trustAllCerts = new TrustManager[]{
-                new X509TrustManager(){
-                    public X509Certificate[] getAcceptedIssuers(){ return null; }
-                    public void checkClientTrusted(X509Certificate[] certs, String authType) {}
-                    public void checkServerTrusted(X509Certificate[] certs, String authType) {}
+                new X509TrustManager() {
+                    public X509Certificate[] getAcceptedIssuers() {
+                        return null;
+                    }
+
+                    public void checkClientTrusted(X509Certificate[] certs, String authType) {
+                    }
+
+                    public void checkServerTrusted(X509Certificate[] certs, String authType) {
+                    }
                 }
         };
 
@@ -31,15 +37,11 @@ public class RequestSender {
             SSLContext sslContext = SSLContext.getInstance("SSL");
             sslContext.init(null, trustAllCerts, new SecureRandom());
             HttpsURLConnection.setDefaultSSLSocketFactory(sslContext.getSocketFactory());
-        } catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
     }
-
-
-
-
 
 
     public String excutePost(String targetURL, String urlParameters) {
@@ -47,7 +49,7 @@ public class RequestSender {
         try {
             //Create connection
             URL url = new URL(targetURL);
-            connection = (HttpsURLConnection)url.openConnection();
+            connection = (HttpsURLConnection) url.openConnection();
             connection.setRequestMethod("POST");
             connection.setRequestProperty("Content-Type",
                     "application/x-www-form-urlencoded");
@@ -70,7 +72,7 @@ public class RequestSender {
             BufferedReader rd = new BufferedReader(new InputStreamReader(is));
             StringBuilder response = new StringBuilder(); // or StringBuffer if not Java 5+
             String line;
-            while((line = rd.readLine()) != null) {
+            while ((line = rd.readLine()) != null) {
                 response.append(line);
                 //response.append('\r');
             }
@@ -80,7 +82,7 @@ public class RequestSender {
             e.printStackTrace();
             return null;
         } finally {
-            if(connection != null) {
+            if (connection != null) {
                 connection.disconnect();
             }
         }
