@@ -102,3 +102,34 @@ body {
         transform: scale(1) rotate(360deg);
     }
 }
+
+.change-lang-option {
+    cursor: pointer;
+}
+
+.change-lang-option:nth-child(odd) {
+    background-color: #fdfdfd;
+}
+
+.flag {
+    display: inline-block;
+    width: 18px;
+    height: 12px;
+    background: url('/resources/img/flags.png') no-repeat;
+}
+
+.flag.flag-en {
+    background-position: 0 0;
+}
+
+.flag.flag-ru {
+    background-position: 0 -12px;
+}
+
+.flag.flag-ua {
+    background-position: -18px -12px;
+}
+
+.flag.flag-pl {
+    background-position: -18px 0;
+}

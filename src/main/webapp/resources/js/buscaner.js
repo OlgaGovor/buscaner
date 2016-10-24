@@ -99,8 +99,9 @@ function changeLang(newLang) {
     else {
         url += '?lang=' + newLang;
     }
-
-    window.location = url;
+    location.replace(url);
+    /*window.location = url;
+     window.location.reload(true);*/
 }
 
 function swapCities() {

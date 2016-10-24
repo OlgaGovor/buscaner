@@ -30,17 +30,25 @@
 
     <div class="row" id="header-block">
         <div class="col-sm-1 col-md-offset-9">
-            <select id="langSelect" class="selectpicker">
-                <option value="en" th:selected="(${#strings.equalsIgnoreCase(lang,'en')})">english</option>
-                <option value="ru" th:selected="(${#strings.equalsIgnoreCase(lang,'ru')})">русский</option>
-                <option value="pl" th:selected="(${#strings.equalsIgnoreCase(lang,'pl')})">polska</option>
-            </select>
+            <button type="button" class="btn btn-default btn-sm" data-toggle="modal" data-target="#myModal">
+                <img class="flag"
+                     th:classappend="'flag-' + ${lang}"
+                        />
+            </button>
         </div>
+
+        <!-- <div class="col-sm-1 col-md-offset-9">
+             <select id="langSelect" class="selectpicker">
+                 <option value="en" th:selected="(${#strings.equalsIgnoreCase(lang,'en')})">english</option>
+                 <option value="ru" th:selected="(${#strings.equalsIgnoreCase(lang,'ru')})">русский</option>
+                 <option value="pl" th:selected="(${#strings.equalsIgnoreCase(lang,'pl')})">polska</option>
+             </select>
+         </div>-->
     </div>
 
     <div class="row" id="request-form-block">
         <div class="col-sm-12">
-            <form id="requestForm" role="form" action="#" th:action="@{/searchData}" th:object="${requestForm}"
+            <form id="requestForm" role="form" action="" th:action="@{/searchData}" th:object="${requestForm}"
                   method="post">
 
                 <div class="row">
@@ -128,6 +136,7 @@
 
 <script type="text/javascript" th:inline="javascript">
     var language = [[${lang.language}]];
+    var language111 = [[${lang}]];
 </script>
 
 <script type="text/javascript">
@@ -135,7 +144,45 @@
     $(document).ready(function () {
         initForm();
     });
+
+    $(document).ready(function () {
+        $('[data-toggle="popover"]').popover();
+    });
+
 </script>
 
+
+<!-- Modal -->
+<div id="myModal" class="modal fade" role="dialog">
+    <div class="modal-dialog modal-sm">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <!--<div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Modal Header</h4>
+            </div>-->
+            <div class="modal-body">
+
+                <p class="change-lang-option" onclick="changeLang('en');"><img
+                        class="flag flag-en"/><span> English</span></p>
+
+                <p class="change-lang-option" onclick="changeLang('ru');"><img
+                        class="flag flag-ru"/><span> Русский</span></p>
+
+                <p class="change-lang-option" onclick="changeLang('ua');"><img
+                        class="flag flag-ua"/><span> Украйнська</span></p>
+
+                <p class="change-lang-option" onclick="changeLang('pl');"><img
+                        class="flag flag-pl"/><span> Polish</span></p>
+
+            </div>
+            <!-- <div class="modal-footer">
+                 <button type="button" class="btn btn-default btn-xs" data-dismiss="modal">Close</button>
+             </div>-->
+        </div>
+
+    </div>
+</div>
 </body>
 </html>
