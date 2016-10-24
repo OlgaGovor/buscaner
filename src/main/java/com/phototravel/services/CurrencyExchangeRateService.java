@@ -22,12 +22,12 @@ import java.util.Map;
 public class CurrencyExchangeRateService {
 
     //http://api.fixer.io/latest?base=EUR
-    Map<String, ExchangeRate> rates = new HashMap<>();
+    private Map<String, ExchangeRate> rates = new HashMap<>();
 
     @Value("${currencyExchange.url}")
     private String url;
 
-    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+    private static DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
@@ -54,6 +54,7 @@ public class CurrencyExchangeRateService {
         WebResource webResource = createWebResource(url + "?base=" + currency);
         ClientResponse response = sendGetRequest(webResource, "application/json");
         String responseString = response.getEntity(String.class);
+        logger.info("getExchangeRates responseString" + responseString);
         JSONObject json = new JSONObject(responseString);
         String base = json.getString("base");
         LocalDate date = LocalDate.parse(json.getString("date"), formatter);
@@ -87,6 +88,9 @@ public class CurrencyExchangeRateService {
     public double getRateToEUR(String currency) {
         logger.info("getRateToEUR " + currency);
         String base = "EUR";
+        if (base.equals(currency)) {
+            return 1;
+        }
         if (!rates.containsKey(base)) {
             try {
                 getExchangeRates(base);

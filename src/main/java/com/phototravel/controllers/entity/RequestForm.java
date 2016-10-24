@@ -16,6 +16,7 @@ public class RequestForm {
     private boolean scanForPeriod;
     private String departureDate;
     private String departureDateEnd;
+    private String currency = "EUR";
 
     private final SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy");
     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
@@ -99,6 +100,14 @@ public class RequestForm {
         this.departureDateEnd = formatter.format(departureDateEnd);
     }
 
+    public String getCurrency() {
+        return currency;
+    }
+
+    public void setCurrency(String currency) {
+        this.currency = currency;
+    }
+
     @Override
     public String toString() {
         return "RequestForm{" +
@@ -107,6 +116,7 @@ public class RequestForm {
                 ", scanForPeriod=" + scanForPeriod +
                 ", departureDate='" + departureDate + '\'' +
                 ", departureDateEnd='" + departureDateEnd + '\'' +
+                ", currency='" + currency + '\'' +
                 '}';
     }
 }

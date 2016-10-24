@@ -29,27 +29,26 @@
 <div class="container main-container">
 
     <div class="row" id="header-block">
-        <div class="col-sm-1 col-md-offset-9">
-            <button type="button" class="btn btn-default btn-sm" data-toggle="modal" data-target="#myModal">
-                <img class="flag"
-                     th:classappend="'flag-' + ${lang}"
-                        />
-            </button>
-        </div>
+        <div class="col-sm-2 col-md-offset-9">
+            <div class="btn-group">
+                <button type="button" class="btn btn-default btn-sm" data-toggle="modal" data-target="#langModel">
+                    <img class="flag" th:classappend="'flag-' + ${lang}"/>
+                </button>
 
-        <!-- <div class="col-sm-1 col-md-offset-9">
-             <select id="langSelect" class="selectpicker">
-                 <option value="en" th:selected="(${#strings.equalsIgnoreCase(lang,'en')})">english</option>
-                 <option value="ru" th:selected="(${#strings.equalsIgnoreCase(lang,'ru')})">русский</option>
-                 <option value="pl" th:selected="(${#strings.equalsIgnoreCase(lang,'pl')})">polska</option>
-             </select>
-         </div>-->
+                <button id="currencyBtn" type="button" class="btn btn-default btn-sm" data-toggle="modal"
+                        data-target="#currencyModal" th:text="${requestForm.currency}">
+                    EUR
+                </button>
+            </div>
+
+        </div>
     </div>
 
     <div class="row" id="request-form-block">
         <div class="col-sm-12">
             <form id="requestForm" role="form" action="" th:action="@{/searchData}" th:object="${requestForm}"
                   method="post">
+                <input type="hidden" id="currency" name="currency" value="EUR"/>
 
                 <div class="row">
                     <div class="col-sm-3 col-md-offset-2">
@@ -153,7 +152,7 @@
 
 
 <!-- Modal -->
-<div id="myModal" class="modal fade" role="dialog">
+<div id="langModel" class="modal fade" role="dialog">
     <div class="modal-dialog modal-sm">
 
         <!-- Modal content-->
@@ -167,19 +166,44 @@
                 <p class="change-lang-option" onclick="changeLang('en');"><img
                         class="flag flag-en"/><span> English</span></p>
 
-                <p class="change-lang-option" onclick="changeLang('ru');"><img
-                        class="flag flag-ru"/><span> Русский</span></p>
-
-                <p class="change-lang-option" onclick="changeLang('ua');"><img
-                        class="flag flag-ua"/><span> Украйнська</span></p>
+                <p class="change-lang-option" onclick="changeLang('uk');"><img
+                        class="flag flag-uk"/><span> Украйнська</span></p>
 
                 <p class="change-lang-option" onclick="changeLang('pl');"><img
                         class="flag flag-pl"/><span> Polish</span></p>
+
+                <p class="change-lang-option" onclick="changeLang('ru');"><img
+                        class="flag flag-ru"/><span> Русский</span></p>
 
             </div>
             <!-- <div class="modal-footer">
                  <button type="button" class="btn btn-default btn-xs" data-dismiss="modal">Close</button>
              </div>-->
+        </div>
+
+    </div>
+</div>
+
+<div id="currencyModal" class="modal fade" role="dialog">
+    <div class="modal-dialog modal-sm">
+
+        <div class="modal-content">
+            <div class="modal-body">
+
+                <p class="change-lang-option" onclick="changeCurrency('EUR');">
+                    <span th:text="#{dropDown.currency.EUR}">EURO</span></p>
+
+                <!--   <p class="change-lang-option" onclick="changeCurrency('UAH');">
+                       <span th:text="#{dropDown.currency.UAH}"> Украйнська</span></p>-->
+
+                <p class="change-lang-option" onclick="changeCurrency('PLN');">
+                    <span th:text="#{dropDown.currency.PLN}"> Polish</span></p>
+
+                <!--  <p class="change-lang-option" onclick="changeCurrency('RUR');">
+                      <span th:text="#{dropDown.currency.RUR}"> Русский</span></p>-->
+
+            </div>
+
         </div>
 
     </div>

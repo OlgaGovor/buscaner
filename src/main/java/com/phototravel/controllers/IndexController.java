@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpSession;
 import java.util.List;
 
 /**
@@ -84,7 +85,7 @@ public class IndexController {
     }
 
     @RequestMapping(value = "/searchData", method = RequestMethod.POST, consumes = "!application/json")
-    public String searchData(Model model, @ModelAttribute RequestForm requestForm) {
+    public String searchData(Model model, @ModelAttribute RequestForm requestForm, HttpSession session) {
         logger.info("searchData " + requestForm.toString());
 
         String viewName = "";
@@ -143,7 +144,7 @@ public class IndexController {
     }
 
     @RequestMapping()
-    public ModelAndView defaultRequest() {
+    public ModelAndView defaultRequest(HttpSession session) {
         logger.info("defaultRequest");
         ModelAndView modelAndView = new ModelAndView("index");
         modelAndView.addObject("lang", LocaleContextHolder.getLocale());

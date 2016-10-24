@@ -104,6 +104,13 @@ function changeLang(newLang) {
      window.location.reload(true);*/
 }
 
+function changeCurrency(currency) {
+    // document.cookie = "currency="+currency;
+    $('#currency').val(currency);
+    $('#currencyBtn').text(currency);
+    $('#currencyModal').modal('hide');
+}
+
 function swapCities() {
     var tmp = $('#toCity').val();
     $('#toCity').selectpicker('val', $('#fromCity').val());
@@ -201,22 +208,17 @@ function fillDateSlider() {
     var daysRange = 6;
     $('#dateSlider').empty();
 
-    var form = $('#requestForm');
     var url = "/loadDateSlider";
-    var formData = {};
-    formData["fromCity"] = $('#fromCity').val();
-    formData["toCity"] = $('#toCity').val();
-    formData["scanForPeriod"] = true;
+    var formData = getForm();
+    formData.scanForPeriod = true;
 
     var departureDate = strToDate($('#departureDate').val());
-
-
     departureDate = getFirstDateForSlider(departureDate, daysRange);
     var departureDateEnd = new Date(departureDate.getTime());
     departureDateEnd.setDate(departureDateEnd.getDate() + daysRange);
 
-    formData["departureDate"] = dateToStr(departureDate);
-    formData["departureDateEnd"] = dateToStr(departureDateEnd);
+    formData.departureDate = dateToStr(departureDate);
+    formData.departureDateEnd = dateToStr(departureDateEnd);
 
     var callback = function (data) {
         $('#dateSlider').html(data);
@@ -354,7 +356,8 @@ function getForm() {
         toCity: $('#toCity').val(),
         departureDate: $('#departureDate').val(),
         departureDateEnd: $('#departureDateEnd').val(),
-        scanForPeriod: $('#scanForPeriod').prop("checked")
+        scanForPeriod: $('#scanForPeriod').prop("checked"),
+        currency: $('#currency').val()
     }
 
     return formData;

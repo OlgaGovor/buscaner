@@ -46,6 +46,11 @@ public class FindBusService {
     @Autowired
     protected ConfigFactory configFactory;
 
+    @Autowired
+    CurrencyExchangeRateService currencyExchangeRateService;
+
+    private static final String dbCurrency = "EUR";
+
     private DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
@@ -62,15 +67,10 @@ public class FindBusService {
         logger.info("findBus: " + requestForm);
 
         if (viewType == ResultDetails.ViewType.CALENDAR) {
-            RequestForm monthRequest = new RequestForm();
-            monthRequest.setFromCity(requestForm.getFromCity());
-            monthRequest.setToCity(requestForm.getToCity());
-            monthRequest.setScanForPeriod(requestForm.isScanForPeriod());
-
-            monthRequest.setDepartureDate(requestForm.getDepartureDateAsLocalDate().withDayOfMonth(1));
+            requestForm.setDepartureDate(requestForm.getDepartureDateAsLocalDate().withDayOfMonth(1));
             LocalDate departureDateEnd = requestForm.getDepartureDateEndAsLocalDate();
-            monthRequest.setDepartureDateEnd(departureDateEnd.withDayOfMonth(departureDateEnd.lengthOfMonth()));
-            return findBusForPeriod(monthRequest, viewType);
+            requestForm.setDepartureDateEnd(departureDateEnd.withDayOfMonth(departureDateEnd.lengthOfMonth()));
+            return findBusForPeriod(requestForm, viewType);
         } else if (viewType == ResultDetails.ViewType.DATE_SLIDER) {
             return findBusForPeriod(requestForm, viewType);
         } else {
@@ -94,6 +94,14 @@ public class FindBusService {
             logger.info("findBusForDay - after scrapping, found: " + prices.size());
         }
 
+        double rateToEUR = currencyExchangeRateService.getRateToEUR(requestForm.getCurrency());
+        for (Price price : prices) {
+            double newPrice = price.getPrice() * rateToEUR;
+            newPrice = Math.round(newPrice * 100) / 100.;
+            price.setPrice(newPrice);
+            price.setCurrency(requestForm.getCurrency());
+        }
+
         List<ResultDetails> resultDetailsList = buildResultForDayView(prices);
 
         return resultDetailsList;
@@ -109,6 +117,14 @@ public class FindBusService {
         Date endDate = requestForm.getDepartureEndAsDate();
 
         List<PriceCalendar> prices = priceService.pricesForCalendarView(fromCityId, toCityId, startDate, endDate);
+
+        double rateToEUR = currencyExchangeRateService.getRateToEUR(requestForm.getCurrency());
+        for (PriceCalendar price : prices) {
+            double newPrice = price.getPrice() * rateToEUR;
+            newPrice = Math.round(newPrice * 100) / 100.;
+            price.setPrice(newPrice);
+            price.setCurrency(requestForm.getCurrency());
+        }
 
         if (viewType == ResultDetails.ViewType.DATE_SLIDER) {
             return buildResultForDateSliderView(requestForm, prices);
@@ -212,5 +228,11 @@ public class FindBusService {
     public boolean checkIfRouteExists(int fromCityId, int toCityId, Boolean hasChanges) {
         List<Route> routes = routeService.findRoutesByCityIds(fromCityId, toCityId, hasChanges);
         return routes.size() > 0;
+    }
+
+    private void convertCurrency(String fromCurrency, String toCurrency, List<Price> prices) {
+
+
+
     }
 }
