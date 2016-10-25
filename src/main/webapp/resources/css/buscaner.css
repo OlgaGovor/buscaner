@@ -114,7 +114,7 @@ body {
     display: inline-block;
     width: 18px;
     height: 12px;
-    background: url('/resources/img/flags.png') no-repeat;
+    background: url('../img/flags.png') no-repeat;
 }
 
 .flag.flag-en {

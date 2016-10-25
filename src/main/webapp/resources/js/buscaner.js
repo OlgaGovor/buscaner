@@ -208,7 +208,7 @@ function fillDateSlider() {
     var daysRange = 6;
     $('#dateSlider').empty();
 
-    var url = "/loadDateSlider";
+    var url = "loadDateSlider";
     var formData = getForm();
     formData.scanForPeriod = true;
 
@@ -337,16 +337,13 @@ function onDateSliderClick(div) {
 
 
 function updateData() {
-    var url = '/updateData';
-
-    var form = $('#requestForm');
-    //var url = form.attr("action");
-    var formData = $(form).serializeArray();
-    $.post(url, formData).done(function (data) {
+    var url = 'updateData';
+    var formData = getForm();
+    var callback = function (data) {
         $('#resultTable').html(data);
         fillDateSlider();
-    });
-
+    }
+    loadData(formData, url, callback);
 }
 
 function getForm() {
