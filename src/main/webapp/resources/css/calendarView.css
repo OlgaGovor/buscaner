@@ -75,8 +75,30 @@
 .priceContainer {
     position: absolute;
     bottom: 0;
-    left: 0;
-    margin: 0;
+    left: 10%;
+    margin: 0 0 0 5px;
+    font-weight: bold;
+    font-size: 150%;
+}
+
+.priceContainer-green {
+   color: green
+}
+.priceContainer-yellow {
+   color: #454e56
+}
+.priceContainer-red {
+   color: #ff5b5b
+}
+.priceContainer .fraction {
+    font-size: 60%;
+
+
+}
+.priceContainer .currency {
+    font-size: 50%;
+    margin: 0 0 2px 2px;
+    color: grey;
 }
 
 .search-icon-container {
