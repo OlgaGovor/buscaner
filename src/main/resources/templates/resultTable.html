@@ -128,7 +128,7 @@
 
             <div class="row row-centered">
                 <div class="col-xs-12"
-                     th:text="(${price.price} == 0) ? '&nbsp;' : ${#numbers.formatDecimal(price.price,1,0) + ' ' + price.currency}">
+                     th:text="(${price.price} == 0) ? '&nbsp;' : ${#numbers.formatDecimal(price.price,1,1) + ' ' + price.currency}">
                 </div>
             </div>
             <div class="row row-centered">
@@ -147,7 +147,7 @@
                 </div>
 
             </div>
-            <div class="row row-centered" th:text="${#strings.substring(price.departureDate,0,5)}">
+            <div class="row row-centered departure-date" th:text="${#strings.substring(price.departureDate,0,2)}+'.'">
             </div>
             <div class="row row-centered week-day-name">
             </div>

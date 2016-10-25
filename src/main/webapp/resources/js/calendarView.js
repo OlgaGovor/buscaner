@@ -110,18 +110,24 @@ function onPrevNextClick(requestForm, shift) {
     var depDate = strToDate(requestForm.departureDate);
     var depDateEnd = strToDate(requestForm.departureDateEnd);
 
-
+    /*one month currently displayed*/
     if (depDate.getFullYear() == depDateEnd.getFullYear()
         && depDate.getMonth() == depDateEnd.getMonth()) {
-        depDateEnd.setMonth(depDateEnd.getMonth() + shift);
-        depDateEnd.setDate(1);
-        formData.departureDateEnd = dateToStr(depDateEnd);
+        if (shift > 0) {/*next*/
+            var newDateEnd = new Date(depDateEnd.getFullYear(), depDateEnd.getMonth() + shift, 1);
+            formData.departureDateEnd = dateToStr(newDateEnd);
+        }
+        else {/*prev*/
+            var newDate = getLastDayOfMonth(depDate.getFullYear(), depDate.getMonth() + shift);
+            formData.departureDate = dateToStr(newDate);
+        }
     }
     else {
-        depDate.setMonth(depDate.getMonth() + shift);
-        depDateEnd.setMonth(depDateEnd.getMonth() + shift)
-        formData.departureDate = dateToStr(depDate);
-        formData.departureDateEnd = dateToStr(depDateEnd);
+        var newDate = getLastDayOfMonth(depDate.getFullYear(), depDate.getMonth() + shift);
+        var newDateEnd = new Date(depDateEnd.getFullYear(), depDateEnd.getMonth() + shift, 1);
+
+        formData.departureDate = dateToStr(newDate);
+        formData.departureDateEnd = dateToStr(newDateEnd);
     }
 
     searchDataByForm(formData);
@@ -157,7 +163,7 @@ function drawCalendar(container, year, month, startDate, endDate, priceList) {
 
 
     // Число дней в текущем месяце
-    var lastDate = getLastDayOfMonth(month, year).getDate();
+    var lastDate = getLastDayOfMonth(year, month).getDate();
 // Создаем массив сокращенных названий дней недели
     var weekDay = $.fn.datepicker.dates[language].daysMin; //values from bootstrap-datetimepicker.LANG.js
 
