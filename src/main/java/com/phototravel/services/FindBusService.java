@@ -97,7 +97,7 @@ public class FindBusService {
         double rateToEUR = currencyExchangeRateService.getRateToEUR(requestForm.getCurrency());
         for (Price price : prices) {
             double newPrice = price.getPrice() * rateToEUR;
-            newPrice = Math.round(newPrice * 100) / 100.;
+            newPrice = roundPrice(newPrice);
             price.setPrice(newPrice);
             price.setCurrency(requestForm.getCurrency());
         }
@@ -121,7 +121,7 @@ public class FindBusService {
         double rateToEUR = currencyExchangeRateService.getRateToEUR(requestForm.getCurrency());
         for (PriceCalendar price : prices) {
             double newPrice = price.getPrice() * rateToEUR;
-            newPrice = Math.round(newPrice * 100) / 100.;
+            newPrice = roundPrice(newPrice);
             price.setPrice(newPrice);
             price.setCurrency(requestForm.getCurrency());
         }
@@ -230,8 +230,14 @@ public class FindBusService {
         return routes.size() > 0;
     }
 
-    private void convertCurrency(String fromCurrency, String toCurrency, List<Price> prices) {
+    private double roundPrice(double oldPrice) {
+        float maxDifToRound = 0.05f;
 
+        long intPrice = Math.round(oldPrice);
+        if (Math.abs(intPrice - oldPrice) <= maxDifToRound) {
+            return intPrice;
+        }
+        return Math.round(oldPrice * 100) / 100.;
 
     }
 }

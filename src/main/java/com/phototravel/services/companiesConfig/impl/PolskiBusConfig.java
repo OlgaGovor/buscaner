@@ -37,7 +37,7 @@ public class PolskiBusConfig extends AbstractConfig {
         configParams.put("XPATH_DURATION", "//div[@class='onb_resultRow']//div[contains(@class,'onb_three')]//strong");
 
         configParams.put("CURRENCY", "PLN");
-        configParams.put("CURRENCY_REQUEST_VALUE", "CURRENCY.PLN");
+        // configParams.put("CURRENCY_REQUEST_VALUE", "CURRENCY.PLN");
 
     }
 

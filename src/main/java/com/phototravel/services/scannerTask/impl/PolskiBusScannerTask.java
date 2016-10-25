@@ -1,6 +1,7 @@
 package com.phototravel.services.scannerTask.impl;
 
 import com.phototravel.entity.Price;
+import com.phototravel.services.CurrencyExchangeRateService;
 import com.phototravel.services.parser.PolskiBusParser;
 import com.phototravel.services.scannerTask.AbstractBusScannerTask;
 import com.sun.jersey.api.client.ClientResponse;
@@ -26,6 +27,9 @@ public class PolskiBusScannerTask extends AbstractBusScannerTask {
 
     @Autowired
     PolskiBusParser parser;
+
+    @Autowired
+    CurrencyExchangeRateService currencyExchangeRateService;
 
     @Override
     public void executeTask() {
@@ -76,6 +80,7 @@ public class PolskiBusScannerTask extends AbstractBusScannerTask {
             e.printStackTrace();
         }
 
+        convertCurrencyToEUR(listOfPrices);
         logger.info("result price size=" + listOfPrices.size());
         savePrices(listOfPrices);
     }
@@ -90,5 +95,18 @@ public class PolskiBusScannerTask extends AbstractBusScannerTask {
 
         String cookieValue = headerStr.substring(19, 43);
         return cookieValue;
+    }
+
+    private void convertCurrencyToEUR(List<Price> prices) {
+        double ratePLNtoEUR = currencyExchangeRateService.getRateToEUR(config.getParam("CURRENCY"));
+        for (Price price : prices) {
+            if (price.getCurrency().equalsIgnoreCase(config.getParam("CURRENCY"))) {
+                double newPrice = price.getPrice() / ratePLNtoEUR;
+
+                price.setPrice(newPrice);
+                price.setCurrency("EUR");
+            }
+
+        }
     }
 }
