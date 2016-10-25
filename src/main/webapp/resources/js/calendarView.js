@@ -146,7 +146,6 @@ function setCalendar(container, year, month, startDate, endDate, priceList) {
 // Функция формирования кода календаря для одного месяца
 function drawCalendar(container, year, month, startDate, endDate, priceList) {
 
-    // Переменные
 
     var monthName = $.fn.datepicker.dates[language].months[month]; //values from bootstrap-datetimepicker.LANG.js
     var firstDayInstance = new Date(year, month, 1);
@@ -166,6 +165,18 @@ function drawCalendar(container, year, month, startDate, endDate, priceList) {
     var lastDate = getLastDayOfMonth(year, month).getDate();
 // Создаем массив сокращенных названий дней недели
     var weekDay = $.fn.datepicker.dates[language].daysMin; //values from bootstrap-datetimepicker.LANG.js
+
+    var maxPrice = 0;
+    var minPrice = 99999;
+    for (var i = 0; i < priceList.length; i++) {
+        if (priceList[i].price > maxPrice) {
+            maxPrice = priceList[i].price;
+        }
+        if (priceList[i].price < minPrice) {
+            minPrice = priceList[i].price;
+        }
+
+    }
 
 
     // Создаем основную структуру таблицы
