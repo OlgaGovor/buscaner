@@ -175,7 +175,6 @@ function drawCalendar(container, year, month, startDate, endDate, priceList) {
         if (priceList[i].price < minPrice) {
             minPrice = priceList[i].price;
         }
-
     }
 
 
@@ -240,7 +239,7 @@ function drawCalendar(container, year, month, startDate, endDate, priceList) {
                 var priceFound = false;
                 for (var i = 0; i < priceList.length; i++) {
                     if (date.getTime() == strToDate(priceList[i].departureDate).getTime()) {
-                        var cell = buildCalendarCell(date, priceList[i]);
+                        var cell = buildCalendarCell(date, maxPrice, minPrice, priceList[i]);
                         $(calendarCell).append(cell);
                         $(calendarCell).click(function () {
                             onDayClicked(this);
@@ -251,7 +250,7 @@ function drawCalendar(container, year, month, startDate, endDate, priceList) {
                     }
                 }
                 if (!priceFound) {
-                    $(calendarCell).append(buildCalendarCell(date));
+                    $(calendarCell).append(buildCalendarCell(date, maxPrice, minPrice));
                     var today = new Date();
                     today.setHours(0, 0, 0, 0);
                     if (date >= today) {
@@ -269,7 +268,7 @@ function drawCalendar(container, year, month, startDate, endDate, priceList) {
 
 }
 
-function buildCalendarCell(date, price) {
+function buildCalendarCell(date, maxPrice, minPrice, price) {
     var today = new Date();
     today.setHours(0, 0, 0, 0);
     var cell = $('<div/>')
@@ -285,8 +284,21 @@ function buildCalendarCell(date, price) {
     if (price != null) {
         var priceContainer = $("<p/>")
             .addClass("priceContainer")
-            .text(price.price + ' ' + price.currency);
+            .text(Math.floor(price.price));
+        var fraction = $("<span/>")
+                        .text('.' + Math.trunc( (price.price - Math.floor(price.price)) * 100 ))
+                        .addClass("fraction");
+        $(priceContainer).append(fraction);
+        var currency = $("<p/>")
+                .text(price.currency)
+                .addClass("currency");
+
+        $(priceContainer).append(currency);
+
         $(cell).append(priceContainer);
+
+        var priceStyle = definePriceStyle(maxPrice, minPrice, price.price);
+        priceContainer.addClass("priceContainer-"+priceStyle);
     }
     else if (date >= today) {
         var iconContainer = $("<p/>")
@@ -298,6 +310,19 @@ function buildCalendarCell(date, price) {
     }
 
     return cell;
+}
+
+function definePriceStyle(maxPrice, minPrice, price){
+    var diff = (maxPrice - minPrice)/3;
+    if(price > minPrice + 2 * diff){
+        return "red"
+    }
+    else if(price > minPrice + diff){
+            return "yellow"
+        }
+    else {
+        return "green";
+    }
 }
 
 function onDayClicked(element) {
