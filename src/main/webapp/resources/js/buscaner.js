@@ -446,7 +446,7 @@ function buyTicket(link) {
 }
 
 function loadRoutes(container, value, depDst) {
-    var url = '/loadRoutes';
+    var url = 'loadRoutes';
 
     $.post(url, {'cityId': value, 'depDst': depDst})
         .done(function (data) {
